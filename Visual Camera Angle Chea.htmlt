@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Angles Visual Cheat Sheet</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Padauk:wght@400;700&display=swap');
+        body { font-family: 'Inter', 'Padauk', sans-serif; }
+        
+        .angle-card { 
+            display: flex; 
+            flex-direction: row; 
+            align-items: center; 
+            gap: 1rem; 
+            padding: 1rem; 
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .angle-card:active {
+            transform: scale(0.98);
+        }
+
+        .selected-card {
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+            box-shadow: 0 0 0 2px #3b82f6 inset;
+        }
+
+        @media (max-width: 640px) {
+            .angle-card { flex-direction: column; align-items: flex-start; }
+            .svg-container { width: 100%; }
+        }
+        .svg-container { flex-shrink: 0; width: 120px; }
+
+        #prompt-overlay {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease-out;
+            z-index: 50;
+        }
+
+        #prompt-overlay.show {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 pb-40">
+
+    <!-- Header -->
+    <header class="bg-slate-900 text-white py-10 px-6 text-center mb-8 shadow-lg">
+        <h1 class="text-3xl md:text-5xl font-bold mb-4">ရုပ်ရှင်ရိုက်ကူးမှုဆိုင်ရာ Camera Angles များ</h1>
+        <p class="text-slate-400 max-w-2xl mx-auto text-base md:text-lg">Angle တစ်ခုကို နှိပ်ပြီး AI Prompt အဖြစ် အသုံးပြုရန် Copy ကူးယူပါ။</p>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4">
+        
+        <!-- Section: Vertical Angles -->
+        <section class="mb-12">
+            <h2 class="text-xl font-bold mb-6 border-l-4 border-blue-500 pl-4 text-slate-800">အမြင့်နှင့် အနိမ့် ရိုက်ချက်များ (Vertical Height)</h2>
+            <div class="space-y-4" id="vertical-angles"></div>
+        </section>
+
+        <!-- Section: Character Positioning -->
+        <section class="mb-12">
+            <h2 class="text-xl font-bold mb-6 border-l-4 border-purple-500 pl-4 text-slate-800">ဇာတ်ကောင်နှင့် ရှုထောင့် ရိုက်ချက်များ (Subject & Perspective)</h2>
+            <div class="space-y-4" id="subject-angles"></div>
+        </section>
+
+    </main>
+
+    <!-- Prompt Box Overlay -->
+    <div id="prompt-overlay" class="border-t border-blue-100">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex justify-between items-center mb-2">
+                <span id="selected-angle-name" class="font-bold text-blue-600">Angle Name</span>
+                <button onclick="closePrompt()" class="text-slate-400 hover:text-slate-600">✕ ပိတ်မည်</button>
+            </div>
+            <div class="bg-slate-100 p-3 rounded-lg text-sm font-mono text-slate-700 break-words mb-4" id="prompt-text">
+                Prompt will appear here...
+            </div>
+            <button id="copy-btn" onclick="copyPrompt()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-colors flex justify-center items-center gap-2">
+                <span>Copy AI Prompt</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const angles = [
+            { id: "birds-eye", category: "vertical", title: "Bird's Eye View", description: "အပေါ်တည့်တည့်မှ ရိုက်ခြင်း။ ဇာတ်ကောင်ကို သေးငယ်စေပြီး အားကိုးရာမဲ့သည့်ပုံစံ သို့မဟုတ် ပတ်ဝန်းကျင်၏ အစိတ်အပိုင်းတစ်ခုအဖြစ် ဖော်ပြသည်။", svg: `<svg viewBox="0 0 200 150" fill="none" class="w-full h-auto rounded-lg bg-slate-200"><circle cx="100" cy="75" r="15" fill="#334155"/><rect x="85" y="95" width="30" height="10" rx="2" fill="#64748b"/><path d="M40 20 L60 20 M140 20 L160 20" stroke="#94a3b8" stroke-width="2"/><circle cx="100" cy="75" r="40" stroke="#3b82f6" stroke-dasharray="4 4" fill="none"/></svg>` },
+            { id: "high-angle", category: "vertical", title: "High Angle", description: "ကင်မရာက အပေါ်မှ ငုံ့ရိုက်ခြင်း။ ဇာတ်ကောင်ကို အားနည်းသူ၊ ထိခိုက်လွယ်သူ သို့မဟုတ် နိမ့်ကျသူအဖြစ် မြင်စေသည်။", svg: `<svg viewBox="0 0 200 150" fill="none" class="w-full h-auto rounded-lg bg-slate-200"><path d="M100 120 Q100 100 100 80" stroke="#334155" stroke-width="12" stroke-linecap="round"/><circle cx="100" cy="65" r="12" fill="#334155"/><path d="M160 30 L130 60" stroke="#3b82f6" stroke-width="3"/><rect x="155" y="15" width="20" height="15" fill="#1e293b"/></svg>` },
+            { id: "eye-level", category: "vertical", title: "Eye Level", description: "မျက်စိတစ်ဆုံး အနေအထား။ သာမန်လူတစ်ယောက် ကြည့်သကဲ့သို့ဖြစ်ပြီး ဇာတ်ကောင်နှင့် ပိုမိုနီးစပ်မှုကို ခံစားရစေသည်။", svg: `<svg viewBox="0 0 200 150" fill="none" class="w-full h-auto rounded-lg bg-slate-200"><path d="M100 130 V70" stroke="#334155" stroke-width="12" stroke-linecap="round"/><circle cx="100" cy="55" r="12" fill="#334155"/><line x1="10" y1="55" x2="190" y2="55" stroke="#3b82f6" stroke-width="2" stroke-dasharray="4"/><rect x="20" y="45" width="20" height="20" fill="#1e293b"/></svg>` },
+            { id: "low-angle", category: "vertical", title: "Low Angle", description: "အောက်မှ အပေါ်သို့ မော့ရိုက်ခြင်း။ ဇာတ်ကောင်ကို အစွမ်းထက်သူ၊ သူရဲကောင်း သို့မဟုတ် ကြောက်မက်ဖွယ်ကောင်းသူအဖြစ် ဖော်ပြသည်။", svg: `<svg viewBox="0 0 200 150" fill="none" class="w-full h-auto rounded-lg bg-slate-200"><path d="M100 130 V70" stroke="#334155" stroke-width="12" stroke-linecap="round"/><circle cx="100" cy="55" r="12" fill="#334155"/><path d="M40 130 L70 100" stroke="#3b82f6" stroke-width="3"/><rect x="25" y="125" width="20" height="15" fill="#1e293b" transform="rotate(-30 25 125)"/></svg>` },
+            { id: "worms-eye", category: "vertical", title: "Worm's Eye", description: "မြေပြင်မှ အပေါ်သို့ မော့ကြည့်သော အစွန်းရောက် အနိမ့်ရိုက်ချက်။ ပုံဖျက်ထားသကဲ့သို့ ထူးခြားသော မြင်ကွင်းကို ပေးသည်။", svg: `<svg viewBox="0 0 200 150" fill="none" class="w-full h-auto rounded-lg bg-slate-200"><path d="M70 150 L100 50 L130 150" fill="#334155"/><circle cx="100" cy="30" r="15" fill="#334155"/><rect x="90" y="140" width="20" height="10" fill="#1e293b"/></svg>` },
+            { id: "hip-level", category: "vertical", title: "Hip Level", description: "ခါးအမြင့်မှ ရိုက်ခြင်း။ ဝက်စတန် (Western) ကားများတွင် သေနတ်အိတ်နှင့် လှုပ်ရှားမှုများကို ပြရန် အသုံးများသည်။", svg: `<svg viewBox="0 0 200 150" fill="none" class="w-full h-auto rounded-lg bg-slate-200"><path d="M100 130 V50" stroke="#334155" stroke-width="12" stroke-linecap="round"/><circle cx="100" cy="35" r="10" fill="#334155"/><rect x="40" y="90" width="20" height="15" fill="#1e293b"/><line x1="60" y1="97" x2="100" y2="97" stroke="#3b82f6" stroke-width="2" stroke-dasharray="4"/></svg>` },
+            { id: "ground-level", category: "vertical", title: "Ground Level", description: "ကင်မရာက မြေပြင်နှင့် ထိနေခြင်း။ ခြေထောက်လှုပ်ရှားမှု သို့မဟုတ် မြေပြင်ရှိ အရာများကို အသားပေးရိုက်သည်။", svg: `<svg viewBox="0 0 200 150" fill="none" class="w-full h-auto rounded-lg bg-slate-200"><rect x="80" y="110" width="40" height="20" rx="5" fill="#334155"/><rect x="20" y="130" width="160" height="2" fill="#94a3b8"/><rect x="40" y="125" width="20" height="15" fill="#1e293b"/></svg>` },
+            { id: "dutch-angle", category: "vertical", title: "Dutch Angle", description: "စောင်းရိုက်ခြင်း။ စိတ်မသက်မသာဖြစ်ခြင်း၊ တင်းမာခြင်း သို့မဟုတ် စိတ်ရှုပ်ထွေးခြင်းတို့ကို ဖော်ပြသည်။", svg: `<svg viewBox="0 0 200 150" fill="none" class="w-full h-auto rounded-lg bg-slate-200" style="transform: rotate(15deg)"><rect x="90" y="40" width="20" height="80" fill="#334155"/><circle cx="100" cy="30" r="10" fill="#334155"/><rect x="0" y="100" width="200" height="2" fill="#ef4444"/></svg>` },
+            { id: "profile-shot", category: "subject", title: "Profile / Side Angle", description: "ဘေးတိုက်ရိုက်ခြင်း။ ဇာတ်ကောင်၏ မျက်နှာသွင်ပြင်နှင့် အာရုံစိုက်မှုကို ထင်ရှားစေသည်။", svg: `<svg viewBox="0 0 200 150" fill="none" class="w-full h-auto rounded-lg bg-slate-200"><path d="M100 120 Q110 80 100 40 Q85 45 80 60" fill="#334155"/><rect x="140" y="60" width="25" height="15" fill="#1e293b"/></svg>` },
+            { id: "ots", category: "subject", title: "Over the Shoulder", description: "ပခုံးပေါ်မှ ကျော်ရိုက်ခြင်း။ ဇာတ်ကောင်နှစ်ဦးကြား ဆက်ဆံရေး သို့မဟုတ် စကားပြောခန်းများတွင် သုံးသည်။", svg: `<svg viewBox="0 0 200 150" fill="none" class="w-full h-auto rounded-lg bg-slate-200"><path d="M0 150 Q40 80 80 150" fill="#94a3b8"/><circle cx="120" cy="70" r="15" fill="#334155"/><path d="M105 130 Q120 100 135 130" fill="#334155"/></svg>` },
+            { id: "pov", category: "subject", title: "POV", description: "ဇာတ်ကောင်၏ မျက်စိမှတစ်ဆင့် မြင်ရသကဲ့သို့ ရိုက်ခြင်း။ ကြည့်ရှုသူကို ဇာတ်လမ်းထဲတွင် ပါဝင်နေသကဲ့သို့ ခံစားရစေသည်။", svg: `<svg viewBox="0 0 200 150" fill="none" class="w-full h-auto rounded-lg bg-slate-200"><rect x="10" y="10" width="180" height="130" stroke="#3b82f6" stroke-width="2" fill="none"/><path d="M40 130 L60 100 M140 130 L160 100" stroke="#64748b" stroke-width="8"/></svg>` },
+            { id: "three-quarter", category: "subject", title: "Three-Quarter", description: "ရှေ့တည့်တည့်နှင့် ဘေးတိုက်ကြား အနေအထား။ ဇာတ်ကောင်ကို ပိုမိုအနက်ရှိသော (Depth) ပုံစံဖြင့် မြင်ရစေသည်။", svg: `<svg viewBox="0 0 200 150" fill="none" class="w-full h-auto rounded-lg bg-slate-200"><ellipse cx="100" cy="60" rx="15" ry="20" fill="#334155" transform="rotate(-15 100 60)"/><path d="M85 130 Q100 90 115 130" fill="#334155"/></svg>` },
+            { id: "god-shot", category: "vertical", title: "God Shot", description: "အလွန်မြင့်သော နေရာမှ ဒေါင်လိုက်ငုံ့ရိုက်ခြင်း။ တစ်ခါတစ်ရံ ကမ္ဘာကြီးမှ ခွဲထွက်နေသကဲ့သို့ ခံစားချက်ကို ပေးသည်။", svg: `<svg viewBox="0 0 200 150" fill="none" class="w-full h-auto rounded-lg bg-slate-200"><rect x="50" y="40" width="100" height="70" fill="#94a3b8" rx="2"/><circle cx="100" cy="75" r="5" fill="#334155"/></svg>` },
+            { id: "rear-view", category: "subject", title: "Rear View", description: "ဇာတ်ကောင်၏ နောက်ကျောဘက်မှ ရိုက်ခြင်း။ လျှို့ဝှက်ဆန်းကြယ်ခြင်း သို့မဟုတ် ဇာတ်ကောင်၏ တစ်ကိုယ်ရည်ဖြစ်မှုကို ပြသည်။", svg: `<svg viewBox="0 0 200 150" fill="none" class="w-full h-auto rounded-lg bg-slate-200"><circle cx="100" cy="60" r="18" fill="#334155"/><path d="M75 140 Q100 90 125 140" fill="#334155"/></svg>` },
+            { id: "choker", category: "subject", title: "Choker Shot", description: "မျက်နှာကို အသားပေးရိုက်ခြင်း (မျက်ခုံးအထက်မှ မေးစေ့အောက်အထိ)။ စိတ်ခံစားချက်ကို အသားပေးသည်။", svg: `<svg viewBox="0 0 200 150" fill="none" class="w-full h-auto rounded-lg bg-slate-200"><path d="M60 20 Q100 0 140 20 V130 Q100 150 60 130 Z" fill="#334155"/><rect x="75" y="60" width="15" height="5" fill="#cbd5e1"/><rect x="110" y="60" width="15" height="5" fill="#cbd5e1"/></svg>` },
+             { id: "shoulder-level", category: "vertical", title: "Shoulder Level", description: "ပခုံးအမြင့်မှ ရိုက်ခြင်း။ ကြည့်ရှုသူထက် ဇာတ်ကောင်က ပိုနိမ့်နေသကဲ့သို့ မြင်ရစေသည်။", svg: `<svg viewBox="0 0 200 150" fill="none" class="w-full h-auto rounded-lg bg-slate-200"><path d="M100 130 V40" stroke="#334155" stroke-width="12" stroke-linecap="round"/><circle cx="100" cy="25" r="10" fill="#334155"/><rect x="140" y="45" width="20" height="15" fill="#1e293b"/></svg>` },
+            { id: "knee-level", category: "vertical", title: "Knee Level", description: "ဒူးအမြင့်မှ ရိုက်ခြင်း။ ဇာတ်ကောင် လမ်းလျှောက်ခြင်း သို့မဟုတ် ပတ်ဝန်းကျင်၏ ကြီးမားမှုကို ဖော်ပြသည်။", svg: `<svg viewBox="0 0 200 150" fill="none" class="w-full h-auto rounded-lg bg-slate-200"><path d="M90 150 L100 50 L110 150" fill="#334155"/><rect x="40" y="110" width="20" height="15" fill="#1e293b"/><line x1="60" y1="117" x2="95" y2="117" stroke="#3b82f6" stroke-width="1" stroke-dasharray="2"/></svg>` },
+            { id: "full-frontal", category: "subject", title: "Full Frontal", description: "ဇာတ်ကောင်က ကင်မရာကို တည့်တည့်ရင်ဆိုင်နေခြင်း။ ပိုမိုပွင့်လင်းသော သို့မဟုတ် ရင်ဆိုင်နေသော ခံစားချက်ကို ပေးသည်။", svg: `<svg viewBox="0 0 200 150" fill="none" class="w-full h-auto rounded-lg bg-slate-200"><circle cx="100" cy="50" r="15" fill="#334155"/><path d="M70 140 Q100 80 130 140" fill="#334155"/><rect x="90" y="45" width="4" height="2" fill="white"/><rect x="106" y="45" width="4" height="2" fill="white"/></svg>` },
+            { id: "internal-pov", category: "subject", title: "Internal POV", description: "အရာဝတ္ထုတစ်ခုခု၏ 'အတွင်း' ဘက်မှ ကြည့်ခြင်း (ဥပမာ- ရေခဲသေတ္တာအတွင်းမှ ကြည့်ခြင်း)။", svg: `<svg viewBox="0 0 200 150" fill="none" class="w-full h-auto rounded-lg bg-slate-200"><rect x="0" y="0" width="200" height="150" fill="#0f172a"/><path d="M50 40 L150 40 L170 110 L30 110 Z" fill="#1e293b" stroke="#3b82f6"/><circle cx="100" cy="70" r="10" fill="#94a3b8"/></svg>` },
+            { id: "two-shot", category: "subject", title: "Two-Shot", description: "ဇာတ်ကောင်နှစ်ဦးကို ဘောင်တစ်ခုတည်းတွင် တွဲရိုက်ခြင်း။ ၎င်းတို့၏ ဆက်ဆံရေးကို ပြသည်။", svg: `<svg viewBox="0 0 200 150" fill="none" class="w-full h-auto rounded-lg bg-slate-200"><circle cx="70" cy="60" r="12" fill="#334155"/><circle cx="130" cy="60" r="12" fill="#334155"/><path d="M50 140 Q70 100 90 140" fill="#334155"/><path d="M110 140 Q130 100 150 140" fill="#334155"/></svg>` }
+        ];
+
+        const overlay = document.getElementById('prompt-overlay');
+        const promptEl = document.getElementById('prompt-text');
+        const angleNameEl = document.getElementById('selected-angle-name');
+        const copyBtn = document.getElementById('copy-btn');
+
+        function createCard(angle) {
+            return `
+                <div id="card-${angle.id}" onclick="selectAngle('${angle.title}', '${angle.id}')" class="angle-card bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="svg-container bg-slate-100">
+                        ${angle.svg}
+                    </div>
+                    <div class="flex-grow">
+                        <h3 class="text-lg font-bold text-slate-800">${angle.title}</h3>
+                        <p class="text-slate-600 text-sm mt-1">${angle.description}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function selectAngle(title, id) {
+            // UI Selection state
+            document.querySelectorAll('.angle-card').forEach(c => c.classList.remove('selected-card'));
+            document.getElementById('card-' + id).classList.add('selected-card');
+
+            // Generate Prompt
+            const prompt = `Recreate this photo but change the camera perspective to a ${title}. Keep the subject and environment consistent. Please use a 16:9 aspect ratio.`;
+            
+            angleNameEl.innerText = title;
+            promptEl.innerText = prompt;
+            overlay.classList.add('show');
+            
+            // Reset button
+            copyBtn.innerHTML = '<span>Copy AI Prompt</span>';
+            copyBtn.classList.replace('bg-green-600', 'bg-blue-600');
+        }
+
+        function closePrompt() {
+            overlay.classList.remove('show');
+            document.querySelectorAll('.angle-card').forEach(c => c.classList.remove('selected-card'));
+        }
+
+        function copyPrompt() {
+            const text = promptEl.innerText;
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+
+            // Visual feedback
+            copyBtn.innerHTML = '<span>Copied! ✓</span>';
+            copyBtn.classList.replace('bg-blue-600', 'bg-green-600');
+        }
+
+        const verticalContainer = document.getElementById('vertical-angles');
+        const subjectContainer = document.getElementById('subject-angles');
+
+        angles.forEach(angle => {
+            const cardHtml = createCard(angle);
+            if (angle.category === 'vertical') {
+                verticalContainer.innerHTML += cardHtml;
+            } else {
+                subjectContainer.innerHTML += cardHtml;
+            }
+        });
+    </script>
+</body>
+</html>
