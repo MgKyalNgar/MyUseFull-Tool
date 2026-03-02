@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinematography & Photography Tools</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Padauk:wght@400;700&display=swap');
+        body { font-family: 'Inter', 'Padauk', sans-serif; }
+        
+        .hero-gradient {
+            background: radial-gradient(circle at top right, #1e293b, #0f172a);
+        }
+        
+        .feature-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold">C</div>
+                <span class="font-bold text-xl tracking-tight">CineTools</span>
+            </div>
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
+                <a href="#" class="hover:text-blue-600 transition-colors">မူလစာမျက်နှာ</a>
+                <a href="https://github.com" class="hover:text-blue-600 transition-colors">GitHub</a>
+                <a href="#" class="hover:text-blue-600 transition-colors">အကြောင်းအရာ</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-gradient text-white py-20 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
+                ရုပ်ရှင်နှင့် ဓာတ်ပုံပညာရှင်များအတွက် <span class="text-blue-400">Essential Tools</span>
+            </h1>
+            <p class="text-slate-400 text-lg md:text-xl mb-10 max-w-2xl mx-auto">
+                သင်၏ ဖန်တီးမှုများကို ပိုမိုကောင်းမွန်စေရန် အထောက်အကူပြုမည့် Visual Guides နှင့် AI Prompt Generator များကို တစ်နေရာတည်းတွင် စုစည်းထားပါသည်။
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#tools" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full font-bold transition-all shadow-lg shadow-blue-500/20">
+                    Tools များကြည့်မည်
+                </a>
+                <a href="https://github.com" class="bg-slate-800 hover:bg-slate-700 text-white px-8 py-3 rounded-full font-bold transition-all">
+                    View on GitHub
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Tools Grid -->
+    <main id="tools" class="max-w-6xl mx-auto px-4 py-20">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
+            <div>
+                <h2 class="text-3xl font-bold text-slate-900 mb-2">ရရှိနိုင်သော Tools များ</h2>
+                <p class="text-slate-500">အောက်ပါ Tool များမှ စိတ်ကြိုက်ရွေးချယ် အသုံးပြုနိုင်ပါသည်။</p>
+            </div>
+            <div class="text-sm font-medium text-blue-600 bg-blue-50 px-4 py-2 rounded-full">
+                စုစုပေါင်း: Tool (၁) ခု
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <!-- Tool Card 1: Camera Angles -->
+            <div class="feature-card bg-white rounded-2xl border border-slate-200 overflow-hidden flex flex-col">
+                <div class="h-48 bg-slate-100 flex items-center justify-center p-8">
+                    <!-- Icon Placeholder -->
+                    <svg class="w-20 h-20 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                    </svg>
+                </div>
+                <div class="p-6 flex-grow">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-1 rounded">HOT</span>
+                        <span class="bg-slate-100 text-slate-600 text-xs font-bold px-2 py-1 rounded">VISUAL GUIDE</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-slate-800">Visual Camera Angle Cheat Sheet</h3>
+                    <p class="text-slate-600 text-sm mb-6 leading-relaxed">
+                        Camera Angle ပေါင်း ၂၀ ကျော်ကို Visual Guide နှင့်တကွ လေ့လာနိုင်ပြီး AI Prompt Generator ပါဝင်သောကြောင့် Image Generation အတွက် အထူးသင့်လျော်ပါသည်။
+                    </p>
+                    <a href="Visual Camera Angle Chea.html" class="inline-flex items-center justify-center w-full bg-slate-900 hover:bg-black text-white font-bold py-3 rounded-xl transition-colors gap-2">
+                        စတင်အသုံးပြုမည်
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Future Tool Placeholder 1 -->
+            <div class="border-2 border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center p-10 text-center opacity-60">
+                <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
+                    <svg class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                </div>
+                <h3 class="font-bold text-slate-500">Coming Soon</h3>
+                <p class="text-xs text-slate-400 mt-2">Lighting Setup Guide ကို မကြာမီ ထည့်သွင်းပေးပါမည်။</p>
+            </div>
+
+            <!-- Future Tool Placeholder 2 -->
+            <div class="border-2 border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center p-10 text-center opacity-60">
+                <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
+                    <svg class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                </div>
+                <h3 class="font-bold text-slate-500">Coming Soon</h3>
+                <p class="text-xs text-slate-400 mt-2">Color Palette Generator ကို မကြာမီ ထည့်သွင်းပေးပါမည်။</p>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-12 px-6">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-2">
+                <div class="w-6 h-6 bg-slate-800 rounded flex items-center justify-center text-white text-xs font-bold">C</div>
+                <span class="font-bold text-slate-800">CineTools</span>
+            </div>
+            <p class="text-slate-500 text-sm">© 2024 CineTools Project. Created for Filmmakers.</p>
+            <div class="flex gap-6">
+                <a href="#" class="text-slate-400 hover:text-blue-600 transition-colors">
+                    <span class="sr-only">GitHub</span>
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path></svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
