@@ -18,10 +18,8 @@
             /* ပိုထင်ရှားသော Techno Background */
             background-color: #040812;
             background-image: 
-                /* ဇယားကွက်လိုင်းများ (ပိုထင်ရှားအောင်လုပ်ထားသည်) */
                 linear-gradient(to right, rgba(0, 243, 255, 0.08) 1px, transparent 1px),
                 linear-gradient(to bottom, rgba(0, 243, 255, 0.08) 1px, transparent 1px),
-                /* အပေါ်မှ ဟပ်နေသော အလင်းရောင် */
                 radial-gradient(circle at 50% 0%, rgba(0, 243, 255, 0.15) 0%, transparent 60%);
             background-size: 30px 30px, 30px 30px, 100% 100%;
             background-attachment: fixed;
@@ -30,12 +28,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 40px 15px;
+            padding: 40px 15px 0 15px; /* အောက်ခြေမှာ Footer ရှိလို့ Padding ချိန်ထားသည် */
         }
 
         .header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             width: 100%;
             max-width: 800px;
         }
@@ -56,13 +54,36 @@
             text-transform: uppercase;
         }
 
+        /* ----- Main Container ----- */
+        .main-container {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            flex: 1; /* Footer ကို အောက်ဆုံးရောက်စေရန် */
+        }
+
+        /* ----- Category Header ----- */
+        .category-header {
+            margin: 30px 0 15px 0;
+            color: #8b9bb4;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 1px dashed #1e293b;
+            padding-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
         /* ----- Grid Layout (Compact) ----- */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 15px;
             width: 100%;
-            max-width: 900px;
         }
 
         /* ----- Compact Horizontal Card Design ----- */
@@ -136,6 +157,25 @@
             text-shadow: 0 0 10px var(--theme-color);
         }
 
+        /* ----- Footer ----- */
+        .footer {
+            margin-top: 50px;
+            padding: 20px;
+            width: 100%;
+            text-align: center;
+            color: #475569;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            border-top: 1px solid rgba(30, 41, 59, 0.5);
+            background: rgba(4, 8, 18, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .footer span {
+            color: #00f3ff;
+            font-weight: 600;
+        }
+
     </style>
 </head>
 <body>
@@ -145,25 +185,33 @@
         <p class="subtitle">// System.SelectModule()</p>
     </div>
 
-    <div class="grid-container" id="app-grid"></div>
+    <div class="main-container" id="main-container"></div>
+
+    <div class="footer">
+        Create by <span>Mg Kyal Ngar</span>
+    </div>
 
     <script>
+        // Array ထဲတွင် Category များ ခွဲခြားထည့်သွင်းထားပါသည်
         const promptApps = [
-            {
-                title: "Boost Your Life",
-                desc: "Productivity & Life Hacking Prompts",
-                icon: "🌱",
-                url: "PromptColc/Prompt for Boost Your Life.html",
-                theme: "#00ffaa" 
+		    {
+                category: "🎨 Creative Design",
+                title: "Photoshop Prompts",
+                desc: "Image Editing & Generative AI",
+                icon: "🎨",
+                url: "PromptColc/Prompt for Use as Photoshop.html",
+                theme: "#b100ff" 
             },
             {
-                title: "Dress Shop Prompts",
-                desc: "Fashion & Product Photography",
-                icon: "👗",
-                url: "PromptColc/Prompt for Dress Shop.html",
-                theme: "#ff00aa" 
+                category: "🎨 Creative Design",
+                title: "Nano Banana Prompts",
+                desc: "Creative Image Generation",
+                icon: "🍌",
+                url: "PromptColc/Prompt for Nano Banana.html",
+                theme: "#facc15" 
             },
             {
+                category: "🌐 Facebook Strategy",
                 title: "FB Page Growth",
                 desc: "Viral Hooks & Content Strategy",
                 icon: "🚀",
@@ -171,6 +219,7 @@
                 theme: "#00a8ff" 
             },
             {
+                category: "🌐 Facebook Strategy",
                 title: "FB Engage Master",
                 desc: "Engagement & Community Building",
                 icon: "💬",
@@ -178,35 +227,83 @@
                 theme: "#3b82f6" 
             },
             {
-                title: "Photoshop Prompts",
-                desc: "Image Editing & Generative AI",
-                icon: "🎨",
-                url: "PromptColc/Prompt for Use as Photoshop.html",
-                theme: "#b100ff" 
+                category: "▶️ YouTube Mastery",
+                title: "YT 30-Day Prompts",
+                desc: "Monetization in 30-90 Days",
+                icon: "▶️",
+                url: "PromptColc/Prompt for Youtube 30 Day.html",
+                theme: "#ff0000" 
+            },
+            {
+                category: "▶️ YouTube Mastery",
+                title: "YT Channel Mastery",
+                desc: "Growth & Monetization Strategy",
+                icon: "💰",
+                url: "PromptColc/Prompt for Youtube Monetization.html",
+                theme: "#fbbf24" 
+            },
+			{
+                category: "💡 Life & E-Commerce",
+                title: "Boost Your Life",
+                desc: "Productivity & Life Hacking Prompts",
+                icon: "🌱",
+                url: "PromptColc/Prompt for Boost Your Life.html",
+                theme: "#00ffaa" 
+            },
+            {
+                category: "💡 Life & E-Commerce",
+                title: "Dress Shop Prompts",
+                desc: "Fashion & Product Photography",
+                icon: "👗",
+                url: "PromptColc/Prompt for Dress Shop.html",
+                theme: "#ff00aa" 
             }
+            
         ];
 
-        const gridContainer = document.getElementById('app-grid');
+        const mainContainer = document.getElementById('main-container');
 
-        promptApps.forEach(app => {
-            const card = document.createElement('a');
-            card.href = app.url;
-            card.className = 'app-card';
-            
-            card.style.setProperty('--theme-color', app.theme);
+        // Category အလိုက် Data များကို အုပ်စုခွဲခြင်း
+        const groupedApps = promptApps.reduce((acc, app) => {
+            if (!acc[app.category]) {
+                acc[app.category] = [];
+            }
+            acc[app.category].push(app);
+            return acc;
+        }, {});
 
-            card.innerHTML = `
-                <div class="card-icon">${app.icon}</div>
-                <div class="card-content">
-                    <div class="card-title">${app.title}</div>
-                    <div class="card-desc">${app.desc}</div>
-                </div>
-                <div class="go-icon">›</div>
-            `;
+        // HTML ပေါ်တွင် Group အလိုက် Render လုပ်ခြင်း
+        for (const [category, apps] of Object.entries(groupedApps)) {
+            // Category Header ဖန်တီးခြင်း
+            const header = document.createElement('div');
+            header.className = 'category-header';
+            header.innerText = category;
+            mainContainer.appendChild(header);
 
-            gridContainer.appendChild(card);
-        });
+            // Grid Container ဖန်တီးခြင်း
+            const grid = document.createElement('div');
+            grid.className = 'grid-container';
+
+            // သက်ဆိုင်ရာ ကတ်များကို ထည့်သွင်းခြင်း
+            apps.forEach(app => {
+                const card = document.createElement('a');
+                card.href = app.url;
+                card.className = 'app-card';
+                card.style.setProperty('--theme-color', app.theme);
+
+                card.innerHTML = `
+                    <div class="card-icon">${app.icon}</div>
+                    <div class="card-content">
+                        <div class="card-title">${app.title}</div>
+                        <div class="card-desc">${app.desc}</div>
+                    </div>
+                    <div class="go-icon">›</div>
+                `;
+                grid.appendChild(card);
+            });
+
+            mainContainer.appendChild(grid);
+        }
     </script>
 </body>
 </html>
-
