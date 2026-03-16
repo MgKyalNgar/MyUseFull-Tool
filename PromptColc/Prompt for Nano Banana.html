@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nano Banana Prompts</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: #0f172a; /* Dark Slate Background */
+            color: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .header-container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            margin-bottom: 25px;
+            position: sticky;
+            top: 0;
+            background: rgba(15, 23, 42, 0.95);
+            padding: 20px;
+            z-index: 100;
+            border-bottom: 1px solid #facc15; /* Banana Yellow */
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #facc15; 
+            font-size: 2.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(250, 204, 21, 0.4);
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .global-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .radio-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #cbd5e1;
+            font-weight: 600;
+        }
+
+        input[type="radio"] {
+            accent-color: #facc15;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ----- Accordion List Container ----- */
+        .accordion-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        /* ----- Accordion Item ----- */
+        .accordion-item {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-left: 4px solid #facc15;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            border-color: #facc15;
+            box-shadow: 0 0 15px rgba(250, 204, 21, 0.1);
+        }
+
+        /* ----- Accordion Header (Clickable) ----- */
+        .accordion-header {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            background: rgba(30, 41, 59, 0.8);
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding-right: 15px;
+        }
+
+        .acc-title {
+            color: #f8fafc;
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        .acc-desc {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .acc-icon {
+            color: #facc15;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        /* Active State for Accordion */
+        .accordion-item.active .acc-icon {
+            transform: rotate(180deg);
+        }
+        
+        .accordion-item.active {
+            border-color: #facc15;
+            box-shadow: 0 0 20px rgba(250, 204, 21, 0.15);
+        }
+
+        /* ----- Accordion Body (Collapsible Content) ----- */
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            background: #0f172a;
+        }
+
+        .body-inner {
+            padding: 25px 20px;
+            border-top: 1px dashed #334155;
+        }
+
+        /* ----- Form Elements ----- */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #fcd34d;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: #facc15;
+            padding: 12px;
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"]:focus {
+            border-color: #facc15;
+            box-shadow: 0 0 10px rgba(250, 204, 21, 0.2);
+        }
+
+        textarea {
+            width: 100%;
+            height: 160px;
+            background: #020617;
+            border: 1px solid #334155;
+            color: #f8fafc;
+            padding: 15px;
+            border-radius: 6px;
+            resize: vertical;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        textarea:focus {
+            border-color: #facc15;
+        }
+
+        button {
+            width: 100%;
+            background: transparent;
+            color: #facc15;
+            border: 1px solid #facc15;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #facc15;
+            color: #0f172a;
+            box-shadow: 0 0 15px rgba(250, 204, 21, 0.4);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>🍌 Nano Banana Prompts</h1>
+        <p class="subtitle">Creative Image Generation & Editing Prompts</p>
+        <div class="global-options">
+            <label class="radio-btn">
+                <input type="radio" name="language" value="mm" checked> Myanmar Prompt
+            </label>
+            <label class="radio-btn">
+                <input type="radio" name="language" value="en"> English Prompt
+            </label>
+        </div>
+    </div>
+
+    <div class="accordion-container" id="accordion-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            const promptData = [
+                {
+                    id: 1,
+                    title: "၁။ ချက်ချင်းအသုံးပြုနိုင်တဲ့ Product Photography (Image+Text Editing)",
+                    desc: "သင့် Product ရဲ့ ရိုးရိုးဓာတ်ပုံကြမ်းကို အဆင့်မြင့် ကြော်ငြာသုံးပုံတစ်ပုံဖြစ်အောင် ပြောင်းလဲလိုက်ပါ။",
+                    en: "Take this uploaded raw photo of my product and seamlessly place it on a [DESCRIBE SETTING]. Adjust the lighting to look like a professional studio shoot, enhance the colors of [INSERT PRODUCT NAME/TYPE] to make them pop, and blur the background slightly for a cinematic depth of field.",
+                    mm: "ကျွန်တော်တင်ထားတဲ့ ဒီ product ပုံကြမ်းကို ယူပြီး [DESCRIBE SETTING] ပေါ်မှာ သဘာဝကျကျ နေရာချပေးပါ။ Professional စတူဒီယိုရိုက်ချက်တစ်ခုလိုဖြစ်အောင် အလင်းအမှောင်ကို ချိန်ညှိပေးပါ၊ [INSERT PRODUCT NAME/TYPE] ရဲ့ အရောင်တွေကို ပိုပေါ်လွင်အောင်လုပ်ပေးပြီး၊ ရုပ်ရှင်ဆန်ဆန် Depth of field ရဖို့ နောက်ခံကို အနည်းငယ်ဝါး (blur) ပေးပါ။",
+                    inputs: [
+                        { id: "DESCRIBE SETTING", label: "Setting (နောက်ခံ ပတ်ဝန်းကျင် အပြင်အဆင်)", hint: "ဥပမာ - နေရောင်ရနေတဲ့ ခေတ်မီမီးဖိုချောင်ထဲက သပ်ရပ်တဲ့ စကျင်ကျောက်ခုံ" },
+                        { id: "INSERT PRODUCT NAME/TYPE", label: "Product Name (ထုတ်ကုန် အမည်/အမျိုးအစား)", hint: "ဥပမာ - ကော်ဖီဘူး, ရေမွှေးပုလင်း" }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "၂။ လျင်မြန်တဲ့ Digital Product Mockup များ ဖန်တီးခြင်း (Text-to-Image)",
+                    desc: "မိမိတို့ရဲ့ Digital ပစ္စည်းတွေအတွက် အစစ်အမှန်နဲ့တူတဲ့ 3D ပုံစံတွေကို ချက်ချင်းဖန်တီးလိုက်ပါ။",
+                    en: "Generate a photorealistic 3D mockup of [INSERT DIGITAL PRODUCT]. The design should feature [DESCRIBE ELEMENTS] resting on a [DESCRIBE SURFACE] with [DESCRIBE LIGHTING].",
+                    mm: "[INSERT DIGITAL PRODUCT] ရဲ့ အစစ်အမှန်နဲ့တူတဲ့ 3D mockup တစ်ခုကို ဖန်တီးပေးပါ။ ဒီဇိုင်းမှာ [DESCRIBE ELEMENTS] တွေကို [DESCRIBE SURFACE] ပေါ်မှာ တင်ထားပြီး [DESCRIBE LIGHTING] နဲ့ ဖန်တီးပေးပါ။",
+                    inputs: [
+                        { id: "INSERT DIGITAL PRODUCT", label: "Digital Product (ဒစ်ဂျစ်တယ် ပစ္စည်း)", hint: "ဥပမာ - Ebook နဲ့ Software အစုအဝေး" },
+                        { id: "DESCRIBE ELEMENTS", label: "Elements (ပါဝင်မည့် အစိတ်အပိုင်းများ)", hint: "ဥပမာ - သပ်ရပ်ခေတ်မီတဲ့ စာအုပ်မျက်နှာဖုံးတွေနဲ့ တက်ဘလက် display" },
+                        { id: "DESCRIBE SURFACE", label: "Surface (တင်ထားမည့် မျက်နှာပြင်)", hint: "ဥပမာ - ရောင်ပြန်ဟပ်နေတဲ့ မှန်စားပွဲ" },
+                        { id: "DESCRIBE LIGHTING", label: "Lighting (အလင်းရောင် အနေအထား)", hint: "ဥပမာ - သိသာထင်ရှားတဲ့ စတူဒီယိုအလင်းရောင်" }
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "၃။ Style Transfer ဖြင့် Brand ပုံစံကို တစ်သမတ်တည်းဖြစ်စေခြင်း (Multi-Image Composition)",
+                    desc: "ကိုယ့်ရဲ့ ပုံရိပ်အမှတ်အသား (Visual Identity) ကို ပုံတွေအားလုံးမှာ တစ်ပြေးညီဖြစ်နေအောင် ထိန်းသိမ်းပါ။",
+                    en: "Take Image A ([DESCRIBE BASE GRAPHIC]) and Image B ([DESCRIBE STYLE REFERENCE]). Apply the exact illustration style, color grading, and visual texture of Image B to the subject of Image A. Ensure the final output perfectly aligns with [INSERT BRAND VIBE].",
+                    mm: "Image A ([DESCRIBE BASE GRAPHIC]) နဲ့ Image B ([DESCRIBE STYLE REFERENCE]) တို့ကို ယူပါ။ Image B ရဲ့ ပုံဆွဲဟန်၊ အရောင်အသွေးနဲ့ အမြင်ပိုင်းဆိုင်ရာ အသွင်အပြင် (texture) အတိအကျကို Image A ရဲ့ အဓိကအရာဝတ္ထုပေါ်မှာ အသုံးပြုပေးပါ။ နောက်ဆုံးထွက်လာတဲ့ပုံက [INSERT BRAND VIBE] လိုမျိုး Brand ရဲ့ ခံစားချက်နဲ့ အတိအကျ ကိုက်ညီပါစေ။",
+                    inputs: [
+                        { id: "DESCRIBE BASE GRAPHIC", label: "Image A (မူရင်းဂရပ်ဖစ် အကြောင်းအရာ)", hint: "ဥပမာ - ကော်ဖီသောက်နေသော အမျိုးသမီးပုံ" },
+                        { id: "DESCRIBE STYLE REFERENCE", label: "Image B (လိုချင်သော Style အကြောင်းအရာ)", hint: "ဥပမာ - ရေဆေးပန်းချီစတိုင်, 3D Pixar စတိုင်" },
+                        { id: "INSERT BRAND VIBE", label: "Brand Vibe (Brand ၏ ခံစားမှု)", hint: "ဥပမာ - ပရီမီယံကျပြီး ရှင်းလင်းတဲ့ ကြော်ငြာကမ်ပိန်း" }
+                    ]
+                },
+                {
+                    id: 4,
+                    title: "၄။ UI/UX အိုင်ဒီယာများ ဖန်တီးခြင်း (Text-to-Image)",
+                    desc: "Code တစ်ကြောင်းမှ မရေးခင်မှာ ကိုယ့် Software ရဲ့ အသွင်အပြင်ကို ကြိုတင်မြင်ယောင်ကြည့်ပါ။",
+                    en: "Design a high-fidelity UI mockup for a [INSERT APP TYPE] featuring [INSERT CORE FEATURE]. Use a [DESCRIBE DESIGN STYLE], [INSERT BRAND COLORS], and an intuitive layout that immediately draws users in.",
+                    mm: "[INSERT CORE FEATURE] ပါဝင်တဲ့ [INSERT APP TYPE] တစ်ခုအတွက် အဆင့်မြင့် UI mockup တစ်ခုကို ဒီဇိုင်းဆွဲပေးပါ။ [DESCRIBE DESIGN STYLE]၊ [INSERT BRAND COLORS] တွေကို အသုံးပြုပြီး အသုံးပြုသူတွေကို ချက်ချင်းဆွဲဆောင်နိုင်မယ့် အလွယ်တကူသုံးနိုင်သော အပြင်အဆင် (layout) မျိုး ဖန်တီးပေးပါ။",
+                    inputs: [
+                        { id: "INSERT CORE FEATURE", label: "Core Feature (အဓိက ပါဝင်မည့် လုပ်ဆောင်ချက်)", hint: "ဥပမာ - AI chatbot interface" },
+                        { id: "INSERT APP TYPE", label: "App Type (App အမျိုးအစား)", hint: "ဥပမာ - ခေတ်မီမိုဘိုင်းအက်ပ်, Web Dashboard" },
+                        { id: "DESCRIBE DESIGN STYLE", label: "Design Style (ဒီဇိုင်းပုံစံ)", hint: "ဥပမာ - အမည်းရောင်နောက်ခံ ရှင်းလင်းတဲ့ဒီဇိုင်း (Dark Minimalist)" },
+                        { id: "INSERT BRAND COLORS", label: "Brand Colors (Brand ၏ အရောင်များ)", hint: "ဥပမာ - နီယွန်အပြာရောင်, လိမ္မော်ရောင်" }
+                    ]
+                },
+                {
+                    id: 5,
+                    title: "၅။ မလိုအပ်တဲ့အရာများကို အလွယ်တကူ အစားထိုးခြင်း (Image+Text Editing)",
+                    desc: "မပြည့်စုံတဲ့ ဓာတ်ပုံတွေကို ပြင်ဆင်တာဖြစ်ဖြစ်၊ တိကျတဲ့အရာတွေကို ဖယ်ရှားအစားထိုးတာဖြစ်ဖြစ် လုပ်ဆောင်နိုင်ပါတယ်။",
+                    en: "Analyze this uploaded image and completely remove [INSERT UNWANTED ELEMENT]. Replace it seamlessly with [INSERT NEW ELEMENT]. Ensure the new element perfectly matches the exact shadows, lighting direction, and perspective of the original scene.",
+                    mm: "တင်ထားတဲ့ ဒီပုံကို ခွဲခြမ်းစိတ်ဖြာပြီး [INSERT UNWANTED ELEMENT] ကို အပြီးတိုင် ဖယ်ရှားပေးပါ။ အဲဒီနေရာမှာ [INSERT NEW ELEMENT] နဲ့ အစားထိုးပေးပါ။ အစားထိုးလိုက်တဲ့ အရာဝတ္ထုအသစ်က မူရင်းပုံရဲ့ အရိပ်၊ အလင်းလားရာ နဲ့ မြင်ကွင်းအနေအထားတို့နဲ့ သဘာဝကျကျ အတိအကျ ကိုက်ညီပါစေ။",
+                    inputs: [
+                        { id: "INSERT UNWANTED ELEMENT", label: "Unwanted Element (ဖယ်ရှားလိုသော အရာ)", hint: "ဥပမာ - နောက်ခံစားပွဲပေါ်က ရှုပ်ပွနေတာတွေ" },
+                        { id: "INSERT NEW ELEMENT", label: "New Element (အစားထိုးလိုသော အရာသစ်)", hint: "ဥပမာ - ခေတ်မီတဲ့ မွန်စတီရာ ပန်းအိုး" }
+                    ]
+                },
+                {
+                    id: 6,
+                    title: "၆။ ပုံများစွာကို အကောင်းဆုံးပေါင်းစပ်ခြင်း (Multi-Image Composition)",
+                    desc: "သီးခြားဖြစ်နေတဲ့ ပုံရိပ်တွေကို အပြစ်အနာအဆာကင်းပြီး ပြကွင်းတစ်ခုတည်းအဖြစ် ပေါင်းစပ်လိုက်ပါ။",
+                    en: "Take these uploaded images: [INSERT BACKGROUND], [INSERT SUBJECT 1], and [INSERT SUBJECT 2]. Blend them into a single, cohesive scene. Ensure the lighting sources match perfectly, the scale is realistic, and color-grade the final output to have a [INSERT DESIRED AESTHETIC] look.",
+                    mm: "တင်ထားတဲ့ ဒီပုံတွေကို ယူပါ- [INSERT BACKGROUND]၊ [INSERT SUBJECT 1] နဲ့ [INSERT SUBJECT 2]။ အဲဒါတွေကို ဆက်စပ်မှုရှိတဲ့ ပြကွင်းတစ်ခုတည်းအဖြစ် ပေါင်းစပ်ပေးပါ။ အလင်းရောင်လာတဲ့နေရာတွေ အတိအကျကိုက်ညီပါစေ၊ အရွယ်အစား အချိုးအစားတွေ သဘာဝကျပါစေ၊ နောက်ဆုံးထွက်လာတဲ့ပုံကို [INSERT DESIRED AESTHETIC] အသွင်အပြင်ရအောင် အရောင်ချိန် (color-grade) ပေးပါ။",
+                    inputs: [
+                        { id: "INSERT BACKGROUND", label: "Background (နောက်ခံပုံ အကြောင်းအရာ)", hint: "ဥပမာ - တောတောင်ရှုခင်း" },
+                        { id: "INSERT SUBJECT 1", label: "Subject 1 (အရာဝတ္ထု ၁)", hint: "ဥပမာ - ကားတစ်စီး" },
+                        { id: "INSERT SUBJECT 2", label: "Subject 2 (အရာဝတ္ထု ၂)", hint: "ဥပမာ - ခွေးတစ်ကောင်" },
+                        { id: "INSERT DESIRED AESTHETIC", label: "Aesthetic (လိုချင်သော အရောင်အသွေး/ခံစားမှု)", hint: "ဥပမာ - ခံစားချက်ပါပြီး ရုပ်ရှင်ဆန်ဆန် ရေပြာနဲ့လိမ္မော်ရောင်စပ်" }
+                    ]
+                },
+                {
+                    id: 7,
+                    title: "၇။ ရောင်းအားတက်စေမယ့် ကြော်ငြာဒီဇိုင်းများ ဖန်တီးခြင်း (Text-to-Image)",
+                    desc: "Target Audience နဲ့ ကွက်တိကျပြီး လူတွေကို ဆွဲဆောင်ရပ်တန့်သွားစေမယ့် Paid Ads ပုံတွေကို ဖန်တီးပါ။",
+                    en: "Create a striking, high-contrast advertisement image for [INSERT BUSINESS TYPE/NICHE]. Show a dynamic scene with [DESCRIBE ACTION/SUBJECT]. Leave clean negative space on the [LEFT/RIGHT/TOP] side for ad copy. The lighting should be [DESCRIBE LIGHTING].",
+                    mm: "[INSERT BUSINESS TYPE/NICHE] အတွက် ဆွဲဆောင်မှုရှိပြီး High-contrast ဖြစ်တဲ့ ကြော်ငြာပုံတစ်ခုကို ဖန်တီးပေးပါ။ [DESCRIBE ACTION/SUBJECT] ပါဝင်တဲ့ လှုပ်ရှားနေပုံရတဲ့ ပြကွင်းတစ်ခုကို ပြသပေးပါ။ ကြော်ငြာစာသားရေးဖို့အတွက် [LEFT/RIGHT/TOP] ဘက်မှာ ရှင်းလင်းတဲ့ နေရာလွတ် (negative space) ချန်ထားပေးပါ။ အလင်းအမှောင်ကို [DESCRIBE LIGHTING] ပုံစံမျိုး ထားပေးပါ။",
+                    inputs: [
+                        { id: "INSERT BUSINESS TYPE/NICHE", label: "Business Type (စီးပွားရေးအမျိုးအစား)", hint: "ဥပမာ - Online Course, Fitness Gym" },
+                        { id: "DESCRIBE ACTION/SUBJECT", label: "Action/Subject (လှုပ်ရှားမှု/အရာဝတ္ထု)", hint: "ဥပမာ - လင်းလက်နေတဲ့ screen ကို ကြည့်နေတဲ့ ပညာရှင်များ" },
+                        { id: "LEFT/RIGHT/TOP", label: "Negative Space (စာရေးရန်ချန်မည့် နေရာ)", hint: "ဥပမာ - ဘယ်ဘက် / ညာဘက် / အပေါ်ဘက်" },
+                        { id: "DESCRIBE LIGHTING", label: "Lighting (အလင်းအမှောင်)", hint: "ဥပမာ - သိသာထင်ရှားပြီး အလွန် professional ဆန်သော" }
+                    ]
+                },
+                {
+                    id: 8,
+                    title: "၈။ စိတ်ကြိုက် Stock ဓာတ်ပုံများကို အချိန်မရွေးဖန်တီးခြင်း (Text-to-Image)",
+                    desc: "Stock ပုံတွေရှာရတဲ့ Website တွေမှာ အချိန်ကုန်ခံရှာနေမယ့်အစား၊ ကိုယ်လိုအပ်တာကို စက္ကန့်ပိုင်းအတွင်း ဖန်တီးလိုက်ပါ။",
+                    en: "Generate a photorealistic image of [INSERT SCENE]. Include [INSERT SPECIFIC DETAILS], and [DESCRIBE LIGHTING/MOOD]. Shoot this on a [INSERT CAMERA SPECS] with a shallow depth of field.",
+                    mm: "[INSERT SCENE] ရဲ့ အစစ်အမှန်နဲ့တူတဲ့ ဓာတ်ပုံတစ်ပုံကို ဖန်တီးပေးပါ။ [INSERT SPECIFIC DETAILS] ကို ထည့်သွင်းပေးပြီး [DESCRIBE LIGHTING/MOOD] ကို အသုံးပြုပေးပါ။ ဒီပုံကို [INSERT CAMERA SPECS] နဲ့ ရိုက်ကူးထားသလို နောက်ခံဝါးဝါး (shallow depth of field) လေး ဖြစ်ပါစေ။",
+                    inputs: [
+                        { id: "INSERT SCENE", label: "Scene (မြင်ကွင်း)", hint: "ဥပမာ - သက်တောင့်သက်သာရှိပြီး ခေတ်မီတဲ့ စာဖတ်ခန်း" },
+                        { id: "INSERT SPECIFIC DETAILS", label: "Specific Details (အသေးစိတ် အချက်အလက်များ)", hint: "ဥပမာ - အခင်းမှ မျက်နှာကြက်အထိရောက်တဲ့ စာအုပ်စင်တွေနဲ့ သားရေကုလားထိုင်အိအိ" },
+                        { id: "DESCRIBE LIGHTING/MOOD", label: "Lighting/Mood (အလင်းရောင်နှင့် ခံစားမှု)", hint: "ဥပမာ - နွေးထွေးတဲ့ နေဝင်ဆည်းဆာ အလင်းရောင်" },
+                        { id: "INSERT CAMERA SPECS", label: "Camera Specs (ကင်မရာ အမျိုးအစား)", hint: "ဥပမာ - 35mm lens, DSLR" }
+                    ]
+                },
+                {
+                    id: 9,
+                    title: "၉။ နောက်ခံ Background ကို ချက်ချင်းချဲ့နိုင်ခြင်း (Image+Text Editing)",
+                    desc: "လိုအပ်တဲ့ Aspect Ratio ရဖို့ ဖြတ်တောက်ခံထားရတဲ့ ပုံတွေကို အပြစ်အနာအဆာကင်းကင်း ချဲ့ကားလိုက်ပါ။",
+                    en: "Take this [INSERT CURRENT ASPECT RATIO] uploaded image and uncrop it into a [INSERT TARGET ASPECT RATIO] format. Seamlessly generate the missing background elements to match the existing [DESCRIBE ENVIRONMENT], maintaining the exact original texture, lighting, and perspective.",
+                    mm: "တင်ထားတဲ့ ဒီ [INSERT CURRENT ASPECT RATIO] ပုံကို ယူပြီး [INSERT TARGET ASPECT RATIO] အရွယ်အစားရအောင် ပြန်ချဲ့ပေး (uncrop) ပါ။ မူရင်း အသွင်အပြင် (texture)၊ အလင်းရောင်နဲ့ မြင်ကွင်းအနေအထားကို အတိအကျထိန်းသိမ်းထားပြီး၊ လက်ရှိ [DESCRIBE ENVIRONMENT] နဲ့ ကိုက်ညီအောင် လိုအပ်နေတဲ့ နောက်ခံအစိတ်အပိုင်းတွေကို သဘာဝကျကျ ဖန်တီးဖြည့်စွက်ပေးပါ။",
+                    inputs: [
+                        { id: "INSERT CURRENT ASPECT RATIO", label: "Current Aspect Ratio (လက်ရှိ ပုံအရွယ်အစား)", hint: "ဥပမာ - စတုရန်းပုံ (1:1)" },
+                        { id: "INSERT TARGET ASPECT RATIO", label: "Target Aspect Ratio (လိုချင်သော အရွယ်အစားသစ်)", hint: "ဥပမာ - 16:9 မျက်နှာပြင်အကျယ်" },
+                        { id: "DESCRIBE ENVIRONMENT", label: "Environment (လက်ရှိ နောက်ခံ ပတ်ဝန်းကျင်)", hint: "ဥပမာ - ကမ်းခြေရှုခင်း, ရုံးခန်းနောက်ခံ" }
+                    ]
+                },
+                {
+                    id: 10,
+                    title: "၁၀။ သွက်လက်တက်ကြွတဲ့ Storyboard များဆွဲခြင်း (Text-to-Image)",
+                    desc: "ဗီဒီယိုအိုင်ဒီယာတွေ တင်ပြဖို့ ဒါမှမဟုတ် Content တွေအတွက် လှပပြီး တစ်သမတ်တည်းဖြစ်တဲ့ ရုပ်ရှင်ဆန်ဆန် ပုံကြမ်းတွေကို ဖန်တီးပါ။",
+                    en: "Generate a cinematic storyboard frame of [INSERT SCENE/ACTION]. Use a [INSERT AESTHETIC/GENRE] aesthetic with [INSERT SPECIFIC VISUAL DETAILS]. Frame the shot from a [INSERT CAMERA ANGLE], emphasizing the [INSERT FOCAL POINT]. Ensure highly detailed, photorealistic textures.",
+                    mm: "[INSERT SCENE/ACTION] ရဲ့ ရုပ်ရှင်ဆန်တဲ့ storyboard frame တစ်ခုကို ဖန်တီးပေးပါ။ [INSERT SPECIFIC VISUAL DETAILS] အစရှိတဲ့ အမြင်ပိုင်းဆိုင်ရာ အသေးစိတ်အချက်တွေနဲ့အတူ [INSERT AESTHETIC/GENRE] ပုံစံကို အသုံးပြုပေးပါ။ [INSERT FOCAL POINT] ကို ပိုပေါ်လွင်စေဖို့ [INSERT CAMERA ANGLE] ကင်မရာထောင့်ကနေ မြင်ကွင်းကို ယူပါ။ အလွန်အသေးစိတ်ကျပြီး အစစ်အမှန်နဲ့တူတဲ့ အသွင်အပြင် (textures) တွေ ဖြစ်ပါစေ။",
+                    inputs: [
+                        { id: "INSERT SCENE/ACTION", label: "Scene/Action (ပြကွင်း/လှုပ်ရှားမှု)", hint: "ဥပမာ - ညဘက် အနာဂတ်မြို့တော်ရဲ့ လူစည်ကားတဲ့လမ်းမ" },
+                        { id: "INSERT SPECIFIC VISUAL DETAILS", label: "Visual Details (အမြင်ပိုင်းဆိုင်ရာ အသေးစိတ်)", hint: "ဥပမာ - မိုးရေအိုင်တွေမှာ ရောင်ပြန်ဟပ်နေတဲ့ နီယွန်ဆိုင်းဘုတ်တွေ" },
+                        { id: "INSERT AESTHETIC/GENRE", label: "Aesthetic/Genre (ပုံစံ/အမျိုးအစား)", hint: "ဥပမာ - cyberpunk, fantasy" },
+                        { id: "INSERT FOCAL POINT", label: "Focal Point (အဓိက အာရုံစိုက်ရမည့်အရာ)", hint: "ဥပမာ - လမ်းလျှောက်နေသော ဇာတ်ကောင်" },
+                        { id: "INSERT CAMERA ANGLE", label: "Camera Angle (ကင်မရာ ထောင့်)", hint: "ဥပမာ - အောက်မှပင့်ရိုက်သော (low angle)" }
+                    ]
+                }
+            ];
+
+            const container = document.getElementById('accordion-container');
+            const langRadios = document.getElementsByName('language');
+
+            function renderAccordion() {
+                container.innerHTML = ''; 
+
+                promptData.forEach((data, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'accordion-item';
+                    item.id = `acc-item-${data.id}`;
+
+                    // Header (Clickable)
+                    let html = `
+                        <div class="accordion-header" onclick="toggleAccordion(${data.id})">
+                            <div class="header-content">
+                                <div class="acc-title">${data.title}</div>
+                                <div class="acc-desc">💡 ${data.desc}</div>
+                            </div>
+                            <div class="acc-icon">▼</div>
+                        </div>
+                    `;
+
+                    // Body (Collapsible)
+                    html += `<div class="accordion-body" id="acc-body-${data.id}">
+                                <div class="body-inner">`;
+
+                    data.inputs.forEach(input => {
+                        html += `
+                            <div class="form-group">
+                                <label>${input.label}</label>
+                                <input type="text" id="input-${data.id}-${input.id}" data-item-id="${data.id}" placeholder="${input.hint}">
+                            </div>
+                        `;
+                    });
+
+                    html += `
+                            <textarea id="output-${data.id}" readonly></textarea>
+                            <button id="copy-${data.id}" data-item-id="${data.id}">Copy Prompt</button>
+                        </div>
+                    </div>`;
+
+                    item.innerHTML = html;
+                    container.appendChild(item);
+                });
+
+                attachEventListeners();
+                updateAllPrompts();
+            }
+
+            // Accordion အဖွင့်/အပိတ် လော့ဂျစ်
+            window.toggleAccordion = function(id) {
+                const item = document.getElementById(`acc-item-${id}`);
+                const body = document.getElementById(`acc-body-${id}`);
+                
+                // အခြားပွင့်နေတာတွေ ပိတ်ချင်ရင် အောက်က code ဖွင့်သုံးပါ
+                
+                document.querySelectorAll('.accordion-item').forEach(el => {
+                    if(el.id !== `acc-item-${id}`) {
+                        el.classList.remove('active');
+                        el.querySelector('.accordion-body').style.maxHeight = null;
+                    }
+                });
+                
+
+                if (item.classList.contains('active')) {
+                    item.classList.remove('active');
+                    body.style.maxHeight = null;
+                } else {
+                    item.classList.add('active');
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updatePromptForCard(itemId) {
+                const data = promptData.find(p => p.id == itemId);
+                const isMyanmar = document.querySelector('input[name="language"]:checked').value === 'mm';
+                let finalPrompt = isMyanmar ? data.mm : data.en;
+
+                data.inputs.forEach(input => {
+                    const el = document.getElementById(`input-${data.id}-${input.id}`);
+                    const val = el && el.value.trim() !== "" ? el.value.trim() : `[${input.id}]`;
+                    finalPrompt = finalPrompt.split(`[${input.id}]`).join(val);
+                });
+
+                document.getElementById(`output-${data.id}`).value = finalPrompt;
+                
+                // Content ပြောင်းလဲလို့ အမြင့် (height) ပြောင်းသွားရင် body ရဲ့ maxHeight ကိုပါ ပြန်ချိန်ရန်
+                const body = document.getElementById(`acc-body-${data.id}`);
+                const item = document.getElementById(`acc-item-${data.id}`);
+                if(item.classList.contains('active')) {
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updateAllPrompts() {
+                promptData.forEach(data => updatePromptForCard(data.id));
+            }
+
+            function attachEventListeners() {
+                container.addEventListener('input', (e) => {
+                    if (e.target.tagName === 'INPUT') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        if (itemId) updatePromptForCard(itemId);
+                    }
+                });
+
+                container.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'BUTTON') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        const outputEl = document.getElementById(`output-${itemId}`);
+                        outputEl.select();
+                        document.execCommand('copy');
+                        
+                        const btn = e.target;
+                        const originalText = btn.innerText;
+                        btn.innerText = "COPIED! ✨";
+                        setTimeout(() => btn.innerText = originalText, 2000);
+                    }
+                });
+            }
+
+            langRadios.forEach(radio => radio.addEventListener('change', updateAllPrompts));
+
+            renderAccordion();
+            
+            // ပထမဆုံးတစ်ခုကို အစမ်းဖွင့်ပြထားရန်
+            setTimeout(() => { toggleAccordion(1); }, 100);
+        });
+    </script>
+</body>
+</html>

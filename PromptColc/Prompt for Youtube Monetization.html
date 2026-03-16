@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YT Monetization Mastery</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: #08110c; /* Very Dark Green Background */
+            color: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .header-container {
+            width: 100%;
+            max-width: 900px;
+            text-align: center;
+            margin-bottom: 25px;
+            position: sticky;
+            top: 0;
+            background: rgba(8, 17, 12, 0.95);
+            padding: 20px;
+            z-index: 100;
+            border-bottom: 1px solid #fbbf24; /* Gold */
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #fbbf24; 
+            font-size: 2.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .global-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .radio-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #cbd5e1;
+            font-weight: 600;
+        }
+
+        input[type="radio"] {
+            accent-color: #fbbf24;
+            width: 16px;
+            height: 16px;
+        }
+
+        .instruction-box {
+            width: 100%;
+            max-width: 900px;
+            background: rgba(251, 191, 36, 0.05);
+            border: 1px dashed #fbbf24;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: #e2e8f0;
+            line-height: 1.7;
+        }
+
+        .instruction-box strong {
+            color: #fbbf24;
+            font-size: 1rem;
+        }
+
+        .instruction-box b {
+            color: #fcd34d;
+        }
+
+        .cards-container {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .prompt-card {
+            background: #0f1c16;
+            border: 1px solid #1e3529;
+            border-left: 5px solid #fbbf24;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .prompt-card:hover {
+            border-color: #fbbf24;
+            transform: translateY(-2px);
+        }
+
+        .card-title {
+            color: #f8fafc;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .card-desc {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #1e3529;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #fbbf24;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            background: #08110c;
+            border: 1px solid #1e3529;
+            color: #fbbf24;
+            padding: 12px;
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"]:focus {
+            border-color: #fbbf24;
+            box-shadow: 0 0 10px rgba(251, 191, 36, 0.2);
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            background: #040906;
+            border: 1px solid #1e3529;
+            color: #f8fafc;
+            padding: 15px;
+            border-radius: 6px;
+            resize: vertical;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        textarea:focus {
+            border-color: #fbbf24;
+        }
+
+        button {
+            width: 100%;
+            background: transparent;
+            color: #fbbf24;
+            border: 1px solid #fbbf24;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #fbbf24;
+            color: #08110c;
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>💰 YT Monetization Mastery</h1>
+        <p class="subtitle">🚀 YouTube Channel တစ်ခုကို ၃ လအတွင်း Monetization ရအောင် AI သုံးပြီး ဘယ်လိုလုပ်မလဲ?</p>
+        <div class="global-options">
+            <label class="radio-btn">
+                <input type="radio" name="language" value="mm" checked> Myanmar Prompt
+            </label>
+            <label class="radio-btn">
+                <input type="radio" name="language" value="en"> English Prompt
+            </label>
+        </div>
+    </div>
+
+    <div id="instruction-box" class="instruction-box">
+        <strong>💡 ဖြည့်စွက်ရန် လမ်းညွှန်ချက်:</strong><br><br>
+        • မိမိအသုံးပြုလိုသော Strategy ကတ်ကို အောက်တွင် ရွေးချယ်ပါ။<br>
+        • ကတ်အတွင်းရှိ လွတ်နေသော အကွက်များတွင် မိမိ၏ <b>[အကြောင်းအရာ, အချိန်, ပစ်မှတ်]</b> စသည်တို့ကို ဖြည့်သွင်းပါ။<br>
+        • <b>COPY PROMPT</b> ခလုတ်ကိုနှိပ်၍ AI တွင် သွားရောက်မေးမြန်းပါ။
+    </div>
+
+    <div class="cards-container" id="cards-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            const promptData = [
+                {
+                    id: 1,
+                    title: "1. YouTube Channel Positioning Blueprint",
+                    desc: "ဗီဒီယို တစ်ပုဒ်မှ မတင်ခင် ကိုယ့် Channel ရဲ့ ခိုင်မာတဲ့ ရပ်တည်ချက်တစ်ခုကို အရင်တည်ဆောက်ပါ။",
+                    en: "Act as a YouTube growth strategist who has built 50+ monetized channels and create a complete positioning strategy for my channel before I publish my first video. Define the three most viable sub-niches I could own with audience size estimates, analyze the top 10 competitors... craft a one-sentence positioning statement... outline 3–5 core content pillars... Format as a concise channel strategy document. Topic: [Topic]. Background: [Background]. Audience: [Audience].",
+                    mm: "Monetize ဖြစ်ပြီးသား Channel ၅၀ ကျော်ကို တည်ဆောက်ခဲ့တဲ့ YouTube Growth Strategist တစ်ယောက်အနေနဲ့ လုပ်ပေးပါ။ ကျွန်တော် ပထမဆုံး ဗီဒီယို မတင်ခင် Channel အတွက် ပြီးပြည့်စုံတဲ့ Positioning Strategy တစ်ခု ဆွဲပေးပါ။ ကျွန်တော် ဝင်ရောက်နိုင်မယ့် အကောင်းဆုံး Sub-niche ၃ ခုနဲ့ ပရိသတ် အရေအတွက် ခန့်မှန်းချက်ကို ပြပေးပါ။ ပြိုင်ဘက် Top 10 ရဲ့ အားနည်းချက်၊ အားသာချက်တွေကို သုံးသပ်ပေးပြီး ကျွန်တော့်အတွက် Content Pillar ၃ ခုကနေ ၅ ခုအထိ ဆွဲပေးပါ။ Topic: [Topic]။ Background: [Background]။ Audience: [Audience]။",
+                    inputs: [
+                        { id: "Topic", label: "Topic (ခေါင်းစဉ်)", hint: "ဥပမာ - Graphic Design Tutorials" },
+                        { id: "Background", label: "Background (ကိုယ့်အကြောင်း)", hint: "ဥပမာ - ၅ နှစ်အတွေ့အကြုံရှိတဲ့ Designer တစ်ယောက်" },
+                        { id: "Audience", label: "Audience (ပစ်မှတ်ထားမယ့် ပရိသတ်)", hint: "ဥပမာ - Design ကို အခြေခံကစလေ့လာမည့်သူများ" }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "2. The Viral Title and Thumbnail System",
+                    desc: "ပြိုင်ဆိုင်မှုများတဲ့ နေရာမှာ လူတွေ ဝင်ကြည့်ချင်လာအောင် ဆွဲဆောင်နိုင်မယ့် Title နဲ့ Thumbnail တွေ ဖန်တီးပါ။",
+                    en: "Act as a YouTube click-through rate specialist who has tested 10,000+ titles and thumbnails and develop a complete, repeatable CTR system tailored to my niche. Provide 12 proven fill-in-the-blank title formulas... create three A/B title variations for each of my next 3–5 videos... outline the ideal thumbnail concept... My niche: [Niche]. My upcoming video topics: [Topics].",
+                    mm: "Title နဲ့ Thumbnail ပေါင်း သောင်းကျော်ကို စမ်းသပ်ခဲ့တဲ့ YouTube CTR Specialist တစ်ယောက်အနေနဲ့ လုပ်ပေးပါ။ ကျွန်တော့် Niche နဲ့ ကိုက်ညီမယ့် မြင့်မားတဲ့ Click-through rate ရစေမယ့် System တစ်ခု ဆွဲပေးပါ။ ဖြည့်စွက်ရေးရုံနဲ့ အဆင်သင့်သုံးလို့ရတဲ့ Title Formula ၁၂ ခု ပေးပါ။ နောက်တင်မယ့် ဗီဒီယို ၃-၅ ခုအတွက် A/B test လုပ်လို့ရမယ့် Title ၃ မျိုးစီနဲ့ အဲဒီအတွက် အကောင်းဆုံးဖြစ်မယ့် Thumbnail Concept တွေကို အသေးစိတ် ရှင်းပြပေးပါ။ My niche: [Niche]။ My upcoming video topics: [Topics]။",
+                    inputs: [
+                        { id: "Niche", label: "My Niche (ကိုယ့် Niche)", hint: "ဥပမာ - Personal Finance" },
+                        { id: "Topics", label: "Upcoming video topics (နောက်တင်မယ့် ဗီဒီယိုခေါင်းစဉ်များ)", hint: "ဥပမာ - ပိုက်ဆံစုနည်း, ငွေကြေးစီမံခန့်ခွဲမှု" }
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "3. The Video Script Architecture",
+                    desc: "အစပိုင်းမှာတင် ဖမ်းစားနိုင်ပြီး ဗီဒီယိုအဆုံးထိ ကြည့်သွားအောင် ဆွဲခေါ်နိုင်မယ့် Script မျိုး ရေးပါ။",
+                    en: "Act as a professional YouTube scriptwriter who has written for 1M+ subscriber channels and build a complete script framework tailored to my video. Craft a 3-part hook under 30 seconds... structure the full retention arc... write the full hook, first two minutes, and closing CTA for my specific topic. Video topic: [Video topic]. Target length: [Target length]. Channel style: [Channel style].",
+                    mm: "Subscriber 1 Million ကျော်ရှိတဲ့ Channel တွေအတွက် ရေးပေးနေတဲ့ Professional YouTube Scriptwriter တစ်ယောက်အနေနဲ့ လုပ်ပေးပါ။ ကျွန်တော့် ဗီဒီယိုအတွက် ပြီးပြည့်စုံတဲ့ Script Framework တစ်ခု တည်ဆောက်ပေးပါ။ ပထမ စက္ကန့် ၃၀ အတွင်း လူကို ဖမ်းစားနိုင်မယ့် Hook မျိုး ရေးပေးပြီး၊ Retention မကျသွားအောင် ဘယ်လို ဆွဲခေါ်ရမလဲဆိုတာ ပြပေးပါ။ ကျွန်တော့် Topic အတွက် Hook၊ ပထမ ၂ မိနစ်စာ စာသားနဲ့ အဆုံးသတ် CTA ကို အပြည့်အစုံ ရေးပေးပါ။ Video topic: [Video topic]။ Target length: [Target length]။ Channel style: [Channel style]။",
+                    inputs: [
+                        { id: "Video topic", label: "Video topic (ဗီဒီယို ခေါင်းစဉ်)", hint: "ဥပမာ - AI နဲ့ ပိုက်ဆံရှာနည်း ၅ မျိုး" },
+                        { id: "Target length", label: "Target length (ဗီဒီယို အရှည်)", hint: "ဥပမာ - 10 mins" },
+                        { id: "Channel style", label: "Channel style (Channel ရဲ့ ပုံစံ/Tone)", hint: "ဥပမာ - ရှင်းလင်းပြတ်သားပြီး ခွန်အားပေးသော ပုံစံ" }
+                    ]
+                },
+                {
+                    id: 4,
+                    title: "4. The YouTube SEO Domination Plan",
+                    desc: "ကိုယ့်ဗီဒီယိုတွေကို ရှာဖွေမှုရလဒ် (Search Results) ရဲ့ ပထမစာမျက်နှာမှာ ရောက်နေအောင် လုပ်ပါ။",
+                    en: "Act as a YouTube SEO specialist who consistently ranks videos on the first page and create a full SEO strategy tailored to my niche and channel size. Outline a step-by-step keyword research framework... generate 20 ranked keyword opportunities... provide a high-ranking description structure... My niche: [Niche]. Channel size: [Channel size].",
+                    mm: "ဗီဒီယိုတွေကို Search Page ရဲ့ ထိပ်ဆုံးမှာ အမြဲရောက်အောင် လုပ်နိုင်တဲ့ YouTube SEO Specialist တစ်ယောက်အနေနဲ့ လုပ်ပေးပါ။ ကျွန်တော့် Niche နဲ့ Channel အရွယ်အစားအတွက် အံကိုက်ဖြစ်မယ့် SEO Strategy အပြည့်အစုံကို ဆွဲပေးပါ။ Keyword Research လုပ်နည်း အဆင့်ဆင့်နဲ့ အတူ Ranking ချိတ်နိုင်ခြေရှိတဲ့ Keyword အခု ၂၀ ကို ရှာပေးပါ။ ပြီးတော့ SEO မိတဲ့ Description ရေးနည်း Format ကိုပါ ပေးပါ။ My niche: [Niche]။ Channel size: [Channel size]။",
+                    inputs: [
+                        { id: "Niche", label: "My niche (ကိုယ့် Niche)", hint: "ဥပမာ - Tech Reviews" },
+                        { id: "Channel size", label: "Channel size (လက်ရှိ Subscriber)", hint: "ဥပမာ - 500 Subscribers" }
+                    ]
+                },
+                {
+                    id: 5,
+                    title: "5. The 90-Day Content Calendar",
+                    desc: "Channel ကို Authority တစ်ခုဖြစ်လာစေဖို့နဲ့ ဝင်ငွေရလာစေဖို့ ၃ လစာ အတိအကျ Plan ဆွဲပါ။",
+                    en: "Act as a content strategist who has created editorial calendars for top YouTube channels and build a complete 90-day content plan... Recommend optimal upload frequency... outline Month 1 foundation videos, Month 2 momentum videos, and Month 3 monetization push videos... My niche: [Niche]. Production capacity: [Production capacity]. Current subscribers: [Current subscribers].",
+                    mm: "ထိပ်တန်း YouTube Channel တွေအတွက် Content Calendar တွေ ဆွဲပေးနေတဲ့ Content Strategist တစ်ယောက်အနေနဲ့ လုပ်ပေးပါ။ ကျွန်တော့်အတွက် ရက် ၉၀ စာ Content Plan အပြည့်အစုံ ဆွဲပေးပါ။ တစ်ပတ်ကို ဘယ်နှပုဒ်တင်သင့်လဲ အကြံပေးပြီး၊ ပထမလ (အခြေခံတည်ဆောက်ခြင်း)၊ ဒုတိယလ (အရှိန်တင်ခြင်း) နဲ့ တတိယလ (ဝင်ငွေရှာခြင်း) တို့အတွက် ဗီဒီယို ခေါင်းစဉ်တွေနဲ့တကွ Plan အသေးစိတ် ဆွဲပေးပါ။ My niche: [Niche]။ Production capacity: [Production capacity]။ Current subscribers: [Current subscribers]။",
+                    inputs: [
+                        { id: "Niche", label: "My niche (ကိုယ့် Niche)", hint: "ဥပမာ - Fitness" },
+                        { id: "Production capacity", label: "Production capacity (တစ်ပတ်ထုတ်လုပ်နိုင်စွမ်း)", hint: "ဥပမာ - 2 videos per week" },
+                        { id: "Current subscribers", label: "Current subscribers (လက်ရှိ Subscriber)", hint: "ဥပမာ - 150 Subscribers" }
+                    ]
+                },
+                {
+                    id: 6,
+                    title: "6. The Audience Retention Analyzer",
+                    desc: "ကြည့်ရှုသူတွေ ဘာလို့ ဗီဒီယိုကို ဆက်မကြည့်ဘဲ ထွက်သွားကြလဲဆိုတာကို နားလည်ပြီး ပြင်ဆင်ပါ။",
+                    en: "Act as a YouTube analytics expert who diagnoses retention issues and create a complete retention improvement plan for my channel. Explain how to read retention curves... diagnose common drop-off points... Provide eight re-engagement tactics to pull viewers back... My niche: [Niche]. Average retention: [Average retention]. Common drop-off point: [Common drop-off point].",
+                    mm: "Retention ပြဿနာတွေကို ဖြေရှင်းပေးနိုင်တဲ့ YouTube Analytics Expert တစ်ယောက်အနေနဲ့ လုပ်ပေးပါ။ ကျွန်တော့် Channel ရဲ့ Retention တက်လာအောင် လုပ်ရမယ့် Plan တစ်ခု ဆွဲပေးပါ။ Retention Curve ကို ဘယ်လိုဖတ်ရမလဲ ရှင်းပြပြီး၊ လူတွေ ဘာကြောင့် ထွက်သွားကြလဲဆိုတာ သုံးသပ်ပေးပါ။ ကြည့်ရှုသူတွေကို ဗီဒီယိုထဲ ပြန်ဆွဲခေါ်မယ့် နည်းလမ်း ၈ ခုကိုလည်း အကြံပေးပါ။ My niche: [Niche]။ Average retention: [Average retention]။ Common drop-off point: [Common drop-off point]။",
+                    inputs: [
+                        { id: "Niche", label: "My niche (ကိုယ့် Niche)", hint: "ဥပမာ - Vlog" },
+                        { id: "Average retention", label: "Average retention (ပျမ်းမျှ ကြည့်ရှုချိန်)", hint: "ဥပမာ - 25%" },
+                        { id: "Common drop-off point", label: "Common drop-off point (အများဆုံး ထွက်သွားသည့်အချိန်)", hint: "ဥပမာ - at 2 minutes mark" }
+                    ]
+                },
+                {
+                    id: 7,
+                    title: "7. The Community & Engagement Growth Engine",
+                    desc: "သာမန် ကြည့်ရှုသူတွေကို သစ္စာရှိတဲ့ Subscriber တွေ ဖြစ်လာအောင် ပြောင်းလဲပါ။",
+                    en: "Act as a YouTube community builder and create a complete engagement strategy for my channel. Outline how to reply to comments... design a Community tab calendar... show how to mine viewer questions for the next 10 video ideas... My niche: [Niche]. Current engagement rate: [Current engagement rate].",
+                    mm: "YouTube Community Builder တစ်ယောက်အနေနဲ့ လုပ်ပေးပြီး ကျွန်တော့် Channel အတွက် Engagement Strategy အပြည့်အစုံ ဆွဲပေးပါ။ Comment တွေကို ဘယ်လို Reply ပြန်ရမလဲ၊ Community Tab မှာ ဘာတွေ တင်ရမလဲဆိုတာ Calendar နဲ့တကွ ပြပေးပါ။ ကြည့်ရှုသူတွေရဲ့ မေးခွန်းတွေကနေ နောက်ထပ် ဗီဒီယို ၁၀ ပုဒ်စာ Idea ဘယ်လိုထုတ်ရမလဲ ရှင်းပြပေးပါ။ My niche: [Niche]။ Current engagement rate: [Current engagement rate]။",
+                    inputs: [
+                        { id: "Niche", label: "My niche (ကိုယ့် Niche)", hint: "ဥပမာ - Education" },
+                        { id: "Current engagement rate", label: "Current engagement rate (လက်ရှိ Engagement Rate)", hint: "ဥပမာ - Low / Medium / High" }
+                    ]
+                },
+                {
+                    id: 8,
+                    title: "8. The Monetization Accelerator",
+                    desc: "YPP မရခင်ရော ရပြီးနောက်မှာပါ ဝင်ငွေလမ်းကြောင်းပေါင်းစုံကနေ ပိုက်ဆံရှာပါ။",
+                    en: "Act as a YouTube monetization consultant and create a full monetization strategy for my channel. Outline five pre-monetization income methods... fast-track strategies to accumulate watch hours... AdSense optimization tips... provide realistic 12-month income projections... My niche: [Niche]. Current subscribers: [Current subscribers]. Primary monetization goal: [Primary monetization goal].",
+                    mm: "YouTube Monetization Consultant တစ်ယောက်အနေနဲ့ လုပ်ပေးပြီး ကျွန်တော့် Channel အတွက် ဝင်ငွေရှာမယ့် Strategy ဆွဲပေးပါ။ YouTube ကနေ Monetization မရခင် ဝင်ငွေရှာလို့ရမယ့် နည်းလမ်း ၅ ခုကို ပြပေးပါ။ Watch Hours မြန်မြန်ပြည့်အောင် လုပ်နည်းတွေနဲ့ AdSense ကနေ ပိုက်ဆံပိုရအောင် လုပ်နည်းတွေကို ရှင်းပြပါ။ ၁၂ လစာ ဝင်ငွေ ခန့်မှန်းခြေကိုပါ တွက်ပြပေးပါ။ My niche: [Niche]။ Current subscribers: [Current subscribers]။ Primary monetization goal: [Primary monetization goal]။",
+                    inputs: [
+                        { id: "Niche", label: "My niche (ကိုယ့် Niche)", hint: "ဥပမာ - Travel Vlog" },
+                        { id: "Current subscribers", label: "Current subscribers (လက်ရှိ Subscriber)", hint: "ဥပမာ - 800" },
+                        { id: "Primary monetization goal", label: "Primary monetization goal (အဓိက ဝင်ငွေရှာချင်သည့် ပုံစံ)", hint: "ဥပမာ - Adsense, Affiliate Marketing" }
+                    ]
+                },
+                {
+                    id: 9,
+                    title: "9. The Algorithm Mastery Guide",
+                    desc: "Algorithm က ကိုယ့် ဗီဒီယိုတွေကို လူများများဆီ ဖြန့်ဝေပေးလာအောင် ဘယ်လိုလုပ်ရမလဲဆိုတာ လေ့လာပါ။",
+                    en: "Act as a YouTube algorithm researcher and create a complete strategy for my channel. Explain the four core recommendation signals... recommend the best days and times to publish... Provide tactics to appear in suggested feeds... My niche: [Niche]. Upload schedule: [Upload schedule].",
+                    mm: "YouTube Algorithm Researcher တစ်ယောက်အနေနဲ့ လုပ်ပေးပြီး ကျွန်တော့်အတွက် Strategy တစ်ခု ဆွဲပေးပါ။ YouTube က ဗီဒီယိုတွေကို Recommend လုပ်ပေးတဲ့ အဓိက အချက် ၄ ချက်ကို ရှင်းပြပြီး၊ ကျွန်တော့် Niche အတွက် ဗီဒီယိုတင်ဖို့ အကောင်းဆုံး အချိန်နဲ့ နေ့ရက်တွေကို အကြံပေးပါ။ အခြား Channel ကြီးတွေရဲ့ Suggested Feeds မှာ ကိုယ့်ဗီဒီယို သွားပေါ်အောင် လုပ်ရမယ့် နည်းလမ်းတွေကို ပြပေးပါ။ My niche: [Niche]။ Upload schedule: [Upload schedule]။",
+                    inputs: [
+                        { id: "Niche", label: "My niche (ကိုယ့် Niche)", hint: "ဥပမာ - Cooking" },
+                        { id: "Upload schedule", label: "Upload schedule (ဗီဒီယိုတင်မည့် အချိန်ဇယား)", hint: "ဥပမာ - Every Saturday 8PM" }
+                    ]
+                },
+                {
+                    id: 10,
+                    title: "10. The 90-Day Channel Growth System",
+                    desc: "Channel တစ်ခုကို သုညကနေ ၃ လအတွင်း ဝင်ငွေရတဲ့အဆင့်ထိ ရောက်အောင် အစအဆုံး အကောင်အထည်ဖော်ပါ။",
+                    en: "Act as a YouTube channel consultant who has grown 20 channels from zero to monetization in 90 days or less and create a full 90-day strategy for my channel. Conduct an honest channel audit... Outline a 30-day foundation plan... a 60-day momentum plan... and a 90-day monetization sprint... My channel: [My channel]. Production capacity: [Production capacity]. Monetization goal: [Monetization goal].",
+                    mm: "Channel ပေါင်း ၂၀ ကို ၃ လအတွင်း Monetize ဖြစ်အောင် လုပ်ပေးခဲ့တဲ့ YouTube Channel Consultant တစ်ယောက်အနေနဲ့ လုပ်ပေးပါ။ ကျွန်တော့် Channel အတွက် ရက် ၉၀ စာ Strategy အပြည့်အစုံ ဆွဲပေးပါ။ လက်ရှိ Channel ရဲ့ အားနည်းချက်၊ အားသာချက်တွေကို မှန်မှန်ကန်ကန် သုံးသပ်ပေးပါ။ ရက် ၃၀ အခြေခံတည်ဆောက်ခြင်း Plan၊ ရက် ၆၀ အရှိန်မြှင့်တင်ခြင်း Plan နဲ့ ရက် ၉၀ ဝင်ငွေရှာခြင်း Plan တွေကို အသေးစိတ် ဆွဲပေးပါ။ My channel: [My channel]။ Production capacity: [Production capacity]။ Monetization goal: [Monetization goal]။",
+                    inputs: [
+                        { id: "My channel", label: "My channel (Channel အမည်/အကြောင်းအရာ)", hint: "ဥပမာ - Code & Design (Tech Education)" },
+                        { id: "Production capacity", label: "Production capacity (ဗီဒီယို ထုတ်လုပ်နိုင်စွမ်း)", hint: "ဥပမာ - 1 video per week" },
+                        { id: "Monetization goal", label: "Monetization goal (ဝင်ငွေ ပစ်မှတ်)", hint: "ဥပမာ - $500 per month" }
+                    ]
+                }
+            ];
+
+            const container = document.getElementById('cards-container');
+            const langRadios = document.getElementsByName('language');
+
+            function renderCards() {
+                container.innerHTML = ''; 
+
+                promptData.forEach(data => {
+                    const card = document.createElement('div');
+                    card.className = 'prompt-card';
+                    card.id = `card-${data.id}`;
+
+                    let html = `<div class="card-title">${data.title}</div>`;
+                    html += `<div class="card-desc">💡 ${data.desc}</div>`;
+
+                    data.inputs.forEach(input => {
+                        html += `
+                            <div class="form-group">
+                                <label>${input.label}</label>
+                                <input type="text" id="input-${data.id}-${input.id}" data-card-id="${data.id}" placeholder="${input.hint}">
+                            </div>
+                        `;
+                    });
+
+                    html += `
+                        <textarea id="output-${data.id}" readonly></textarea>
+                        <button id="copy-${data.id}" data-card-id="${data.id}">Copy Prompt</button>
+                    `;
+
+                    card.innerHTML = html;
+                    container.appendChild(card);
+                });
+
+                attachEventListeners();
+                updateAllPrompts();
+            }
+
+            function updatePromptForCard(cardId) {
+                const data = promptData.find(p => p.id == cardId);
+                // Language checked state ကို ယူပါမည်
+                const isMyanmar = document.querySelector('input[name="language"]:checked').value === 'mm';
+                let finalPrompt = isMyanmar ? data.mm : data.en;
+
+                data.inputs.forEach(input => {
+                    const el = document.getElementById(`input-${data.id}-${input.id}`);
+                    const val = el && el.value.trim() !== "" ? el.value.trim() : `[${input.id}]`;
+                    finalPrompt = finalPrompt.split(`[${input.id}]`).join(val);
+                });
+
+                document.getElementById(`output-${data.id}`).value = finalPrompt;
+            }
+
+            function updateAllPrompts() {
+                promptData.forEach(data => updatePromptForCard(data.id));
+            }
+
+            function attachEventListeners() {
+                container.addEventListener('input', (e) => {
+                    if (e.target.tagName === 'INPUT') {
+                        const cardId = e.target.getAttribute('data-card-id');
+                        if (cardId) updatePromptForCard(cardId);
+                    }
+                });
+
+                container.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'BUTTON') {
+                        const cardId = e.target.getAttribute('data-card-id');
+                        const outputEl = document.getElementById(`output-${cardId}`);
+                        outputEl.select();
+                        document.execCommand('copy');
+                        
+                        const btn = e.target;
+                        const originalText = btn.innerText;
+                        btn.innerText = "COPIED! ✨";
+                        setTimeout(() => btn.innerText = originalText, 2000);
+                    }
+                });
+            }
+
+            langRadios.forEach(radio => radio.addEventListener('change', updateAllPrompts));
+
+            renderCards();
+        });
+    </script>
+</body>
+</html>

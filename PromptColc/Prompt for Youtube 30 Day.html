@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube 30-Day Monetization Prompts</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: #0f0f13; /* Dark YouTube Theme */
+            color: #f1f1f1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .header-container {
+            width: 100%;
+            max-width: 900px;
+            text-align: center;
+            margin-bottom: 25px;
+            position: sticky;
+            top: 0;
+            background: rgba(15, 15, 19, 0.95);
+            padding: 20px;
+            z-index: 100;
+            border-bottom: 1px solid #ff0000;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #ff0000; /* YouTube Red */
+            font-size: 2.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+        }
+
+        .subtitle {
+            color: #aaaaaa;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .global-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .radio-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #aaaaaa;
+            font-weight: 600;
+        }
+
+        input[type="radio"] {
+            accent-color: #ff0000;
+            width: 16px;
+            height: 16px;
+        }
+
+        .instruction-box {
+            width: 100%;
+            max-width: 900px;
+            background: rgba(255, 0, 0, 0.05);
+            border: 1px dashed #ff0000;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: #dddddd;
+            line-height: 1.7;
+        }
+
+        .instruction-box strong {
+            color: #ff0000;
+            font-size: 1rem;
+        }
+
+        .cards-container {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .prompt-card {
+            background: #18181c;
+            border: 1px solid #2d2d33;
+            border-left: 5px solid #ff0000;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .prompt-card:hover {
+            border-color: #ff0000;
+            transform: translateY(-2px);
+        }
+
+        .card-title {
+            color: #ffffff;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .card-desc {
+            color: #888888;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #2d2d33;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ff4444;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            background: #0f0f13;
+            border: 1px solid #2d2d33;
+            color: #ff4444;
+            padding: 12px;
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"]:focus {
+            border-color: #ff0000;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            background: #000000;
+            border: 1px solid #2d2d33;
+            color: #ffffff;
+            padding: 15px;
+            border-radius: 6px;
+            resize: vertical;
+            line-height: 1.5;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        textarea:focus {
+            border-color: #ff0000;
+        }
+
+        button {
+            width: 100%;
+            background: transparent;
+            color: #ff0000;
+            border: 1px solid #ff0000;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #ff0000;
+            color: #000000;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+        }
+
+        /* ----- Bottom Info Grid CSS ----- */
+        .info-grid {
+            width: 100%;
+            max-width: 900px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .info-card {
+            background: #18181c;
+            border: 1px solid #2d2d33;
+            border-radius: 10px;
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: #ff0000;
+        }
+
+        .info-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-content {
+            font-size: 0.9rem;
+            color: #bbbbbb;
+            line-height: 1.6;
+        }
+
+        .info-content ol, .info-content ul {
+            padding-left: 20px;
+            margin-bottom: 10px;
+        }
+
+        .info-content li {
+            margin-bottom: 8px;
+        }
+        
+        .info-content p {
+            margin-bottom: 10px;
+        }
+
+        .highlight-text {
+            color: #ff4444;
+            font-weight: 600;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>▶️ YT 30-Day Monetization</h1>
+        <p class="subtitle">Content Creator တွေ ရက် ၃၀ မှ ၉၀ အတွင်း ငွေရှာနိုင်ရန် အသုံးပြုသည့် Prompts များ</p>
+        <div class="global-options">
+            <label class="radio-btn">
+                <input type="radio" name="language" value="mm" checked> Myanmar Prompt
+            </label>
+            <label class="radio-btn">
+                <input type="radio" name="language" value="en"> English Prompt
+            </label>
+        </div>
+    </div>
+
+    <div class="instruction-box">
+        <strong>💡 အသုံးပြုရန် လမ်းညွှန်ချက်:</strong><br><br>
+        • မိမိအသုံးပြုလိုသော YouTube ရည်ရွယ်ချက် (Niche ရှာရန်၊ Script ရေးရန် စသည်) ကတ်ကို ရွေးချယ်ပါ။<br>
+        • ကတ်အတွင်းရှိ လွတ်နေသော အကွက်များတွင် မိမိ၏ <b>[အကြောင်းအရာ, အချိန်, ပစ်မှတ်]</b> စသည်တို့ကို ဖြည့်သွင်းပါ။<br>
+        • <b>COPY PROMPT</b> ခလုတ်ကိုနှိပ်၍ AI တွင် သွားရောက်မေးမြန်းပါ။
+    </div>
+
+    <div class="cards-container" id="cards-container"></div>
+
+    <div class="info-grid">
+        <div class="info-card">
+            <div class="info-title">⚡ QUICK START</div>
+            <div class="info-content">
+                <p>ဒီနေ့ပဲ စတင်လုပ်ဆောင်ပါ [cite: 283]-</p>
+                <ol>
+                    <li>နှစ်သက်ရာ AI ကိုဖွင့်ပါ</li>
+                    <li>အပေါ်က Prompt #1 ကို Copy ကူးပါ။</li>
+                    <li>[YOUR TOPICS] နေရာမှာ သင်စိတ်ဝင်စားတဲ့ အကြောင်းအရာကို ထည့်ပါ။</li>
+                    <li>သူချပေးတဲ့ စာရင်းထဲက Niche တစ်ခုကို ရွေးပါ။</li>
+                    <li>ရွေးလိုက်တဲ့ Niche ကိုသုံးပြီး Prompt #10 ကို ဆက်သုံးပါ။</li>
+                    <li>မိမိတို့ရဲ့ ပထမဆုံး Video ကို ဒီအပတ်အတွင်း တင်လိုက်ပါ။</li>
+                </ol>
+                <p class="highlight-text">Algorithm ဆိုတာ အစီအစဉ်ဆွဲနေရုံသက်သက်မဟုတ်ဘဲ တကယ်လက်တွေ့လုပ်ဆောင်သူတွေကိုပဲ အကျိုးပြုတာပါ။ 🚀</p>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <div class="info-title">🔥 PRO TIPS</div>
+            <div class="info-content">
+                <p>အထူးအကြံပြုချက်များ-</p>
+                <ul>
+                    <li>၂၀၂၆ မှာ CPM အမြင့်ဆုံး Niche တွေကတော့: Finance, AI & Automation, Motivational, Animated True Crime နဲ့ Psychology တို့ဖြစ်ပါတယ်။ ($8 မှ $25 ထိရနိုင်သည်)</li>
+                    <li>Subscriber ၅၀၀ မြန်မြန်ရဖို့ Shorts တွေကို အရင်သုံးပါ။ ပြီးမှ Watch hours ပြည့်ဖို့ Long-form ကို ပြောင်းပါ။</li>
+                    <li>တစ်ထိုင်တည်းမှာ Video ၄ ခုကနေ ၇ ခုအထိ အပြီးလုပ်ပါ။ အစပိုင်းမှာ Quality ထက် မှန်မှန်တင်ဖို့က ပိုအရေးကြီးပါတယ်။</li>
+                    <li>Script အတွက် Gemini + ရုပ်ထွက်အတွက် Veo + အသံအတွက် ElevenLabs ကိုသုံးရင် ၃ နာရီအတွင်း Video အပြီးရနိုင်ပါတယ်။</li>
+                    <li>သင့် Channel နာမည်၊ Description နဲ့ Title တွေမှာ Niche နဲ့သက်ဆိုင်တဲ့ Keyword တွေကို ထည့်သုံးပါ။</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <div class="info-title">⚠️ အမှန်တရား (The Truth)</div>
+            <div class="info-content">
+                <p>လူတော်တော်များများက ဒီလို Post တွေကို Save မှတ်ထားတတ်ပေမယ့် တကယ် လက်တွေ့မလုပ်ကြပါဘူး။</p>
+                <p>တကယ်အောင်မြင်မယ့်သူတွေကတော့ ဒီနေ့ပဲ Prompt တစ်ခုကို ယူပြီး စမ်းလုပ်ကြည့်ကြပါတယ်။ သူတို့က အရာအားလုံး ပြီးပြည့်စုံနေဖို့ကို မစောင့်ပါဘူး။ အမှားတွေကြားကနေ စတင်ပြီး မြန်မြန်ဆန်ဆန် တိုးတက်အောင် လုပ်ကြပါတယ်။</p>
+                <p>AI Channel တွေနဲ့ ရက် ၃၀ - ၉၀ အတွင်း YouTube Partner Program (YPP) ဝင်သွားတဲ့ သူတွေ တကယ်ရှိပါတယ်။ ဒါပေမယ့် အပတ်စဉ် ပုံမှန်တင်နိုင်မှသာ ရမှာပါ။</p>
+                <p class="highlight-text">မျက်နှာပြစရာ မလိုပါဘူး။ ငွေအများကြီး ရင်းစရာလည်း မလိုပါဘူး။ ကိုယ့်မှာ သေချာတဲ့ စနစ်တစ်ခုရှိဖို့ပဲ လိုပါတယ်။ အခု သင်တို့မှာ အဲဒီစနစ် ရှိနေပါပြီ။</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            const promptData = [
+                {
+                    id: 1,
+                    title: "၁။ The Niche & CPM Finder",
+                    desc: "ကိုယ့်လမ်းကြောင်းနဲ့ ဝင်ငွေရှာပေးမယ့် Prompt",
+                    en: "You are an AI video strategist who has studied 100+ faceless YouTube channels in 2026. Rank the top 10 faceless niches by CPM, audience size, and ease of production using Veo 3.1. For each niche, tell me the best visual AI style, name 3 competitor channels with their stats and content gaps, and end with a one-sentence positioning statement I can own. My interests: [YOUR TOPICS]",
+                    mm: "မင်းက ၂၀၂၆ ခုနှစ်မှာ မျက်နှာမပြတဲ့ YouTube channel ပေါင်း ၁၀၀ ကျော်ကို လေ့လာထားတဲ့ AI Video Strategist တစ်ယောက်ပါ။ Veo 3.1 ကိုသုံးပြီး ထုတ်လုပ်ရလွယ်ကူမှု၊ ကြည့်ရှုသူပမာဏနဲ့ CPM (ကြော်ငြာဝင်ငွေ) အပေါ်မူတည်ပြီး အကောင်းဆုံး Niche ၁၀ ခုကို အဆင့်သတ်မှတ်ပေးပါ။ Niche တစ်ခုချင်းစီအတွက် အကောင်းဆုံး Visual AI Style ကိုပြောပြပေးပြီး၊ ပြိုင်ဘက် Channel ၃ ခုရဲ့ အချက်အလက်တွေနဲ့ သူတို့ရဲ့ အားနည်းချက်တွေကို ဖော်ပြပေးပါ။ နောက်ဆုံးအနေနဲ့ ငါလုပ်မယ့် Channel ရဲ့ ရည်ရွယ်ချက်ကို စာတစ်ကြောင်းတည်းနဲ့ ရေးပေးပါ။ ငါဝါသနာပါတာတွေကတော့ - [YOUR TOPICS] ဖြစ်ပါတယ်။",
+                    inputs: [{ id: "YOUR TOPICS", label: "Your Topics (သင်စိတ်ဝင်စားသော အကြောင်းအရာများ)", hint: "ဥပမာ - Technology, History, Finance" }]
+                },
+                {
+                    id: 2,
+                    title: "၂။ The Visual Style Blueprint",
+                    desc: "ရုပ်ထွက်ပုံစံ ဖန်တီးခြင်း",
+                    en: "You are an AI art director who builds faceless channels with Google's Veo 3.1 and Nano Banana 2. Create a full JSON-formatted visual style guide I can paste directly into any AI image or video tool. Include: art style, color palette, character rules, shading, atmosphere, and motion style. Then write 10 reusable scene prompts and a thumbnail style guide for consistent branding. My niche: [TOPIC]",
+                    mm: "မင်းက Google ရဲ့ Veo 3.1 နဲ့ Nano Banana 2 ကိုသုံးပြီး မျက်နှာမပြတဲ့ channel တွေဖန်တီးပေးတဲ့ AI Art Director တစ်ယောက်ပါ။ AI Image သို့မဟုတ် Video tool တွေမှာ တိုက်ရိုက် Paste လုပ်ပြီးသုံးလို့ရမယ့် JSON-formatted Visual Style Guide အပြည့်အစုံကို ဖန်တီးပေးပါ။ အဲဒီအထဲမှာ Art style၊ Color palette၊ Character rules၊ Shading၊ Atmosphere နဲ့ Motion style တို့ ပါဝင်ရပါမယ်။ ပြီးရင် ပြန်သုံးလို့ရမယ့် Scene Prompt ၁၀ ခုနဲ့ Channel ရဲ့ Branding တစ်ပုံစံတည်းဖြစ်စေမယ့် Thumbnail Style Guide ကို ရေးပေးပါ။ ငါ့ရဲ့ Niche ကတော့ - [TOPIC] ဖြစ်ပါတယ်။",
+                    inputs: [{ id: "TOPIC", label: "Niche/Topic (လုပ်ငန်းအမျိုးအစား)", hint: "ဥပမာ - True Crime, Space Exploration" }]
+                },
+                {
+                    id: 3,
+                    title: "၃။ The Viral Title & Thumbnail System",
+                    desc: "ဆွဲဆောင်မှုရှိတဲ့ ခေါင်းစဉ်နဲ့ Thumbnail စနစ်",
+                    en: "You are a YouTube CTR specialist for 2026. Give me 12 proven title formulas for my niche with fill-in-the-blank templates. For each, describe the matching thumbnail concept (layout, text overlay, colors, and emotion trigger). Then write 3 title variations for my first 5 video topics and rank which will get the most clicks. My niche: [TOPIC] My first 5 video ideas: [LIST THEM]",
+                    mm: "မင်းက ၂၀၂၆ ခုနှစ်အတွက် YouTube CTR (Click-Through Rate) ကျွမ်းကျင်သူတစ်ယောက်ပါ။ ငါ့ရဲ့ Niche အတွက် လက်တွေ့အောင်မြင်ထားတဲ့ ကွက်လပ်ဖြည့် Title ပုံစံ ၁၂ မျိုးကို ပေးပါ။ တစ်ခုချင်းစီအတွက် လိုက်ဖက်မယ့် Thumbnail အိုင်ဒီယာ (Layout, Text overlay, အရောင်နဲ့ ခံစားမှုပေးနိုင်စွမ်း) တွေကိုပါ ရှင်းပြပေးပါ။ ပြီးရင် ငါ့ရဲ့ ပထမဆုံး Video အိုင်ဒီယာ ၅ ခုအတွက် Title အမျိုးအစား ၃ ခုစီရေးပေးပြီး ဘယ်ဟာက Click အများဆုံးရနိုင်မလဲဆိုတာကို အဆင့်သတ်မှတ်ပေးပါ။ ငါ့ရဲ့ Niche က - [TOPIC]။ ပထမဆုံး Video အိုင်ဒီယာ ၅ ခုက - [LIST THEM] ဖြစ်ပါတယ်။",
+                    inputs: [
+                        { id: "TOPIC", label: "Your Niche (နယ်ပယ်)", hint: "ဥပမာ - Tech Reviews" },
+                        { id: "LIST THEM", label: "First 5 Ideas (ပထမဆုံး အိုင်ဒီယာ ၅ ခု)", hint: "ဥပမာ - 1. iPhone 17 review, 2. Best AI tools..." }
+                    ]
+                },
+                {
+                    id: 4,
+                    title: "၄။ The AI Script Writer (With Veo Tags)",
+                    desc: "AI ဇာတ်ညွှန်းရေးဆရာ",
+                    en: "You are a YouTube scriptwriter for faceless AI channels. Write a full production-ready script. Include a 30-second hook, retention structure, and [VEO SCENE] tags at every scene break telling Veo 3.1 exactly what to generate. Add a pattern interrupt every 60–90 seconds and one subscribe CTA at the perfect moment. Video topic: [YOUR IDEA] Target length: [MINUTES] Visual style: [YOUR STYLE]",
+                    mm: "မင်းက မျက်နှာမပြတဲ့ AI channel တွေအတွက် YouTube Scriptwriter တစ်ယောက်ပါ။ ချက်ချင်း Video လုပ်လို့ရမယ့် ဇာတ်ညွှန်းအပြည့်အစုံကို ရေးပေးပါ။ အဲဒီအထဲမှာ စက္ကန့် ၃၀ စာ ဆွဲဆောင်နိုင်မယ့် Hook၊ ကြည့်ရှုသူတွေကို ဆက်ကြည့်ချင်အောင်လုပ်မယ့် ပုံစံနဲ့ ဇာတ်ဝင်ခန်းပြောင်းတိုင်း Veo 3.1 ကို ဘာထုတ်ခိုင်းရမလဲဆိုတာ တိတိကျကျပြောပြပေးမယ့် [VEO SCENE] Tag တွေ ပါဝင်ရပါမယ်။ စက္ကန့် ၆၀-၉၀ ကြားတိုင်းမှာ ပုံစံပြောင်းလဲမှု (Pattern interrupt) တစ်ခုစီထည့်ပေးပြီး အသင့်တော်ဆုံးအချိန်မှာ Subscribe လုပ်ဖို့ တောင်းဆိုချက် (CTA) တစ်ခုထည့်ပေးပါ။ Video အကြောင်းအရာ: [YOUR IDEA]။ ကြာချိန်: [MINUTES]။ Visual style: [YOUR STYLE]။",
+                    inputs: [
+                        { id: "YOUR IDEA", label: "Video Topic (အကြောင်းအရာ)", hint: "ဥပမာ - The history of pyramids" },
+                        { id: "MINUTES", label: "Target Length (ကြာချိန်)", hint: "ဥပမာ - 8 minutes" },
+                        { id: "YOUR STYLE", label: "Visual Style (ရုပ်ထွက်စတိုင်)", hint: "ဥပမာ - Cinematic documentary, Anime style" }
+                    ]
+                },
+                {
+                    id: 5,
+                    title: "၅။ The 3-Hour Production Pipeline",
+                    desc: "၃ နာရီအတွင်း Video ထုတ်လုပ်မှု လုပ်ငန်းစဉ်",
+                    en: "You are an AI video production consultant in 2026. Build me a step-by-step workflow to go from idea to uploaded video in under 3 hours. Include the exact AI tools for each step — script (Gemini 3.0 Pro), images (Nano Banana 2), video (Veo 3.1), voiceover (ElevenLabs), captions (CapCut), and editing (InVideo AI). Add copy-paste prompts for each step, a batch plan for 4–7 videos in one session, and a monthly cost breakdown. My budget: [AMOUNT] Upload goal: [VIDEOS/WEEK]",
+                    mm: "မင်းက ၂၀၂၆ ခုနှစ်ရဲ့ AI Video Production Consultant တစ်ယောက်ပါ။ အိုင်ဒီယာရတဲ့အချိန်ကနေ Video တင်တဲ့အထိ ၃ နာရီအတွင်း ပြီးစီးမယ့် အဆင့်လိုက်လုပ်ငန်းစဉ်ကို ဖန်တီးပေးပါ။ အဆင့်တစ်ခုချင်းစီအတွက် သုံးရမယ့် AI Tool တွေဖြစ်တဲ့ Script (Gemini 3.0 Pro)၊ Images (Nano Banana 2)၊ Video (Veo 3.1)၊ Voiceover (ElevenLabs)၊ Captions (CapCut) နဲ့ Editing (InVideo AI) တို့ကို ထည့်သွင်းပေးပါ။ အဆင့်တိုင်းအတွက် Copy-paste လုပ်လို့ရမယ့် Prompt တွေ၊ တစ်ထိုင်တည်းမှာ Video ၄-၇ ခုလုပ်နိုင်မယ့် အစီအစဉ်နဲ့ လစဉ်ကုန်ကျစရိတ် တွက်ချက်မှုတို့ကိုပါ ထည့်ပေးပါ။ ငါ့ရဲ့ ဘတ်ဂျက်: [AMOUNT]။ တစ်ပတ်ကို တင်ချင်တဲ့ Video အရေအတွက်: [VIDEOS/WEEK]။",
+                    inputs: [
+                        { id: "AMOUNT", label: "Monthly Budget (လစဉ်ဘတ်ဂျက်)", hint: "ဥပမာ - $50, $100" },
+                        { id: "VIDEOS/WEEK", label: "Upload Goal (တင်မည့် အကြိမ်ရေ)", hint: "ဥပမာ - 3 videos per week" }
+                    ]
+                },
+                {
+                    id: 6,
+                    title: "၆။ The YouTube SEO Playbook",
+                    desc: "YouTube SEO လမ်းညွှန်",
+                    en: "You are a YouTube SEO specialist who understands the 2026 Gemini-powered algorithm. Give me 20 keywords in my niche ranked by search volume and competition. For each, tell me the search intent and whether a new channel can realistically rank. Then give me a description template, tag strategy, chapter marker guide, and a Shorts-to-long-form funnel plan to hit 1,000 subs and 4,000 watch hours fast. My niche: [TOPIC] Channel age: [NEW / UNDER 1K / 1K–10K]",
+                    mm: "မင်းက ၂၀၂၆ ခုနှစ်ရဲ့ Gemini-powered Algorithm ကို နားလည်တဲ့ YouTube SEO ကျွမ်းကျင်သူတစ်ယောက်ပါ။ ငါ့ရဲ့ Niche နဲ့သက်ဆိုင်တဲ့ Keyword ၂၀ ခုကို ရှာဖွေမှုပမာဏနဲ့ ယှဉ်ပြိုင်မှုအပေါ်မူတည်ပြီး အဆင့်သတ်မှတ်ပေးပါ။ Keyword တစ်ခုစီအတွက် လူတွေဘာကြောင့်ရှာလဲဆိုတဲ့ ရည်ရွယ်ချက် (Search intent) နဲ့ Channel အသစ်တစ်ခုအနေနဲ့ တကယ်ရော Rank ချိတ်နိုင်မလားဆိုတာကို ပြောပြပါ။ ပြီးရင် Subscriber ၁၀၀၀ နဲ့ Watch hours ၄၀၀၀ ကို မြန်မြန်ပြည့်စေမယ့် Description template၊ Tag strategy၊ Chapter marker guide နဲ့ Shorts ကနေ Long-form ကိုပြောင်းသွားမယ့် Funnel plan တစ်ခုကို ဆွဲပေးပါ။ ငါ့ Niche: [TOPIC]။ Channel သက်တမ်း: [NEW / UNDER 1K / 1K–10K]။",
+                    inputs: [
+                        { id: "TOPIC", label: "Niche/Topic (အကြောင်းအရာ)", hint: "ဥပမာ - Personal Finance" },
+                        { id: "NEW / UNDER 1K / 1K–10K", label: "Channel Age (Channel သက်တမ်း)", hint: "ဥပမာ - NEW, UNDER 1K" }
+                    ]
+                },
+                {
+                    id: 7,
+                    title: "၇။ The 90-Day Content Calendar",
+                    desc: "ရက် ၉၀ စာ Content ပြက္ခဒိန်",
+                    en: "You are a content strategist for AI faceless channels in 2026. Build me a full 90-day upload calendar. Month 1: 8–12 foundation videos to build authority. Month 2: 8–12 videos based on what performs. Month 3: 8–12 videos designed to attract sponsors and hit YouTube Partner Program (1,000 subs + 4,000 watch hours). Include 2 series concepts and exact milestone targets per month. My niche: [TOPIC] Upload capacity: [VIDEOS/WEEK]",
+                    mm: "မင်းက ၂၀၂၆ ခုနှစ်အတွက် မျက်နှာမပြတဲ့ AI channel တွေရဲ့ Content Strategist တစ်ယောက်ပါ။ ရက် ၉၀ စာ Video တင်ရမယ့် Calendar အပြည့်အစုံကို ဆွဲပေးပါ။ ပထမလ: အခြေခံခိုင်မာဖို့ Foundation video ၈-၁၂ ခု။ ဒုတိယလ: လူကြိုက်များတာတွေအပေါ် အခြေခံထားတဲ့ Video ၈-၁၂ ခု။ တတိယလ: Sponsor တွေဆွဲဆောင်ဖို့နဲ့ YouTube Partner Program (Subscriber 1000 + Watch hours 4000) ပြည့်စေမယ့် Video ၈-၁၂ ခု။ Series အိုင်ဒီယာ ၂ ခုနဲ့ လအလိုက် တိကျတဲ့ ပစ်မှတ်တွေကိုပါ ထည့်သွင်းပေးပါ။ ငါ့ Niche: [TOPIC]။ တစ်ပတ်ကို လုပ်နိုင်မယ့် Video အရေအတွက်: [VIDEOS/WEEK]။",
+                    inputs: [
+                        { id: "TOPIC", label: "Niche (အကြောင်းအရာ)", hint: "ဥပမာ - Tech Reviews" },
+                        { id: "VIDEOS/WEEK", label: "Upload Capacity (တစ်ပတ်တင်နိုင်မည့် အကြိမ်ရေ)", hint: "ဥပမာ - 2 videos per week" }
+                    ]
+                },
+                {
+                    id: 8,
+                    title: "၈။ The Retention Fixer",
+                    desc: "ကြည့်ရှုသူကို ဆွဲထားမယ့် နည်းလမ်း",
+                    en: "You are a YouTube analytics expert in 2026. Tell me the 5 biggest reasons viewers drop off on faceless AI videos and how to fix each one with a specific tactic. Include a pattern interrupt playbook with 8 techniques, pacing rules for Veo-generated visuals, voiceover optimization tips, and the retention benchmarks I should target by video length to keep the algorithm pushing my content. My average retention: [IF KNOWN] My video length: [TYPICAL LENGTH]",
+                    mm: "မင်းက ၂၀၂၆ ခုနှစ်ရဲ့ YouTube Analytics ကျွမ်းကျင်သူတစ်ယောက်ပါ။ မျက်နှာမပြတဲ့ AI Video တွေမှာ ကြည့်ရှုသူတွေ ထွက်သွားရတဲ့ အဓိကအကြောင်းရင်း ၅ ခုနဲ့ အဲဒါတွေကို ဖြေရှင်းမယ့် တိကျတဲ့နည်းလမ်းတွေကို ပြောပြပေးပါ။ Pattern interrupt လုပ်နည်း ၈ မျိုး၊ Veo နဲ့ထုတ်ထားတဲ့ ပုံရိပ်တွေအတွက် အမြန်နှုန်းသတ်မှတ်ချက်၊ Voiceover ပိုကောင်းအောင်လုပ်နည်းနဲ့ Algorithm က ငါ့ Video ကို ဆက်တွန်းတင်ပေးဖို့အတွက် Video အရှည်အပေါ်မူတည်ပြီး ရသင့်တဲ့ Retention (ကြည့်ရှုချိန်) ပစ်မှတ်တွေကိုပါ ထည့်သွင်းပေးပါ။ ငါ့ရဲ့ ပျမ်းမျှ Retention: [IF KNOWN]။ ငါ့ Video အရှည်: [TYPICAL LENGTH]။",
+                    inputs: [
+                        { id: "IF KNOWN", label: "Average Retention (ပျမ်းမျှ ကြည့်ရှုချိန် - သိလျှင်ထည့်ရန်)", hint: "ဥပမာ - 30%, or I don't know" },
+                        { id: "TYPICAL LENGTH", label: "Video Length (Video ကြာချိန်)", hint: "ဥပမာ - 10 minutes" }
+                    ]
+                },
+                {
+                    id: 9,
+                    title: "၉။ The Algorithm Cheat Sheet",
+                    desc: "Algorithm လျှို့ဝှက်ချက်များ",
+                    en: "You are a YouTube algorithm researcher. In 2026, Google's Gemini AI reportedly influences how YouTube ranks and distributes content. Explain the 4 core ranking signals and which to prioritize as a new channel. Then tell me: the best upload days/times for my niche, how to get into suggested videos, a playlist strategy for auto-play, and the exact actions to take in the first 48 hours after publishing to maximize reach. My niche: [TOPIC] Upload schedule: [FREQUENCY]",
+                    mm: "မင်းက YouTube Algorithm ကို သုတေသနလုပ်နေသူ တစ်ယောက်ပါ။ ၂၀၂၆ မှာ Google ရဲ့ Gemini AI က YouTube ရဲ့ Content ဖြန့်ဝေမှုနဲ့ Ranking ကို လွှမ်းမိုးနေပါတယ်။ အဓိက Ranking signal ၄ ခုကို ရှင်းပြပေးပြီး Channel အသစ်တစ်ခုအနေနဲ့ ဘယ်ဟာကို ဦးစားပေးရမလဲဆိုတာ ပြောပြပါ။ ပြီးရင် ငါ့ Niche အတွက် Video တင်ဖို့ အကောင်းဆုံး ရက်/အချိန်၊ Suggested video ထဲပါအောင် လုပ်နည်း၊ Auto-play အတွက် Playlist strategy နဲ့ လူအများဆုံးဆီရောက်ဖို့ Video တင်ပြီး ပထမ ၄၈ နာရီအတွင်း လုပ်ရမယ့် တိကျတဲ့လုပ်ဆောင်ချက်တွေကို ပြောပြပါ။ ငါ့ Niche: [TOPIC]။ Video တင်မယ့် အကြိမ်အရေအတွက်: [FREQUENCY]။",
+                    inputs: [
+                        { id: "TOPIC", label: "Niche (အကြောင်းအရာ)", hint: "ဥပမာ - Fitness" },
+                        { id: "FREQUENCY", label: "Upload Schedule (တင်မည့် အကြိမ်ရေ)", hint: "ဥပမာ - Every Monday and Thursday" }
+                    ]
+                },
+                {
+                    id: 10,
+                    title: "၁၀။ The Full Channel Launch (Master Prompt)",
+                    desc: "Channel တစ်ခုလုံး စတင်ခြင်း",
+                    en: "You are an AI video channel consultant who has taken 20 channels from zero to YouTube monetization in 90 days or less. Give me a complete launch plan: an honest audit of my idea, week-by-week actions for months 1–3, a solo production system using Google Gemini 3.0 and Veo 3.1, milestone targets at day 30/60/90, and the single highest-impact thing I should do today. My channel idea: [NICHE + VISUAL STYLE] Hours per week: [TIME] My 90-day goal: [TARGET]",
+                    mm: "မင်းက channel ၂၀ ခုကို သုညကနေစပြီး ရက် ၉၀ အတွင်း YouTube Monetization ရအောင် ကူညီပေးခဲ့တဲ့ AI Video Channel Consultant တစ်ယောက်ပါ။ Channel စတင်ဖို့ အစီအစဉ်အပြည့်အစုံကို ပေးပါ။ ငါ့အိုင်ဒီယာအပေါ် ရိုးသားတဲ့ သုံးသပ်ချက်၊ လ ၁ ကနေ ၃ အထိ အပတ်စဉ် လုပ်ဆောင်ရမယ့်အရာတွေ၊ Google Gemini 3.0 နဲ့ Veo 3.1 ကိုသုံးပြီး တစ်ယောက်တည်း Video ထုတ်လုပ်မယ့် စနစ်၊ ရက် ၃၀/၆၀/၉၀ အတွက် ရည်မှန်းချက် ပစ်မှတ်တွေနဲ့ ဒီနေ့ချက်ချင်းလုပ်ရမယ့် အရေးကြီးဆုံးအရာတစ်ခုကို ပြောပြပေးပါ။ ငါ့ Channel အိုင်ဒီယာ: [NICHE + VISUAL STYLE]။ တစ်ပတ်ကို အချိန်ပေးနိုင်မှု: [TIME]။ ရက် ၉၀ အတွက် ရည်မှန်းချက်: [TARGET]။",
+                    inputs: [
+                        { id: "NICHE + VISUAL STYLE", label: "Channel Idea (Niche + Visual Style)", hint: "ဥပမာ - Tech Reviews + Cyberpunk Art" },
+                        { id: "TIME", label: "Hours per week (အချိန်ပေးနိုင်မှု)", hint: "ဥပမာ - 10 hours" },
+                        { id: "TARGET", label: "90-day goal (ရက် ၉၀ ရည်မှန်းချက်)", hint: "ဥပမာ - 1000 Subs and Monetization" }
+                    ]
+                }
+            ];
+
+            const container = document.getElementById('cards-container');
+            const langRadios = document.getElementsByName('language');
+
+            function renderCards() {
+                container.innerHTML = ''; 
+
+                promptData.forEach(data => {
+                    const card = document.createElement('div');
+                    card.className = 'prompt-card';
+                    card.id = `card-${data.id}`;
+
+                    let html = `<div class="card-title">${data.title}</div>`;
+                    html += `<div class="card-desc">💡 ${data.desc}</div>`;
+
+                    data.inputs.forEach(input => {
+                        html += `
+                            <div class="form-group">
+                                <label>${input.label}</label>
+                                <input type="text" id="input-${data.id}-${input.id}" data-card-id="${data.id}" placeholder="${input.hint}">
+                            </div>
+                        `;
+                    });
+
+                    html += `
+                        <textarea id="output-${data.id}" readonly></textarea>
+                        <button id="copy-${data.id}" data-card-id="${data.id}">Copy Prompt</button>
+                    `;
+
+                    card.innerHTML = html;
+                    container.appendChild(card);
+                });
+
+                attachEventListeners();
+                updateAllPrompts();
+            }
+
+            function updatePromptForCard(cardId) {
+                const data = promptData.find(p => p.id == cardId);
+                const isEnglish = document.querySelector('input[name="language"]:checked').value === 'en';
+                let finalPrompt = isEnglish ? data.en : data.mm;
+
+                data.inputs.forEach(input => {
+                    const el = document.getElementById(`input-${data.id}-${input.id}`);
+                    const val = el && el.value.trim() !== "" ? el.value.trim() : `[${input.id}]`;
+                    finalPrompt = finalPrompt.split(`[${input.id}]`).join(val);
+                });
+
+                document.getElementById(`output-${data.id}`).value = finalPrompt;
+            }
+
+            function updateAllPrompts() {
+                promptData.forEach(data => updatePromptForCard(data.id));
+            }
+
+            function attachEventListeners() {
+                container.addEventListener('input', (e) => {
+                    if (e.target.tagName === 'INPUT') {
+                        const cardId = e.target.getAttribute('data-card-id');
+                        if (cardId) updatePromptForCard(cardId);
+                    }
+                });
+
+                container.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'BUTTON') {
+                        const cardId = e.target.getAttribute('data-card-id');
+                        const outputEl = document.getElementById(`output-${cardId}`);
+                        outputEl.select();
+                        document.execCommand('copy');
+                        
+                        const btn = e.target;
+                        const originalText = btn.innerText;
+                        btn.innerText = "COPIED! ✨";
+                        setTimeout(() => btn.innerText = originalText, 2000);
+                    }
+                });
+            }
+
+            langRadios.forEach(radio => radio.addEventListener('change', updateAllPrompts));
+
+            renderCards();
+        });
+    </script>
+</body>
+</html>
