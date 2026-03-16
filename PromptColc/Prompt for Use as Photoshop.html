@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photoshop AI Prompts</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: #0d1117; /* PS Dark Theme */
+            color: #c9d1d9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .header-container {
+            width: 100%;
+            max-width: 900px;
+            text-align: center;
+            margin-bottom: 25px;
+            position: sticky;
+            top: 0;
+            background: rgba(13, 17, 23, 0.95);
+            padding: 20px;
+            z-index: 100;
+            border-bottom: 1px solid #31a8ff;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #31a8ff; 
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(49, 168, 255, 0.4);
+        }
+
+        .global-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .radio-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #8b949e;
+            font-weight: 600;
+        }
+
+        input[type="radio"], input[type="checkbox"] {
+            accent-color: #31a8ff;
+            width: 16px;
+            height: 16px;
+        }
+
+        .instruction-box {
+            width: 100%;
+            max-width: 900px;
+            background: rgba(49, 168, 255, 0.05);
+            border: 1px dashed #31a8ff;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: #c9d1d9;
+            line-height: 1.7;
+        }
+
+        .instruction-box strong {
+            color: #31a8ff;
+            font-size: 1rem;
+        }
+
+        .instruction-box b {
+            color: #58a6ff;
+        }
+
+        .instruction-box i {
+            color: #8b949e;
+        }
+
+        .cards-container {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .prompt-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-left: 5px solid #31a8ff;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .prompt-card:hover {
+            border-color: #31a8ff;
+            transform: translateY(-2px);
+        }
+
+        .card-title {
+            color: #e6edf3;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+
+        /* ----- အသစ်ထည့်ထားသော ကတ်တစ်ခုချင်းစီ၏ လမ်းညွှန်ချက် CSS ----- */
+        .card-desc {
+            color: #8b949e;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #30363d;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #31a8ff;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            color: #31a8ff;
+            padding: 12px;
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"]:focus {
+            border-color: #31a8ff;
+            box-shadow: 0 0 10px rgba(49, 168, 255, 0.2);
+        }
+
+        .addon-group {
+            background: rgba(49, 168, 255, 0.05);
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            border: 1px dashed #30363d;
+        }
+
+        .checkbox-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            color: #c9d1d9;
+            font-size: 0.9rem;
+        }
+
+        textarea {
+            width: 100%;
+            height: 120px;
+            background: #010409;
+            border: 1px solid #30363d;
+            color: #fff;
+            padding: 15px;
+            border-radius: 6px;
+            resize: vertical;
+            line-height: 1.5;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        textarea:focus {
+            border-color: #31a8ff;
+        }
+
+        button {
+            width: 100%;
+            background: transparent;
+            color: #31a8ff;
+            border: 1px solid #31a8ff;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #31a8ff;
+            color: #010409;
+            box-shadow: 0 0 15px rgba(49, 168, 255, 0.4);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>🎨 Photoshop AI Prompts</h1>
+        <div class="global-options">
+            <label class="radio-btn">
+                <input type="radio" name="language" value="en" checked> English Prompt
+            </label>
+            <label class="radio-btn">
+                <input type="radio" name="language" value="mm"> Myanmar Prompt
+            </label>
+        </div>
+    </div>
+
+    <div class="instruction-box">
+        <strong>💡 အသုံးပြုရန် လမ်းညွှန်ချက်:</strong><br><br>
+        • မိမိအသုံးပြုလိုသော ဓာတ်ပုံပြင်ဆင်မှု (Prompt) ကတ်ကို အောက်တွင် ရွေးချယ်ပါ။<br>
+        • ကတ်အတွင်းရှိ အကွက်များတွင် မိမိလိုအပ်သည့် အချက်အလက်များ (ဥပမာ - <i>အရောင်၊ စတိုင်၊ ပစ္စည်းအမည်၊ Link</i>) ကို ဖြည့်သွင်းပါ။<br>
+        • ပိုမိုကောင်းမွန်သော ရလဒ်အတွက် အပိုဆောင်းချင်သော အချက်များရှိပါက <b>Checkbox</b> လေးများကို အမှန်ခြစ်ပေးပါ။<br>
+        • အဆင်သင့်ဖြစ်ပါက <b>COPY PROMPT</b> ခလုတ်ကို နှိပ်၍ AI (Photoshop Generative Fill, Midjourney စသည်) တွင် သွားရောက်အသုံးပြုနိုင်ပါပြီ။
+    </div>
+
+    <div class="cards-container" id="cards-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            // data ထဲမှာ desc (Description) လေးတွေ အတိအကျ ပြန်ထည့်ပေးထားပါတယ်
+            const promptData = [
+                {
+                    id: 1,
+                    title: "✦ 1. LinkedIn Profile Picture",
+                    desc: "သင့်ရဲ့ Selfie ကို Studio-quality ပုံအဖြစ်ပြောင်းရန်",
+                    en: "Transform this selfie into a studio-quality LinkedIn headshot. 85mm lens look, shallow depth of field, soft cinematic lighting from 45-degree angle. Neutral blurred background (light gray gradient). Professional posture, confident expression, natural skin texture (no plastic smoothing). Ultra sharp focus on eyes. Corporate editorial photography style. 4K resolution. Maintain facial identity 100%.",
+                    mm: "ဒီဆဲလ်ဖီပုံကို studio-quality LinkedIn headshot အဖြစ် ပြောင်းပေးပါ။ 85mm lens ပုံစံ၊ shallow depth of field နဲ့ ၄၅ ဒီဂရီထောင့်ကနေ soft cinematic lighting ထည့်ပေးပါ။ နောက်ခံကို အလင်းဖျော့ဖျော့ (light gray gradient) မှုန်ဝါးဝါးထားပေးပါ။ ပရော်ဖက်ရှင်နယ်ကျတဲ့ ကိုယ်နေဟန်ထား၊ ယုံကြည်မှုရှိတဲ့ မျက်နှာအမူအရာနဲ့ သဘာဝကျတဲ့ အသားအရေ (ပလတ်စတစ်လို ချောမွတ်လွန်းတာမျိုး မဟုတ်ဘဲ) ပါရပါမယ်။ မျက်လုံးကို အလွန်ပြတ်သားစွာ focus လုပ်ပေးပါ။ Corporate editorial photography စတိုင်ဖြစ်ရမယ်။ 4K resolution နဲ့ဖြစ်ပြီး မျက်နှာသွင်ပြင်ကို ၁၀၀% မူလအတိုင်း ထိန်းသိမ်းပေးပါ။",
+                    inputs: [],
+                    addon: { label: "Add Executive Aesthetic", en: " Subtle rim light for depth, premium business magazine aesthetic.", mm: " မျက်နှာသွင်ပြင် ပိုပေါ်လွင်စေရန် အနားကွပ်အလင်း (rim light) နှင့် ပရီမီယံ စီးပွားရေးမဂ္ဂဇင်း စတိုင် ထည့်ပေးပါ။" }
+                },
+                {
+                    id: 2,
+                    title: "✦ 2. Infographic From Any Article",
+                    desc: "ဆောင်းပါးတစ်ပုဒ်မှ Infographic ဖန်တီးရန်",
+                    en: "Read this article: [LINK]. Extract the 5–7 most important insights. Create a clean vertical infographic (4:5 ratio). Minimalist design, bold headline, strong hierarchy. Use high-contrast typography, modern sans-serif fonts. Include icons for each section. White background with subtle accent color #14fff4. Designed for LinkedIn and Instagram carousel.",
+                    mm: "ဒီဆောင်းပါးကို ဖတ်ပါ - [LINK]။ အရေးအကြီးဆုံး အချက် ၅ ချက်မှ ၇ ချက်ကို ထုတ်နုတ်ပါ။ သပ်ရပ်တဲ့ ဒေါင်လိုက် infographic (4:5 အချိုး) ကို ဖန်တီးပါ။ ရှင်းလင်းတဲ့ ဒီဇိုင်း (Minimalist)၊ ထင်ရှားတဲ့ ခေါင်းစဉ်နဲ့ ခိုင်မာတဲ့ အစီအစဉ်ဖွဲ့စည်းမှု ပါရပါမယ်။ အရောင်ကွဲပြားမှုများတဲ့ စာလုံးစတိုင်၊ ခေတ်မီ sans-serif ဖောင့်တွေကို သုံးပါ။ အပိုင်းတစ်ခုစီအတွက် icon တွေ ထည့်ပေးပါ။ အဖြူရောင် နောက်ခံမှာ ဆွဲဆောင်မှုရှိတဲ့ #14fff4 အရောင်လေး စွက်ပေးပါ။ LinkedIn နဲ့ Instagram carousel အတွက် ရည်ရွယ်ပြီး ဒီဇိုင်းဆွဲပေးပါ။",
+                    inputs: [{ id: "LINK", label: "Article Link (ဆောင်းပါး လင့်ခ်)", hint: "Paste URL here..." }],
+                    addon: { label: "Add Corporate Aesthetic", en: " Swiss design layout, grid-based structure, plenty of white space.", mm: " ဆွစ်ဇာလန် ဒီဇိုင်းပုံစံ၊ ဇယားကွက်အခြေခံ ဖွဲ့စည်းမှုနှင့် အလွတ်နေရာ (white space) များများ ထည့်ပေးပါ။" }
+                },
+                {
+                    id: 3,
+                    title: "✦ 3. Upscale Any Image to 4K",
+                    desc: "ပုံမှန်ပုံကို 4K ရုပ်ထွက်အဖြစ် မြှင့်ရန်",
+                    en: "Upscale this image to true 4K resolution (3840x2160). Enhance micro-details and texture while preserving original composition. No artificial oversharpening. Maintain natural lighting and colors. Remove compression artifacts and noise. Professional-grade clarity.",
+                    mm: "ဒီပုံကို စစ်မှန်တဲ့ 4K resolution (3840x2160) ကို မြှင့်ပေးပါ။ မူလဖွဲ့စည်းပုံကို ထိန်းသိမ်းထားပြီး အသေးစိတ်အချက်အလက်တွေနဲ့ အသွင်အပြင် (texture) ကို ပိုကောင်းအောင် လုပ်ပေးပါ။ ပုံကြီးချဲ့လွန်းပြီး ကြည့်ရဆိုးတာမျိုး မဖြစ်စေရ။ သဘာဝအလင်းရောင်နဲ့ အရောင်တွေကို ထိန်းသိမ်းထားပါ။ ရုပ်ထွက်ကျဆင်းမှု (compression artifacts) နဲ့ noise တွေကို ဖယ်ရှားပေးပါ။ ပရော်ဖက်ရှင်နယ်အဆင့် ရှင်းလင်းပြတ်သားမှု ရှိရပါမယ်။",
+                    inputs: [],
+                    addon: { label: "Portrait Mode (လူပုံအတွက်)", en: " Preserve skin texture realism. No AI smoothing.", mm: " အသားအရေ သဘာဝကျမှုကို ထိန်းသိမ်းပေးပါ။ AI ဖြင့် အလွန်အမင်း ချောမွတ်အောင် မလုပ်ပါနှင့်။" }
+                },
+                {
+                    id: 4,
+                    title: "✦ 4. Blurred Photo to Ultra Sharp",
+                    desc: "ဝါးနေသောပုံကို အလွန်ပြတ်သားအောင်လုပ်ရန်",
+                    en: "Restore this blurred image to ultra sharp editorial quality. Maintain exact composition and framing. Reconstruct fine details naturally (hair strands, fabric texture, facial details). Correct focus depth without changing subject proportions. Remove motion blur while preserving realism. High-end magazine photography finish.",
+                    mm: "ဒီဝါးနေတဲ့ပုံကို အလွန်ပြတ်သားတဲ့ editorial အရည်အသွေးရအောင် ပြန်လုပ်ပေးပါ။ မူလဖွဲ့စည်းပုံနဲ့ ဘောင်ခတ်မှု (framing) ကို အတိအကျ ထိန်းသိမ်းထားပါ။ အသေးစိတ်အချက်အလက်တွေ (ဆံပင်မျှင်များ၊ အဝတ်အထည် အသား၊ မျက်နှာအသေးစိတ်) ကို သဘာဝကျကျ ပြန်လည်ဖန်တီးပေးပါ။ အရာဝတ္ထုရဲ့ အချိုးအစားကို မပြောင်းလဲဘဲ focus အနက်ကို ပြင်ပေးပါ။ သဘာဝကျမှုကို ထိန်းသိမ်းရင်း လှုပ်ရှားမှုကြောင့် ဝါးသွားတာ (motion blur) တွေကို ဖယ်ရှားပေးပါ။ အဆင့်မြင့်မဂ္ဂဇင်း ဓာတ်ပုံစတိုင် ထွက်လာရပါမယ်။",
+                    inputs: [],
+                    addon: null
+                },
+                {
+                    id: 5,
+                    title: "✦ 5. Action Figure of Yourself",
+                    desc: "ကိုယ့်ပုံနဲ့ Action Figure အရုပ် ဖန်တီးရန်",
+                    en: "Create a hyper-realistic collectible action figure based on this photo. Full-body figurine inside premium transparent packaging. Accessories included: [ITEMS]. Modern minimal box design. Dramatic studio lighting. Toy-photography realism. 4K product-shot clarity.",
+                    mm: "ဒီပုံကိုအခြေခံပြီး အလွန်အစစ်နဲ့တူတဲ့ စုဆောင်းချင်စရာ action figure အရုပ်လေး ဖန်တီးပေးပါ။ အဆင့်မြင့် အကြည်ရောင်ထုပ်ပိုးမှုထဲမှာ တစ်ကိုယ်လုံးပါတဲ့ အရုပ်လေး ဖြစ်ရပါမယ်။ [ITEMS] ကို အပိုပစ္စည်းတွေအနေနဲ့ ထည့်ပေးပါ။ ခေတ်မီပြီး ရှင်းလင်းတဲ့ ဘူးဒီဇိုင်း ဖြစ်ရမယ်။ ဆွဲဆောင်မှုရှိတဲ့ စတူဒီယို အလင်းရောင်ပေးပါ။ အရုပ်ဓာတ်ပုံရိုက်ထားသလို သဘာဝကျပြီး 4K product-shot လို ရှင်းလင်းပြတ်သားနေရပါမယ်။",
+                    inputs: [{ id: "ITEMS", label: "Accessories (အပိုပစ္စည်းများ)", hint: "ဥပမာ - laptop, coffee, camera" }],
+                    addon: { label: "Make it Viral (Heroic)", en: " Add exaggerated heroic stance and subtle cinematic glow.", mm: " သူရဲကောင်းဆန်ဆန် ကိုယ်နေဟန်ထားနှင့် ရုပ်ရှင်ဆန်ဆန် အလင်းရောင် ထည့်ပေးပါ။" }
+                },
+                {
+                    id: 6,
+                    title: "✦ 6. Change the Color of Anything",
+                    desc: "မည်သည့်အရာကိုမဆို အရောင်ပြောင်းရန်",
+                    en: "Change the color of the [OBJECT] to [NEW COLOR]. Preserve lighting, shadows, reflections, and texture. Make it look naturally manufactured in that color. No color spill into surrounding objects. Maintain realism and material properties.",
+                    mm: "[OBJECT] ရဲ့ အရောင်ကို [NEW COLOR] သို့ ပြောင်းပေးပါ။ အလင်း၊ အရိပ်၊ ရောင်ပြန်ဟပ်မှုတွေနဲ့ အသွင်အပြင် (texture) ကို ထိန်းသိမ်းထားပါ။ အဲဒီအရောင်နဲ့ပဲ စက်ရုံကထုတ်ထားသလို သဘာဝကျပါစေ။ ဘေးနားက ပစ္စည်းတွေဆီ အရောင်ပြန့်သွားတာမျိုး မဖြစ်စေရ။ သဘာဝကျမှုနဲ့ ပစ္စည်းရဲ့ မူလသဘာဝကို ထိန်းသိမ်းထားပါ။",
+                    inputs: [
+                        { id: "OBJECT", label: "Object to Change (အရောင်ပြောင်းမည့် ပစ္စည်း)", hint: "ဥပမာ - the car, the shirt" },
+                        { id: "NEW COLOR", label: "New Color (အရောင်အသစ်)", hint: "ဥပမာ - matte black, neon pink" }
+                    ],
+                    addon: { label: "Metallic Mode (သတ္တုပစ္စည်းအတွက်)", en: " Preserve reflective behavior and light response.", mm: " ရောင်ပြန်ဟပ်မှု သဘာဝနှင့် အလင်းတုံ့ပြန်မှုကို ထိန်းသိမ်းထားပါ။" }
+                },
+                {
+                    id: 7,
+                    title: "✦ 7. Change the Style of Anything",
+                    desc: "မည်သည့်အရာကိုမဆို စတိုင်ပြောင်းရန်",
+                    en: "Keep the exact composition and subject placement. Transform the visual style into [STYLE]. Maintain proportions and facial identity. High detail. Professional finish.",
+                    mm: "မူလဖွဲ့စည်းပုံနဲ့ အရာဝတ္ထု နေရာချထားမှုကို အတိအကျ ထိန်းသိမ်းထားပါ။ အမြင်စတိုင်ကို [STYLE] သို့ ပြောင်းပေးပါ။ အချိုးအစားနဲ့ မျက်နှာသွင်ပြင်ကို မူလအတိုင်း ထိန်းသိမ်းထားပါ။ အသေးစိတ်ကျပြီး ပရော်ဖက်ရှင်နယ်ဆန်တဲ့ အချောသတ် ဖြစ်ရပါမယ်။",
+                    inputs: [{ id: "STYLE", label: "Visual Style (ပြောင်းလဲလိုသော စတိုင်)", hint: "ဥပမာ - watercolor / 3D render / cyberpunk" }],
+                    addon: { label: "Anime Style Enhancer", en: " High-end anime studio quality, dramatic lighting, sharp linework.", mm: " အဆင့်မြင့် Anime စတူဒီယို အရည်အသွေး၊ ဆွဲဆောင်မှုရှိသော အလင်းအမှောင်နှင့် ပြတ်သားသော မျဉ်းကြောင်းများ ထည့်ပေးပါ။" }
+                },
+                {
+                    id: 8,
+                    title: "✦ 8. Edit Specific Parts of an Image",
+                    desc: "ပုံတစ်ခု၏ သီးသန့်နေရာကိုသာ ပြင်ရန်",
+                    en: "In this image, modify ONLY the object located [POSITION]. Replace it with [NEW ELEMENT]. Match lighting direction, perspective, and depth of field. Seamless integration. No changes to the rest of the image.",
+                    mm: "ဒီပုံထဲမှာ [POSITION] က ပစ္စည်းကို သာ ပြုပြင်ပေးပါ။ ၎င်းကို [NEW ELEMENT] နဲ့ အစားထိုးပါ။ အလင်းရောင်လာတဲ့ လမ်းကြောင်း၊ မြင်ကွင်းရှုထောင့် (perspective) နဲ့ depth of field ကို ကိုက်ညီအောင် လုပ်ပါ။ သဘာဝကျကျ ပေါင်းစပ်ပေးပါ။ ပုံရဲ့ ကျန်တဲ့အပိုင်းတွေကို ဘာမှမပြောင်းလဲပါနဲ့။",
+                    inputs: [
+                        { id: "POSITION", label: "Position (ပစ္စည်းတည်ရှိရာ နေရာ)", hint: "ဥပမာ - top left corner, behind subject" },
+                        { id: "NEW ELEMENT", label: "New Element (အစားထိုးမည့် အရာ)", hint: "ဥပမာ - a vintage clock" }
+                    ],
+                    addon: null
+                },
+                {
+                    id: 9,
+                    title: "✦ 9. Whiteboard Hand-Drawn Look",
+                    desc: "Whiteboard ပေါ်မှာ လက်နဲ့ဆွဲထားတဲ့ ပုံစံ",
+                    en: "Convert this concept into a whiteboard-style hand-drawn sketch. Black marker lines with slight ink fading. Minimal shading. Slightly imperfect human strokes. Clean white background. Business explainer style.",
+                    mm: "ဒီအကြောင်းအရာကို whiteboard ပေါ်မှာ လက်နဲ့ဆွဲထားတဲ့ ပုံကြမ်းစတိုင် ပြောင်းပေးပါ။ မင်နည်းနည်းလွင့်နေတဲ့ အနက်ရောင် မာကာမျဉ်းတွေ ဖြစ်ရပါမယ်။ အရိပ်ထည့်တာကို အနည်းဆုံးပဲထားပါ။ လူကိုယ်တိုင်ဆွဲထားသလို သဘာဝကျတဲ့ အနည်းငယ် မတိကျတဲ့ မျဉ်းကြောင်းတွေ ဖြစ်ရမယ်။ သန့်ရှင်းတဲ့ အဖြူရောင် နောက်ခံနဲ့ စီးပွားရေး ရှင်းလင်းချက် (Business explainer) စတိုင် ဖြစ်ရပါမယ်။",
+                    inputs: [],
+                    addon: { label: "Add Startup Vibe", en: " Add small doodle icons and arrows between concepts.", mm: " အိုင်ဒီယာများကြားတွင် ရေးခြစ်ထားသော အိုင်ကွန်ငယ်များနှင့် မြားများ ထည့်ပေးပါ။" }
+                },
+                {
+                    id: 10,
+                    title: "✦ 10. 3D Commercial Product Shots",
+                    desc: "ကြော်ငြာအတွက် 3D ကုန်ပစ္စည်းပုံများ",
+                    en: "Create a hyper-realistic 3D commercial product render of this item. Premium studio lighting. Soft shadows. White seamless background. Ultra detailed material textures. E-commerce ready. 4K resolution.",
+                    mm: "ဒီပစ္စည်းကို အလွန်အစစ်နဲ့တူတဲ့ ကြော်ငြာသုံး 3D ပုံ (render) အဖြစ် ဖန်တီးပေးပါ။ အဆင့်မြင့် စတူဒီယို အလင်းရောင်ပေးပါ။ အရိပ်ဖျော့ဖျော့နဲ့ အဖြူရောင် နောက်ခံအပြောင် ဖြစ်ရပါမယ်။ ပစ္စည်းရဲ့ အသား (texture) ကို အလွန်အသေးစိတ်ကျအောင် ဖော်ပြပေးပါ။ E-commerce မှာ တန်းသုံးလို့ရတဲ့ 4K resolution နဲ့ ဖြစ်ရပါမယ်။",
+                    inputs: [],
+                    addon: { label: "Luxury Product Vibe", en: " Add subtle reflection floor and dramatic edge lighting.", mm: " ရောင်ပြန်ဟပ်နေသော ကြမ်းပြင်နှင့် ဆွဲဆောင်မှုရှိသော အနားကွပ်အလင်း (edge lighting) ထည့်ပေးပါ။" }
+                },
+                {
+                    id: 11,
+                    title: "✦ 11. Room Design & Floor Plans",
+                    desc: "အခန်းဒီဇိုင်းနှင့် ကြမ်းပြင်ပုံစံများ",
+                    en: "Convert this 2D floor plan into a professional interior design board. Realistic materials and textures. Natural lighting simulation. Modern minimal aesthetic. Include furniture placement and decor suggestions. Render in high-resolution presentation format.",
+                    mm: "ဒီ 2D အိမ်ကြမ်းပြင်ပုံစံ (floor plan) ကို ပရော်ဖက်ရှင်နယ် အခန်းတွင်းဒီဇိုင်း (interior design board) အဖြစ် ပြောင်းပေးပါ။ အစစ်အမှန်နဲ့တူတဲ့ ပစ္စည်းတွေနဲ့ အသွင်အပြင် (textures) တွေကို သုံးပါ။ သဘာဝအလင်းရောင် ဝင်လာတဲ့ပုံစံ ဖန်တီးပေးပါ။ ခေတ်မီပြီး ရှင်းလင်းတဲ့ အလှအပ (Modern minimal aesthetic) မျိုး ဖြစ်ရပါမယ်။ ပရိဘောဂ နေရာချထားမှုနဲ့ အလှဆင်ဖို့ အကြံပြုချက်တွေ ထည့်ပေးပါ။ High-resolution presentation format နဲ့ ဖန်တီးပေးပါ။",
+                    inputs: [],
+                    addon: { label: "Modern Luxury Style", en: " Add marble accents, warm wood tones, indirect LED lighting.", mm: " စကျင်ကျောက် အလှဆင်မှု၊ နွေးထွေးသော သစ်သားအရောင်များနှင့် သွယ်ဝိုက်သော LED မီးအလင်းရောင်များ ထည့်ပေးပါ။" }
+                },
+                {
+                    id: 12,
+                    title: "✦ 12. Restore Old Photos",
+                    desc: "အဟောင်း/အပျက် ဓာတ်ပုံများကို ပြန်လည်ပြုပြင်ရန်",
+                    en: "Restore this old photo while preserving authenticity. Repair scratches, tears, and fading. Improve clarity and contrast. Natural skin tones. Maintain historical realism (no modern stylization). High-resolution output.",
+                    mm: "မူလဟန်မပျက်စေဘဲ ဒီဓာတ်ပုံဟောင်းကို ပြန်လည်ပြုပြင်ပေးပါ။ ခြစ်ရာတွေ၊ စုတ်ပြဲနေတာတွေနဲ့ အရောင်လွင့်နေတာတွေကို ပြင်ပေးပါ။ ရှင်းလင်းမှုနဲ့ အလင်းအမှောင် (contrast) ကို ပိုကောင်းအောင် လုပ်ပါ။ သဘာဝကျတဲ့ အသားအရေ အရောင်ရှိရမယ်။ သမိုင်းဝင် အစစ်အမှန်ဖြစ်မှုကို ထိန်းသိမ်းပါ (ခေတ်မီစတိုင်တွေ မထည့်ပါနဲ့)။ High-resolution နဲ့ ထုတ်ပေးပါ။",
+                    inputs: [],
+                    addon: { label: "Colorize Option (အဖြူအမည်းအတွက်)", en: " Optionally provide a second version with subtle, realistic colorization.", mm: " နောက်ထပ် ဗားရှင်းတစ်ခုအနေဖြင့် သဘာဝကျကျ အရောင်သွင်းထားသော ပုံတစ်ပုံကိုပါ ဖန်တီးပေးပါ။" }
+                }
+            ];
+
+            const container = document.getElementById('cards-container');
+            const langRadios = document.getElementsByName('language');
+
+            function renderCards() {
+                container.innerHTML = ''; 
+
+                promptData.forEach(data => {
+                    const card = document.createElement('div');
+                    card.className = 'prompt-card';
+                    card.id = `card-${data.id}`;
+
+                    let html = `<div class="card-title">${data.title}</div>`;
+                    
+                    // ဒီနေရာမှာ Description လေးတွေ ထည့်ပေးလိုက်ပါပြီ
+                    if (data.desc) {
+                        html += `<div class="card-desc">💡 ${data.desc}</div>`;
+                    }
+
+                    data.inputs.forEach(input => {
+                        html += `
+                            <div class="form-group">
+                                <label>${input.label}</label>
+                                <input type="text" id="input-${data.id}-${input.id}" data-card-id="${data.id}" data-placeholder="${input.id}" placeholder="${input.hint}">
+                            </div>
+                        `;
+                    });
+
+                    if (data.addon) {
+                        html += `
+                            <div class="addon-group">
+                                <label class="checkbox-btn">
+                                    <input type="checkbox" id="addon-${data.id}" data-card-id="${data.id}"> 
+                                    <span>${data.addon.label}</span>
+                                </label>
+                            </div>
+                        `;
+                    }
+
+                    html += `
+                        <textarea id="output-${data.id}" readonly></textarea>
+                        <button id="copy-${data.id}" data-card-id="${data.id}">Copy Prompt</button>
+                    `;
+
+                    card.innerHTML = html;
+                    container.appendChild(card);
+                });
+
+                attachEventListeners();
+                updateAllPrompts();
+            }
+
+            function updatePromptForCard(cardId) {
+                const data = promptData.find(p => p.id == cardId);
+                const isEnglish = document.querySelector('input[name="language"]:checked').value === 'en';
+                let finalPrompt = isEnglish ? data.en : data.mm;
+
+                data.inputs.forEach(input => {
+                    const el = document.getElementById(`input-${data.id}-${input.id}`);
+                    const val = el && el.value.trim() !== "" ? el.value.trim() : `[${input.id}]`;
+                    finalPrompt = finalPrompt.split(`[${input.id}]`).join(val);
+                });
+
+                if (data.addon) {
+                    const cb = document.getElementById(`addon-${data.id}`);
+                    if (cb && cb.checked) {
+                        finalPrompt += isEnglish ? data.addon.en : data.addon.mm;
+                    }
+                }
+
+                document.getElementById(`output-${data.id}`).value = finalPrompt;
+            }
+
+            function updateAllPrompts() {
+                promptData.forEach(data => updatePromptForCard(data.id));
+            }
+
+            function attachEventListeners() {
+                container.addEventListener('input', (e) => {
+                    if (e.target.tagName === 'INPUT') {
+                        const cardId = e.target.getAttribute('data-card-id');
+                        if (cardId) updatePromptForCard(cardId);
+                    }
+                });
+
+                container.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'BUTTON') {
+                        const cardId = e.target.getAttribute('data-card-id');
+                        const outputEl = document.getElementById(`output-${cardId}`);
+                        outputEl.select();
+                        document.execCommand('copy');
+                        
+                        const btn = e.target;
+                        const originalText = btn.innerText;
+                        btn.innerText = "COPIED! ✨";
+                        setTimeout(() => btn.innerText = originalText, 2000);
+                    }
+                });
+            }
+
+            langRadios.forEach(radio => radio.addEventListener('change', updateAllPrompts));
+
+            renderCards();
+        });
+    </script>
+</body>
+</html>
+

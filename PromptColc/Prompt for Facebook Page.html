@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FB Page Prompt Master</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: #09101a; /* Very Dark Blue */
+            color: #e2e8f0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .app-container {
+            background: rgba(14, 25, 43, 0.9);
+            border: 1px solid #00a8ff; /* Vibrant FB Blue */
+            box-shadow: 0 0 20px rgba(0, 168, 255, 0.15), inset 0 0 20px rgba(0, 168, 255, 0.05);
+            border-radius: 12px;
+            padding: 35px;
+            width: 100%;
+            max-width: 800px; 
+            backdrop-filter: blur(15px);
+        }
+
+        h1 {
+            color: #00a8ff; 
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(0, 168, 255, 0.5);
+        }
+
+        .guideline-box {
+            background: rgba(0, 168, 255, 0.05);
+            border-left: 4px solid #00a8ff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
+        /* Dynamic Instruction Box */
+        .instruction-box {
+            background: rgba(0, 255, 170, 0.05);
+            border: 1px dashed #00ffaa;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #e2e8f0;
+            line-height: 1.7;
+        }
+
+        .instruction-box strong {
+            color: #00ffaa;
+            font-size: 0.95rem;
+        }
+
+        .instruction-box b {
+            color: #00a8ff;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #00a8ff;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            background: #09101a;
+            border: 1px solid #1e3a5f;
+            color: #00a8ff;
+            padding: 14px;
+            border-radius: 8px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"]:focus, textarea:focus {
+            border-color: #00a8ff;
+            box-shadow: 0 0 12px rgba(0, 168, 255, 0.2);
+        }
+
+        textarea.dynamic-textarea {
+            height: 100px; 
+            resize: vertical;
+        }
+
+        textarea#output-prompt {
+            height: 220px;
+            resize: vertical;
+            line-height: 1.6;
+            color: #fff;
+            background: #060b12;
+            border-color: #00a8ff;
+        }
+
+        .options-group {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+            padding-bottom: 25px;
+            border-bottom: 1px dashed #1e3a5f;
+        }
+
+        .radio-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #94a3b8;
+            font-weight: 600;
+        }
+
+        input[type="radio"] {
+            accent-color: #00a8ff;
+            width: 18px;
+            height: 18px;
+        }
+
+        button {
+            width: 100%;
+            background: rgba(0, 168, 255, 0.1);
+            color: #00a8ff;
+            border: 2px solid #00a8ff;
+            padding: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #00a8ff;
+            color: #09101a;
+            box-shadow: 0 0 20px rgba(0, 168, 255, 0.6);
+        }
+
+        #dynamic-inputs-container {
+            margin-bottom: 25px;
+            display: grid;
+            gap: 15px;
+        }
+
+        /* Custom Dropdown CSS */
+        .custom-select-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .custom-select-trigger {
+            width: 100%;
+            background: #09101a;
+            border: 1px solid #1e3a5f;
+            color: #00a8ff;
+            padding: 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .custom-select-trigger:hover, .custom-select-trigger.active {
+            border-color: #00a8ff;
+            box-shadow: 0 0 12px rgba(0, 168, 255, 0.2);
+        }
+
+        .custom-options-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #0e192b;
+            border: 1px solid #00a8ff;
+            border-radius: 8px;
+            margin-top: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.6);
+            max-height: 250px;
+            overflow-y: auto;
+            display: none;
+            z-index: 100;
+        }
+
+        .custom-options-list.open {
+            display: block;
+        }
+
+        .custom-option-item {
+            padding: 12px 14px;
+            color: #cbd5e1;
+            cursor: pointer;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #1e3a5f;
+            line-height: 1.5;
+            transition: background 0.2s;
+        }
+
+        .custom-option-item:last-child {
+            border-bottom: none;
+        }
+
+        .custom-option-item:hover {
+            background: rgba(0, 168, 255, 0.1);
+            color: #00a8ff;
+        }
+
+        .custom-options-list::-webkit-scrollbar { width: 6px; }
+        .custom-options-list::-webkit-scrollbar-track { background: #09101a; border-radius: 8px; }
+        .custom-options-list::-webkit-scrollbar-thumb { background: #1e3a5f; border-radius: 8px; }
+        .custom-options-list::-webkit-scrollbar-thumb:hover { background: #00a8ff; }
+
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <h1>🚀 FB Page Growth Master</h1>
+
+        <div class="form-group">
+            <label>Select Growth Strategy</label>
+            <div class="custom-select-container">
+                <div class="custom-select-trigger" id="custom-trigger">
+                    <span id="selected-text">Loading...</span>
+                    <span>▼</span>
+                </div>
+                <div class="custom-options-list" id="custom-options">
+                    </div>
+            </div>
+        </div>
+
+        <div id="guideline-container" class="guideline-box"></div>
+
+        <div class="options-group">
+            <label class="radio-btn">
+                <input type="radio" name="language" value="en" checked> English Output
+            </label>
+            <label class="radio-btn">
+                <input type="radio" name="language" value="mm"> Myanmar Output
+            </label>
+        </div>
+
+        <div id="instruction-box-container" class="instruction-box"></div>
+
+        <div id="dynamic-inputs-container"></div>
+
+        <div class="form-group">
+            <label>Final Generated Prompt</label>
+            <textarea id="output-prompt" readonly></textarea>
+        </div>
+
+        <button id="copy-btn">Copy Prompt</button>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            const promptData = {
+                "1": { 
+                    title: "(1) Viral Hook Generator (လူစိတ်ဝင်စားမှုအများဆုံးရစေမယ့် ခေါင်းစဉ်)", 
+                    desc: "Facebook ပေါ်မှာ ဖုန်းပွတ်နေရင်းနဲ့ ချက်ချင်းရပ်သွားစေမယ့်၊ လူတွေသိချင်စိတ်ပြင်းပြသွားစေမယ့် စာကြောင်းတို (Hook) တွေကို ဖန်တီးပါ။", 
+                    en: "You are a viral Facebook copywriter. Give me 12 scroll-stopping hooks (5–12 words) for a post about [Topic], each one curiosity-driven and punchy. Include one emoji per hook and make them feel native to Facebook.",
+                    mm: "သင်သည် Facebook ပေါ်တွင် လူကြိုက်များသော စာရေးဆရာတစ်ဦးဖြစ်သည်။ [Topic] နှင့်ပတ်သက်သော Post တစ်ခုအတွက် ဖုန်းပွတ်နေရင်း ရပ်သွားစေမယ့် Hook စာကြောင်း (၁၂) ကြောင်း (စာလုံးရေ ၅ မှ ၁၂ လုံးကြား) ကို ရေးပေးပါ။ တစ်ကြောင်းချင်းစီသည် သိချင်စိတ်ကို လှုံ့ဆော်ပေးပြီး ထိမိပါစေ။ Hook တစ်ခုစီတွင် အီမိုဂျီတစ်ခုပါဝင်ပြီး Facebook နှင့် လိုက်ဖက်ညီသော ပုံစံဖြစ်ပါစေ။",
+                    inputs: [ { id: "Topic", label: "Topic (အကြောင်းအရာ)", type: "text", hint: "ဥပမာ - ကြော်ငြာရေးနည်း, Digital Marketing အခြေခံ" } ] 
+                },
+                "2": { 
+                    title: "(2) Save-Worthy Carousel Builder (ပုံတွဲ Post တည်ဆောက်နည်း)", 
+                    desc: "သတင်းအချက်အလက်အများကြီးကို ပုံလေးတွေနဲ့ ခွဲပြီးတင်တဲ့ Carousel Post အတွက် အသေးစိတ်အစီအစဉ် ရေးဆွဲပါ။", 
+                    en: "Act as a Facebook content strategist. Create a 7-slide carousel for [Topic]. Give me: a headline for each slide, 1–2 bite-sized points of value, and a suggested visual idea. End with a save-worthy CTA.",
+                    mm: "Facebook Content မဟာဗျူဟာသမားတစ်ဦးအနေဖြင့် ဆောင်ရွက်ပါ။ [Topic] အတွက် (၇) မျက်နှာပါသော ပုံတွဲ Post (Carousel) တစ်ခုကို ဖန်တီးပါ။ စာမျက်နှာတစ်ခုစီအတွက် ခေါင်းစဉ်တစ်ခု၊ တိုတိုနှင့်လိုရင်းတိုတို တန်ဖိုးရှိသော အချက် ၁-၂ ချက် နှင့် အကြံပြုထားသော ရုပ်ပုံအိုင်ဒီယာတစ်ခုကို ပေးပါ။ Post ကို သိမ်းထား (Save) ချင်လာစေမယ့် တိုက်တွန်းချက် (CTA) ဖြင့် အဆုံးသတ်ပါ။",
+                    inputs: [ { id: "Topic", label: "Topic (အကြောင်းအရာ)", type: "text", hint: "ဥပမာ - Facebook မှာ လူသိများလာစေမယ့် နည်းလမ်း ၅ ခု" } ] 
+                },
+                "3": { 
+                    title: "(3) Short Educational Post (ပညာပေး Post တိုတိုလေးရေးနည်း)", 
+                    desc: "လူတွေအတွက် အကျိုးရှိမယ့် နည်းလမ်းတစ်ခုခုကို စာမရှည်ဘဲ ထိထိမိမိ သင်ပေးမယ့် Post ရေးနည်းပါ။", 
+                    en: "Write a Facebook post of 120–200 words teaching [Practical Skill]. Start with a strong hook, give 3 clear steps, one quick example, and finish with a question that invites comments.",
+                    mm: "[Practical Skill] ကို သင်ကြားပေးမည့် စာလုံးရေ ၁၂၀-၂၀၀ ရှိသော Facebook Post တစ်ခုရေးပါ။ အားကောင်းသော ခေါင်းစဉ် (Hook) ဖြင့်စပါ၊ ရှင်းလင်းသော အဆင့် ၃ ဆင့်ကို ပေးပါ၊ ဥပမာတိုတစ်ခုပြပါ၊ ပြီးလျှင် Comment များကို ဖိတ်ခေါ်သော မေးခွန်းတစ်ခုဖြင့် အဆုံးသတ်ပါ။",
+                    inputs: [ { id: "Practical Skill", label: "Practical Skill (လက်တွေ့ကျသော စွမ်းရည်)", type: "text", hint: "ဥပမာ - ဖုန်းနဲ့ ဗီဒီယိုလှလှလေး တည်းဖြတ်နည်း" } ] 
+                },
+                "4": { 
+                    title: "(4) Story Post That Builds Connection (ကိုယ်တွေ့ဇာတ်လမ်း Post)", 
+                    desc: "ကိုယ့်ရဲ့ အမှားလေးတစ်ခုကနေ သင်ခန်းစာယူခဲ့ရပုံကို မျှဝေပြီး ပရိသတ်နဲ့ ရင်းနှီးမှုတည်ဆောက်ပါ။", 
+                    en: "Write a relatable Facebook story (200–300 words) about a small mistake related to [Topic]. Add the lesson you learned and end with a question to spark replies.",
+                    mm: "[Topic] နှင့်ဆက်စပ်သော အမှားသေးသေးလေးတစ်ခုအကြောင်း လူတိုင်းနားလည်ခံစားလို့ရမယ့် Facebook ဇာတ်လမ်းတစ်ပုဒ် (စာလုံးရေ ၂၀၀-၃၀၀) ရေးပါ။ သင်ရရှိခဲ့သော သင်ခန်းစာကို ထည့်သွင်းပြီး တုံ့ပြန်မှုများ (Replies) ဖြစ်ပေါ်စေရန် မေးခွန်းတစ်ခုဖြင့် အဆုံးသတ်ပါ။",
+                    inputs: [ { id: "Topic", label: "Topic (အကြောင်းအရာ)", type: "text", hint: "ဥပမာ - စီးပွားရေးစလုပ်တုန်းက လွဲခဲ့တာလေး" } ] 
+                },
+                "5": { 
+                    title: "(5) Advanced Viral Hook Enhancer (ခေါင်းစဉ်များကို အဆင့်မြှင့်တင်နည်း)", 
+                    desc: "သင့်မှာရှိပြီးသား သာမန်ခေါင်းစဉ်တစ်ခုကို ပိုမိုဆွဲဆောင်မှုရှိသွားအောင် ပြုပြင်ပါ။", 
+                    en: "Act as a hook optimization expert. Take this hook: [Hook] and give me 10 stronger versions using these angles: curiosity, tension, polarizing statement, open loop, 'mistake to avoid,' unexpected fact, and emotional appeal. Keep each under 12 words.",
+                    mm: "Hook များကို အကောင်းဆုံးဖြစ်အောင် ပြုပြင်ပေးသည့် ကျွမ်းကျင်သူတစ်ဦးအနေဖြင့် ဆောင်ရွက်ပါ။ ဤ Hook ကိုယူပါ- [Hook]၊ ပြီးနောက် သိချင်စိတ်လှုံ့ဆော်ခြင်း၊ တင်းမာမှုဖန်တီးခြင်း၊ အငြင်းပွားဖွယ်ဖော်ပြချက်၊ အဆုံးမသတ်သောစကား (Open loop)၊ 'ရှောင်ရှားရမည့်အမှား'၊ မျှော်လင့်မထားသောအချက် နှင့် စိတ်ခံစားမှုဆိုင်ရာ ဆွဲဆောင်မှု စသည့် ရှုထောင့်များကို အသုံးပြု၍ ပိုမိုားကောင်းသော ဗားရှင်း ၁၀ ခုကို ပေးပါ။ တစ်ခုစီကို စာလုံးရေ ၁၂ လုံးအောက် ထားပါ။",
+                    inputs: [ { id: "Hook", label: "Your Hook (လက်ရှိ ခေါင်းစဉ်စာသား)", type: "textarea", hint: "ဥပမာ - Facebook မှာ ရောင်းအားတက်ချင်ပါသလား" } ] 
+                },
+                "6": { 
+                    title: "(6) Caption Variations for A/B Testing (Caption ပုံစံအမျိုးမျိုး ခွဲရေးနည်း)", 
+                    desc: "Post တစ်ခုတည်းအတွက် Caption ပုံစံအမျိုးမျိုးရေးခိုင်းပြီး ဘယ်ဟာက ပိုကောင်းလဲ စမ်းသပ်ကြည့်ရန်။", 
+                    en: "Take this caption idea: [Caption]. Rewrite it into 5 variations: curiosity-driven, emotional, short & punchy, value-focused, and community-building. Keep each under 140 characters.",
+                    mm: "ဤ Caption အိုင်ဒီယာကို ယူပါ- [Caption]။ ၎င်းကို ပုံစံ ၅ မျိုးဖြင့် ပြန်ရေးပါ- သိချင်စိတ်ကို မောင်းနှင်သော၊ စိတ်ခံစားမှုပါသော၊ တိုတိုနှင့် ထိမိသော၊ တန်ဖိုးကို အာရုံစိုက်သော၊ နှင့် အသိုင်းအဝိုင်း တည်ဆောက်သော ပုံစံများဖြစ်သည်။ တစ်ခုစီကို စာလုံးရေ ၁၄၀ အောက် ထားပါ။",
+                    inputs: [ { id: "Caption", label: "Caption Idea (အခြေခံ Caption အိုင်ဒီယာ)", type: "textarea", hint: "ဥပမာ - ဒီနေ့မနက် ကော်ဖီလေးသောက်ရင်း တွေးမိတာလေး..." } ] 
+                },
+                "7": { 
+                    title: "(7) Comment Reply Pack (Engagement တိုးစေဖို့ Comment ပြန်နည်း)", 
+                    desc: "Comment တွေကို 'ကျေးဇူးပါ' လို့ပဲ မပြန်ဘဲ၊ Engagement ပိုတက်လာအောင် လူဆန်ဆန် ပြန်ပြောရန်။", 
+                    en: "Generate 12 short, human replies to the comment: [Comment]. Include: 2 witty, 4 helpful, 4 clarifying questions, and 2 uplifting replies. Keep them under 30 words each.",
+                    mm: "ဤ Comment အတွက် လူဆန်သော တုံ့ပြန်စာတို ၁၂ ခုကို ဖန်တီးပါ- [Comment]။ ၎င်းတို့တွင် ဉာဏ်ပါသော ၂ ခု၊ အကူအညီဖြစ်စေသော ၄ ခု၊ ရှင်းလင်းစေသော မေးခွန်း ၄ ခု နှင့် စိတ်အားတက်ကြွစေသော တုံ့ပြန်မှု ၂ ခု ပါဝင်ပါစေ။ တစ်ခုစီကို စာလုံးရေ ၃၀ အောက် ထားပါ။",
+                    inputs: [ { id: "Comment", label: "User Comment (ပြန်လည်ဖြေကြားလိုသော ကွန်မန့်)", type: "textarea", hint: "ဥပမာ - စိတ်ဝင်စားပါတယ်၊ ဆက်ပြောပြပေးပါဦး" } ] 
+                },
+                "8": { 
+                    title: "(8) Facebook Poll Ideas That Spark Conversation (Poll စိတ်ကူးများ)", 
+                    desc: "Poll တွေကနေတဆင့် လူတွေ Comment မှာ လာငြင်းကြ၊ ဆွေးနွေးကြဖြစ်အောင် လုပ်တဲ့နည်းပါ။", 
+                    en: "Give me 8 poll ideas for an audience interested in [Niche]. Each poll should have two options and one follow-up question to post in the comments to drive more replies.",
+                    mm: "[Niche] ကို စိတ်ဝင်စားသော ပရိသတ်အတွက် Poll အိုင်ဒီယာ ၈ ခု ပေးပါ။ Poll တစ်ခုစီတွင် ရွေးချယ်စရာနှစ်ခုနှင့် တုံ့ပြန်မှုပိုများလာစေရန် Comment တွင် ပြန်မေးရန် နောက်ဆက်တွဲမေးခွန်းတစ်ခု ပါရှိရပါမည်။",
+                    inputs: [ { id: "Niche", label: "Your Niche (နယ်ပယ်/ခေါင်းစဉ်)", type: "text", hint: "ဥပမာ - ကျန်းမာရေးနဲ့ အလှအပ, နည်းပညာ" } ] 
+                },
+                "9": { 
+                    title: "(9) One-Month Content Calendar (တစ်လစာ Content အစီအစဉ်)", 
+                    desc: "ဘယ်နေ့ ဘာတင်ရမလဲ ခေါင်းမစားရအောင် တစ်လစာ အစီအစဉ် ကြိုဆွဲပါ။", 
+                    en: "Create a 4-week Facebook content plan for [Topic] with 3 posts per week. For each post, include: format (carousel, text, video), a headline, the angle of the post, and a short CTA.",
+                    mm: "[Topic] အတွက် တစ်ပတ်လျှင် Post ၃ ခုနှုန်းဖြင့် ၄ ပတ်စာ Facebook Content အစီအစဉ်တစ်ခုကို ဖန်တီးပါ။ Post တစ်ခုစီအတွက် ပုံစံ (ပုံတွဲ၊ စာသား၊ ဗီဒီယို)၊ ခေါင်းစဉ်၊ Post ၏ ရှုထောင့် (Angle) နှင့် တိုတောင်းသော CTA တစ်ခုတို့ကို ထည့်သွင်းပါ။",
+                    inputs: [ { id: "Topic", label: "Topic (အကြောင်းအရာ)", type: "text", hint: "ဥပမာ - Online Selling Tips" } ] 
+                },
+                "10": { 
+                    title: "(10) Repurposing Plan (ဗီဒီယိုတစ်ပုဒ်ကို ပုံစံခွဲပြီး ပြန်သုံးနည်း)", 
+                    desc: "Content တစ်ခုလုပ်ပြီး အများကြီးပြန်သုံး (Repurpose) လုပ်နည်းပါ။", 
+                    en: "I have a 10-minute video about [Topic]. Turn it into 8 Facebook pieces: 4 short clip ideas, 2 carousel ideas, 1 text post idea, and 1 engagement-focused question.",
+                    mm: "ကျွန်ုပ်ထံတွင် [Topic] နှင့်ပတ်သက်သော ၁၀ မိနစ်စာ ဗီဒီယိုတစ်ခုရှိသည်။ ၎င်းကို Facebook Content ၈ ခုအဖြစ် ပြောင်းလဲပေးပါ- ဗီဒီယိုတို အိုင်ဒီယာ ၄ ခု၊ ပုံတွဲ (Carousel) အိုင်ဒီယာ ၂ ခု၊ စာသား Post အိုင်ဒီယာ ၁ ခု နှင့် Engagement ကို အဓိကထားသော မေးခွန်း ၁ ခု တို့ဖြစ်သည်။",
+                    inputs: [ { id: "Topic", label: "Topic (ဗီဒီယို အကြောင်းအရာ)", type: "text", hint: "ဥပမာ - ပိုက်ဆံစုနည်းလမ်းကောင်းများ" } ] 
+                }
+            };
+
+            const trigger = document.getElementById('custom-trigger');
+            const triggerText = document.getElementById('selected-text');
+            const optionsList = document.getElementById('custom-options');
+            const guidelineEl = document.getElementById('guideline-container');
+            const instructionEl = document.getElementById('instruction-box-container');
+            const dynamicContainer = document.getElementById('dynamic-inputs-container');
+            const outputEl = document.getElementById('output-prompt');
+            const copyBtn = document.getElementById('copy-btn');
+            const langRadios = document.getElementsByName('language');
+
+            let currentSelectedId = "1";
+
+            function initCustomDropdown() {
+                let isFirst = true;
+                optionsList.innerHTML = ''; 
+
+                for (const key in promptData) {
+                    const optDiv = document.createElement('div');
+                    optDiv.className = 'custom-option-item';
+                    optDiv.textContent = promptData[key].title;
+                    
+                    if (isFirst) {
+                        triggerText.textContent = promptData[key].title;
+                        isFirst = false;
+                    }
+
+                    optDiv.addEventListener('click', () => {
+                        currentSelectedId = key;
+                        triggerText.textContent = promptData[key].title;
+                        optionsList.classList.remove('open');
+                        trigger.classList.remove('active');
+                        renderUI();
+                    });
+
+                    optionsList.appendChild(optDiv);
+                }
+
+                trigger.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    optionsList.classList.toggle('open');
+                    trigger.classList.toggle('active');
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (!trigger.contains(e.target) && !optionsList.contains(e.target)) {
+                        optionsList.classList.remove('open');
+                        trigger.classList.remove('active');
+                    }
+                });
+            }
+
+            function renderUI() {
+                const data = promptData[currentSelectedId];
+                
+                // ၁။ Guideline အပ်ဒိတ်လုပ်ခြင်း
+                guidelineEl.textContent = `💡 ${data.desc}`;
+                
+                // ၂။ Dynamic Inputs တွေ တည်ဆောက်ခြင်း
+                let htmlContent = '';
+                let instructionHTML = '<strong>💡 ဖြည့်စွက်ရန် လမ်းညွှန်ချက်:</strong><br><br>';
+
+                data.inputs.forEach(input => {
+                    // Instruction ကို အလိုအလျောက် ရေးပေးခြင်း
+                    instructionHTML += `• <b>[${input.id}]</b> နေရာတွင် <i>"${input.hint}"</i> စသဖြင့် ဖြည့်သွင်းပါ။<br>`;
+
+                    // Textbox ဖန်တီးခြင်း
+                    if(input.type === 'textarea') {
+                        htmlContent += `
+                            <div class="form-group">
+                                <label>${input.label}</label>
+                                <textarea id="input-${input.id}" class="dynamic-textarea" placeholder="Type here..."></textarea>
+                            </div>`;
+                    } else {
+                        htmlContent += `
+                            <div class="form-group">
+                                <label>${input.label}</label>
+                                <input type="text" id="input-${input.id}" placeholder="Type here...">
+                            </div>`;
+                    }
+                });
+
+                instructionEl.innerHTML = instructionHTML;
+                dynamicContainer.innerHTML = htmlContent;
+
+                // ၃။ Event listener တွေ ချိတ်ဆက်ခြင်း
+                data.inputs.forEach(input => {
+                    const el = document.getElementById(`input-${input.id}`);
+                    if(el) {
+                        el.addEventListener('input', generateFinalPrompt);
+                    }
+                });
+
+                generateFinalPrompt();
+            }
+
+            function generateFinalPrompt() {
+                const data = promptData[currentSelectedId];
+                const isEnglish = document.querySelector('input[name="language"]:checked').value === 'en';
+                let finalPrompt = isEnglish ? data.en : data.mm;
+
+                data.inputs.forEach(input => {
+                    const inputElement = document.getElementById(`input-${input.id}`);
+                    const inputValue = inputElement ? inputElement.value.trim() : "";
+                    
+                    const replacementText = inputValue !== "" ? inputValue : `[${input.id}]`;
+                    
+                    finalPrompt = finalPrompt.split(`[${input.id}]`).join(replacementText);
+                });
+
+                outputEl.value = finalPrompt;
+            }
+
+            // Radio Buttons & Copy Button Events
+            langRadios.forEach(radio => radio.addEventListener('change', generateFinalPrompt));
+
+            copyBtn.addEventListener('click', () => {
+                outputEl.select();
+                document.execCommand('copy');
+                const originalText = copyBtn.innerText;
+                copyBtn.innerText = "COPIED SUCCESSFULLY! ✨";
+                setTimeout(() => copyBtn.innerText = originalText, 2000);
+            });
+
+            // Start Execution
+            initCustomDropdown();
+            renderUI();
+
+        }); 
+    </script>
+</body>
+</html>

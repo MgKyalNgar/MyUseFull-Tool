@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Life Booster Master</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: #022c22; /* Deep Emerald Background */
+            color: #ecfdf5;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .app-container {
+            background: rgba(6, 78, 59, 0.85);
+            border: 1px solid #10b981; /* Neon Emerald */
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.15), inset 0 0 20px rgba(16, 185, 129, 0.05);
+            border-radius: 12px;
+            padding: 35px;
+            width: 100%;
+            max-width: 800px; 
+            backdrop-filter: blur(15px);
+        }
+
+        h1 {
+            color: #34d399; 
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(52, 211, 153, 0.5);
+        }
+
+        .guideline-box {
+            background: rgba(16, 185, 129, 0.05);
+            border-left: 4px solid #10b981;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.95rem;
+            color: #a7f3d0;
+            line-height: 1.6;
+        }
+
+        /* Dynamic Instruction Box */
+        .instruction-box {
+            background: rgba(52, 211, 153, 0.05);
+            border: 1px dashed #34d399;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #ecfdf5;
+            line-height: 1.7;
+        }
+
+        .instruction-box strong {
+            color: #10b981;
+            font-size: 0.95rem;
+        }
+
+        .instruction-box b {
+            color: #34d399;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #34d399;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            background: #022c22;
+            border: 1px solid #065f46;
+            color: #6ee7b7;
+            padding: 14px;
+            border-radius: 8px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"]:focus, textarea:focus {
+            border-color: #10b981;
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.2);
+        }
+
+        textarea.dynamic-textarea {
+            height: 100px; 
+            resize: vertical;
+        }
+
+        textarea#output-prompt {
+            height: 250px;
+            resize: vertical;
+            line-height: 1.6;
+            color: #fff;
+            background: #064e3b;
+            border-color: #10b981;
+        }
+
+        .options-group {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+            padding-bottom: 25px;
+            border-bottom: 1px dashed #065f46;
+        }
+
+        .radio-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #a7f3d0;
+            font-weight: 600;
+        }
+
+        input[type="radio"] {
+            accent-color: #10b981;
+            width: 18px;
+            height: 18px;
+        }
+
+        button {
+            width: 100%;
+            background: rgba(16, 185, 129, 0.1);
+            color: #34d399;
+            border: 2px solid #10b981;
+            padding: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #10b981;
+            color: #022c22;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.6);
+        }
+
+        #dynamic-inputs-container {
+            margin-bottom: 25px;
+            display: grid;
+            gap: 15px;
+        }
+
+        /* Custom Dropdown CSS */
+        .custom-select-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .custom-select-trigger {
+            width: 100%;
+            background: #022c22;
+            border: 1px solid #065f46;
+            color: #34d399;
+            padding: 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .custom-select-trigger:hover, .custom-select-trigger.active {
+            border-color: #10b981;
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.2);
+        }
+
+        .custom-options-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #064e3b;
+            border: 1px solid #10b981;
+            border-radius: 8px;
+            margin-top: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.6);
+            max-height: 250px;
+            overflow-y: auto;
+            display: none;
+            z-index: 100;
+        }
+
+        .custom-options-list.open {
+            display: block;
+        }
+
+        .custom-option-item {
+            padding: 12px 14px;
+            color: #a7f3d0;
+            cursor: pointer;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #065f46;
+            line-height: 1.5;
+            transition: background 0.2s;
+        }
+
+        .custom-option-item:last-child {
+            border-bottom: none;
+        }
+
+        .custom-option-item:hover {
+            background: rgba(16, 185, 129, 0.1);
+            color: #34d399;
+        }
+
+        .custom-options-list::-webkit-scrollbar { width: 6px; }
+        .custom-options-list::-webkit-scrollbar-track { background: #022c22; border-radius: 8px; }
+        .custom-options-list::-webkit-scrollbar-thumb { background: #065f46; border-radius: 8px; }
+        .custom-options-list::-webkit-scrollbar-thumb:hover { background: #10b981; }
+
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <h1>🌱 AI Life Booster</h1>
+
+        <div class="form-group">
+            <label>Select Productivity Strategy</label>
+            <div class="custom-select-container">
+                <div class="custom-select-trigger" id="custom-trigger">
+                    <span id="selected-text">Loading...</span>
+                    <span>▼</span>
+                </div>
+                <div class="custom-options-list" id="custom-options">
+                    </div>
+            </div>
+        </div>
+
+        <div id="guideline-container" class="guideline-box"></div>
+
+        <div class="options-group">
+            <label class="radio-btn">
+                <input type="radio" name="language" value="en" checked> English Prompt
+            </label>
+            <label class="radio-btn">
+                <input type="radio" name="language" value="mm"> Myanmar Prompt
+            </label>
+        </div>
+
+        <div id="instruction-box-container" class="instruction-box"></div>
+
+        <div id="dynamic-inputs-container"></div>
+
+        <div class="form-group">
+            <label>Final Generated Prompt</label>
+            <textarea id="output-prompt" readonly></textarea>
+        </div>
+
+        <button id="copy-btn">Copy Prompt</button>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            const promptData = {
+                "1": { 
+                    title: "(1) နေ့စဉ် လုပ်ငန်းစဉ်များ (Daily Battle Plan)", 
+                    desc: "တွေ့ကရာ လျှောက်လုပ်နေမယ့်အစား တိကျသေချာတဲ့ အစီအစဉ်တွေနဲ့ စတင်လိုက်ပါ။", 
+                    en: "Act as a high-performance productivity coach. Plan my day using this:\n\nGoals for today: [Goals]\nTasks: [Tasks]\nMeetings: [Meetings]\nEnergy level: [Energy level]\n\nThen:\nGive me my top 3 must-win tasks\nBuild a time-blocked schedule\nFlag what to delegate or cut\nName the 1 action that moves the needle most.",
+                    mm: "စွမ်းဆောင်ရည်မြင့်မားတဲ့ Productivity Coach တစ်ယောက်အနေနဲ့ လုပ်ဆောင်ပေးပါ။ ဒီအချက်အလက်တွေပေါ်မူတည်ပြီး ကျွန်တော့်ရဲ့ တစ်နေ့တာကို စီစဉ်ပေးပါ-\n\nဒီနေ့အတွက် ရည်မှန်းချက်များ: [Goals]\nလုပ်ဆောင်ရမည့် အလုပ်များ: [Tasks]\nအစည်းအဝေးများ: [Meetings]\nခန္ဓာကိုယ်စွမ်းအင် အခြေအနေ: [Energy level]\n\nပြီးလျှင်-\n၁။ မဖြစ်မနေ အောင်မြင်အောင် လုပ်ရမယ့် အလုပ် (၃) ခုကို ပြပါ။\n၂။ အချိန်နဲ့ တိတိကျကျ သတ်မှတ်ထားတဲ့ ဇယားတစ်ခု ဆွဲပေးပါ။\n၃။ ဘယ်အလုပ်တွေကိုတော့ သူများကို လွှဲပေးသင့်တယ်၊ ဒါမှမဟုတ် ဖြုတ်ချသင့်တယ်ဆိုတာ ပြပါ။\n၄။ အကျိုးသက်ရောက်မှု အရှိဆုံး လုပ်ဆောင်ချက် (၁) ခုကို ပြောပြပေးပါ။",
+                    inputs: [ 
+                        { id: "Goals", label: "Goals for today (ရည်မှန်းချက်များ)", type: "textarea", hint: "ဥပမာ - စာမျက်နှာ ၅၀ ဖတ်ရန်, Project အပြီးသတ်ရန်" },
+                        { id: "Tasks", label: "Tasks (အလုပ်များ)", type: "textarea", hint: "ဥပမာ - Email စစ်ရန်, Design ဆွဲရန်" },
+                        { id: "Meetings", label: "Meetings (အစည်းအဝေးများ)", type: "textarea", hint: "ဥပမာ - 10 AM Team Meeting" },
+                        { id: "Energy level", label: "Energy Level (စွမ်းအင်အခြေအနေ)", type: "text", hint: "ဥပမာ - High / Medium / Low" } 
+                    ] 
+                },
+                "2": { 
+                    title: "(2) ထိရောက်စွာ သုတေသနလုပ်ခြင်း (Deep Research in Minutes)", 
+                    desc: "ကျွမ်းကျင်သူအဆင့် အဖြေတွေကို မြန်မြန်ဆန်ဆန် ရယူလိုက်ပါ။", 
+                    en: "Act as a senior research analyst. Research this for me: [Topic]\n\nGive me:\nKey insights\nTrends shaping this in 2026\nKey data and statistics\nMajor players and companies\nTop opportunities and risks right now.",
+                    mm: "အတွေ့အကြုံရှိတဲ့ Senior Research Analyst တစ်ယောက်အနေနဲ့ လုပ်ဆောင်ပေးပါ။ ဒီအကြောင်းအရာကို သုတေသနလုပ်ပေးပါ: [Topic]\n\nအောက်ပါတို့ကို ဖော်ပြပေးပါ-\n၁။ အဓိက သိကောင်းစရာ အချက်များ (Key insights)\n၂။ ယခုနှစ်တွင် ဖြစ်ပေါ်လာမည့် ရေစီးကြောင်းများ (Trends)\n၃။ အဓိက အချက်အလက်နှင့် စာရင်းဇယားများ\n၄။ ဤနယ်ပယ်မှ အဓိက ကစားသမားများနှင့် ကုမ္ပဏီကြီးများ\n၅။ လက်ရှိ အကောင်းဆုံး အခွင့်အလမ်းများနှင့် အန္တရာယ်များ။",
+                    inputs: [ { id: "Topic", label: "Topic (သုတေသနလုပ်မည့် အကြောင်းအရာ)", type: "text", hint: "ဥပမာ - AI in Education 2026" } ] 
+                },
+                "3": { 
+                    title: "(3) ရှုပ်ထွေးသော အတွေးများ ရှင်းလင်းခြင်း (Brain Dump Cleaner)", 
+                    desc: "ခေါင်းထဲမှာ ရှုပ်ထွေးနေတာတွေကို တိကျတဲ့ လုပ်ငန်းစဉ်တွေဖြစ်အောင် ပြောင်းလဲလိုက်ပါ။", 
+                    en: "I'm going to share a messy brain dump. Your job:\nFind the core idea\nOrganize it step by step\nSpot what's missing\nTell me what to do next\n\nHere it is: [Thoughts]",
+                    mm: "ကျွန်တော့်ခေါင်းထဲမှာ ရှုပ်ထွေးနေတဲ့ အတွေးတွေကို ပြောပြပါမယ်။ သင့်တာဝန်ကတော့-\nအဓိက အနှစ်သာရကို ရှာဖွေပေးရန်\nအဆင့်လိုက် စနစ်တကျ စီစဉ်ပေးရန်\nဘာတွေ လိုအပ်နေသေးလဲဆိုတာ ထောက်ပြပေးရန်\nနောက်ထပ် ဘာလုပ်ရမလဲဆိုတာ ပြောပြပေးရန်\n\nအောက်မှာ ဖတ်ကြည့်ပါ: [Thoughts]",
+                    inputs: [ { id: "Thoughts", label: "Your Thoughts (သင့်အတွေးများ)", type: "textarea", hint: "ဥပမာ - အိုင်ဒီယာတွေ၊ လုပ်စရာတွေ ရောထွေးနေတာ အကုန်ရိုက်ထည့်ပါ" } ] 
+                },
+                "4": { 
+                    title: "(4) အမြန်ဆုံး လေ့လာသင်ယူခြင်း (Fast Learning System)", 
+                    desc: "မည်သည့် အကြောင်းအရာကိုမဆို အချိန်တိုအတွင်း ကျွမ်းကျင်အောင် လေ့လာပါ။", 
+                    en: "Act as a world-class teacher in [Topic]. Teach me this concept clearly: [Topic]\n\nStructure it as:\nPlain-English explanation\nCore principles to remember\nReal-world examples\nMistakes beginners often make\nA 3-sentence summary for quick recall.",
+                    mm: "[Topic] နှင့် ပတ်သက်၍ ကမ္ဘာ့အဆင့်မီ ဆရာတစ်ယောက်အနေဖြင့် လုပ်ဆောင်ပေးပါ။ ဤသဘောတရားကို ရှင်းလင်းစွာ သင်ကြားပေးပါ- [Topic]\n\nအောက်ပါအတိုင်း ဖွဲ့စည်းပေးပါ-\nရိုးရှင်းသော ရှင်းလင်းချက်\nမှတ်သားထားရမည့် အဓိက မူဝါဒများ\nလက်တွေ့ဘဝ ဥပမာများ\nအစပြုသူများ မကြာခဏ မှားတတ်သော အမှားများ\nအလွယ်တကူ မှတ်မိစေရန် စာကြောင်း (၃) ကြောင်းဖြင့် အနှစ်ချုပ်။",
+                    inputs: [ { id: "Topic", label: "Topic to Learn (လေ့လာမည့် အကြောင်းအရာ)", type: "text", hint: "ဥပမာ - Blockchain Basics, Quantum Computing" } ] 
+                },
+                "5": { 
+                    title: "(5) မှန်ကန်သော ဆုံးဖြတ်ချက်ချခြင်း (Smart Decision Framework)", 
+                    desc: "အလွန်အမင်း တွေးပူနေတာတွေကို ရပ်ပြီး ပိုကောင်းတဲ့ ဆုံးဖြတ်ချက်တွေကို ချပါ။", 
+                    en: "Help me think through this decision: [Situation]\n\nBreak it down:\nPros and cons\nHidden risks I might be missing\nLong-term impact\nOther options I haven't thought of\n\nThen give me your top recommendation and why.",
+                    mm: "ဒီဆုံးဖြတ်ချက်ကို သေချာစဉ်းစားနိုင်အောင် ကူညီပေးပါ: [Situation]\n\nအောက်ပါအတိုင်း ခွဲခြမ်းစိတ်ဖြာပေးပါ-\n၁။ အားသာချက်နှင့် အားနည်းချက်များ\n၂။ သတိမထားမိဘဲ ကျန်နေနိုင်သည့် လျှို့ဝှက်အန္တရာယ်များ\n၃။ ရေရှည် အကျိုးသက်ရောက်မှု\n၄။ ကျွန်တော် မစဉ်းစားမိသေးသော အခြားရွေးချယ်စရာများ\n\nပြီးလျှင် သင့်ရဲ့ အကောင်းဆုံး အကြံပြုချက်နှင့် အဘယ်ကြောင့် ထိုသို့ အကြံပြုရကြောင်း ပြောပြပါ။",
+                    inputs: [ { id: "Situation", label: "Describe Situation (အခြေအနေကို ရှင်းပြရန်)", type: "textarea", hint: "ဥပမာ - အလုပ်သစ်ပြောင်းရမလား၊ လက်ရှိအလုပ်မှာပဲ ဆက်နေရမလား စဉ်းစားနေပါတယ်" } ] 
+                },
+                "6": { 
+                    title: "(6) စာရေးသားမှု ချက်ချင်း မြှင့်တင်ခြင်း (Instant Writing Upgrade)", 
+                    desc: "သင်ရေးလိုက်တဲ့ စာတိုင်းကို ပိုပြီး ထိရောက်မှုရှိစေဖို့ ပြင်ဆင်ပါ။", 
+                    en: "Improve this text to make it:\nClearer\nMore persuasive\nShorter and punchier\nMore professional\n\nKeep the original meaning. Just make it stronger.\nText: [Text]",
+                    mm: "ဒီစာကို အောက်ပါအချက်တွေနဲ့ ကိုက်ညီအောင် ပြင်ဆင်ပေးပါ-\nပိုမို ရှင်းလင်းစေရန်\nပိုမို ဆွဲဆောင်မှုရှိစေရန်\nတိုတိုနှင့် ထိရောက်မှုရှိစေရန်\nပိုမို ပရော်ဖက်ရှင်နယ် ကျစေရန်\n\nမူလဆိုလိုရင်းကို မပြောင်းလဲစေဘဲ ပိုမိုကောင်းမွန်အောင် ပြုလုပ်ပေးပါ။\nစာသား: [Text]",
+                    inputs: [ { id: "Text", label: "Your Text (စာသားကို ထည့်ရန်)", type: "textarea", hint: "ဥပမာ - သာမန်ရေးထားတဲ့ အီးမေးလ် သို့မဟုတ် စာပိုဒ်" } ] 
+                },
+                "7": { 
+                    title: "(7) ပြဿနာ၏ အရင်းအမြစ် ဖြေရှင်းခြင်း (Root Cause Problem Solver)", 
+                    desc: "ပြဿနာတွေကို အပေါ်ယံမဟုတ်ဘဲ ဇစ်မြစ်ကနေ ကိုင်တွယ်ဖြေရှင်းပါ။", 
+                    en: "Help me solve this problem step by step: [Problem]\n\nDo this:\nFind the real root cause\nBreak it into smaller parts\nList the best solutions\nPick the most effective fix and explain why.",
+                    mm: "ဒီပြဿနာကို အဆင့်လိုက် ဖြေရှင်းနိုင်အောင် ကူညီပေးပါ: [Problem]\n\nအောက်ပါတို့ကို လုပ်ဆောင်ပါ-\n၁။ အမှန်တကယ် ဖြစ်ရသည့် ဇစ်မြစ် (Root cause) ကို ရှာပါ\n၂။ ၎င်းကို အပိုင်းငယ်လေးများအဖြစ် ခွဲထုတ်ပါ\n၃။ အကောင်းဆုံး ဖြေရှင်းနည်းများကို စာရင်းပြုစုပါ\n၄။ အထိရောက်ဆုံး ဖြေရှင်းနည်းကို ရွေးချယ်ပြီး အဘယ်ကြောင့် ရွေးချယ်ကြောင်း ရှင်းပြပါ။",
+                    inputs: [ { id: "Problem", label: "Describe Problem (ပြဿနာကို ရှင်းပြရန်)", type: "textarea", hint: "ဥပမာ - ကျွန်တော့်ရဲ့ အဖွဲ့က အလုပ်တွေ အမြဲတမ်း နောက်ကျနေတယ်" } ] 
+                },
+                "8": { 
+                    title: "(8) Content နှင့် Brand မဟာဗျူဟာ (Content & Brand Strategy)", 
+                    desc: "သင့်ရဲ့ Personal Brand ကို ခိုင်မာတဲ့ အစီအစဉ်တစ်ခုနဲ့ တည်ဆောက်ပါ။", 
+                    en: "Act as a personal brand strategist. Help me build a content strategy for: [Platform/Niche]\n\nCover:\nMy core message and target audience\n3-5 content pillars to own\nBest post formats for this platform\nHow to stand out from others\nA simple 30-day starter plan.",
+                    mm: "Personal Brand မဟာဗျူဟာချမှတ်သူ တစ်ယောက်အနေနဲ့ လုပ်ဆောင်ပေးပါ။ [Platform/Niche] အတွက် Content Strategy တစ်ခု တည်ဆောက်ရန် ကူညီပေးပါ။\n\nအောက်ပါတို့ကို ထည့်သွင်းပေးပါ-\nကျွန်တော့်ရဲ့ အဓိက မက်ဆေ့ချ်နှင့် ပစ်မှတ်ထားသော ပရိသတ်\nအဓိကထား တင်ရမည့် Content ပုံစံ (၃) ခုမှ (၅) ခုအထိ\nဒီပလက်ဖောင်းအတွက် အကောင်းဆုံး Post ပုံစံများ\nအခြားသူများထက် ထင်ပေါ်နေအောင် ဘယ်လိုလုပ်ရမလဲ\nရက် (၃၀) စာ ရိုးရှင်းသော အစပြု အစီအစဉ်တစ်ခု။",
+                    inputs: [ { id: "Platform/Niche", label: "Platform / Niche (နယ်ပယ်)", type: "text", hint: "ဥပမာ - LinkedIn (Graphic Design), Facebook (Tech News)" } ] 
+                },
+                "9": { 
+                    title: "(9) ရှုပ်ထွေးသည်မှ ရိုးရှင်းသော အရာသို့ (Complex → Simple)", 
+                    desc: "နားလည်ရခက်တဲ့ အချက်အလက်တွေကို လူတိုင်းနားလည်အောင် ရှင်းပြပါ။", 
+                    en: "Simplify this information so anyone can get it. Break it into:\nThe key points\nPlain-English explanation\nWhat this means for me practically\n\nInformation: [Information]",
+                    mm: "ဒီအချက်အလက်ကို မည်သူမဆို နားလည်နိုင်အောင် ရိုးရှင်းစွာ ရှင်းပြပေးပါ။\nအောက်ပါအတိုင်း ခွဲခြမ်းပေးပါ-\n၁။ အဓိက အချက်များ\n၂။ ရိုးရှင်းလွယ်ကူသော ရှင်းလင်းချက်\n၃။ ဒါက ကျွန်တော့်အတွက် လက်တွေ့မှာ ဘာကိုဆိုလိုတာလဲ\n\nအချက်အလက်: [Information]",
+                    inputs: [ { id: "Information", label: "Complex Information (ခက်ခဲသော အချက်အလက်)", type: "textarea", hint: "ဥပမာ - နားလည်ရခက်တဲ့ သတင်း၊ ဆောင်းပါး သို့မဟုတ် စည်းမျဉ်း" } ] 
+                },
+                "10": { 
+                    title: "(10) အပတ်စဉ် စွမ်းဆောင်ရည် သုံးသပ်ခြင်း (Weekly Review)", 
+                    desc: "အပတ်တိုင်းမှာ သုံးသပ်ပါ၊ ပြင်ဆင်ပါ၊ ကိုယ့်ကိုယ်ကိုယ် အဆင့်မြှင့်တင်ပါ။", 
+                    en: "Help me do a weekly performance review. I'll share:\n\nWhat went well this week: [Went Well]\nWhat didn't go well: [Didn't Go Well]\nWhat I learned: [Learned]\n\nThen help me:\nSpot patterns I keep missing\nSuggest real improvements\nSet 3 clear goals for next week.",
+                    mm: "အပတ်စဉ် စွမ်းဆောင်ရည် သုံးသပ်မှု (Weekly Performance Review) လုပ်ရန် ကူညီပေးပါ။ ကျွန်တော် ဝေမျှပေးမည့် အရာများ-\n\nဒီတစ်ပတ် ဘာတွေ အဆင်ပြေခဲ့လဲ: [Went Well]\nဘာတွေ အဆင်မပြေခဲ့ဘူးလဲ: [Didn't Go Well]\nဘာတွေ သင်ယူခဲ့ရလဲ: [Learned]\n\nထို့နောက် အောက်ပါတို့ကို ကူညီပေးပါ-\nကျွန်တော် အမြဲ လွတ်သွားတတ်တဲ့ ပုံစံတွေကို ထောက်ပြပါ\nလက်တွေ့ကျတဲ့ တိုးတက်မှု အကြံပြုချက်များကို ပေးပါ\nနောက်အပတ်အတွက် ရှင်းလင်းတဲ့ ရည်မှန်းချက် (၃) ခု ချမှတ်ပေးပါ။",
+                    inputs: [ 
+                        { id: "Went Well", label: "What went well? (ဘာတွေ အဆင်ပြေခဲ့လဲ)", type: "textarea", hint: "ဥပမာ - Project ကို အချိန်မီ အပ်နိုင်ခဲ့တယ်" },
+                        { id: "Didn't Go Well", label: "What didn't go well? (ဘာတွေ အဆင်မပြေခဲ့ဘူးလဲ)", type: "textarea", hint: "ဥပမာ - ဖုန်းပွတ်တာ များသွားတယ်" },
+                        { id: "Learned", label: "What I learned? (ဘာတွေ သင်ယူခဲ့ရလဲ)", type: "textarea", hint: "ဥပမာ - အချိန်ကို သေချာခွဲဝေသုံးတတ်ဖို့ လိုတယ်" } 
+                    ] 
+                }
+            };
+
+            const trigger = document.getElementById('custom-trigger');
+            const triggerText = document.getElementById('selected-text');
+            const optionsList = document.getElementById('custom-options');
+            const guidelineEl = document.getElementById('guideline-container');
+            const instructionEl = document.getElementById('instruction-box-container');
+            const dynamicContainer = document.getElementById('dynamic-inputs-container');
+            const outputEl = document.getElementById('output-prompt');
+            const copyBtn = document.getElementById('copy-btn');
+            const langRadios = document.getElementsByName('language');
+
+            let currentSelectedId = "1";
+
+            function initCustomDropdown() {
+                let isFirst = true;
+                optionsList.innerHTML = ''; 
+
+                for (const key in promptData) {
+                    const optDiv = document.createElement('div');
+                    optDiv.className = 'custom-option-item';
+                    
+                    // Remove citations if any exist
+                    const cleanTitle = promptData[key].title.replace(/\+\]/g, '').trim();
+                    optDiv.textContent = cleanTitle;
+                    
+                    if (isFirst) {
+                        triggerText.textContent = cleanTitle;
+                        isFirst = false;
+                    }
+
+                    optDiv.addEventListener('click', () => {
+                        currentSelectedId = key;
+                        triggerText.textContent = cleanTitle;
+                        optionsList.classList.remove('open');
+                        trigger.classList.remove('active');
+                        renderUI();
+                    });
+
+                    optionsList.appendChild(optDiv);
+                }
+
+                trigger.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    optionsList.classList.toggle('open');
+                    trigger.classList.toggle('active');
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (!trigger.contains(e.target) && !optionsList.contains(e.target)) {
+                        optionsList.classList.remove('open');
+                        trigger.classList.remove('active');
+                    }
+                });
+            }
+
+            function renderUI() {
+                const data = promptData[currentSelectedId];
+                
+                // Guideline
+                const cleanDesc = data.desc.replace(/\+\]/g, '').trim();
+                guidelineEl.textContent = `💡 ${cleanDesc}`;
+                
+                // Dynamic Inputs & Instructions
+                let htmlContent = '';
+                let instructionHTML = '<strong>💡 ဖြည့်စွက်ရန် လမ်းညွှန်ချက်:</strong><br><br>';
+
+                data.inputs.forEach(input => {
+                    instructionHTML += `• <b>[${input.id}]</b> နေရာတွင် <i>"${input.hint}"</i> စသဖြင့် ဖြည့်သွင်းပါ။<br>`;
+
+                    if(input.type === 'textarea') {
+                        htmlContent += `
+                            <div class="form-group">
+                                <label>${input.label}</label>
+                                <textarea id="input-${input.id}" class="dynamic-textarea" placeholder="Type here..."></textarea>
+                            </div>`;
+                    } else {
+                        htmlContent += `
+                            <div class="form-group">
+                                <label>${input.label}</label>
+                                <input type="text" id="input-${input.id}" placeholder="Type here...">
+                            </div>`;
+                    }
+                });
+
+                instructionEl.innerHTML = instructionHTML;
+                dynamicContainer.innerHTML = htmlContent;
+
+                data.inputs.forEach(input => {
+                    const el = document.getElementById(`input-${input.id}`);
+                    if(el) {
+                        el.addEventListener('input', generateFinalPrompt);
+                    }
+                });
+
+                generateFinalPrompt();
+            }
+
+            function generateFinalPrompt() {
+                const data = promptData[currentSelectedId];
+                const isEnglish = document.querySelector('input[name="language"]:checked').value === 'en';
+                let finalPrompt = isEnglish ? data.en : data.mm;
+
+                // Strip any source citations from output
+                finalPrompt = finalPrompt.replace(/\+\]/g, '').trim();
+
+                data.inputs.forEach(input => {
+                    const inputElement = document.getElementById(`input-${input.id}`);
+                    const inputValue = inputElement ? inputElement.value.trim() : "";
+                    
+                    const replacementText = inputValue !== "" ? inputValue : `[${input.id}]`;
+                    
+                    finalPrompt = finalPrompt.split(`[${input.id}]`).join(replacementText);
+                });
+
+                outputEl.value = finalPrompt;
+            }
+
+            langRadios.forEach(radio => radio.addEventListener('change', generateFinalPrompt));
+
+            copyBtn.addEventListener('click', () => {
+                outputEl.select();
+                document.execCommand('copy');
+                const originalText = copyBtn.innerText;
+                copyBtn.innerText = "COPIED SUCCESSFULLY! ✨";
+                setTimeout(() => copyBtn.innerText = originalText, 2000);
+            });
+
+            initCustomDropdown();
+            renderUI();
+
+        }); 
+    </script>
+</body>
+</html>

@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion Prompt Master</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: #0f0a15; 
+            color: #e2e8f0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .app-container {
+            background: rgba(26, 16, 37, 0.9);
+            border: 1px solid #c084fc;
+            box-shadow: 0 0 20px rgba(192, 132, 252, 0.15), inset 0 0 20px rgba(192, 132, 252, 0.05);
+            border-radius: 12px;
+            padding: 35px;
+            width: 100%;
+            max-width: 800px; 
+            backdrop-filter: blur(15px);
+        }
+
+        h1 {
+            color: #f472b6; 
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(244, 114, 182, 0.4);
+        }
+
+        .guideline-box {
+            background: rgba(192, 132, 252, 0.05);
+            border-left: 4px solid #c084fc;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
+        /* ----- အသစ်ထည့်ထားသော လမ်းညွှန်ချက် Box CSS ----- */
+        .instruction-box {
+            background: rgba(244, 114, 182, 0.05);
+            border: 1px dashed #f472b6;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #e9d5ff;
+            line-height: 1.7;
+        }
+
+        .instruction-box strong {
+            color: #f472b6;
+            font-size: 0.95rem;
+        }
+
+        .instruction-box b {
+            color: #00f3ff;
+        }
+
+        .instruction-box i {
+            color: #cbd5e1;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #f472b6;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            background: #150e1d;
+            border: 1px solid #4c1d95;
+            color: #f472b6;
+            padding: 14px;
+            border-radius: 8px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"]:focus, textarea:focus {
+            border-color: #f472b6;
+            box-shadow: 0 0 12px rgba(244, 114, 182, 0.2);
+        }
+
+        textarea#output-prompt {
+            height: 200px;
+            resize: vertical;
+            line-height: 1.6;
+            color: #fff;
+            background: #0f0a15;
+        }
+
+        button {
+            width: 100%;
+            background: rgba(244, 114, 182, 0.1);
+            color: #f472b6;
+            border: 2px solid #f472b6;
+            padding: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #f472b6;
+            color: #0f0a15;
+            box-shadow: 0 0 20px rgba(244, 114, 182, 0.6);
+        }
+
+        #dynamic-inputs-container {
+            margin-bottom: 25px;
+            display: grid;
+            gap: 15px;
+        }
+
+        /* Custom Dropdown CSS */
+        .custom-select-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .custom-select-trigger {
+            width: 100%;
+            background: #150e1d;
+            border: 1px solid #4c1d95;
+            color: #f472b6;
+            padding: 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .custom-select-trigger:hover, .custom-select-trigger.active {
+            border-color: #f472b6;
+            box-shadow: 0 0 12px rgba(244, 114, 182, 0.2);
+        }
+
+        .custom-options-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #1a1025;
+            border: 1px solid #c084fc;
+            border-radius: 8px;
+            margin-top: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            max-height: 250px;
+            overflow-y: auto;
+            display: none;
+            z-index: 100;
+        }
+
+        .custom-options-list.open {
+            display: block;
+        }
+
+        .custom-option-item {
+            padding: 12px 14px;
+            color: #e9d5ff;
+            cursor: pointer;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #3b0764;
+            line-height: 1.5;
+            transition: background 0.2s;
+        }
+
+        .custom-option-item:last-child {
+            border-bottom: none;
+        }
+
+        .custom-option-item:hover {
+            background: rgba(244, 114, 182, 0.1);
+            color: #f472b6;
+        }
+
+        .custom-options-list::-webkit-scrollbar { width: 6px; }
+        .custom-options-list::-webkit-scrollbar-track { background: #150e1d; border-radius: 8px; }
+        .custom-options-list::-webkit-scrollbar-thumb { background: #4c1d95; border-radius: 8px; }
+        .custom-options-list::-webkit-scrollbar-thumb:hover { background: #f472b6; }
+
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <h1>👗 Fashion Prompt Master</h1>
+
+        <div class="form-group">
+            <label>Select Photography Style</label>
+            <div class="custom-select-container">
+                <div class="custom-select-trigger" id="custom-trigger">
+                    <span id="selected-text">Loading...</span>
+                    <span>▼</span>
+                </div>
+                <div class="custom-options-list" id="custom-options">
+                    </div>
+            </div>
+        </div>
+
+        <div id="guideline-container" class="guideline-box"></div>
+
+        <div class="instruction-box">
+            <strong>💡 ဖြည့်စွက်ရန် လမ်းညွှန်ချက်:</strong><br><br>
+            • <b>[clothing description]</b> နေရာတွင် <i>"a red floral summer dress"</i> သို့မဟုတ် <i>"a black leather jacket"</i> (သို့မဟုတ်) ပုံပေးထားပါက <b>[Uploaded photo]</b> စသဖြင့် ထည့်ပါ။<br>
+            • <b>[model description]</b> နေရာတွင် <i>"a 25-year-old Asian female model"</i> သို့မဟုတ် <i>"a handsome male fashion model"</i> စသဖြင့် ထည့်ပါ။
+        </div>
+
+        <div id="dynamic-inputs-container"></div>
+
+        <div class="form-group">
+            <label>Final Midjourney / AI Prompt</label>
+            <textarea id="output-prompt" readonly></textarea>
+        </div>
+
+        <button id="copy-btn">Copy Prompt</button>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            const promptData = {
+                "1": { 
+                    title: "1. Studio Front View (စတူဒီယို ရှေ့တည့်တည့် မြင်ကွင်း)", 
+                    desc: "အပိုင်း (၁) - AI Model ဝတ်ဆင်ထားသော ပုံများ (Fashion Editorial Style)", 
+                    en: "A photorealistic full-body shot of [model description] wearing [clothing description]. Standing facing the camera, confident pose. Shot in a high-end photography studio with a solid pastel background. Three-point lighting, softbox illumination. Shot on an 85mm lens, f/1.8, high resolution, 8k, fashion editorial style, ultra-detailed fabric textures.", 
+                    inputs: [ 
+                        { id: "clothing description", label: "Clothing Description", type: "text" },
+                        { id: "model description", label: "Model Description", type: "text" } 
+                    ] 
+                },
+                "2": { 
+                    title: "2. Urban Outdoor Side View (မြို့ပြလမ်းမ ဘေးတိုက် မြင်ကွင်း)", 
+                    desc: "မြို့ပြပတ်ဝန်းကျင်နှင့် အပြင်ဘက် လမ်းမထက်တွင် ရိုက်ကူးထားသော ပုံစံ", 
+                    en: "A professional street-style photograph of [model description] wearing [clothing description]. Walking sideways on a cobblestone street in a modern city, side profile view showing the side details of the outfit. Natural sunlight, golden hour lighting, cinematic bokeh background. Shot with DSLR, 50mm lens, f/1.4, sharp focus on the clothing, Vogue magazine style.", 
+                    inputs: [ 
+                        { id: "clothing description", label: "Clothing Description", type: "text" },
+                        { id: "model description", label: "Model Description", type: "text" } 
+                    ] 
+                },
+                "3": { 
+                    title: "3. Elegant Indoor Back View (အခန်းတွင်း နောက်ကျော မြင်ကွင်း)", 
+                    desc: "အဆင့်မြင့် အခန်းတွင်း နောက်ကျောဒီဇိုင်းကို အဓိကပြသမည့်ပုံစံ", 
+                    en: "A high-fashion back view shot of [model description] wearing [clothing description]. Standing in a luxurious minimalist living room, turned completely away from the camera to showcase the back design of the outfit. Gentle sunlight coming from a large window, soft rim lighting. Shot on Hasselblad medium format camera, f/2.8, photorealistic, cinematic tones.", 
+                    inputs: [ 
+                        { id: "clothing description", label: "Clothing Description", type: "text" },
+                        { id: "model description", label: "Model Description", type: "text" } 
+                    ] 
+                },
+                "4": { 
+                    title: "4. Dynamic Movement Angle (လှုပ်ရှားမှုနှင့် ၃/၄ ဘေးစောင်း မြင်ကွင်း)", 
+                    desc: "အထည်၏ လှုပ်ရှားမှုနှင့် ၃/၄ ဘေးစောင်း အလှကို ပြသရန်", 
+                    en: "An action fashion photography shot of [model description] wearing [clothing description]. The model is spinning slightly, showing a 3/4 side angle. Flowing fabric, dynamic motion freeze. High contrast studio lighting, dramatic shadows, crisp details. Shot at 1/1000s shutter speed, 35mm lens, hyper-realistic, capturing the elegance of the movement.", 
+                    inputs: [ 
+                        { id: "clothing description", label: "Clothing Description", type: "text" },
+                        { id: "model description", label: "Model Description", type: "text" } 
+                    ] 
+                },
+                "5": { 
+                    title: "5. Close-up Portrait (အပေါ်ပိုင်းနှင့် အသေးစိတ် မြင်ကွင်း)", 
+                    desc: "အထည်၏ ကော်လာ၊ ရင်ဘတ်နှင့် အပေါ်ပိုင်း အသေးစိတ်ကို ပြသရန်", 
+                    en: "A tight medium shot focusing on the upper half of [clothing description] worn by [model description]. Eye-level viewing angle. Soft beauty lighting, highlighting the collar, fabric patterns, and chest details of the garment. Neutral grey background, professional lookbook style, ultra-realistic skin and fabric textures, 8k resolution.", 
+                    inputs: [ 
+                        { id: "clothing description", label: "Clothing Description", type: "text" },
+                        { id: "model description", label: "Model Description", type: "text" } 
+                    ] 
+                },
+                "6": { 
+                    title: "6. Professional Flat Lay (အပေါ်စီးမှ အထည်သီးသန့်)", 
+                    desc: "အပိုင်း (၂) - မော်ဒယ်မပါဘဲ အထည်ကိုသာ သီးသန့်ပေါ်လွင်စေမည့် ပုံစံများ (Product Photography)", 
+                    en: "A top-down overhead shot of [clothing description] laid flat and neatly styled on a pristine white textured surface. Accompanied by minimal aesthetic props like aesthetic sunglasses and a fashion magazine. Soft diffused overhead lighting, no harsh shadows. Commercial product photography, 4k, hyper-detailed.", 
+                    inputs: [ 
+                        { id: "clothing description", label: "Clothing Description", type: "text" }
+                    ] 
+                },
+                "7": { 
+                    title: "7. Invisible Mannequin / Ghost Style (လူမပါဘဲ ပုံသွင်းထားသော)", 
+                    desc: "လူမပါဘဲ ပုံသွင်းထားသော E-commerce အထည်သီးသန့်ပုံစံ", 
+                    en: "A studio product shot of [clothing description] displayed in an invisible ghost mannequin style. Front view, perfectly shaped and ironed, showcasing the fit and cut of the garment. Pure white background, bright and even studio lighting. E-commerce ready, sharp focus, high-end retail photography, isolated on white.", 
+                    inputs: [ 
+                        { id: "clothing description", label: "Clothing Description", type: "text" }
+                    ] 
+                },
+                "8": { 
+                    title: "8. Hanging on a Premium Rack (အဝတ်ချိတ်ဖြင့် ချိတ်ဆွဲထားသော)", 
+                    desc: "အဝတ်ချိတ်တွင် သပ်ရပ်စွာ ချိတ်ဆွဲထားသော ပုံစံ", 
+                    en: "A catalog photograph of [clothing description] hanging neatly on a premium wooden hanger on a copper clothing rack. Minimalist warm-toned boutique background. Soft natural light casting gentle shadows. Shallow depth of field, 50mm lens, f/2.0, boutique store aesthetic, highly detailed fabric.", 
+                    inputs: [ 
+                        { id: "clothing description", label: "Clothing Description", type: "text" }
+                    ] 
+                },
+                "9": { 
+                    title: "9. Macro Fabric Detail (အထည်သား အနီးကပ် မြင်ကွင်း)", 
+                    desc: "အထည်သား၏ အရည်အသွေးနှင့် အပ်ချုပ်ရိုးများကို အနီးကပ်ပြသရန်", 
+                    en: "An extreme close-up macro photography shot of the fabric of [clothing description]. Showing the intricate stitching, texture, and material quality in extreme detail. Angled composition, soft directional lighting to emphasize the texture depths. Shot with a 100mm macro lens, f/4, professional textile photography, 8k.", 
+                    inputs: [ 
+                        { id: "clothing description", label: "Clothing Description", type: "text" }
+                    ] 
+                },
+                "10": { 
+                    title: "10. Lifestyle Still Life Context (ပတ်ဝန်းကျင်အပြင်အဆင်ဖြင့်)", 
+                    desc: "အခန်းတွင်း ပတ်ဝန်းကျင် အပြင်အဆင်ဖြင့် သဘာဝကျကျ ပြသထားသော ပုံစံ", 
+                    en: "A lifestyle product shot of [clothing description] casually draped over a luxurious velvet armchair in a sunlit room. Cozy and elegant atmosphere, warm afternoon sunlight casting aesthetic window blind shadows on the garment. Photorealistic, editorial product photography, cinematic lighting.", 
+                    inputs: [ 
+                        { id: "clothing description", label: "Clothing Description", type: "text" }
+                    ] 
+                }
+            };
+
+            const trigger = document.getElementById('custom-trigger');
+            const triggerText = document.getElementById('selected-text');
+            const optionsList = document.getElementById('custom-options');
+            const guidelineEl = document.getElementById('guideline-container');
+            const dynamicContainer = document.getElementById('dynamic-inputs-container');
+            const outputEl = document.getElementById('output-prompt');
+            const copyBtn = document.getElementById('copy-btn');
+
+            let currentSelectedId = "1";
+
+            function initCustomDropdown() {
+                let isFirst = true;
+                optionsList.innerHTML = ''; 
+
+                for (const key in promptData) {
+                    const optDiv = document.createElement('div');
+                    optDiv.className = 'custom-option-item';
+                    optDiv.textContent = promptData[key].title;
+                    
+                    if (isFirst) {
+                        triggerText.textContent = promptData[key].title;
+                        isFirst = false;
+                    }
+
+                    optDiv.addEventListener('click', () => {
+                        currentSelectedId = key;
+                        triggerText.textContent = promptData[key].title;
+                        optionsList.classList.remove('open');
+                        trigger.classList.remove('active');
+                        renderUI();
+                    });
+
+                    optionsList.appendChild(optDiv);
+                }
+
+                trigger.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    optionsList.classList.toggle('open');
+                    trigger.classList.toggle('active');
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (!trigger.contains(e.target) && !optionsList.contains(e.target)) {
+                        optionsList.classList.remove('open');
+                        trigger.classList.remove('active');
+                    }
+                });
+            }
+
+            function renderUI() {
+                const data = promptData[currentSelectedId];
+                guidelineEl.textContent = `💡 ${data.desc}`;
+                
+                let htmlContent = '';
+                data.inputs.forEach(input => {
+                    htmlContent += `
+                        <div class="form-group">
+                            <label>${input.label}</label>
+                            <input type="text" id="input-${input.id}" placeholder="Type here...">
+                        </div>`;
+                });
+
+                dynamicContainer.innerHTML = htmlContent;
+
+                data.inputs.forEach(input => {
+                    const el = document.getElementById(`input-${input.id}`);
+                    if(el) {
+                        el.addEventListener('input', generateFinalPrompt);
+                    }
+                });
+
+                generateFinalPrompt();
+            }
+
+            function generateFinalPrompt() {
+                const data = promptData[currentSelectedId];
+                let finalPrompt = data.en;
+
+                data.inputs.forEach(input => {
+                    const inputElement = document.getElementById(`input-${input.id}`);
+                    const inputValue = inputElement ? inputElement.value.trim() : "";
+                    
+                    const replacementText = inputValue !== "" ? inputValue : `[${input.id}]`;
+                    
+                    finalPrompt = finalPrompt.split(`[${input.id}]`).join(replacementText);
+                });
+
+                outputEl.value = finalPrompt;
+            }
+
+            copyBtn.addEventListener('click', () => {
+                outputEl.select();
+                document.execCommand('copy');
+                const originalText = copyBtn.innerText;
+                copyBtn.innerText = "COPIED SUCCESSFULLY! ✨";
+                setTimeout(() => copyBtn.innerText = originalText, 2000);
+            });
+
+            initCustomDropdown();
+            renderUI();
+
+        }); 
+    </script>
+</body>
+</html>
+
