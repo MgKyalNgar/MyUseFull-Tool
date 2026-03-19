@@ -181,19 +181,61 @@
             color: #00f3ff;
             font-weight: 600;
         }
+		
+		.my-camera-tool {
+            margin-top: 50px; /* categories တွေနဲ့ နည်းနည်းခွာရန် */
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .my-camera-tool a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: #d1d5db; /* Light grey text */
+            background: rgba(20, 10, 5, 0.8); /* Subtly different amber/brown background */
+            border: 1px solid #d97757; /* Claude Amber Border */
+            border-radius: 8px;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(217, 119, 87, 0.1); /* Subtle initial glow */
+        }
+
+        /* Hover effect */
+        .my-camera-tool a:hover {
+            color: #ffffff; /* White text on hover */
+            background: rgba(30, 15, 7, 0.95); /* Deepen background */
+            border-color: #fca5a5; /* Brighten border to a light coral/peach */
+            transform: translateY(-3px); /* Subtly lift */
+            box-shadow: 0 0 20px rgba(217, 119, 87, 0.6), inset 0 0 15px rgba(217, 119, 87, 0.3); /* Stronger glow */
+        }
+
+        /* Icon through CSS */
+        .my-camera-tool a::before {
+            content: '📸'; /* Folder icon */
+            font-size: 1.5rem;
+        }
 
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>Prompt_Hub</h1>
+        <h1>Kyal_Ngar's_Prompt_Hub</h1>
         <p class="subtitle">// System.SelectModule()</p>
     </div>
 
     <div class="main-container" id="main-container"></div>
-	<div class="my-camera-tool"><a href="Old Tools index.html">My Camera Tools</a> <div>
-
+	
     <div class="footer">
         Create by <span>Mg Kyal Ngar</span>
     </div>
@@ -264,6 +306,22 @@
                 icon: "👗",
                 url: "PromptColc/Prompt for Dress Shop.html",
                 theme: "#ff00aa" 
+            },
+			{
+                category: "🎨 Creative Design",
+                title: "Pro Product Photography",
+                desc: "Studio, Outdoor & Food Photography",
+                icon: "📸",
+                url: "PromptColc/Prompt for Professional Product Photography.html",
+                theme: "#ffffff" // Classic White
+            },
+			{
+                category: "⚙️ Productivity & Automation", 
+                title: "Claude Workflow",
+                desc: "Agentic Automation Prompts",
+                icon: "⚙️",
+                url: "PromptColc/Prompt for Claude Workflow.html",
+                theme: "#d97757" // Claude Amber
             }
             
         ];
@@ -311,6 +369,17 @@
 
             mainContainer.appendChild(grid);
         }
+		
+		const oldToolsLinkContainer = document.createElement('div');
+        oldToolsLinkContainer.className = 'my-camera-tool';
+        
+        const linkAnchor = document.createElement('a');
+        linkAnchor.href = "Old Tools index.html";
+        linkAnchor.innerText = "My Camera Tools";
+        
+        oldToolsLinkContainer.appendChild(linkAnchor);
+        mainContainer.appendChild(oldToolsLinkContainer);
+		
 		// Service Worker ကို မှတ်ပုံတင်ခြင်း (PWA အလုပ်လုပ်စေရန်)
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
