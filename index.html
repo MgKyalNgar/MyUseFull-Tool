@@ -9,7 +9,7 @@
     <link rel="apple-touch-icon" href="/icon-192x192.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prompt Master Hub</title>
+    <title>Kyal Ngar's Prompt Hub</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
 
@@ -45,12 +45,17 @@
         }
 
         h1 {
-            font-size: 2rem;
+            /* ဖုန်းစခရင်မ်အရွယ်အစားပေါ်မူတည်ပြီး အလိုလို ကြီး/ငယ် ဖြစ်စေရန် clamp() ကို သုံးထားသည် */
+            font-size: clamp(1.4rem, 6vw, 2.2rem); 
             text-transform: uppercase;
-            letter-spacing: 3px;
+            /* စာလုံးအကွာအဝေးကိုလည်း စခရင်မ်အလိုက် အလိုလို ချိန်ညှိပေးမည် */
+            letter-spacing: clamp(1px, 1.5vw, 3px); 
             margin-bottom: 8px;
             color: #00f3ff;
             text-shadow: 0 0 15px rgba(0, 243, 255, 0.5), 0 0 30px rgba(0, 243, 255, 0.2);
+            /* စာလုံး ရှည်လွန်းပါက အောက်တစ်ကြောင်းသို့ ဆင်းစေရန် */
+            word-wrap: break-word; 
+            text-align: center;
         }
 
         .subtitle {
