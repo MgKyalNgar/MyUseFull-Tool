@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro Product Photography Prompts</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            /* ----- နောက်ခံအရောင် ပြင်ဆင်ထားသောနေရာ ----- */
+            background-color: #111827; /* Deep Charcoal/Dark Slate (မီးခိုးရင့်ရောင်) */
+            /* ------------------------------------------ */
+            color: #e5e5e5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .header-container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            margin-bottom: 25px;
+            position: sticky;
+            top: 0;
+            /* Sticky Header Background ကိုလည်း လိုက်ညှိထားသည် */
+            background: rgba(8, 11, 19, 0.95);
+            padding: 20px;
+            z-index: 100;
+            border-bottom: 1px solid #ffffff; /* Classic White */
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #ffffff; 
+            font-size: 2.2rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .subtitle {
+            color: #aaaaaa;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        /* ----- Accordion List Container ----- */
+        .accordion-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        /* ----- Accordion Item ----- */
+        .accordion-item {
+            background: #1f2937; /* Body ထက် နည်းနည်းပိုလင်းသော Grey */
+            border: 1px solid #374151;
+            border-left: 4px solid #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            border-color: #ffffff;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+        }
+
+        /* ----- Accordion Header (Clickable) ----- */
+        .accordion-header {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            background: rgba(26, 35, 49, 0.8);
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding-right: 15px;
+        }
+
+        .acc-title {
+            color: #ffffff;
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        .acc-desc {
+            color: #aaaaaa;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .acc-icon {
+            color: #ffffff;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        /* Active State for Accordion */
+        .accordion-item.active .acc-icon {
+            transform: rotate(180deg);
+        }
+        
+        .accordion-item.active {
+            border-color: #ffffff;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
+        }
+
+        /* ----- Accordion Body (Collapsible Content) ----- */
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            background: #0d121c; /* Content Area ကို ပိုမှောင်ထားသည် */
+        }
+
+        .body-inner {
+            padding: 25px 20px;
+            border-top: 1px dashed #374151;
+        }
+
+        /* ----- Form Elements ----- */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #dddddd;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            background: #111111;
+            border: 1px solid #333333;
+            color: #ffffff;
+            padding: 12px;
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"]:focus {
+            border-color: #ffffff;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
+        textarea {
+            width: 100%;
+            height: 160px;
+            background: #050505;
+            border: 1px solid #333333;
+            color: #ffffff;
+            padding: 15px;
+            border-radius: 6px;
+            resize: vertical;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        textarea.large-textarea {
+            height: 300px; /* For Master Prompt */
+        }
+
+        textarea:focus {
+            border-color: #ffffff;
+        }
+
+        button {
+            width: 100%;
+            background: transparent;
+            color: #ffffff;
+            border: 1px solid #ffffff;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #ffffff;
+            color: #0a0a0a;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>📸 Pro Product Photography</h1>
+        <p class="subtitle">High-end Studio, Outdoor Cinematic & Food Photography Prompts</p>
+    </div>
+
+    <div class="accordion-container" id="accordion-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            const promptData = [
+                {
+                    id: 1,
+                    title: "၁။ Studio ရိုက်ကွင်း (အလှကုန်၊ ဖုန်း၊ ကင်မရာ၊ လူသုံးကုန်များအတွက်)",
+                    desc: "ပစ္စည်း၏ အသေးစိတ်ဒီဇိုင်းနှင့် အလင်းအမှောင်ကို ပေါ်လွင်စေမည့် အဆင့်မြင့် Studio Setup ဖြစ်ပါသည်။",
+                    en: "Commercial product photography of [Your Product], perfectly centered, high-end professional studio lighting, softbox and rim lights, dramatic shadows, glowing reflections, shot on Sony A7R IV with 85mm macro lens, f/2.8 aperture, extreme detail, hyper-realistic, 8k resolution, clean minimal background --ar 16:9",
+                    inputs: [
+                        { id: "Your Product", label: "Your Product (သင့်ကုန်ပစ္စည်း အမည် သို့မဟုတ် ဖော်ပြချက်)", hint: "ဥပမာ - a sleek modern smartwatch, a premium glass perfume bottle" }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "၂။ Outdoor သဘာဝအလင်းရောင် (ကား၊ ဆိုင်ကယ်၊ အိမ်ခြံမြေများအတွက်)",
+                    desc: "သဘာဝရှုခင်း၊ နေရောင်ခြည်နှင့် ကျယ်ဝန်းသော မြင်ကွင်းကို အသုံးပြုထားသည့် Cinematic Setup ဖြစ်ပါသည်။",
+                    en: "Cinematic wide shot of [Your Product] in a breathtaking natural outdoor environment, golden hour sunlight, dynamic angle, beautiful sun flares, shot on RED Monstro 8K with 35mm lens, f/1.4 for smooth bokeh background, photorealistic, highly detailed, architectural and automotive photography style --ar 16:9",
+                    inputs: [
+                        { id: "Your Product", label: "Your Product (သင့်ကုန်ပစ္စည်း အမည် သို့မဟုတ် ဖော်ပြချက်)", hint: "ဥပမာ - a matte black sports car, a luxury modern villa" }
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "၃။ Lifestyle / Fashion (အဝတ်အစား၊ ဖက်ရှင်များအတွက်)",
+                    desc: "အပြင်အဆင်၊ အလင်းအမှောင်နှင့် ခေတ်မီသော မြို့ပြနောက်ခံကို အသုံးပြုထားသည့် မဂ္ဂဇင်းမျက်နှာဖုံးစတိုင် ဖြစ်ပါသည်။",
+                    en: "High-fashion editorial photography featuring [Your Product], dynamic pose, trendy urban street setting, natural ambient lighting with subtle neon reflections, shot on 50mm lens, f/1.8, crisp focus on the apparel, Vogue magazine cover quality, hyper-realistic, 8k --ar 4:5",
+                    inputs: [
+                        { id: "Your Product", label: "Your Product (သင့်ကုန်ပစ္စည်း အမည် သို့မဟုတ် ဖော်ပြချက်)", hint: "ဥပမာ - a model wearing a neon cyberpunk jacket, an elegant silk evening gown" }
+                    ]
+                },
+                {
+                    id: 4,
+                    title: "၄။ Food & Beverage (စားသောက်ကုန်များအတွက်)",
+                    desc: "စားချင်စရာကောင်းအောင် ဆွဲဆောင်နိုင်မည့် နွေးထွေးသော အလင်းရောင်နှင့် အနီးကပ်ရိုက်ချက် ဖြစ်ပါသည်။",
+                    en: "Mouth-watering professional food photography of [Your Product], placed on an aesthetic rustic wooden table, warm morning light streaming through a window, steam rising gently, shot on 100mm macro lens, shallow depth of field f/1.8, highly detailed, appetizing, Michelin star restaurant presentation --ar 4:5",
+                    inputs: [
+                        { id: "Your Product", label: "Your Product (သင့်ကုန်ပစ္စည်း အမည် သို့မဟုတ် ဖော်ပြချက်)", hint: "ဥပမာ - a juicy gourmet cheeseburger, a steaming cup of artisan latte" }
+                    ]
+                },
+                {
+                    id: 5,
+                    title: "၅။ Auto-Adapt Master Prompt (AI ကို အလိုအလျောက် စဉ်းစားခိုင်းရန်)",
+                    desc: "ပစ္စည်းနာမည်ပေးလိုက်ရုံဖြင့် လိုက်ဖက်မည့် Camera Lens, Lighting, Setting တွေကို AI ကနေ အလိုအလျောက် Prompt ထုတ်ပေးစေချင်ရင် သုံးရန် (Gemini, ChatGPT တွင်သုံးပါ)။",
+                    en: "You are an expert commercial photographer and prompt engineer. I will provide a product name or an image.\n\nYour task is to generate a highly detailed, professional text-to-image prompt (for Midjourney/DALL-E) that perfectly adapts to the product category.\n\n- If Cosmetics/Electronics/Products: Use studio lighting, macro lenses (85mm/100mm), softboxes, and premium clean backgrounds.\n- If Cars/Motorcycles/Real Estate: Use outdoor cinematic lighting, golden hour, wide-angle lenses (24mm/35mm), and dynamic environments.\n- If Food: Use warm lighting, shallow depth of field (f/1.8), and appetizing styling.\n- If Fashion/Clothing: Use editorial styling, 50mm lens, and urban/lifestyle settings.\n\nAlways include exact camera settings, lighting setups, and render keywords (8k, photorealistic, ultra-detailed). Output ONLY the final image generation prompt in English.\n\nHere is my product: [Your Product]",
+                    inputs: [
+                        { id: "Your Product", label: "Your Product (သင့်ကုန်ပစ္စည်း အမည် သို့မဟုတ် ဖော်ပြချက်)", hint: "ဥပမာ - High-end Running Shoes" }
+                    ],
+                    isLarge: true // Custom flag for larger textarea
+                }
+            ];
+
+            const container = document.getElementById('accordion-container');
+
+            function renderAccordion() {
+                container.innerHTML = ''; 
+
+                promptData.forEach((data, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'accordion-item';
+                    item.id = `acc-item-${data.id}`;
+
+                    // Header (Clickable)
+                    let html = `
+                        <div class="accordion-header" onclick="toggleAccordion(${data.id})">
+                            <div class="header-content">
+                                <div class="acc-title">${data.title}</div>
+                                <div class="acc-desc">💡 ${data.desc}</div>
+                            </div>
+                            <div class="acc-icon">▼</div>
+                        </div>
+                    `;
+
+                    // Body (Collapsible)
+                    html += `<div class="accordion-body" id="acc-body-${data.id}">
+                                <div class="body-inner">`;
+
+                    data.inputs.forEach(input => {
+                        html += `
+                            <div class="form-group">
+                                <label>${input.label}</label>
+                                <input type="text" id="input-${data.id}-${input.id}" data-item-id="${data.id}" placeholder="${input.hint}">
+                            </div>
+                        `;
+                    });
+
+                    // Add 'large-textarea' class if flagged
+                    const textareaClass = data.isLarge ? 'large-textarea' : '';
+
+                    html += `
+                            <textarea id="output-${data.id}" class="${textareaClass}" readonly></textarea>
+                            <button id="copy-${data.id}" data-item-id="${data.id}">Copy Prompt</button>
+                        </div>
+                    </div>`;
+
+                    item.innerHTML = html;
+                    container.appendChild(item);
+                });
+
+                attachEventListeners();
+                updateAllPrompts();
+            }
+
+            window.toggleAccordion = function(id) {
+                const item = document.getElementById(`acc-item-${id}`);
+                const body = document.getElementById(`acc-body-${id}`);
+				
+				document.querySelectorAll('.accordion-item').forEach(el => {
+                    if(el.id !== `acc-item-${id}`) {
+                        el.classList.remove('active');
+                        el.querySelector('.accordion-body').style.maxHeight = null;
+                    }
+                });
+
+                if (item.classList.contains('active')) {
+                    item.classList.remove('active');
+                    body.style.maxHeight = null;
+                } else {
+                    item.classList.add('active');
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updatePromptForCard(itemId) {
+                const data = promptData.find(p => p.id == itemId);
+                let finalPrompt = data.en;
+
+                data.inputs.forEach(input => {
+                    const el = document.getElementById(`input-${data.id}-${input.id}`);
+                    const val = el && el.value.trim() !== "" ? el.value.trim() : `[${input.id}]`;
+                    finalPrompt = finalPrompt.split(`[${input.id}]`).join(val);
+                });
+
+                document.getElementById(`output-${data.id}`).value = finalPrompt;
+                
+                const body = document.getElementById(`acc-body-${data.id}`);
+                const item = document.getElementById(`acc-item-${data.id}`);
+                if(item.classList.contains('active')) {
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updateAllPrompts() {
+                promptData.forEach(data => updatePromptForCard(data.id));
+            }
+
+            function attachEventListeners() {
+                container.addEventListener('input', (e) => {
+                    if (e.target.tagName === 'INPUT') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        if (itemId) updatePromptForCard(itemId);
+                    }
+                });
+
+                container.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'BUTTON') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        const outputEl = document.getElementById(`output-${itemId}`);
+                        outputEl.select();
+                        document.execCommand('copy');
+                        
+                        const btn = e.target;
+                        const originalText = btn.innerText;
+                        btn.innerText = "COPIED! ✨";
+                        setTimeout(() => btn.innerText = originalText, 2000);
+                    }
+                });
+            }
+
+            renderAccordion();
+            
+            // ပထမဆုံးတစ်ခုကို အစမ်းဖွင့်ပြထားရန်
+            setTimeout(() => { toggleAccordion(1); }, 100);
+        });
+    </script>
+</body>
+</html>

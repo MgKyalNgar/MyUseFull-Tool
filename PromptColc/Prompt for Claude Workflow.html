@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Workflow Automation</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: #18181b; /* Deep Slate / Zinc 900 */
+            color: #e4e4e7;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .header-container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            margin-bottom: 25px;
+            position: sticky;
+            top: 0;
+            background: rgba(24, 24, 27, 0.95);
+            padding: 20px;
+            z-index: 100;
+            border-bottom: 1px solid #d97757; /* Claude Terracotta/Amber */
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #d97757; 
+            font-size: 2.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(217, 119, 87, 0.3);
+        }
+
+        .subtitle {
+            color: #a1a1aa;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .global-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .radio-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #d4d4d8;
+            font-weight: 600;
+        }
+
+        input[type="radio"] {
+            accent-color: #d97757;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ----- Accordion List Container ----- */
+        .accordion-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        /* ----- Accordion Item ----- */
+        .accordion-item {
+            background: #27272a;
+            border: 1px solid #3f3f46;
+            border-left: 4px solid #d97757;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            border-color: #d97757;
+            box-shadow: 0 0 15px rgba(217, 119, 87, 0.1);
+        }
+
+        /* ----- Accordion Header (Clickable) ----- */
+        .accordion-header {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            background: rgba(39, 39, 42, 0.8);
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding-right: 15px;
+        }
+
+        .acc-title {
+            color: #fafafa;
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        .acc-desc {
+            color: #a1a1aa;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .acc-icon {
+            color: #d97757;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-item.active .acc-icon {
+            transform: rotate(180deg);
+        }
+        
+        .accordion-item.active {
+            border-color: #d97757;
+            box-shadow: 0 0 20px rgba(217, 119, 87, 0.15);
+        }
+
+        /* ----- Accordion Body ----- */
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            background: #18181b;
+        }
+
+        .body-inner {
+            padding: 25px 20px;
+            border-top: 1px dashed #3f3f46;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #f4a286;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"], textarea.input-textarea {
+            width: 100%;
+            background: #27272a;
+            border: 1px solid #3f3f46;
+            color: #d97757;
+            padding: 12px;
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        textarea.input-textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        input[type="text"]:focus, textarea.input-textarea:focus {
+            border-color: #d97757;
+            box-shadow: 0 0 10px rgba(217, 119, 87, 0.2);
+        }
+
+        textarea.output-area {
+            width: 100%;
+            height: 220px;
+            background: #09090b;
+            border: 1px solid #3f3f46;
+            color: #fafafa;
+            padding: 15px;
+            border-radius: 6px;
+            resize: vertical;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            outline: none;
+            margin-top: 10px;
+        }
+
+        textarea.output-area:focus {
+            border-color: #d97757;
+        }
+
+        button {
+            width: 100%;
+            background: transparent;
+            color: #d97757;
+            border: 1px solid #d97757;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #d97757;
+            color: #18181b;
+            box-shadow: 0 0 15px rgba(217, 119, 87, 0.4);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>⚙️ Prompt for Claude Workflow</h1>
+        <p class="subtitle"> အလုပ်တွေကို စက္ကန့်ပိုင်းအတွင်း ပြီးမြောက်စေမယ့် Agentic Automation & File Management Prompts</p>
+        <div class="global-options">
+            <label class="radio-btn">
+                <input type="radio" name="language" value="mm" checked> Myanmar Prompt
+            </label>
+            <label class="radio-btn">
+                <input type="radio" name="language" value="en"> English Prompt
+            </label>
+        </div>
+    </div>
+
+    <div class="accordion-container" id="accordion-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            const promptData = [
+                {
+                    id: 1,
+                    title: "၁။ အီးမေးလ် စီမံခြင်းနှင့် အနှစ်ချုပ်ခြင်း (Inbox triage)",
+                    desc: "အီးမေးလ်တွေကို အရေးကြီး/အရေးပေါ် ခွဲခြားပြီး အလိုအလျောက် စာပြန်ရေးခိုင်းရန်။",
+                    en: "You are a Chief of Staff with 10 years of executive support experience. I need you to process my inbox one email at a time using this exact chain of reasoning:\nStep 1 → Classify: Is this urgent (needs reply today), important (needs reply this week), or noise (unsubscribe/archive)?\nStep 2 → Extract: Pull out the sender, request, deadline, and any names mentioned.\nStep 3 → Draft: Write a reply under 4 sentences. Match the sender's tone. Never use \"I hope this email finds you well.\"\nStep 4 → Flag: If it involves money, legal language, or a deadline under 24 hours, mark it [ESCALATE] before the reply.\nProcess every email in my inbox folder. Output in this format: [CLASSIFICATION] | [EXTRACTED INFO] | [DRAFT REPLY] | [FLAG IF NEEDED] Do not stop until every email is processed.",
+                    mm: "မင်းက အမှုဆောင်အရာရှိတွေကို ကူညီထောက်ပံ့ပေးတဲ့ လုပ်ငန်းအတွေ့အကြုံ ၁၀ နှစ်ရှိတဲ့ Chief of Staff တစ်ယောက်ပါ။ ငါ့ရဲ့ Inbox ထဲက အီးမေးလ်တွေကို တစ်စောင်ချင်းစီ အောက်ပါ အဆင့်တွေအတိုင်း စီမံပေးပါ-\nအဆင့် ၁ - ခွဲခြားပါ : ဒါက အရေးပေါ်လား (ဒီနေ့စာပြန်ရမည်)၊ အရေးကြီးလား (ဒီအပတ်ထဲစာပြန်ရမည်)၊ ဒါမှမဟုတ် အမှိုက်လား (Unsubscribe/Archive လုပ်မည်)။\nအဆင့် ၂ - အချက်အလက်ထုတ်ပါ : ပေးပို့သူ၊ တောင်းဆိုချက်၊ နောက်ဆုံးရက် (deadline) နဲ့ ပါဝင်တဲ့ နာမည်တွေကို ထုတ်ပေးပါ။\nအဆင့် ၃ - စာပြန်ရေးပါ : ဝါကျ ၄ ကြောင်းထက်မပိုတဲ့ စာပြန်ရေးပေးပါ။ ပေးပို့သူရဲ့ လေသံနဲ့ ကိုက်ညီပါစေ။ \"I hope this email finds you well\" ကို လုံးဝ မသုံးပါနဲ့။\nအဆင့် ၄ - သတိပေးပါ : ငွေကြေး၊ ဥပဒေရေးရာ စကားလုံးတွေ ဒါမှမဟုတ် ၂၄ နာရီအတွင်း ပြီးရမယ့်ကိစ္စတွေပါရင် စာမပြန်ခင် [ESCALATE] လို့ မှတ်သားပေးပါ။\nInbox ထဲက အီးမေးလ်တိုင်းကို [CLASSIFICATION] | [EXTRACTED INFO] | [DRAFT REPLY] | [FLAG IF NEEDED] ပုံစံနဲ့ ထုတ်ပေးပါ။ အီးမေးလ်အားလုံး မပြီးမချင်း မရပ်ပါနဲ့။",
+                    inputs: []
+                },
+                {
+                    id: 2,
+                    title: "၂။ စာရွက်စာတမ်း မူကြမ်းရေးဆွဲခြင်း (Document drafting)",
+                    desc: "တစ်ပိုင်းတစ်စဖြစ်နေသော စာရွက်စာတမ်းများကို အဆုံးသတ်ရေးသားပေးရန်။",
+                    en: "You are a McKinsey Senior Consultant who writes exclusively in plain English. Hard constraints: No bullet points. Prose only. No sentence longer than 20 words. Every paragraph must end with a decision or action. Never use: \"leverage,\" \"synergy,\" \"circle back,\" or \"moving forward.\" Task: Read every file in my [Target Folder] folder. For each document that is more than 50% complete, turn it into a final polished version ready to send. For documents under 50% complete, write a 3-sentence brief explaining exactly what still needs to be done and who should do it. Save all outputs as [filename]_FINAL.docx in the same folder.",
+                    mm: "မင်းက ရိုးရှင်းတဲ့ အင်္ဂလိပ်စာကိုပဲ သုံးပြီးရေးတတ်တဲ့ McKinsey Senior Consultant တစ်ယောက်ပါ။\nတင်းကျပ်သော ကန့်သတ်ချက်များ - Bullet points လုံးဝမသုံးရ၊ စာပိုဒ်လိုက်သာ ရေးရန်။ စကားလုံး ၂၀ ထက်ပိုသော ဝါကျမပါရ။ စာပိုဒ်တိုင်းကို ဆုံးဖြတ်ချက် ဒါမှမဟုတ် လုပ်ဆောင်ချက်တစ်ခုနဲ့ အဆုံးသတ်ရမယ်။ \"leverage,\" \"synergy,\" \"circle back,\" သို့မဟုတ် \"moving forward\" ကို လုံးဝ မသုံးရ။\nအလုပ် - [Target Folder] ဖိုင်တွဲထဲက စာရွက်စာတမ်းတိုင်းကို ဖတ်ပါ။ ၅၀% ထက်ပိုပြီး ပြီးစီးနေတဲ့ ဖိုင်တွေကို ပေးပို့ဖို့အသင့်ဖြစ်တဲ့ နောက်ဆုံးအချောသတ်ဖိုင်အဖြစ် ပြောင်းပေးပါ။ ၅၀% အောက်သာ ပြီးသေးရင်တော့ ဘာတွေဆက်လုပ်ဖို့လိုသေးလဲ၊ ဘယ်သူလုပ်ရမလဲဆိုတာကို ဝါကျ ၃ ကြောင်းနဲ့ အကျဉ်းချုပ်ရေးပေးပါ။ ဖိုင်အားလုံးကို [filename]_FINAL.docx အမည်နဲ့ သိမ်းပေးပါ။",
+                    inputs: [
+                        { id: "Target Folder", label: "Target Folder (ဖတ်ရမည့် ဖိုင်တွဲအမည်)", type: "text", hint: "ဥပမာ - Documents/Drafts" }
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "၃။ အစည်းအဝေးမှတ်တမ်းမှ လုပ်ဆောင်ရမည့် အချက်များ (Meeting notes)",
+                    desc: "အစည်းအဝေးမှတ်တမ်းများကို ဖတ်ပြီး တာဝန်ခွဲဝေမှု ဇယားထုတ်ပေးရန်။",
+                    en: "I'm going to show you exactly how I want meeting notes converted into action items. [Example Format] Now apply this exact format to every .txt and .docx file in my [Target Folder] folder. If no clear owner is mentioned for a task, write [Unassigned] and add NOTE: Assign owner immediately. Export one master ACTION_ITEMS.xlsx with all tasks sorted by Priority.",
+                    mm: "အစည်းအဝေးမှတ်တမ်းတွေကို လုပ်ဆောင်ရမယ့် အချက်တွေ (action items) အဖြစ် ဘယ်လိုပြောင်းချင်လဲဆိုတာ အတိအကျ ပြပေးပါမယ်။\n\n[Example Format]\n\nအခု အဲဒီ Format အတိုင်း [Target Folder] ဖိုင်တွဲထဲက .txt နဲ့ .docx ဖိုင်တိုင်းကို လုပ်ဆောင်ပေးပါ။ တာဝန်ယူရမယ့်သူ အတိအကျမပါရင် [Unassigned] လို့ရေးပြီး 'ချက်ချင်း တာဝန်ပေးအပ်ရန်' လို့ မှတ်ချက်ရေးပါ။ Task အားလုံးကို ဦးစားပေးအဆင့် (Priority) အလိုက် စီစဉ်ထားတဲ့ ACTION_ITEMS.xlsx ဖိုင်တစ်ခု ထုတ်ပေးပါ။",
+                    inputs: [
+                        { id: "Example Format", label: "Example Format (လိုချင်သော ပုံစံ ဥပမာပြရန်)", type: "textarea", hint: "ဥပမာ - Task Name | Owner | Deadline | Priority" },
+                        { id: "Target Folder", label: "Target Folder (ဖိုင်တွဲအမည်)", type: "text", hint: "ဥပမာ - Meetings" }
+                    ]
+                },
+                {
+                    id: 4,
+                    title: "၄။ အစီရင်ခံစာ သန့်စင်ခြင်းနှင့် တည်းဖြတ်ခြင်း (Report cleanup)",
+                    desc: "အစီရင်ခံစာများကို သဒ္ဒါမှန်ကန်ပြီး ရှင်းလင်းပြတ်သားအောင် တည်းဖြတ်ပေးရန်။",
+                    en: "Edit every report in my [Target Folder] folder. DO NOT: Add new information, change numbers/dates/names, use passive voice, leave sentences starting with \"It is\" or \"There are\", keep paragraphs longer than 4 sentences, preserve hedging language. DO: Fix grammar/spelling, replace weak verbs with strong ones, make sentences direct, ensure clear headlines. Save as [filename]_EDITED.docx and add a one-line summary of changes at the top.",
+                    mm: "[Target Folder] ဖိုင်တွဲထဲက အစီရင်ခံစာတိုင်းကို တည်းဖြတ်ပေးပါ။\nမလုပ်ရမည့်အရာများ - အချက်အလက်အသစ် မထည့်ရ၊ ဂဏန်း/ရက်စွဲ/နာမည်များ မပြောင်းရ၊ Passive voice မသုံးရ၊ \"It is\" သို့မဟုတ် \"There are\" နဲ့စတဲ့ ဝါကျတွေ မထားရ၊ ဝါကျ ၄ ကြောင်းထက်ပိုတဲ့ စာပိုဒ်တွေ မထားရ၊ မသေချာတဲ့ စကားလုံးတွေ မသုံးရ။\nလုပ်ရမည့်အရာများ - သဒ္ဒါနဲ့ စာလုံးပေါင်း ပြင်ပေးပါ၊ အားနည်းတဲ့ ကြိယာတွေအစား အားကောင်းတာတွေ သုံးပါ၊ ဝါကျတိုင်းကို တိုက်ရိုက်နဲ့ ရှင်းလင်းပြတ်သားအောင်လုပ်ပါ၊ အပိုင်းတိုင်းမှာ ရှင်းလင်းတဲ့ ခေါင်းစဉ်ပါပါစေ။\n[filename]_EDITED.docx အဖြစ်သိမ်းပြီး ဖိုင်ထိပ်မှာ ဘာတွေပြင်လိုက်တယ်ဆိုတာကို စာတစ်ကြောင်းတည်းနဲ့ အနှစ်ချုပ်ရေးပေးပါ။",
+                    inputs: [
+                        { id: "Target Folder", label: "Target Folder (ဖိုင်တွဲအမည်)", type: "text", hint: "ဥပမာ - Reports" }
+                    ]
+                },
+                {
+                    id: 5,
+                    title: "၅။ သုတေသနနှင့် ပြိုင်ဘက်လေ့လာရေး (Research + Intel)",
+                    desc: "ဖိုင်များစွာကို ဖတ်ပြီး စနစ်တကျ JSON ပုံစံဖြင့် အချက်အလက် ထုတ်ပေးရန်။",
+                    en: "Research task. I need structured intelligence, not a summary. Go through every PDF and URL in my [Target Folder] folder. Extract and output ONLY in this JSON-style structure: {source_name, key_claim, supporting_evidence, contradicts, actionable_insight, confidence_level, date_published}. Add a final section called SYNTHESIS: Top 3 insights, Biggest contradiction, Most urgent action. Export as INTELLIGENCE_BRIEF.md",
+                    mm: "သုတေသနလုပ်ငန်း။ ရိုးရိုး အနှစ်ချုပ်မဟုတ်ဘဲ စနစ်တကျစီစဉ်ထားတဲ့ အချက်အလက်တွေ လိုချင်ပါတယ်။ [Target Folder] ဖိုင်တွဲထဲက PDF နဲ့ URL အားလုံးကို ဖတ်ပါ။ အချက်အလက်တွေကို {source_name, key_claim, supporting_evidence, contradicts, actionable_insight, confidence_level, date_published} ဆိုတဲ့ JSON-style ပုံစံနဲ့ပဲ ထုတ်ပေးပါ။ အားလုံးပြီးရင် \"SYNTHESIS\" ဆိုတဲ့ အပိုင်းမှာ အကောင်းဆုံး Insight ၃ ခု၊ အကြီးမားဆုံး ဆန့်ကျင်ဘက်ဖြစ်နေတဲ့အချက် နဲ့ အရေးတကြီး လုပ်ရမယ့်အရာတွေကို ထည့်ပေးပါ။ INTELLIGENCE_BRIEF.md အဖြစ် ထုတ်ပေးပါ။",
+                    inputs: [
+                        { id: "Target Folder", label: "Target Folder (ဖိုင်တွဲအမည်)", type: "text", hint: "ဥပမာ - Research" }
+                    ]
+                },
+                {
+                    id: 6,
+                    title: "၆။ အဆိုပြုလွှာနှင့် Pitch ရေးသားခြင်း (Proposal and pitch writing)",
+                    desc: "Client အချက်အလက်များကိုဖတ်၍ အဆင့် ၃ ဆင့်ဖြင့် အဆိုပြုလွှာရေးပေးရန်။",
+                    en: "I need you to write and self-improve a proposal in 3 passes using my [Client Brief Folder] folder. PASS 1 — Draft: Write full proposal (Problem → Stakes → Solution → Proof → Ask) under 600 words. PASS 2 — Critique: Act as a skeptical client, list weak arguments and unanswered questions. PASS 3 — Rewrite: Fix every issue from Pass 2. Make it tighter. Output all 3 passes labeled clearly. Save as [Client Name]_PROPOSAL_FINAL.docx",
+                    mm: "ငါ့ရဲ့ [Client Brief Folder] ဖိုင်တွဲကိုသုံးပြီး အဆိုပြုလွှာ (Proposal) တစ်ခုကို အဆင့် ၃ ဆင့်နဲ့ ရေးသား ပြင်ဆင်ပေးပါ။\nအဆင့် ၁ (မူကြမ်း) - စကားလုံး ၆၀၀ အောက် (ပြဿနာ → အရေးပါမှု → ဖြေရှင်းချက် → သက်သေ → တောင်းဆိုချက်) ပုံစံနဲ့ ရေးပါ။\nအဆင့် ၂ (ဝေဖန်ခြင်း) - သံသယများတဲ့ ဖောက်သည်တစ်ယောက်အနေနဲ့ ဖတ်ပြီး အားနည်းတဲ့ အချက်တွေ၊ မေးခွန်းထုတ်စရာတွေကို စာရင်းပြုစုပါ။\nအဆင့် ၃ (ပြန်ရေးခြင်း) - အဆင့် ၂ က အားနည်းချက်တွေ အားလုံးကို ပြင်ပြီး ပိုမိုတိကျခိုင်မာအောင် ပြန်ရေးပါ။\nအဆင့် ၃ ဆင့်လုံးကို ရှင်းလင်းစွာ ခေါင်းစဉ်တပ်ပြီး [Client Name]_PROPOSAL_FINAL.docx အနေနဲ့ သိမ်းပေးပါ။",
+                    inputs: [
+                        { id: "Client Brief Folder", label: "Client Brief Folder (ဖောက်သည် အချက်အလက်ဖိုင်တွဲ)", type: "text", hint: "ဥပမာ - Client Brief" },
+                        { id: "Client Name", label: "Client Name (ဖောက်သည် အမည်)", type: "text", hint: "ဥပမာ - Apex_Corp" }
+                    ]
+                },
+                {
+                    id: 7,
+                    title: "၇။ ဖိုင်စီမံခန့်ခွဲမှု အလိုအလျောက်လုပ်ဆောင်ခြင်း (File organization)",
+                    desc: "ဖိုင်များကို ပါဝင်သော စာသားနှင့် အမျိုးအစားပေါ်မူတည်၍ Folder ခွဲပေးရန်။",
+                    en: "Organize everything in my [Target Folder] folder using exact conditional rules: IF PDF contains \"invoice\"/\"receipt\" → /Finance/Invoices, IF PDF contains \"contract\"/\"agreement\" → /Legal/Contracts, IF image created in last 7 days → /Assets/Recent, IF image older than 7 days → /Assets/Archive, IF .xlsx/.csv → /Data, IF .docx with person's name → /HR/Profiles, ELSE → /Needs Review. Create ORGANIZATION_LOG.txt detailing all moves.",
+                    mm: "[Target Folder] ဖိုင်တွဲထဲက အရာအားလုံးကို အောက်ပါ စည်းမျဉ်းတွေအတိုင်း စီစဉ်ပေးပါ-\nPDF ဖိုင်ဖြစ်ပြီး \"invoice\" သို့မဟုတ် \"receipt\" ပါရင် → /Finance/Invoices သို့ရွှေ့ပါ။\nPDF ဖိုင်ဖြစ်ပြီး \"contract\" သို့မဟုတ် \"agreement\" ပါရင် → /Legal/Contracts သို့ရွှေ့ပါ။\nလွန်ခဲ့တဲ့ ၇ ရက်အတွင်းက ပုံဖြစ်ရင် → /Assets/Recent သို့ရွှေ့ပါ။\n၇ ရက်ထက်ကျော်တဲ့ ပုံဖြစ်ရင် → /Assets/Archive သို့ရွှေ့ပါ။\n.xlsx သို့မဟုတ် .csv ဖိုင်ဖြစ်ရင် → /Data သို့ရွှေ့ပါ။\n.docx ဖိုင်ဖြစ်ပြီး လူနာမည်ပါရင် → /HR/Profiles သို့ရွှေ့ပါ။\nအထက်ပါ စည်းမျဉ်းတွေနဲ့ မကိုက်ညီရင် → /Needs Review သို့ရွှေ့ပါ။\nပြီးရင် ဘယ်ဖိုင်တွေ ဘယ်ကိုရွှေ့သွားတယ်ဆိုတာကို ORGANIZATION_LOG.txt ဖိုင်နဲ့ မှတ်တမ်းတင်ပေးပါ။",
+                    inputs: [
+                        { id: "Target Folder", label: "Target Folder (စီမံရမည့် ဖိုင်တွဲ)", type: "text", hint: "ဥပမာ - Downloads" }
+                    ]
+                },
+                {
+                    id: 8,
+                    title: "၈။ မဟာဗျူဟာနှင့် ဆုံးဖြတ်ချက်ဆိုင်ရာ စာရွက်စာတမ်းများ (Strategy test)",
+                    desc: "မဟာဗျူဟာ စာရွက်များကို ဖတ်ပြီး အားနည်းချက်များကို ရှာဖွေထောက်ပြပေးရန်။",
+                    en: "Stress-test every strategic document in my [Target Folder] folder. Do not summarize. Ask the 7 hardest questions a smart skeptic would ask. State the question, explain why it's dangerous if unanswered, quote/rate the document's existing answer (Strong/Weak/Missing), or suggest an answer if missing. End with VERDICT: [Ready to Execute / Needs Revision / Fundamentally Flawed] and SINGLE BIGGEST RISK. Export as [docname]_STRESS_TEST.md",
+                    mm: "[Target Folder] ဖိုင်တွဲထဲက မဟာဗျူဟာ စာရွက်စာတမ်းတိုင်းကို စမ်းသပ်စစ်ဆေး (Stress-test) ပေးပါ။ အနှစ်ချုပ်မလုပ်ပါနဲ့။ ဉာဏ်ကောင်းတဲ့ ဝေဖန်သူတစ်ယောက် မေးမယ့် အခက်ဆုံး မေးခွန်း ၇ ခုကို မေးပါ။ မေးခွန်းကို ရှင်းပြပါ၊ ဘာကြောင့် အန္တရာယ်ရှိလဲဆိုတာ ရှင်းပြပါ၊ စာရွက်စာတမ်းထဲမှာ အဖြေပါရင် အဲဒီအဖြေရဲ့ ခိုင်မာမှုကို အကဲဖြတ်ပါ (အားကောင်း/အားနည်း/မပါဝင်)၊ မပါရင် အဖြေတစ်ခု အကြံပြုပေးပါ။\nအဆုံးမှာ အဆုံးအဖြတ် (အကောင်အထည်ဖော်ရန် အသင့် / ပြင်ဆင်ရန်လို / အခြေခံအရ မှားယွင်းနေ) နဲ့ အကြီးမားဆုံး အန္တရာယ်တစ်ခုကို ရေးပေးပါ။\n[docname]_STRESS_TEST.md အဖြစ် ထုတ်ပေးပါ။",
+                    inputs: [
+                        { id: "Target Folder", label: "Target Folder (ဖိုင်တွဲအမည်)", type: "text", hint: "ဥပမာ - Strategy" }
+                    ]
+                },
+                {
+                    id: 9,
+                    title: "၉။ Content များကို ပြန်လည်အသုံးချခြင်း (Content repurposing)",
+                    desc: "စာအရှည်များကို ပရိသတ် ၄ မျိုးအတွက် တစ်ပြိုင်နက်တည်း ပြန်လည်ရေးသားပေးရန်။",
+                    en: "Take every long-form document in my [Target Folder] folder and repurpose it simultaneously for 4 different audiences: PERSONA 1 — Busy CEO (3 bullets, numbers only), PERSONA 2 — Curious Analyst (Key argument + evidence + 1 counterargument), PERSONA 3 — Twitter User (Punchy hook tweet under 220 chars), PERSONA 4 — New Employee (Plain-English with 1 analogy). Save as [filename]_REPURPOSED.docx",
+                    mm: "[Target Folder] ဖိုင်တွဲထဲက စာရှည်တွေကို မတူညီတဲ့ ပရိသတ် ၄ မျိုးအတွက် တစ်ပြိုင်နက်တည်း ပြန်လည်ရေးသားပေးပါ။\nPERSONA 1 — အလုပ်များသော CEO အတွက်: အချက် ၃ ချက်၊ ကိန်းဂဏန်းများသာ။\nPERSONA 2 — လေ့လာလိုသော Analyst အတွက်: အဓိက အချက် + သက်သေ + ဆန့်ကျင်ဘက်အမြင် တစ်ခု။\nPERSONA 3 — Twitter အသုံးပြုသူအတွက်: စာလုံးရေ ၂၂၀ အောက် ဆွဲဆောင်မှုရှိတဲ့ Tweet တစ်ခု။\nPERSONA 4 — ဝန်ထမ်းသစ်အတွက်: ဥပမာတစ်ခုသုံးပြီး ရိုးရှင်းတဲ့ အင်္ဂလိပ်စာနဲ့ ရှင်းပြချက်။\n[filename]_REPURPOSED.docx အမည်နဲ့ သိမ်းပေးပါ။",
+                    inputs: [
+                        { id: "Target Folder", label: "Target Folder (ဖိုင်တွဲအမည်)", type: "text", hint: "ဥပမာ - Content" }
+                    ]
+                },
+                {
+                    id: 10,
+                    title: "၁၀။ နေ့စဉ် လုပ်ငန်းသိမ်း အလိုအလျောက်စနစ် (End-of-day wrap-up)",
+                    desc: "ကွန်ပျူတာအတွင်း နေရာမကျသောဖိုင်များနှင့် မပြီးသေးသော Task များကို ရှင်းလင်းမှတ်တမ်းတင်ရန်။",
+                    en: "You are my autonomous end-of-day operations agent.\nRun this routine: PHASE 1 - SCAN: Check Desktop, Downloads, Documents, [Tasks Folder], and [Outbox Folder] for unsaved/unorganized files, modified tasks, and unsent drafts.\nPHASE 2 - DECIDE: Flag unorganized files, treat tasks without \"DONE\" as incomplete, flag drafts older than 6 hours as stale.\nPHASE 3 - ACT: Move flagged files to /Needs Review, create TODAY_SUMMARY.md with organized files, incomplete tasks, stale drafts, and a recommendation for tomorrow.\nPHASE 4 - CONFIRM: \"End-of-day sweep complete.\" Run sequentially.",
+                    mm: "မင်းက ငါ့ရဲ့ နေ့စဉ် လုပ်ငန်းသိမ်း အလိုအလျောက် စီမံပေးတဲ့ ကိုယ်စားလှယ် (Agent) ပါ။\nဒီလုပ်ငန်းစဉ်ကို လုပ်ပေးပါ-\nအဆင့် ၁ (စကင်ဖတ်ရန်) - Desktop, Downloads, Documents နဲ့ [Tasks Folder], [Outbox Folder] တွေမှာ အစီအစဉ်မကျတဲ့ ဖိုင်တွေ၊ မပြီးသေးတဲ့ Task တွေ၊ မပို့ရသေးတဲ့ အီးမေးလ် Draft တွေ ရှိမရှိ စစ်ဆေးပါ။\nအဆင့် ၂ (ဆုံးဖြတ်ရန်) - နေရာမကျတဲ့ ဖိုင်တွေကို စာရင်းမှတ်ပါ၊ \"DONE\" မပါတဲ့ Task တွေကို မပြီးသေးဘူးလို့ သတ်မှတ်ပါ၊ ၆ နာရီကျော်နေတဲ့ Draft တွေကို မှတ်သားပါ။\nအဆင့် ၃ (လုပ်ဆောင်ရန်) - အဲဒီဖိုင်တွေကို /Needs Review ဆီ ရွှေ့ပါ၊ ဒီနေ့အတွက် အနှစ်ချုပ် (TODAY_SUMMARY.md) ကို ဖန်တီးပြီး မနက်ဖြန်အတွက် အကြံပြုချက်တစ်ခု ထည့်ပေးပါ။\nအဆင့် ၄ (အတည်ပြုရန်) - \"နေ့စဉ် လုပ်ငန်းသိမ်း စစ်ဆေးမှု ပြီးဆုံးပါပြီ\" လို့ ပြောပါ။\nအဆင့်အားလုံးကို အစဉ်လိုက် လုပ်ဆောင်ပါ။",
+                    inputs: [
+                        { id: "Tasks Folder", label: "Tasks Folder (လုပ်စရာများမှတ်ထားသော ဖိုင်တွဲ)", type: "text", hint: "ဥပမာ - Tasks" },
+                        { id: "Outbox Folder", label: "Outbox Folder (မပို့ရသေးသော စာများဖိုင်တွဲ)", type: "text", hint: "ဥပမာ - Outbox" }
+                    ]
+                }
+            ];
+
+            const container = document.getElementById('accordion-container');
+            const langRadios = document.getElementsByName('language');
+
+            function renderAccordion() {
+                container.innerHTML = ''; 
+
+                promptData.forEach((data) => {
+                    const item = document.createElement('div');
+                    item.className = 'accordion-item';
+                    item.id = `acc-item-${data.id}`;
+
+                    let html = `
+                        <div class="accordion-header" onclick="toggleAccordion(${data.id})">
+                            <div class="header-content">
+                                <div class="acc-title">${data.title}</div>
+                                <div class="acc-desc">💡 ${data.desc}</div>
+                            </div>
+                            <div class="acc-icon">▼</div>
+                        </div>
+                    `;
+
+                    html += `<div class="accordion-body" id="acc-body-${data.id}">
+                                <div class="body-inner">`;
+
+                    if(data.inputs.length > 0) {
+                        data.inputs.forEach(input => {
+                            if(input.type === 'textarea') {
+                                html += `
+                                    <div class="form-group">
+                                        <label>${input.label}</label>
+                                        <textarea id="input-${data.id}-${input.id}" class="input-textarea" data-item-id="${data.id}" placeholder="${input.hint}"></textarea>
+                                    </div>
+                                `;
+                            } else {
+                                html += `
+                                    <div class="form-group">
+                                        <label>${input.label}</label>
+                                        <input type="text" id="input-${data.id}-${input.id}" data-item-id="${data.id}" placeholder="${input.hint}">
+                                    </div>
+                                `;
+                            }
+                        });
+                    }
+
+                    html += `
+                            <textarea id="output-${data.id}" class="output-area" readonly></textarea>
+                            <button id="copy-${data.id}" data-item-id="${data.id}">Copy Prompt</button>
+                        </div>
+                    </div>`;
+
+                    item.innerHTML = html;
+                    container.appendChild(item);
+                });
+
+                attachEventListeners();
+                updateAllPrompts();
+            }
+
+            window.toggleAccordion = function(id) {
+                const item = document.getElementById(`acc-item-${id}`);
+                const body = document.getElementById(`acc-body-${id}`);
+
+                // Auto-collapse logic
+                document.querySelectorAll('.accordion-item').forEach(el => {
+                    if(el.id !== `acc-item-${id}`) {
+                        el.classList.remove('active');
+                        el.querySelector('.accordion-body').style.maxHeight = null;
+                    }
+                });
+
+                if (item.classList.contains('active')) {
+                    item.classList.remove('active');
+                    body.style.maxHeight = null;
+                } else {
+                    item.classList.add('active');
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updatePromptForCard(itemId) {
+                const data = promptData.find(p => p.id == itemId);
+                const isMyanmar = document.querySelector('input[name="language"]:checked').value === 'mm';
+                let finalPrompt = isMyanmar ? data.mm : data.en;
+
+                data.inputs.forEach(input => {
+                    const el = document.getElementById(`input-${data.id}-${input.id}`);
+                    const val = el && el.value.trim() !== "" ? el.value.trim() : `[${input.id}]`;
+                    finalPrompt = finalPrompt.split(`[${input.id}]`).join(val);
+                });
+
+                document.getElementById(`output-${data.id}`).value = finalPrompt;
+                
+                const body = document.getElementById(`acc-body-${data.id}`);
+                const item = document.getElementById(`acc-item-${data.id}`);
+                if(item.classList.contains('active')) {
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updateAllPrompts() {
+                promptData.forEach(data => updatePromptForCard(data.id));
+            }
+
+            function attachEventListeners() {
+                container.addEventListener('input', (e) => {
+                    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        if (itemId) updatePromptForCard(itemId);
+                    }
+                });
+
+                container.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'BUTTON') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        const outputEl = document.getElementById(`output-${itemId}`);
+                        outputEl.select();
+                        document.execCommand('copy');
+                        
+                        const btn = e.target;
+                        const originalText = btn.innerText;
+                        btn.innerText = "COPIED! ✨";
+                        setTimeout(() => btn.innerText = originalText, 2000);
+                    }
+                });
+            }
+
+            langRadios.forEach(radio => radio.addEventListener('change', updateAllPrompts));
+
+            renderAccordion();
+            setTimeout(() => { toggleAccordion(1); }, 100);
+        });
+    </script>
+</body>
+</html>
