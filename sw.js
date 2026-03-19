@@ -1,28 +1,37 @@
-const CACHE_NAME = 'useful-tools-v1';
+// ဗားရှင်းအသစ်ပြောင်းလိုက်ပါသည်
+const CACHE_NAME = 'useful-tools-v2';
 const urlsToCache = [
   '/',
   '/index.html'
 ];
 
-// App ကို Install လုပ်ချိန်မှာ ဖိုင်တွေကို Cache (မှတ်ဉာဏ်) ထဲ သိမ်းမည်
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => {
-        return cache.addAll(urlsToCache);
-      })
+      .then(cache => cache.addAll(urlsToCache))
   );
 });
 
-// App ဖွင့်တိုင်း Cache ထဲကဟာကို အရင်ရှာပြမည် (မြန်ဆန်စေရန်)
+// ဗားရှင်းအဟောင်း Cache များကို ဖျက်ထုတ်မည့်စနစ်
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(cacheName => {
+          if (cacheName !== CACHE_NAME) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
+});
+
+// Network-First Strategy: အင်တာနက်ရှိရင် အသစ်ကိုယူမယ်၊ အင်တာနက်မရှိမှ သိမ်းထားတာကိုပြမယ်
 self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        if (response) {
-          return response; // Cache ထဲမှာရှိရင် အဲဒါကိုပဲ ပြမည်
-        }
-        return fetch(event.request); // မရှိမှ အင်တာနက်ကနေ ဆွဲယူမည်
-      })
+    fetch(event.request).catch(() => {
+      return caches.match(event.request);
+    })
   );
 });
