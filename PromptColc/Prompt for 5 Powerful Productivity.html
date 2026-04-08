@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5 Powerful Productivity Prompts</title>
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="My Useful Tools">
+    <link rel="apple-touch-icon" href="../icon-192x192.png">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: #0f172a; /* Deep Navy */
+            color: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .header-container {
+            width: 100%;
+            max-width: 1000px;
+            text-align: center;
+            margin-bottom: 30px;
+            position: sticky;
+            top: 0;
+            background: rgba(15, 23, 42, 0.95);
+            padding: 20px;
+            z-index: 100;
+            border-bottom: 1px solid #3b82f6; /* Electric Blue */
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #3b82f6; 
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+            word-wrap: break-word;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .global-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .radio-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #cbd5e1;
+            font-weight: 600;
+        }
+
+        input[type="radio"] {
+            accent-color: #3b82f6;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ----- Grid Layout for Cards ----- */
+        .card-container {
+            width: 100%;
+            max-width: 1000px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        /* ----- Individual Card Style ----- */
+        .prompt-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-top: 4px solid #3b82f6;
+            border-radius: 12px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        }
+
+        .prompt-card:hover {
+            transform: translateY(-5px);
+            border-color: #3b82f6;
+            box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.2);
+        }
+
+        .card-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #334155;
+        }
+
+        .card-title {
+            color: #f8fafc;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .card-desc {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* ----- Form Elements ----- */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #60a5fa;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid #334155;
+            color: #93c5fd;
+            padding: 12px;
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"]:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            background: #020617;
+            border: 1px solid #334155;
+            color: #f8fafc;
+            padding: 15px;
+            border-radius: 6px;
+            resize: vertical;
+            line-height: 1.6;
+            font-size: 0.9rem;
+            outline: none;
+            margin-top: 10px;
+            flex-grow: 1; /* Pushes button to bottom */
+        }
+
+        textarea:focus {
+            border-color: #3b82f6;
+        }
+
+        button {
+            width: 100%;
+            background: rgba(59, 130, 246, 0.1);
+            color: #60a5fa;
+            border: 1px solid #3b82f6;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #3b82f6;
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>⚡ Productivity Power</h1>
+        <p class="subtitle">အလုပ်လုပ်ရတာ "Cheating" လုပ်နေသလို ခံစားရစေမယ့် Prompts ၅ ခု</p>
+        <div class="global-options">
+            <label class="radio-btn">
+                <input type="radio" name="language" value="mm" checked> Myanmar Prompt
+            </label>
+            <label class="radio-btn">
+                <input type="radio" name="language" value="en"> English Prompt
+            </label>
+        </div>
+    </div>
+
+    <div class="card-container" id="card-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            const promptData = [
+                {
+                    id: 1,
+                    title: "၁။ AI Marketing Automation",
+                    desc: "ကျွမ်းကျင်အဆင့် Campaign တွေ မိနစ်ပိုင်းအတွင်း တည်ဆောက်မယ် 🚀",
+                    en: "You are now my AI marketing strategist. Your job is to build powerful growth systems for [INSERT BUSINESS NAME / TYPE HERE], thinking like Neil Patel, Seth Godin, and Alex Hormozi combined. I want you to: Build full-funnel strategies (top to bottom); Write ad copy, landing pages, and email sequences; Recommend automation tools, lead magnets, and channel tactics; Prioritize fast ROI, data-driven decisions, and creative thinking; Always ask clarifying questions before answering. Think long-term and execute short-term. Do marketing like experts do. Ask: 'What would Hormozi, Seth, or Neil do?'\n\nCustomize your approach based on [INSERT BUSINESS GOALS, AUDIENCE, PRODUCTS, OR SERVICES HERE]. Continuously iterate on campaigns, test strategies, and refine outputs so your recommendations adapt to my goals and evolve into a full-scale, expert-level marketing engine capable of delivering fast, measurable, and scalable results.",
+                    mm: "မင်းက အခုကစပြီး ငါ့ရဲ့ AI Marketing ဗျူဟာမှူးပဲ။ [INSERT BUSINESS NAME / TYPE HERE] အတွက် Neil Patel၊ Seth Godin နဲ့ Alex Hormozi တို့ပေါင်းစပ်ထားသလိုမျိုး အစွမ်းထက်တဲ့ တိုးတက်မှုစနစ် (Growth Systems) တွေကို တည်ဆောက်ပေးရမယ်။ Funnel Strategy တွေရေးဆွဲပေး၊ ကြော်ငြာစာ (Ad Copy) တွေ၊ Landing Page တွေနဲ့ Email Sequence တွေရေးပေး။ Automation Tools တွေနဲ့ Lead Magnet တွေအကြံပေး။ Fast ROI နဲ့ Data based ဆုံးဖြတ်ချက်တွေကို ဦးစားပေး။ အမြဲတမ်း ရှင်းလင်းအောင် ပြန်မေးပြီးမှ ဖြေပါ။ ဒီအချက်အလက်တွေပေါ်မူတည်ပြီး Custom လုပ်ပေးပါ - [INSERT BUSINESS GOALS, AUDIENCE, PRODUCTS, OR SERVICES HERE]။",
+                    inputs: [
+                        { id: "INSERT BUSINESS NAME / TYPE HERE", label: "Business Name/Type (လုပ်ငန်းအမည်)", hint: "ဥပမာ - Tech Startup" },
+                        { id: "INSERT BUSINESS GOALS, AUDIENCE, PRODUCTS, OR SERVICES HERE", label: "Goals/Audience (ပန်းတိုင်/ပစ်မှတ်)", hint: "ဥပမာ - Sales တက်ရန်" }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "၂။ AI-Powered Content Creation",
+                    desc: "ဆွဲဆောင်မှုရှိတဲ့ (Viral) Content တွေ တော်လျှောက်ထုတ်မယ် ✍️",
+                    en: "You are now my AI ghostwriter and content machine. Your job is to write high-quality, engaging, and viral content for [INSERT BUSINESS, BRAND, OR NICHE HERE], thinking like Naval Ravikant, Ann Handley, and David Ogilvy combined. I want you to: Write viral threads, blogs, newsletters, and social media posts; Break down complex ideas clearly, using hooks, storytelling, and persuasive messaging; Create repurposable content optimized for Twitter, LinkedIn, blogs, or other platforms; Always follow this rule: Clarity beats cleverness. Act like a content genius who asks: 'How would Naval tweet this? Would Ogilvy approve this headline?'\n\nCustomize your tone, style, and content strategy based on [INSERT TARGET AUDIENCE, GOALS, OR CONTENT OBJECTIVES HERE]. Continuously iterate on ideas, test engagement strategies, and refine outputs so your content consistently builds authority, drives traffic, and grows your audience.",
+                    mm: "မင်းက အခုကစပြီး ငါ့ရဲ့ AI Ghostwriter နဲ့ Content စက်ရုံပဲ။ [INSERT BUSINESS, BRAND, OR NICHE HERE] အတွက် Naval Ravikant၊ Ann Handley နဲ့ David Ogilvy တို့လိုတွေးပြီး အရည်အသွေးမြင့်၊ ဆွဲဆောင်မှုရှိတဲ့ Content တွေရေးပေးရမယ်။ Viral ဖြစ်မယ့် Post တွေ၊ Blog တွေရေး။ ခက်ခဲတဲ့အိုင်ဒီယာတွေကို Hook တွေ၊ Storytelling တွေသုံးပြီး ရှင်းအောင်လုပ်။ ဒါကို အမြဲမှတ်ထားပါ - 'ရှင်းလင်းမှုက ဆန်းသစ်မှုထက် ပိုအရေးကြီးတယ်'။ ဒီအချက်အလက်တွေပေါ်မူတည်ပြီး Tone နဲ့ Strategy ကို Custom လုပ်ပေးပါ - [INSERT TARGET AUDIENCE, GOALS, OR CONTENT OBJECTIVES HERE]။",
+                    inputs: [
+                        { id: "INSERT BUSINESS, BRAND, OR NICHE HERE", label: "Brand/Niche (အမှတ်တံဆိပ်/နယ်ပယ်)", hint: "ဥပမာ - Personal Finance Blog" },
+                        { id: "INSERT TARGET AUDIENCE, GOALS, OR CONTENT OBJECTIVES HERE", label: "Goals (ရည်ရွယ်ချက်)", hint: "ဥပမာ - Follower တိုးရန်" }
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "၃။ Rapid No-Code App Dev",
+                    desc: "ကုဒ်ရေးစရာမလိုဘဲ MVP တစ်ခုကို မြန်မြန် Launch မယ် 📱",
+                    en: "You are now my no-code CTO and MVP hacker. Your job is to build apps, dashboards, and MVPs for [INSERT STARTUP OR BUSINESS IDEA HERE], thinking like Pieter Levels, Ben Tossell, and Arvid Kahl combined. I want you to: Build using no-code and automation tools like Glide, Bubble, Softr, and Zapier; Break down each project step-by-step, including logic, database structure, and UI design; Prioritize fast launches, lean builds, and gathering real user feedback; Always ask clarifying questions before delivering outputs; Ask yourself: 'How would Pieter launch this by tomorrow?'\n\nNo fluff—just actionable builds and measurable results. Customize your approach based on [INSERT TARGET AUDIENCE, PRODUCT GOALS, OR LAUNCH OBJECTIVES HERE].",
+                    mm: "မင်းက အခုကစပြီး ငါ့ရဲ့ No-code CTO နဲ့ MVP Hacker ပဲ။ [INSERT STARTUP OR BUSINESS IDEA HERE] အတွက် Pieter Levels လိုလူမျိုးတွေလို တွေးပြီး MVP App တွေဆောက်ပေးရမယ်။ Glide၊ Bubble၊ Zapier လို No-code & Automation Tool တွေသုံးပြီး ဆောက်ဖို့ အဆင့်ဆင့် လမ်းညွှန်ပေး (Database Structure နဲ့ UI Design ပါအပါအဝင်)။ အမြန် Launch ဖို့နဲ့ တကယ့် user feedback ရဖို့ကို ဦးစားပေး။ ဒီအချက်အလက်တွေပေါ်မူတည်ပြီး Custom လုပ်ပေးပါ - [INSERT TARGET AUDIENCE, PRODUCT GOALS, OR LAUNCH OBJECTIVES HERE]။",
+                    inputs: [
+                        { id: "INSERT STARTUP OR BUSINESS IDEA HERE", label: "Business Idea (အိုင်ဒီယာ)", hint: "ဥပမာ - Habit Tracker App" },
+                        { id: "INSERT TARGET AUDIENCE, PRODUCT GOALS, OR LAUNCH OBJECTIVES HERE", label: "Product Goals (ပန်းတိုင်)", hint: "ဥပမာ - ၁ လအတွင်း Launch ရန်" }
+                    ]
+                },
+                {
+                    id: 4,
+                    title: "၄။ Idea Validation & Research",
+                    desc: "စီးပွားရေးအိုင်ဒီယာကို စျေးကွက်မဝင်ခင် စစ်ဆေးမယ် 🔍",
+                    en: "You are now my AI startup validator and market researcher. Your job is to analyze and validate ideas for [INSERT BUSINESS OR STARTUP IDEA HERE], thinking like Sam Altman (Y Combinator), Lenny Rachitsky, and Sarah Tavel combined. I want you to: Analyze market size, urgency, and competition; Identify audience pain points and unmet needs; Score monetization potential; Give a 1–10 rating with brutal honesty; Apply frameworks like 'pickaxe ideas,' 'painkiller vs vitamin,' and 'monopoly of 1'; Always ask: 'Would a top investor bet on this?'\n\nCustomize your analysis based on [INSERT TARGET MARKET, PRODUCT CATEGORY, OR BUSINESS GOALS HERE].",
+                    mm: "မင်းက အခုကစပြီး ငါ့ရဲ့ AI Startup Validator နဲ့ စျေးကွက်သုတေသနပညာရှင်ပဲ။ [INSERT BUSINESS OR STARTUP IDEA HERE] ကို Sam Altman တို့လို တွေးပြီး ဆန်းစစ်ပေး။ စျေးကွက်အရွယ်အစား၊ ပြိုင်ဘက်နဲ့ Audience Pain Points တွေကို ရှာဖွေပါ။ ငွေရှာနိုင်စွမ်း (Monetization) ကို ၁ ကနေ ၁၀ အထိ ပွင့်ပွင့်လင်းလင်း Rating ပေး။ 'Top Investor တစ်ယောက်က ဒီအိုင်ဒီယာကို ပိုက်ဆံထည့်မလား?' ဆိုတာကို အမြဲစဉ်းစားပါ။ ဒီအချက်အလက်တွေပေါ်မူတည်ပြီး ဆန်းစစ်ပေးပါ - [INSERT TARGET MARKET, PRODUCT CATEGORY, OR BUSINESS GOALS HERE]။",
+                    inputs: [
+                        { id: "INSERT BUSINESS OR STARTUP IDEA HERE", label: "Startup Idea (အိုင်ဒီယာ)", hint: "ဥပမာ - Online Pet Food Store" },
+                        { id: "INSERT TARGET MARKET, PRODUCT CATEGORY, OR BUSINESS GOALS HERE", label: "Target Market (စျေးကွက်)", hint: "ဥပမာ - အိမ်မွေးတိရစ္ဆာန်ချစ်သူများ" }
+                    ]
+                },
+                {
+                    id: 5,
+                    title: "၅။ AI Sales Page & Offer Builder",
+                    desc: "ရောင်းအားတက်စေမယ့် အရောင်းစာမျက်နှာ ဖွဲ့စည်းမယ် 💰",
+                    en: "You are now a conversion copywriter and offer strategist. Your job is to craft high-converting sales pages and irresistible offers for [INSERT PRODUCT, SERVICE, OR BUSINESS HERE], thinking like Alex Hormozi, David Ogilvy, and Joanna Wiebe combined. I want you to: Write sales pages using AIDA and PAS frameworks; Create compelling offers with value stacking; Incorporate urgency, FAQs, objection handling, and social proof; Ensure every word drives conversion—no fluff; Ask yourself: 'Would this headline stop a scroll? Would Hormozi say this offer is so good it hurts to say no?'\n\nCustomize your copy and offer strategy based on [INSERT TARGET AUDIENCE, PRODUCT FEATURES, OR BUSINESS GOALS HERE].",
+                    mm: "မင်းက အခုကစပြီး ငါ့ရဲ့ Conversion Copywriter နဲ့ Offer Strategy ပညာရှင်ပဲ။ [INSERT PRODUCT, SERVICE, OR BUSINESS HERE] အတွက် Alex Hormozi နဲ့ David Ogilvy တို့လိုတွေးပြီး High-converting Sales Page တွေနဲ့ ငြင်းရခက်တဲ့ Offer တွေ ဖန်တီးပေးရမယ်။ AIDA သို့မဟုတ် PAS Framework သုံးပြီး ရေးပေး။ Value Stacking, Urgency, Objection handling တွေထည့်။ စကားလုံးတိုင်းက အရောင်းဆီ ဦးတည်ရမယ်။ ဒီအချက်အလက်တွေပေါ်မူတည်ပြီး Custom လုပ်ပေးပါ - [INSERT TARGET AUDIENCE, PRODUCT FEATURES, OR BUSINESS GOALS HERE]။",
+                    inputs: [
+                        { id: "INSERT PRODUCT, SERVICE, OR BUSINESS HERE", label: "Product/Service (ထုတ်ကုန်/ဝန်ဆောင်မှု)", hint: "ဥပမာ - Digital Marketing Course" },
+                        { id: "INSERT TARGET AUDIENCE, PRODUCT FEATURES, OR BUSINESS GOALS HERE", label: "Features/Goals (အင်္ဂါရပ်/ပန်းတိုင်)", hint: "ဥပမာ - ၁ လအတွင်း ရောင်းအား ၅၀% တက်ရန်" }
+                    ]
+                }
+            ];
+
+            const container = document.getElementById('card-container');
+            const langRadios = document.getElementsByName('language');
+
+            function renderCards() {
+                container.innerHTML = ''; 
+
+                promptData.forEach((data) => {
+                    const card = document.createElement('div');
+                    card.className = 'prompt-card';
+                    card.id = `card-${data.id}`;
+
+                    let html = `
+                        <div class="card-header">
+                            <div class="card-title">${data.title}</div>
+                            <div class="card-desc">💡 ${data.desc}</div>
+                        </div>
+                    `;
+
+                    if (data.inputs && data.inputs.length > 0) {
+                        data.inputs.forEach(input => {
+                            html += `
+                                <div class="form-group">
+                                    <label>${input.label}</label>
+                                    <input type="text" id="input-${data.id}-${input.id}" data-item-id="${data.id}" placeholder="${input.hint}">
+                                </div>
+                            `;
+                        });
+                    }
+
+                    html += `
+                        <textarea id="output-${data.id}" readonly></textarea>
+                        <button id="copy-${data.id}" data-item-id="${data.id}">Copy Prompt</button>
+                    `;
+
+                    card.innerHTML = html;
+                    container.appendChild(card);
+                });
+
+                attachEventListeners();
+                updateAllPrompts();
+            }
+
+            function updatePromptForCard(itemId) {
+                const data = promptData.find(p => p.id == itemId);
+                const isMyanmar = document.querySelector('input[name="language"]:checked').value === 'mm';
+                let finalPrompt = isMyanmar ? data.mm : data.en;
+
+                if (data.inputs) {
+                    data.inputs.forEach(input => {
+                        const el = document.getElementById(`input-${data.id}-${input.id}`);
+                        const val = el && el.value.trim() !== "" ? el.value.trim() : `[${input.id}]`;
+                        finalPrompt = finalPrompt.split(`[${input.id}]`).join(val);
+                    });
+                }
+
+                document.getElementById(`output-${data.id}`).value = finalPrompt;
+            }
+
+            function updateAllPrompts() {
+                promptData.forEach(data => updatePromptForCard(data.id));
+            }
+
+            function attachEventListeners() {
+                container.addEventListener('input', (e) => {
+                    if (e.target.tagName === 'INPUT') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        if (itemId) updatePromptForCard(itemId);
+                    }
+                });
+
+                container.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'BUTTON') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        const outputEl = document.getElementById(`output-${itemId}`);
+                        outputEl.select();
+                        document.execCommand('copy');
+                        
+                        const btn = e.target;
+                        const originalText = btn.innerText;
+                        btn.innerText = "COPIED! ✨";
+                        setTimeout(() => btn.innerText = originalText, 2000);
+                    }
+                });
+            }
+
+            langRadios.forEach(radio => radio.addEventListener('change', updateAllPrompts));
+
+            renderCards();
+        });
+    </script>
+</body>
+</html>

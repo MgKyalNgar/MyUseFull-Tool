@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NotebookLM YouTube Prompts</title>
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#1e1b4b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="My Useful Tools">
+    <link rel="apple-touch-icon" href="../icon-192x192.png">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: #0f172a; /* Dark Slate Background */
+            color: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .header-container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            margin-bottom: 25px;
+            position: sticky;
+            top: 0;
+            background: rgba(15, 23, 42, 0.95);
+            padding: 20px;
+            z-index: 100;
+            border-bottom: 1px solid #6366f1; /* Indigo Accent */
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #6366f1; 
+            font-size: 2.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .global-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .radio-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #cbd5e1;
+            font-weight: 600;
+        }
+
+        input[type="radio"] {
+            accent-color: #6366f1;
+            width: 16px;
+            height: 16px;
+        }
+
+        .instruction-box {
+            width: 100%;
+            max-width: 800px;
+            background: rgba(99, 102, 241, 0.05);
+            border: 1px dashed #6366f1;
+            padding: 15px 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
+        .instruction-box strong {
+            color: #818cf8;
+        }
+
+        /* ----- Accordion List Container ----- */
+        .accordion-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        /* ----- Accordion Item ----- */
+        .accordion-item {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-left: 4px solid #6366f1;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            border-color: #6366f1;
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.1);
+        }
+
+        /* ----- Accordion Header (Clickable) ----- */
+        .accordion-header {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            background: rgba(30, 41, 59, 0.8);
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding-right: 15px;
+        }
+
+        .acc-title {
+            color: #f8fafc;
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        .acc-desc {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .acc-icon {
+            color: #6366f1;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        /* Active State for Accordion */
+        .accordion-item.active .acc-icon {
+            transform: rotate(180deg);
+        }
+        
+        .accordion-item.active {
+            border-color: #818cf8;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.15);
+        }
+
+        /* ----- Accordion Body (Collapsible Content) ----- */
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            background: #0f172a;
+        }
+
+        .body-inner {
+            padding: 25px 20px;
+            border-top: 1px dashed #334155;
+        }
+
+        /* ----- Form Elements ----- */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #818cf8;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: #818cf8;
+            padding: 12px;
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"]:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.2);
+        }
+
+        textarea {
+            width: 100%;
+            height: 220px;
+            background: #020617;
+            border: 1px solid #334155;
+            color: #f8fafc;
+            padding: 15px;
+            border-radius: 6px;
+            resize: vertical;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        textarea:focus {
+            border-color: #6366f1;
+        }
+
+        button {
+            width: 100%;
+            background: transparent;
+            color: #818cf8;
+            border: 1px solid #6366f1;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #6366f1;
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>📓 NotebookLM YT Prompts</h1>
+        <p class="subtitle">AI ဖြင့် အောင်မြင်နေသော YouTube Channel များကို လေ့လာခြင်း</p>
+        <div class="global-options">
+            <label class="radio-btn">
+                <input type="radio" name="language" value="mm" checked> Myanmar Prompt
+            </label>
+            <label class="radio-btn">
+                <input type="radio" name="language" value="en"> English Prompt
+            </label>
+        </div>
+    </div>
+
+    <div class="instruction-box">
+        <strong>💡 အကြံပြုချက်:</strong> မေးခွန်းများမမေးမီ သင်လုပ်ချင်သော Niche မှ ထိပ်တန်း Channel တစ်ခု၏ Video URL (၁၀) ခုခန့်ကို NotebookLM တွင် Source အနေဖြင့် အရင်ထည့်သွင်းပါ။
+    </div>
+
+    <div class="accordion-container" id="accordion-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            const promptData = [
+                {
+                    id: 1,
+                    title: "၁။ Blueprint Extraction (မူရင်းပုံစံကို ဆွဲထုတ်ခြင်း)",
+                    desc: "အောင်မြင်တဲ့ Channel တွေရဲ့ Transcript တွေကို ခွဲခြမ်းစိတ်ဖြာပြီး ကိုယ်ပိုင် Content မဏ္ဍိုင်နဲ့ Idea များ ဖန်တီးရန်။",
+                    en: "Act as a master YouTube growth strategist. I want to build a faceless YouTube channel in the [Niche] space using these provided sources as a blueprint. Please thoroughly analyze the transcripts to give me:\n→ 10 highly clickable channel name ideas.\n→ A comprehensive breakdown of their core content pillars.\n→ A detailed explanation of their exact tone and pacing, and a list of my first ten video ideas based strictly on their most successful formats and psychological hooks.",
+                    mm: "ကျွမ်းကျင်တဲ့ YouTube Growth Strategist တစ်ယောက်အနေနဲ့ လုပ်ဆောင်ပေးပါ။ ပေးထားတဲ့ Source တွေကို အခြေခံပြီး [Niche] နယ်ပယ်မှာ မျက်နှာမပြရတဲ့ (faceless) YouTube channel တစ်ခု တည်ဆောက်ချင်ပါတယ်။ သူတို့ရဲ့ Transcript တွေကို သေချာခွဲခြမ်းစိတ်ဖြာပြီး အောက်ပါတို့ကို လုပ်ဆောင်ပေးပါ-\n→ လူတွေနှိပ်ချင်လာစေမယ့် Channel နာမည် (၁၀) ခု။\n→ သူတို့ရဲ့ အဓိက Content မဏ္ဍိုင်တွေကို အသေးစိတ်ခွဲခြမ်းစိတ်ဖြာချက်။\n→ သူတို့ရဲ့ အသံနေအသံထား၊ အနှေးအမြန်ကို အသေးစိတ်ရှင်းပြချက်နဲ့ အောင်မြင်မှုအများဆုံးရခဲ့တဲ့ ပုံစံတွေ၊ စိတ်ပညာအရ ဆွဲဆောင်နိုင်တဲ့ အချက်တွေအပေါ် အခြေခံထားတဲ့ ကျွန်တော့်ရဲ့ ပထမဆုံး Video (၁၀) ခုအတွက် Idea များ။",
+                    inputs: [
+                        { id: "Niche", label: "Niche (နယ်ပယ်)", hint: "ဥပမာ - AI Automation, Finance" }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "၂။ Fact-Driven Script Generation (အချက်အလက်ပေါ်အခြေခံပြီး Script ရေးခြင်း)",
+                    desc: "NotebookLM ထဲက Source တွေကိုသုံးပြီး စက်ရုပ်မဆန်တဲ့၊ ဆွဲဆောင်မှုရှိတဲ့ ၈ မိနစ်စာ Script ရေးရန်။",
+                    en: "Write a comprehensive, highly engaging 8-minute YouTube script about [Topic] tailored for a faceless channel, strictly utilizing the proven frameworks found in the source documents. Structure the script with a high-retention curiosity hook in the first 30 seconds, a strong credibility statement to establish authority, five main educational points backed by factual examples extracted directly from the text, and a compelling call to action at the end, ensuring the language remains simple, fast-paced, and free of industry jargon.",
+                    mm: "မျက်နှာမပြရတဲ့ Channel တစ်ခုအတွက် ရည်ရွယ်ပြီး [Topic] နဲ့ပတ်သက်တဲ့ ပြည့်စုံပြီး အလွန်ဆွဲဆောင်မှုရှိတဲ့ ၈ မိနစ်စာ YouTube script တစ်ခုကို Source Documents ထဲက အောင်မြင်ပြီးသား ပုံစံတွေကိုပဲ သုံးပြီး ရေးပေးပါ။ ပထမ စက္ကန့် ၃၀ မှာ ကြည့်ရှုသူတွေကို ဆက်ကြည့်ချင်စိတ်ဖြစ်သွားစေမယ့် အချက် (Hook)၊ ယုံကြည်ရလောက်တဲ့ ခိုင်မာတဲ့ အချက်အလက်၊ Source Text တွေကနေ တိုက်ရိုက်ထုတ်ယူထားတဲ့ ဥပမာတွေနဲ့ ကျောထောက်နောက်ခံပြုထားတဲ့ အဓိက သင်ခန်းစာ ၅ ခုနဲ့ နောက်ဆုံးမှာ ဆွဲဆောင်မှုရှိတဲ့ Call to Action (တိုက်တွန်းချက်) တစ်ခု ပါဝင်အောင် Script ကို တည်ဆောက်ပေးပါ။ စကားလုံးတွေကို ရိုးရှင်းပြီး မြန်ဆန်သွက်လက်စေဖို့နဲ့ နားလည်ရခက်တဲ့ အသုံးအနှုန်းတွေ ကင်းစင်စေဖို့ သေချာလုပ်ဆောင်ပေးပါ။",
+                    inputs: [
+                        { id: "Topic", label: "Topic (အကြောင်းအရာ)", hint: "ဥပမာ - How to start an AI Agency" }
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "၃။ Thumbnail & Title Optimization (ပုံနဲ့ ခေါင်းစဉ်ကို အကောင်းဆုံးဖြစ်အောင် ပြင်ဆင်ခြင်း)",
+                    desc: "Click အများဆုံးရမယ့် YouTube Title (၁၀) ခုနဲ့ လိုက်ဖက်တဲ့ Thumbnail ဒီဇိုင်းတွေကို ဖန်တီးရန်။",
+                    en: "Analyze the conceptual themes and hooks discussed in the source material and give me ten optimized YouTube title formulas guaranteed to get a massive click-through rate for this space. For every single title idea, write out the exact optimized title, explain the underlying psychological reason why it will force viewers to click, suggest a complementary, high-contrast text overlay for the thumbnail design, and rate its overall curiosity level on a scale of one to ten.",
+                    mm: "Source ထဲမှာ ဆွေးနွေးထားတဲ့ အဓိကအကြောင်းအရာတွေနဲ့ ဆွဲဆောင်မှုအချက် (Hooks) တွေကို ခွဲခြမ်းစိတ်ဖြာပြီး ဒီနယ်ပယ်အတွက် Click အများကြီးရဖို့ သေချာစေမယ့် အကောင်းဆုံး YouTube ခေါင်းစဉ်ပုံစံ (၁၀) ခုကို ပေးပါ။ ခေါင်းစဉ် Idea တစ်ခုချင်းစီအတွက် အကောင်းဆုံးဖြစ်အောင်ပြင်ဆင်ထားတဲ့ ခေါင်းစဉ်အပြည့်အစုံကို ရေးပေးပါ။ ကြည့်ရှုသူတွေကို ဘာကြောင့် နှိပ်ချင်သွားစေတယ်ဆိုတဲ့ စိတ်ပညာပိုင်းဆိုင်ရာ အကြောင်းရင်းကို ရှင်းပြပါ၊ Thumbnail ဒီဇိုင်းအတွက် လိုက်ဖက်ပြီး ထင်ရှားတဲ့ စာသား (Text Overlay) ကို အကြံပြုပေးပါ၊ ပြီးတော့ စိတ်ဝင်စားမှုဖြစ်စေတဲ့ အတိုင်းအတာကို (၁) ကနေ (၁၀) အထိ အမှတ်ပေးပါ။",
+                    inputs: []
+                },
+                {
+                    id: 4,
+                    title: "၄။ Algorithm Dominance Strategy (Algorithm ကို လွှမ်းမိုးနိုင်မယ့် နည်းဗျူဟာ)",
+                    desc: "ပြိုင်ဘက်တွေရဲ့ Viral Data ကိုသုံးပြီး Search Ranking ထိပ်ရောက်စေမယ့် SEO, Tags နဲ့ Chapter ခွဲနည်းများ။",
+                    en: "I want to completely dominate the YouTube search rankings for [Topic] by reverse-engineering the algorithm success of these provided source videos. Please give me ten low-competition, high-search-volume keywords I can easily rank for, an ideal SEO-optimized video description template that naturally weaves in these terms, the absolute best tags to use for maximum algorithmic reach, a highly effective chapter structure to boost audience watch time, and a script for a pinned comment designed to drive maximum community engagement.",
+                    mm: "ပေးထားတဲ့ Source Video တွေရဲ့ Algorithm အရ အောင်မြင်မှုတွေကို လေ့လာပြီး [Topic] နဲ့ပတ်သက်တဲ့ YouTube Search Ranking မှာ လုံးဝ ဦးဆောင်နိုင်ချင်ပါတယ်။ ပြိုင်ဆိုင်မှုနည်းပြီး ရှာဖွေမှုများတဲ့၊ အလွယ်တကူ Rank တက်နိုင်တဲ့ Keyword (၁၀) ခုကို ပေးပါ။ အဲ့ဒီ Keyword တွေကို သဘာဝကျကျ ထည့်သွင်းထားတဲ့ အကောင်းဆုံး SEO-optimized Video Description ပုံစံ၊ Algorithm ကနေ လူအများဆုံးဆီရောက်ဖို့ အကောင်းဆုံး Tag များ၊ ပရိသတ်တွေ ပိုကြာကြာကြည့်စေဖို့ အလွန်ထိရောက်တဲ့ Chapter အပိုင်းခွဲခြားမှုပုံစံနဲ့ Community မှာ လူတွေပိုပြီး ပါဝင်ဆွေးနွေးလာအောင် ရည်ရွယ်ထားတဲ့ Pinned Comment အတွက် Script တစ်ခုကို ရေးပေးပါ။",
+                    inputs: [
+                        { id: "Topic", label: "Topic (အကြောင်းအရာ)", hint: "ဥပမာ - AI Tools review 2026" }
+                    ]
+                },
+                {
+                    id: 5,
+                    title: "၅။ Income Stack Formulation (ဝင်ငွေလမ်းကြောင်းများ ဖန်တီးခြင်း)",
+                    desc: "AdSense အပြင် အခြားသော Affiliate, Sponsorship နဲ့ Digital Product တွေကနေ ဝင်ငွေရှာနည်းများ။",
+                    en: "Review these source transcripts to identify exactly how this successful channel is monetizing its audience, and build me a comprehensive income stack for my own YouTube channel integrating seamlessly with operations at Pinnacle AI Solutions. Please provide highly specific AdSense optimization tips based on their pacing, the best high-ticket affiliate programs tailored for this specific niche, three unique digital product ideas I can easily create and sell, a professional sponsorship pitch email template modeled after their ad reads, and a realistic monthly income projection based on a starting audience of [Subscribers] subscribers.",
+                    mm: "ဒီအောင်မြင်နေတဲ့ Channel က ပရိသတ်တွေဆီကနေ ဝင်ငွေဘယ်လိုရှာနေလဲဆိုတာ အတိအကျသိရဖို့ ဒီ Source Transcript တွေကို သုံးသပ်ပေးပါ။ ပြီးတော့ ကျွန်တော့်ရဲ့ ကိုယ်ပိုင် YouTube channel အတွက် Pinnacle AI Solutions လုပ်ငန်းစဉ်တွေနဲ့ အချိတ်အဆက်မိမိ ပေါင်းစပ်ပြီး ဝင်ငွေရလမ်းအစုံအလင်ကို တည်ဆောက်ပေးပါ။ သူတို့ရဲ့ ပြောဆိုပုံအနှေးအမြန်အပေါ် မူတည်ပြီး အလွန်တိကျတဲ့ AdSense Optimization အကြံပြုချက်တွေ၊ ဒီ Niche နဲ့ ကိုက်ညီတဲ့ အကောင်းဆုံး High-ticket Affiliate Program တွေ၊ ကျွန်တော် အလွယ်တကူဖန်တီးပြီး ရောင်းချနိုင်မယ့် ထူးခြားတဲ့ Digital Product Idea (၃) ခု၊ သူတို့ရဲ့ ကြော်ငြာဖတ်ပုံကို အတုယူထားတဲ့ Professional ဆန်တဲ့ Sponsorship Pitch Email ပုံစံနဲ့ စတင်တဲ့ Subscriber အရေအတွက် [Subscribers] ဦးအပေါ် အခြေခံထားတဲ့ လက်တွေ့ကျတဲ့ လစဉ်ဝင်ငွေခန့်မှန်းချက်တို့ကို ဖော်ပြပေးပါ။",
+                    inputs: [
+                        { id: "Subscribers", label: "Starting Subscribers (စတင်မည့် Subscriber အရေအတွက်)", hint: "ဥပမာ - 1000, 5000" }
+                    ]
+                }
+            ];
+
+            const container = document.getElementById('accordion-container');
+            const langRadios = document.getElementsByName('language');
+
+            function renderAccordion() {
+                container.innerHTML = ''; 
+
+                promptData.forEach((data) => {
+                    const item = document.createElement('div');
+                    item.className = 'accordion-item';
+                    item.id = `acc-item-${data.id}`;
+
+                    let html = `
+                        <div class="accordion-header" onclick="toggleAccordion(${data.id})">
+                            <div class="header-content">
+                                <div class="acc-title">${data.title}</div>
+                                <div class="acc-desc">💡 ${data.desc}</div>
+                            </div>
+                            <div class="acc-icon">▼</div>
+                        </div>
+                    `;
+
+                    html += `<div class="accordion-body" id="acc-body-${data.id}">
+                                <div class="body-inner">`;
+
+                    if (data.inputs && data.inputs.length > 0) {
+                        data.inputs.forEach(input => {
+                            html += `
+                                <div class="form-group">
+                                    <label>${input.label}</label>
+                                    <input type="text" id="input-${data.id}-${input.id}" data-item-id="${data.id}" placeholder="${input.hint}">
+                                </div>
+                            `;
+                        });
+                    }
+
+                    html += `
+                            <textarea id="output-${data.id}" readonly></textarea>
+                            <button id="copy-${data.id}" data-item-id="${data.id}">Copy Prompt</button>
+                        </div>
+                    </div>`;
+
+                    item.innerHTML = html;
+                    container.appendChild(item);
+                });
+
+                attachEventListeners();
+                updateAllPrompts();
+            }
+
+            window.toggleAccordion = function(id) {
+                const item = document.getElementById(`acc-item-${id}`);
+                const body = document.getElementById(`acc-body-${id}`);
+
+                // Auto-collapse logic
+                document.querySelectorAll('.accordion-item').forEach(el => {
+                    if(el.id !== `acc-item-${id}`) {
+                        el.classList.remove('active');
+                        el.querySelector('.accordion-body').style.maxHeight = null;
+                    }
+                });
+
+                if (item.classList.contains('active')) {
+                    item.classList.remove('active');
+                    body.style.maxHeight = null;
+                } else {
+                    item.classList.add('active');
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updatePromptForCard(itemId) {
+                const data = promptData.find(p => p.id == itemId);
+                const isMyanmar = document.querySelector('input[name="language"]:checked').value === 'mm';
+                let finalPrompt = isMyanmar ? data.mm : data.en;
+
+                if (data.inputs) {
+                    data.inputs.forEach(input => {
+                        const el = document.getElementById(`input-${data.id}-${input.id}`);
+                        const val = el && el.value.trim() !== "" ? el.value.trim() : `[${input.id}]`;
+                        finalPrompt = finalPrompt.split(`[${input.id}]`).join(val);
+                    });
+                }
+
+                document.getElementById(`output-${data.id}`).value = finalPrompt;
+                
+                const body = document.getElementById(`acc-body-${data.id}`);
+                const item = document.getElementById(`acc-item-${data.id}`);
+                if(item.classList.contains('active')) {
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updateAllPrompts() {
+                promptData.forEach(data => updatePromptForCard(data.id));
+            }
+
+            function attachEventListeners() {
+                container.addEventListener('input', (e) => {
+                    if (e.target.tagName === 'INPUT') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        if (itemId) updatePromptForCard(itemId);
+                    }
+                });
+
+                container.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'BUTTON') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        const outputEl = document.getElementById(`output-${itemId}`);
+                        outputEl.select();
+                        document.execCommand('copy');
+                        
+                        const btn = e.target;
+                        const originalText = btn.innerText;
+                        btn.innerText = "COPIED! ✨";
+                        setTimeout(() => btn.innerText = originalText, 2000);
+                    }
+                });
+            }
+
+            langRadios.forEach(radio => radio.addEventListener('change', updateAllPrompts));
+
+            renderAccordion();
+            setTimeout(() => { toggleAccordion(1); }, 100);
+        });
+    </script>
+</body>
+</html>

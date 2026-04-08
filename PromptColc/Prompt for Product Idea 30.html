@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Idea Prompt 30</title>
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#111827">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="My Useful Tools">
+    <link rel="apple-touch-icon" href="../icon-192x192.png">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: #111827; /* Dark Slate Background */
+            color: #e5e7eb;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .header-container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            margin-bottom: 25px;
+            position: sticky;
+            top: 0;
+            background: rgba(17, 24, 39, 0.95);
+            padding: 20px;
+            z-index: 100;
+            border-bottom: 1px solid #14b8a6; /* Teal/Cyan */
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #14b8a6; 
+            font-size: 2.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(20, 184, 166, 0.3);
+        }
+
+        .subtitle {
+            color: #9ca3af;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .global-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .radio-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #d1d5db;
+            font-weight: 600;
+        }
+
+        input[type="radio"] {
+            accent-color: #14b8a6;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Section Title */
+        .section-title {
+            width: 100%;
+            max-width: 800px;
+            color: #f87171; /* Coral Red for section breaks */
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 30px 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px dashed #374151;
+            text-transform: uppercase;
+        }
+
+        /* ----- Accordion List Container ----- */
+        .accordion-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        /* ----- Accordion Item ----- */
+        .accordion-item {
+            background: #1f2937;
+            border: 1px solid #374151;
+            border-left: 4px solid #14b8a6;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            border-color: #14b8a6;
+            box-shadow: 0 0 15px rgba(20, 184, 166, 0.1);
+        }
+
+        /* ----- Accordion Header (Clickable) ----- */
+        .accordion-header {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            background: rgba(31, 41, 55, 0.8);
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding-right: 15px;
+        }
+
+        .acc-title {
+            color: #f3f4f6;
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        .acc-desc {
+            color: #9ca3af;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .acc-icon {
+            color: #14b8a6;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-item.active .acc-icon {
+            transform: rotate(180deg);
+        }
+        
+        .accordion-item.active {
+            border-color: #14b8a6;
+            box-shadow: 0 0 20px rgba(20, 184, 166, 0.15);
+        }
+
+        /* ----- Accordion Body ----- */
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            background: #111827;
+        }
+
+        .body-inner {
+            padding: 25px 20px;
+            border-top: 1px dashed #374151;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #5eead4;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            background: #1f2937;
+            border: 1px solid #374151;
+            color: #14b8a6;
+            padding: 12px;
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"]:focus {
+            border-color: #14b8a6;
+            box-shadow: 0 0 10px rgba(20, 184, 166, 0.2);
+        }
+
+        textarea {
+            width: 100%;
+            height: 180px;
+            background: #030712;
+            border: 1px solid #374151;
+            color: #f3f4f6;
+            padding: 15px;
+            border-radius: 6px;
+            resize: vertical;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            outline: none;
+            margin-top: 10px;
+        }
+
+        textarea:focus {
+            border-color: #14b8a6;
+        }
+
+        button {
+            width: 100%;
+            background: transparent;
+            color: #14b8a6;
+            border: 1px solid #14b8a6;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #14b8a6;
+            color: #111827;
+            box-shadow: 0 0 15px rgba(20, 184, 166, 0.4);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>🛒 Product Idea Prompts</h1>
+        <p class="subtitle">လုပ်ငန်းရှင်များအတွက် အရောင်းမြှင့်တင်ဖို့ Content ရေးသားနည်း Prompts (၃၀)</p>
+        <div class="global-options">
+            <label class="radio-btn">
+                <input type="radio" name="language" value="mm" checked> Myanmar Prompt
+            </label>
+            <label class="radio-btn">
+                <input type="radio" name="language" value="en"> English Prompt
+            </label>
+        </div>
+    </div>
+
+    <div class="accordion-container" id="accordion-container">
+        </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            const promptData = [
+                // SECTION 1: PRODUCTS
+                { type: "header", title: "📦 ကုန်ပစ္စည်းများအတွက် Idea (၁၀) ခု" },
+                {
+                    id: "p1",
+                    title: "Idea 1: ကုန်ပစ္စည်းအသစ် မိတ်ဆက်ခြင်း (Product Launch)",
+                    desc: "ကုန်ပစ္စည်းအသစ်ကို မိတ်ဆက်ပြီး ချက်ချင်းဝယ်ချင်လာအောင် ဆွဲဆောင်ပါ။",
+                    en: "Write a 200-word Facebook post for a [Product Name] launch, highlighting its [Main Benefit], creating urgency with a \"limited-time discount\" and a \"shop now\" call-to-action.",
+                    mm: "[Product Name] အသစ်မိတ်ဆက်ခြင်းအတွက် စကားလုံး ၂၀၀ ခန့်ပါဝင်သော Facebook post တစ်ခု ရေးပေးပါ။ [Main Benefit] ကို ပေါ်လွင်စေပြီး \"ကန့်သတ်ချိန်လျှော့ဈေး\" ဖြင့် စိတ်လှုပ်ရှားစေကာ \"အခုပဲ ဝယ်ယူပါ\" ဆိုသည့် တိုက်တွန်းချက် (Call-to-action) ထည့်သွင်းပါ။",
+                    inputs: [
+                        { id: "Product Name", label: "ကုန်ပစ္စည်းအမည်", hint: "ဥပမာ - Glow Serum, Smart Watch" },
+                        { id: "Main Benefit", label: "အဓိကအကျိုးကျေးဇူး", hint: "ဥပမာ - အသားအရေကို ချက်ချင်းကြည်လင်စေသည်" }
+                    ]
+                },
+                {
+                    id: "p2",
+                    title: "Idea 2: ပြဿနာဖြေရှင်းပေးပုံကို ပြသခြင်း (Problem/Solution)",
+                    desc: "ဝယ်ယူသူတွေရဲ့ အခက်အခဲကို ဖြေရှင်းပေးနိုင်ကြောင်း တင်ပြပါ။",
+                    en: "Describe a common problem [Target Audience] faces. Present [Product Name] as the ultimate solution and explain why.",
+                    mm: "[Target Audience] ရင်ဆိုင်ရလေ့ရှိသော အဖြစ်များသည့် ပြဿနာတစ်ခုကို ဖော်ပြပါ။ [Product Name] ကို ထိုပြဿနာ၏ အကောင်းဆုံး ဖြေရှင်းနည်းအဖြစ် တင်ပြပြီး အဘယ်ကြောင့်ဖြစ်ကြောင်း ရှင်းပြပါ။",
+                    inputs: [
+                        { id: "Target Audience", label: "ပစ်မှတ်ထားသော ဝယ်ယူသူများ", hint: "ဥပမာ - အိမ်ရှင်မများ, ရုံးသမားများ" },
+                        { id: "Product Name", label: "ကုန်ပစ္စည်းအမည်", hint: "ဥပမာ - Robot Vacuum" }
+                    ]
+                },
+                {
+                    id: "p3",
+                    title: "Idea 3: အသေးစိတ်အချက်အလက်များကို ပြသခြင်း (Feature Highlight)",
+                    desc: "ပြိုင်ဘက်တွေမှာမပါတဲ့ ကိုယ့်ပစ္စည်းရဲ့ ထူးခြားချက်တွေကို ဖော်ပြပါ။",
+                    en: "Write a post emphasizing 3 unique features of [Product Name] that competitors lack, using high-quality product images as reference.",
+                    mm: "ပြိုင်ဘက်ကုန်ပစ္စည်းများတွင် မရှိသော [Product Name] ၏ ထူးခြားသည့် အချက်အလက် ၃ ခုကို အလေးပေးဖော်ပြသည့် post တစ်ခု ရေးပေးပါ။ အရည်အသွေးမြင့် ကုန်ပစ္စည်းပုံရိပ်များကို ကိုးကားရန် ထည့်သွင်းပါ။",
+                    inputs: [
+                        { id: "Product Name", label: "ကုန်ပစ္စည်းအမည်", hint: "ဥပမာ - AI Earbuds" }
+                    ]
+                },
+                {
+                    id: "p4",
+                    title: "Idea 4: ဝယ်ယူသူသက်သေကို အသုံးပြုခြင်း (Testimonial Showcase)",
+                    desc: "တကယ်သုံးဖူးသူတွေရဲ့ ပြောင်းလဲသွားတဲ့ ရလဒ်ကို Review အနေနဲ့ တင်ပါ။",
+                    en: "Create a post around a glowing review from a customer who used [Product Name] to achieve [Specific Result].",
+                    mm: "[Product Name] ကို အသုံးပြု၍ [Specific Result] ရရှိခဲ့သည့် ဝယ်ယူသူတစ်ဦး၏ ကောင်းမွန်သော သုံးသပ်ချက် (Review) ကို အခြေခံ၍ post တစ်ခု ဖန်တီးပါ။",
+                    inputs: [
+                        { id: "Product Name", label: "ကုန်ပစ္စည်းအမည်", hint: "ဥပမာ - Weight Loss Tea" },
+                        { id: "Specific Result", label: "သတ်မှတ်ရလဒ်", hint: "ဥပမာ - ၁ လအတွင်း ၁၀ ပေါင်ကျသွားခြင်း" }
+                    ]
+                },
+                {
+                    id: "p5",
+                    title: "Idea 5: အထူးပရိုမိုးရှင်း ကြေငြာခြင်း (Seasonal Sale)",
+                    desc: "ရာသီအလိုက် အထူးလျှော့ဈေးပွဲတော်တွေကို စိတ်လှုပ်ရှားဖွယ် ကြေညာပါ။",
+                    en: "Announce a huge seasonal sale for [Product Name], listing percentages off, dates, and terms, in an exciting tone.",
+                    mm: "[Product Name] အတွက် အကြီးစား ရာသီအလိုက် အရောင်းပွဲတော် (Seasonal Sale) ကို ကြေငြာပါ။ လျှော့ဈေးရာခိုင်နှုန်းများ၊ နေ့ရက်များနှင့် စည်းကမ်းချက်များကို စိတ်လှုပ်ရှားဖွယ်လေသံဖြင့် စာရင်းပြုစုပါ။",
+                    inputs: [
+                        { id: "Product Name", label: "ကုန်ပစ္စည်းအမည်", hint: "ဥပမာ - ဆောင်းတွင်းအဝတ်အစားများ" }
+                    ]
+                },
+                {
+                    id: "p6",
+                    title: "Idea 6: အသုံးပြုပုံလမ်းညွှန် (Tutorial/Demo)",
+                    desc: "နေ့စဉ်ဘဝမှာ အလွယ်တကူ ဘယ်လိုသုံးရမလဲဆိုတာ လမ်းညွှန်ပြသပါ။",
+                    en: "Share a step-by-step text guide or a short video concept showing how to easily use [Product Name] for daily tasks.",
+                    mm: "[Product Name] ကို နေ့စဉ်လုပ်ငန်းဆောင်တာများအတွက် အလွယ်တကူ မည်သို့အသုံးပြုရမည်ကို ပြသသည့် အဆင့်ဆင့် လမ်းညွှန်ချက် သို့မဟုတ် ဗီဒီယိုအတို idea တစ်ခုကို မျှဝေပါ။",
+                    inputs: [
+                        { id: "Product Name", label: "ကုန်ပစ္စည်းအမည်", hint: "ဥပမာ - Coffee Maker" }
+                    ]
+                },
+                {
+                    id: "p7",
+                    title: "Idea 7: တွဲဖက်ပရိုမိုးရှင်း (Bundle Offer)",
+                    desc: "ပစ္စည်းနှစ်ခုတွဲဝယ်ရင် ပိုတန်ကြောင်းကို ပေါ်လွင်အောင် ရေးသားပါ။",
+                    en: "Highlight a bundled offer where purchasing [Product A] and [Product B] together saves customers [Discount Amount].",
+                    mm: "[Product A] နှင့် [Product B] တို့ကို တွဲဖက်ဝယ်ယူပါက [Discount Amount] သက်သာစေမည့် Bundle ပရိုမိုးရှင်းတစ်ခုကို ပေါ်လွင်အောင် ရေးပေးပါ။",
+                    inputs: [
+                        { id: "Product A", label: "ကုန်ပစ္စည်း A", hint: "ဥပမာ - Shampoo" },
+                        { id: "Product B", label: "ကုန်ပစ္စည်း B", hint: "ဥပမာ - Conditioner" },
+                        { id: "Discount Amount", label: "သက်သာမည့် လျှော့ဈေးပမာဏ", hint: "ဥပမာ - ၅၀၀၀ ကျပ်" }
+                    ]
+                },
+                {
+                    id: "p8",
+                    title: "Idea 8: ဝယ်ယူသူပုံပြင် ပြောပြခြင်း (Customer Story)",
+                    desc: "ပစ္စည်းကြောင့် ဘဝပြောင်းလဲသွားတဲ့ အဖြစ်အပျက်ကို ပုံပြင်လေးတစ်ပုဒ်လို ပြောပြပါ။",
+                    en: "Tell the story of how [Product Name] transformed a customer's life, using relatable scenarios for the [Target Audience].",
+                    mm: "[Product Name] က ဝယ်ယူသူတစ်ဦး၏ ဘဝကို မည်သို့ ပြောင်းလဲစေခဲ့ကြောင်း ပုံပြင်ပြောပြပါ။ [Target Audience] နှင့် ဆက်စပ်နိုင်သော အခြေအနေများကို အသုံးပြုပါ။",
+                    inputs: [
+                        { id: "Product Name", label: "ကုန်ပစ္စည်းအမည်", hint: "ဥပမာ - Ergonomic Chair" },
+                        { id: "Target Audience", label: "ပစ်မှတ်ထားသော ဝယ်ယူသူများ", hint: "ဥပမာ - ခါးနာတတ်သော ရုံးသမားများ" }
+                    ]
+                },
+                {
+                    id: "p9",
+                    title: "Idea 9: လက်ဆောင်ပေးဖို့ Idea (Gift Guide)",
+                    desc: "အခမ်းအနားတွေမှာ လက်ဆောင်ပေးဖို့ အသင့်တော်ဆုံးဖြစ်ကြောင်း ကြေညာပါ။",
+                    en: "Create a gift guide featuring [Product Name] as the perfect present for [Occasion/Recipient Type], with appealing descriptions.",
+                    mm: "[Product Name] ကို [Occasion/Recipient Type] အတွက် အကောင်းဆုံး လက်ဆောင်အဖြစ် ဖော်ပြသည့် လက်ဆောင်လမ်းညွှန် (Gift Guide) တစ်ခုကို ဆွဲဆောင်မှုရှိသော ဖော်ပြချက်များဖြင့် ဖန်တီးပါ။",
+                    inputs: [
+                        { id: "Product Name", label: "ကုန်ပစ္စည်းအမည်", hint: "ဥပမာ - Skin Care Set" },
+                        { id: "Occasion/Recipient Type", label: "အခမ်းအနား/ရရှိမည့်သူ", hint: "ဥပမာ - မိခင်များနေ့တွင် မိခင်များအတွက်" }
+                    ]
+                },
+                {
+                    id: "p10",
+                    title: "Idea 10: နှိုင်းယှဉ်ချက် ပြသခြင်း (Comparison Post)",
+                    desc: "တခြားပစ္စည်းတွေထက် ကိုယ့်ပစ္စည်းက ဘယ်လိုသာလွန်လဲဆိုတာ နှိုင်းယှဉ်ပြပါ။",
+                    en: "Create a comparison post between [Product Name] and a generic alternative, highlighting [Product Name]’s superior quality and value.",
+                    mm: "[Product Name] နှင့် တူညီသော အခြားရွေးချယ်စရာတစ်ခုကြား နှိုင်းယှဉ်ချက် post တစ်ခု ဖန်တီးပါ။ [Product Name] ၏ သာလွန်သော အရည်အသွေးနှင့် တန်ဖိုးကို ပေါ်လွင်စေပါ။",
+                    inputs: [
+                        { id: "Product Name", label: "ကုန်ပစ္စည်းအမည်", hint: "ဥပမာ - Premium Leather Bag" }
+                    ]
+                },
+
+                // SECTION 2: COURSES
+                { type: "header", title: "🎓 သင်တန်းများအတွက် Idea (၁၀) ခု" },
+                {
+                    id: "c1",
+                    title: "Idea 1: အောင်မြင်သူ သက်သေပြခြင်း (Student Success Story)",
+                    desc: "သင်တန်းဆင်းပြီး အလုပ်ရသွားတဲ့၊ အောင်မြင်သွားတဲ့ ကျောင်းသားဟောင်းအကြောင်း တင်ပါ။",
+                    en: "Write a 200-word post featuring a former [Course Name] student who achieved [Career or Skill Level], thanking the course for the success.",
+                    mm: "[Course Name] ကို တက်ရောက်ပြီးနောက် [Career or Skill Level] ရရှိခဲ့သည့် ကျောင်းသားဟောင်းတစ်ဦး၏ အောင်မြင်မှုကို ဖော်ပြသည့် စကားလုံး ၂၀၀ ခန့်ပါ post တစ်ခု ရေးပေးပါ။ ထိုအောင်မြင်မှုအတွက် သင်တန်းကို ကျေးဇူးတင်စကား ထည့်သွင်းပါ။",
+                    inputs: [
+                        { id: "Course Name", label: "သင်တန်းအမည်", hint: "ဥပမာ - Digital Marketing Masterclass" },
+                        { id: "Career or Skill Level", label: "ရရှိခဲ့သော အဆင့်", hint: "ဥပမာ - Marketing Manager ရာထူး" }
+                    ]
+                },
+                {
+                    id: "c2",
+                    title: "Idea 2: သင်ရိုးညွှန်းတမ်း ပြသခြင်း (Curriculum Showcase)",
+                    desc: "သင်တန်းမှာ ဘာတွေသင်ပေးမလဲနဲ့ ဘာလို့တန်ဖိုးရှိတာလဲဆိုတာကို ရှင်းပြပါ။",
+                    en: "List the key curriculum sections of [Course Name], highlighting the [Specific Skills] taught in each and why they are valuable.",
+                    mm: "[Course Name] ၏ အဓိက သင်ရိုးညွှန်းတမ်း ကဏ္ဍများကို စာရင်းပြုစုပါ။ ကဏ္ဍတစ်ခုစီတွင် သင်ကြားပေးမည့် [Specific Skills] နှင့် ၎င်းတို့ အဘယ်ကြောင့် တန်ဖိုးရှိကြောင်း ပေါ်လွင်စေပါ။",
+                    inputs: [
+                        { id: "Course Name", label: "သင်တန်းအမည်", hint: "ဥပမာ - Basic Python Course" },
+                        { id: "Specific Skills", label: "သင်ကြားပေးမည့် ကျွမ်းကျင်မှုများ", hint: "ဥပမာ - Data Analysis, Web Scraping" }
+                    ]
+                },
+                {
+                    id: "c3",
+                    title: "Idea 3: ပြောင်းလဲမှုကို ကတိပေးခြင်း (Transformation Promise)",
+                    desc: "သင်တန်းမတက်ခင်နဲ့ တက်ပြီးနောက် ကွာခြားသွားမယ့် အခြေအနေကို ဖော်ပြပါ။",
+                    en: "Create a \"before vs. after\" scenario focusing on the knowledge, skills, or career prospects after completing [Course Name].",
+                    mm: "[Course Name] ကို ပြီးဆုံးပြီးနောက် ရရှိမည့် အသိပညာ၊ ကျွမ်းကျင်မှု သို့မဟုတ် အသက်မွေးဝမ်းကြောင်းဆိုင်ရာ အလားအလာများကို \"သင်တန်းမတက်ခင် VS တက်ပြီးနောက်\" အခြေအနေဖြင့် ဖန်တီးပါ။",
+                    inputs: [
+                        { id: "Course Name", label: "သင်တန်းအမည်", hint: "ဥပမာ - Public Speaking Course" }
+                    ]
+                },
+                {
+                    id: "c4",
+                    title: "Idea 4: နည်းပြ၏ ကျွမ်းကျင်မှုကို မိတ်ဆက်ခြင်း (Instructor Credibility)",
+                    desc: "သင်တန်းဆရာရဲ့ အတွေ့အကြုံနဲ့ အရည်အချင်းတွေကို ချပြပြီး ယုံကြည်မှုတည်ဆောက်ပါ။",
+                    en: "Introduce the main instructor for [Course Name], emphasizing their professional experience, degrees, and awards in [Subject Area].",
+                    mm: "[Course Name] ၏ အဓိကနည်းပြကို မိတ်ဆက်ပါ။ ၎င်းတို့၏ [Subject Area] ဆိုင်ရာ လုပ်ငန်းအတွေ့အကြုံ၊ ဘွဲ့ဒီဂရီများနှင့် ဆုတံဆိပ်များကို အလေးပေးဖော်ပြပါ။",
+                    inputs: [
+                        { id: "Course Name", label: "သင်တန်းအမည်", hint: "ဥပမာ - Graphic Design Masterclass" },
+                        { id: "Subject Area", label: "ဘာသာရပ်နယ်ပယ်", hint: "ဥပမာ - Commercial Design & Branding" }
+                    ]
+                },
+                {
+                    id: "c5",
+                    title: "Idea 5: စောစီးစွာ စာရင်းသွင်းမှု လျှော့ဈေး (Early Bird Discount)",
+                    desc: "အစောပိုင်းအပ်သူတွေအတွက် သက်သာမယ့်အခွင့်အရေးကို ကြေညာပါ။",
+                    en: "Announce an \"Early Bird\" discount for [Course Name], highlighting the savings and the deadline to encourage quick sign-ups.",
+                    mm: "[Course Name] အတွက် \"Early Bird\" (စောစီးစွာစာရင်းသွင်းမှု) လျှော့ဈေးကို ကြေငြာပါ။ သက်သာစေမည့် ပမာဏနှင့် နောက်ဆုံးရက်ကို ပေါ်လွင်စေပြီး လျင်မြန်စွာ စာရင်းသွင်းရန် တိုက်တွန်းပါ။",
+                    inputs: [
+                        { id: "Course Name", label: "သင်တန်းအမည်", hint: "ဥပမာ - Web Development Bootcamp" }
+                    ]
+                },
+                {
+                    id: "c6",
+                    title: "Idea 6: အခမဲ့ အစမ်းသင်ကြားမှု (Free Seminar/Webinar Invite)",
+                    desc: "အခမဲ့ မိတ်ဆက်သင်ခန်းစာကို ဖိတ်ခေါ်ပြီး သင်တန်းရဲ့ တန်ဖိုးကို ကြိုပြပါ။",
+                    en: "Invite people to a free webinar or introductory session about [Course Name], outlining the value they will get for free.",
+                    mm: "[Course Name] ဆိုင်ရာ အခမဲ့ အွန်လိုင်းဆွေးနွေးပွဲ (Webinar) သို့မဟုတ် မိတ်ဆက်သင်ခန်းစာသို့ ဖိတ်ခေါ်ပါ။ အခမဲ့ ရရှိမည့် တန်ဖိုးကို အကျဉ်းချုပ်ဖော်ပြပါ။",
+                    inputs: [
+                        { id: "Course Name", label: "သင်တန်းအမည်", hint: "ဥပမာ - Financial Investment 101" }
+                    ]
+                },
+                {
+                    id: "c7",
+                    title: "Idea 7: အကျိုးကျေးဇူးကို အလေးပေးခြင်း (Core Benefit/Pain Point)",
+                    desc: "အလုပ်ခွင်က အခက်အခဲတွေကို ဒီသင်တန်းကပဲ ဖြေရှင်းပေးနိုင်ကြောင်း တင်ပြပါ။",
+                    en: "Write a post addressing a common career pain point and present [Course Name] as the only way to overcome it.",
+                    mm: "အသက်မွေးဝမ်းကြောင်းဆိုင်ရာ အဖြစ်များသော အခက်အခဲတစ်ခုကို ကိုင်တွယ်ဖြေရှင်းသည့် post တစ်ခု ရေးပေးပါ။ ၎င်းကို ကျော်လွှားရန် တစ်ခုတည်းသောနည်းလမ်းအဖြစ် [Course Name] ကို တင်ပြပါ။",
+                    inputs: [
+                        { id: "Course Name", label: "သင်တန်းအမည်", hint: "ဥပမာ - English for Business Communication" }
+                    ]
+                },
+                {
+                    id: "c8",
+                    title: "Idea 8: အောင်လက်မှတ်၏ တန်ဖိုး (Certificate/Qualification)",
+                    desc: "သင်တန်းဆင်းလက်မှတ်က အလုပ်ရှာတဲ့အခါ ဘယ်လောက်အသုံးဝင်ကြောင်း ရှင်းပြပါ။",
+                    en: "Discuss the value of the certificate or qualification offered upon completing [Course Name], especially for employer recognition.",
+                    mm: "[Course Name] ကို ပြီးဆုံးပြီးနောက် ပေးအပ်မည့် အောင်လက်မှတ် သို့မဟုတ် အရည်အချင်းစစ်လက်မှတ်၏ တန်ဖိုးကို ဆွေးနွေးပါ။ အထူးသဖြင့် အလုပ်ရှင်များ၏ အသိအမှတ်ပြုမှုအတွက် အလေးပေးပါ။",
+                    inputs: [
+                        { id: "Course Name", label: "သင်တန်းအမည်", hint: "ဥပမာ - Advanced SEO Certification" }
+                    ]
+                },
+                {
+                    id: "c9",
+                    title: "Idea 9: လက်တွေ့အသုံးချနိုင်မှု (Practical Skill Application)",
+                    desc: "စာတွေ့တင်မကဘဲ အလုပ်ခွင်မှာ ချက်ချင်းလက်တွေ့သုံးနိုင်မယ့် အချက်ကို ပေါ်လွင်စေပါ။",
+                    en: "Describe a practical project or task students will master in [Course Name] that they can immediately apply in a job.",
+                    mm: "[Course Name] တွင် ကျောင်းသားများ ကျွမ်းကျင်ပိုင်နိုင်စွာ လုပ်ဆောင်နိုင်မည့် လက်တွေ့ပရောဂျက် သို့မဟုတ် လုပ်ငန်းဆောင်တာတစ်ခုကို ဖော်ပြပါ။ ၎င်းကို အလုပ်ခွင်တွင် ချက်ချင်း အသုံးချနိုင်ကြောင်း ထည့်သွင်းပါ။",
+                    inputs: [
+                        { id: "Course Name", label: "သင်တန်းအမည်", hint: "ဥပမာ - Facebook Ads Mastery" }
+                    ]
+                },
+                {
+                    id: "c10",
+                    title: "Idea 10: စာရင်းသွင်းရန် အရေးတကြီး တိုက်တွန်းခြင်း (Limited Seats)",
+                    desc: "လူပြည့်တော့မှာမို့ အမြန်ဆုံး အပ်နှံကြဖို့ အရေးတကြီး လှုံ့ဆော်ပါ။",
+                    en: "Use urgency and scarcity in a post for [Course Name], highlighting the few seats remaining and encouraging readers to enroll today.",
+                    mm: "[Course Name] အတွက် အရေးတကြီးနှင့် ရှားပါးမှုကို အသုံးပြုသည့် post တစ်ခု ရေးပေးပါ။ လက်ကျန်နေရာ အနည်းငယ်သာရှိကြောင်း ပေါ်လွင်စေပြီး စာရင်းသွင်းရန် ဒီနေ့ပဲ တိုက်တွန်းပါ။",
+                    inputs: [
+                        { id: "Course Name", label: "သင်တန်းအမည်", hint: "ဥပမာ - Video Editing Class" }
+                    ]
+                },
+
+                // SECTION 3: SHOPS
+                { type: "header", title: "🏪 ဆိုင်များအတွက် Idea (၁၀) ခု" },
+                {
+                    id: "s1",
+                    title: "Idea 1: ဆိုင်ဖွင့်ပွဲ ကြေငြာခြင်း (Grand Opening)",
+                    desc: "ဆိုင်သစ်ဖွင့်ပွဲနဲ့ ပတ်သက်တဲ့ အထူးအစီအစဉ်တွေကို ကြေညာပါ။",
+                    en: "Announce the Grand Opening of [Shop Name]’s new location, mentioning the date, address, special opening offers, and ribbon-cutting details.",
+                    mm: "[Shop Name] ၏ တည်နေရာအသစ် ဖွင့်ပွဲ (Grand Opening) ကို ကြေငြာပါ။ ရက်စွဲ၊ လိပ်စာ၊ အထူးဖွင့်ပွဲ ပရိုမိုးရှင်းများနှင့် ဖဲကြိုးဖြတ်အခမ်းအနား အသေးစိတ်ကို ထည့်သွင်းပါ။",
+                    inputs: [
+                        { id: "Shop Name", label: "ဆိုင်အမည်", hint: "ဥပမာ - Star Coffee Shop" }
+                    ]
+                },
+                {
+                    id: "s2",
+                    title: "Idea 2: ဆိုင်၏ Tone နှင့် ဝန်ဆောင်မှုကို ပြသခြင်း (Ambiance/Vibe)",
+                    desc: "ဆိုင်ရဲ့ သက်တောင့်သက်သာရှိတဲ့ အငွေ့အသက်ကို ကဗျာဆန်ဆန် ဖော်ပြပါ။",
+                    en: "Write a poetic or evocative post describing the unique ambiance of [Shop Name], inviting people to relax and enjoy the experience.",
+                    mm: "[Shop Name] ၏ ထူးခြားသော tone ကို ဖော်ပြသည့် ကဗျာဆန်ဆန် သို့မဟုတ် စိတ်လှုပ်ရှားဖွယ်ရာ post တစ်ခု ရေးပေးပါ။ လူများကို အနားယူပြီး အတွေ့အကြုံကို ခံစားရန် ဖိတ်ခေါ်ပါ။",
+                    inputs: [
+                        { id: "Shop Name", label: "ဆိုင်အမည်", hint: "ဥပမာ - The Quiet Library Cafe" }
+                    ]
+                },
+                {
+                    id: "s3",
+                    title: "Idea 3: အထူးဝန်ဆောင်မှုကို ပေါ်လွင်စေခြင်း (Service Spotlight)",
+                    desc: "မြို့ထဲမှာ အကောင်းဆုံးဖြစ်တဲ့ ကိုယ်ဆိုင်ရဲ့ Special Service ကို ကြွားပါ။",
+                    en: "Focus a post on one special service provided by [Shop Name], such as [Service Name], explaining why it's the best in town.",
+                    mm: "[Shop Name] မှ ပေးဆောင်သော အထူးဝန်ဆောင်မှုတစ်ခုဖြစ်သည့် [Service Name] ကို အလေးပေးဖော်ပြသည့် post တစ်ခု ရေးပေးပါ။ ၎င်းသည် မြို့ထဲတွင် အကောင်းဆုံးဖြစ်ကြောင်း ရှင်းပြပါ။",
+                    inputs: [
+                        { id: "Shop Name", label: "ဆိုင်အမည်", hint: "ဥပမာ - Glow Spa" },
+                        { id: "Service Name", label: "ဝန်ဆောင်မှုအမည်", hint: "ဥပမာ - ထိုင်းအနှိပ်, ကော်ဖီလှော်ခြင်း" }
+                    ]
+                },
+                {
+                    id: "s4",
+                    title: "Idea 4: ဝန်ထမ်းများကို မိတ်ဆက်ခြင်း (Meet the Team)",
+                    desc: "ဖော်ရွေပြီး ကျွမ်းကျင်တဲ့ ဝန်ထမ်းတွေရဲ့အကြောင်းကို မိတ်ဆက်ပေးပါ။",
+                    en: "Introduce the key staff members of [Shop Name], sharing their personal passion and commitment to high-quality service.",
+                    mm: "[Shop Name] ၏ အဓိကဝန်ထမ်းများကို မိတ်ဆက်ပေးပါ။ ၎င်းတို့၏ ပုဂ္ဂိုလ်ရေးဆိုင်ရာ ဝါသနာနှင့် အရည်အသွေးမြင့် ဝန်ဆောင်မှုအတွက် ကတိကဝတ်များကို မျှဝေပါ။",
+                    inputs: [
+                        { id: "Shop Name", label: "ဆိုင်အမည်", hint: "ဥပမာ - Classic Barber Shop" }
+                    ]
+                },
+                {
+                    id: "s5",
+                    title: "Idea 5: ကန့်သတ်ချက်ရှိသော အထူးပွဲ (Limited-Time Event)",
+                    desc: "ဆိုင်မှာလုပ်မယ့် အထူးပွဲလေးတစ်ခုအတွက် ကြိုတင်စာရင်းသွင်းဖို့ ဆွဲဆောင်ပါ။",
+                    en: "Generate excitement for a special, limited-time event at [Shop Name], like [Event Name], encouraging readers to make reservations.",
+                    mm: "[Shop Name] တွင် ကျင်းပမည့် [Event Name] ကဲ့သို့သော ကန့်သတ်ချက်ရှိသော အထူးပွဲအတွက် စိတ်လှုပ်ရှားမှု ဖန်တီးပါ။ ကြိုတင်စာရင်းသွင်းရန် တိုက်တွန်းပါ။",
+                    inputs: [
+                        { id: "Shop Name", label: "ဆိုင်အမည်", hint: "ဥပမာ - The Steak House" },
+                        { id: "Event Name", label: "ပွဲအမည်", hint: "ဥပမာ - နိုင်ငံခြားစားဖိုမှူးဧည့်သည်ည, Workshop" }
+                    ]
+                },
+                {
+                    id: "s6",
+                    title: "Idea 6: ကုန်ပစ္စည်း/မီနူးအသစ် မိတ်ဆက်ခြင်း (New Menu/Item)",
+                    desc: "ဆိုင်က မီနူးအသစ် ဒါမှမဟုတ် ပစ္စည်းအသစ်ကို လူတွေသိအောင် မိတ်ဆက်ပါ။",
+                    en: "Reveal a new addition to [Shop Name]’s menu or inventory, highlighting its [Main Feature] and why customers will love it.",
+                    mm: "[Shop Name] ၏ မီနူး သို့မဟုတ် ကုန်ပစ္စည်းစာရင်းတွင် အသစ်ထည့်သွင်းမှုကို ထုတ်ဖော်ပြသပါ။ ၎င်း၏ [Main Feature] နှင့် ဝယ်ယူသူများ အဘယ်ကြောင့် နှစ်သက်မည်ကို ပေါ်လွင်စေပါ။",
+                    inputs: [
+                        { id: "Shop Name", label: "ဆိုင်အမည်", hint: "ဥပမာ - Sweet Bakery" },
+                        { id: "Main Feature", label: "အဓိကထူးခြားချက်", hint: "ဥပမာ - သကြားနည်းပြီး ကျန်းမာရေးနှင့်ညီညွတ်ခြင်း" }
+                    ]
+                },
+                {
+                    id: "s7",
+                    title: "Idea 7: ဝယ်ယူသူ အတွေ့အကြုံ (Customer Experience Highlight)",
+                    desc: "ဆိုင်လာတဲ့ Customer တစ်ယောက်ရဲ့ ကျေနပ်ပျော်ရွှင်သွားတဲ့ အဖြစ်အပျက်ကို တင်ပါ။",
+                    en: "Build a post around a specific positive customer experience at [Shop Name], using phrases that describe the feelings of happiness and satisfaction.",
+                    mm: "[Shop Name] တွင် ဝယ်ယူသူတစ်ဦး၏ ကောင်းမွန်သော အတွေ့အကြုံကို အခြေခံ၍ post တစ်ခု ဖန်တီးပါ။ ပျော်ရွှင်မှုနှင့် ကျေနပ်မှုကို ဖော်ပြသည့် စကားစုများကို အသုံးပြုပါ။",
+                    inputs: [
+                        { id: "Shop Name", label: "ဆိုင်အမည်", hint: "ဥပမာ - Family Restaurant" }
+                    ]
+                },
+                {
+                    id: "s8",
+                    title: "Idea 8: ကြိုတင်စာရင်းသွင်းရန် လမ်းညွှန် (How to Book/Order)",
+                    desc: "ဆိုင်ကို အလွယ်တကူ ဘယ်လို Booking လုပ်ရမလဲဆိုတာ အဆင့်ဆင့် ရှင်းပြပါ။",
+                    en: "Write a simple step-by-step guide or post on how customers can easily book a table or order products from [Shop Name] via social media or an app.",
+                    mm: "ဝယ်ယူသူများ [Shop Name] မှ စားပွဲကြိုတင်စာရင်းသွင်းရန် သို့မဟုတ် ကုန်ပစ္စည်းများမှာယူရန် လူမှုကွန်ရက် သို့မဟုတ် အက်ပ်မှတစ်ဆင့် အလွယ်တကူ မည်သို့လုပ်ဆောင်ရမည်ကို ပြသသည့် အဆင့်ဆင့် လမ်းညွှန်ချက် post တစ်ခု ရေးပေးပါ။",
+                    inputs: [
+                        { id: "Shop Name", label: "ဆိုင်အမည်", hint: "ဥပမာ - Sushi Bar" }
+                    ]
+                },
+                {
+                    id: "s9",
+                    title: "Idea 9: ဝယ်ယူသူ သစ္စာရှိမှု အစီအစဉ် (Loyalty Program)",
+                    desc: "အမြဲလာတဲ့ ဖောက်သည်တွေအတွက် Point စုပြီး ဆုရမယ့်အစီအစဉ်ကို ကြေညာပါ။",
+                    en: "Launch a new loyalty program for [Shop Name], explaining the points system, rewards, and how easy it is to sign up and start earning.",
+                    mm: "[Shop Name] အတွက် သစ္စာရှိမှုအစီအစဉ် (Loyalty Program) အသစ်တစ်ခုကို ကြေငြာပါ။ မှတ်စနစ်၊ ဆုလာဘ်များနှင့် စာရင်းသွင်းပြီး စတင်ရရှိရန် မည်မျှလွယ်ကူကြောင်း ရှင်းပြပါ။",
+                    inputs: [
+                        { id: "Shop Name", label: "ဆိုင်အမည်", hint: "ဥပမာ - Bubble Tea Shop" }
+                    ]
+                },
+                {
+                    id: "s10",
+                    title: "Idea 10: ဆိုင်ဖွင့်ချိန်နှင့် အထူးနေ့ရက်များ (Opening Hours)",
+                    desc: "ဆိုင်ပုံမှန်ဖွင့်တဲ့ အချိန်နဲ့ ပိတ်ရက်တွေကို ရှင်းရှင်းလင်းလင်း ကြေညာပါ။",
+                    en: "Share the opening hours of [Shop Name] clearly, emphasizing consistency and highlighting any special days (e.g., \"Open on Sundays\").",
+                    mm: "[Shop Name] ၏ ဆိုင်ဖွင့်ချိန်များကို ရှင်းလင်းစွာ မျှဝေပါ။ ပုံမှန်ဖွင့်လှစ်မှုကို အလေးပေးပြီး အထူးနေ့ရက်များ (ဥပမာ- \"တနင်္ဂနွေနေ့များတွင် ဖွင့်သည်\") ကို ပေါ်လွင်စေပါ။",
+                    inputs: [
+                        { id: "Shop Name", label: "ဆိုင်အမည်", hint: "ဥပမာ - Dental Clinic" }
+                    ]
+                }
+            ];
+
+            const container = document.getElementById('accordion-container');
+            const langRadios = document.getElementsByName('language');
+
+            function renderAccordion() {
+                container.innerHTML = ''; 
+
+                promptData.forEach((data) => {
+                    if (data.type === "header") {
+                        const header = document.createElement('div');
+                        header.className = 'section-title';
+                        header.innerText = data.title;
+                        container.appendChild(header);
+                        return; // Skip the rest for headers
+                    }
+
+                    const item = document.createElement('div');
+                    item.className = 'accordion-item';
+                    item.id = `acc-item-${data.id}`;
+
+                    let html = `
+                        <div class="accordion-header" onclick="toggleAccordion('${data.id}')">
+                            <div class="header-content">
+                                <div class="acc-title">${data.title}</div>
+                                <div class="acc-desc">💡 ${data.desc}</div>
+                            </div>
+                            <div class="acc-icon">▼</div>
+                        </div>
+                    `;
+
+                    html += `<div class="accordion-body" id="acc-body-${data.id}">
+                                <div class="body-inner">`;
+
+                    if(data.inputs && data.inputs.length > 0) {
+                        data.inputs.forEach(input => {
+                            html += `
+                                <div class="form-group">
+                                    <label>${input.label}</label>
+                                    <input type="text" id="input-${data.id}-${input.id}" data-item-id="${data.id}" placeholder="${input.hint}">
+                                </div>
+                            `;
+                        });
+                    }
+
+                    html += `
+                            <textarea id="output-${data.id}" readonly></textarea>
+                            <button id="copy-${data.id}" data-item-id="${data.id}">Copy Prompt</button>
+                        </div>
+                    </div>`;
+
+                    item.innerHTML = html;
+                    container.appendChild(item);
+                });
+
+                attachEventListeners();
+                updateAllPrompts();
+            }
+
+            window.toggleAccordion = function(id) {
+                const item = document.getElementById(`acc-item-${id}`);
+                const body = document.getElementById(`acc-body-${id}`);
+
+                // Auto-collapse logic
+                document.querySelectorAll('.accordion-item').forEach(el => {
+                    if(el.id !== `acc-item-${id}`) {
+                        el.classList.remove('active');
+                        el.querySelector('.accordion-body').style.maxHeight = null;
+                    }
+                });
+
+                if (item.classList.contains('active')) {
+                    item.classList.remove('active');
+                    body.style.maxHeight = null;
+                } else {
+                    item.classList.add('active');
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updatePromptForCard(itemId) {
+                const data = promptData.find(p => p.id === itemId);
+                if (!data || data.type === "header") return;
+
+                const isMyanmar = document.querySelector('input[name="language"]:checked').value === 'mm';
+                let finalPrompt = isMyanmar ? data.mm : data.en;
+
+                if (data.inputs) {
+                    data.inputs.forEach(input => {
+                        const el = document.getElementById(`input-${data.id}-${input.id}`);
+                        const val = el && el.value.trim() !== "" ? el.value.trim() : `[${input.id}]`;
+                        finalPrompt = finalPrompt.split(`[${input.id}]`).join(val);
+                    });
+                }
+
+                document.getElementById(`output-${data.id}`).value = finalPrompt;
+                
+                const body = document.getElementById(`acc-body-${data.id}`);
+                const item = document.getElementById(`acc-item-${data.id}`);
+                if(item.classList.contains('active')) {
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updateAllPrompts() {
+                promptData.forEach(data => {
+                    if(data.type !== "header") updatePromptForCard(data.id);
+                });
+            }
+
+            function attachEventListeners() {
+                container.addEventListener('input', (e) => {
+                    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        if (itemId) updatePromptForCard(itemId);
+                    }
+                });
+
+                container.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'BUTTON') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        const outputEl = document.getElementById(`output-${itemId}`);
+                        outputEl.select();
+                        document.execCommand('copy');
+                        
+                        const btn = e.target;
+                        const originalText = btn.innerText;
+                        btn.innerText = "COPIED! ✨";
+                        setTimeout(() => btn.innerText = originalText, 2000);
+                    }
+                });
+            }
+
+            langRadios.forEach(radio => radio.addEventListener('change', updateAllPrompts));
+
+            renderAccordion();
+            setTimeout(() => { toggleAccordion('p1'); }, 100);
+        });
+    </script>
+</body>
+</html>
