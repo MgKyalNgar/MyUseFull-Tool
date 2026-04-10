@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Page Growing Prompts</title>
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="My Useful Tools">
+    <link rel="apple-touch-icon" href="../icon-192x192.png">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: #0f172a; /* Deep Navy / Slate */
+            color: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .header-container {
+            width: 100%;
+            max-width: 1000px;
+            text-align: center;
+            margin-bottom: 30px;
+            position: sticky;
+            top: 0;
+            background: rgba(15, 23, 42, 0.95);
+            padding: 20px;
+            z-index: 100;
+            border-bottom: 1px solid #1877F2; /* Facebook Blue */
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #1877F2; 
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(24, 119, 242, 0.4);
+            word-wrap: break-word;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .remark {
+            color: #bfdbfe;
+            font-weight: 500;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(24, 119, 242, 0.1);
+            border-radius: 8px;
+            border: 1px dashed #1877F2;
+            line-height: 1.6;
+        }
+
+        .global-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .radio-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #cbd5e1;
+            font-weight: 600;
+        }
+
+        input[type="radio"] {
+            accent-color: #1877F2;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ----- Grid Layout for Cards ----- */
+        .card-container {
+            width: 100%;
+            max-width: 1000px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        /* ----- Individual Card Style ----- */
+        .prompt-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-top: 4px solid #1877F2;
+            border-radius: 12px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        }
+
+        .prompt-card:hover {
+            transform: translateY(-5px);
+            border-color: #1877F2;
+            box-shadow: 0 20px 25px -5px rgba(24, 119, 242, 0.2);
+        }
+
+        .card-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #334155;
+        }
+
+        .card-title {
+            color: #f8fafc;
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        
+        .card-reason {
+            color: #60a5fa;
+            font-size: 0.85rem;
+            font-style: italic;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(51, 65, 85, 0.5);
+        }
+
+        /* ----- Form Elements ----- */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #93c5fd;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"], textarea.input-text {
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid #334155;
+            color: #bfdbfe;
+            padding: 12px;
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"]:focus, textarea.input-text:focus {
+            border-color: #1877F2;
+            box-shadow: 0 0 10px rgba(24, 119, 242, 0.2);
+        }
+        
+        textarea.input-text {
+            height: 80px;
+            resize: vertical;
+        }
+
+        textarea.output-area {
+            width: 100%;
+            height: 200px;
+            background: #020617;
+            border: 1px solid #334155;
+            color: #f8fafc;
+            padding: 15px;
+            border-radius: 6px;
+            resize: vertical;
+            line-height: 1.6;
+            font-size: 0.9rem;
+            outline: none;
+            margin-top: 10px;
+            flex-grow: 1;
+        }
+
+        textarea.output-area:focus {
+            border-color: #1877F2;
+        }
+
+        button {
+            width: 100%;
+            background: rgba(24, 119, 242, 0.1);
+            color: #93c5fd;
+            border: 1px solid #1877F2;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #1877F2;
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(24, 119, 242, 0.5);
+        }
+
+        .warning-footer {
+            width: 100%;
+            max-width: 1000px;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid #ef4444;
+            color: #fca5a5;
+            font-size: 0.85rem;
+            border-radius: 4px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>🚀 FB Page Growth</h1>
+        <p class="subtitle">Facebook Page ကြီးထွားလာဖို့ အစစ်အမှန် Follower နှင့် Reach ရစေမည့် Prompts</p>
+        <div class="remark">
+            💡 ဒါတွေက Facebook ပေါ်မှာ တကယ့် Reach၊ တကယ့် Engagement နဲ့ အစစ်အမှန် Follower တွေရလာဖို့အတွက် ရည်ရွယ်ပြီး ဖန်တီးထားတာပါ။
+        </div>
+        <div class="global-options">
+            <label class="radio-btn">
+                <input type="radio" name="language" value="mm" checked> Myanmar Prompt
+            </label>
+            <label class="radio-btn">
+                <input type="radio" name="language" value="en"> English Prompt
+            </label>
+        </div>
+    </div>
+
+    <div class="card-container" id="card-container"></div>
+    
+    <div class="warning-footer">
+        ⚠️ <strong>သတိပြုရန်:</strong> ရလဒ်တွေကတော့ ကိုယ့်ရဲ့ လုပ်ငန်းနယ်ပယ်၊ စဉ်ဆက်မပြတ် လုပ်ဆောင်နိုင်မှုနဲ့ လက်တွေ့အကောင်အထည်ဖော်မှုတွေအပေါ် မူတည်ပြီး ကွာခြားနိုင်ပါတယ်။ ဒီ Prompt တွေကို လေ့လာသင်ယူဖို့ သက်သက်သာ မျှဝေထားတာဖြစ်ပြီး တိကျတဲ့ တိုးတက်မှုရလဒ်တွေကို အာမခံထားတာ မဟုတ်ပါဘူး။
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            const promptData = [
+                {
+                    id: 1,
+                    title: "၁။ The Scroll-Stopping Hook",
+                    reason: "💡 ဘာကြောင့် အလုပ်ဖြစ်သလဲ: Facebook က လူတွေ အချိန်ဘယ်လောက်ပေးပြီး ဖတ်သလဲဆိုတာကို ဦးစားပေးပါတယ်။ အစပိုင်းစာသား (Hook) ကောင်းရင် လူတွေ ဆက်ဖတ်ကြတဲ့အတွက် Algorithm က ဒါကို အရည်အသွေးကောင်းတဲ့ Content လို့ သတ်မှတ်ပါတယ်။",
+                    en: "Write 10 Facebook post hooks designed to stop scrolling in the first 2 seconds.\nAudience: [describe your audience].\nTone: bold, clear, conversational.\nNo emojis. No clickbait.\nEach hook must create curiosity without overpromising.",
+                    mm: "ပထမ ၂ စက္ကန့်အတွင်းမှာ ဖတ်သူကို Scroll ဆွဲနေတာ ရပ်သွားစေမယ့် Facebook Post အစ (Hook) ၁၀ ခု ရေးပေးပါ။\nပစ်မှတ်ထားသောပရိသတ်: [describe your audience]။\nအရေးအသား: ရဲရင့်ပြတ်သားပြီး ရှင်းလင်းသော၊ စကားပြောဟန်။\nအီမိုဂျီများ မသုံးရ။ နှိပ်ချင်အောင် လိမ်ညာဆွဲဆောင်သောစာသား (clickbait) မပါရ။\nHook တစ်ခုစီသည် မဖြစ်နိုင်တာတွေ ကတိမပေးဘဲ စူးစမ်းချင်စိတ်ကို ဖြစ်ပေါ်စေရမည်။",
+                    inputs: [
+                        { id: "describe your audience", label: "Audience (ပစ်မှတ်ထားသော ပရိသတ်)", type: "text", hint: "ဥပမာ - စီးပွားရေးလုပ်ငန်းရှင်များ" }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "၂။ The Authority Without Ego",
+                    reason: "💡 ဘာကြောင့် အလုပ်ဖြစ်သလဲ: လူတွေက သူတို့ သင်ယူစရာရတဲ့ Page တွေကို Follow လုပ်တတ်ကြပါတယ်။ အခုလို ယုံကြည်မှုတည်ဆောက်တဲ့ Post တွေက Like တွေသာမက Follower တွေကိုပါ တိုးလာစေပါတယ်။",
+                    en: "Write a Facebook post that builds authority in [your niche].\nStructure it as:\n– A common mistake people make\n– Why it happens\n– A better way to approach it\nEnd with a natural line encouraging people to follow for more insights.",
+                    mm: "[your niche] တွင် သြဇာလွှမ်းမိုးမှု တည်ဆောက်နိုင်မည့် Facebook post တစ်ခု ရေးပေးပါ။\nအောက်ပါအတိုင်း ဖွဲ့စည်းပါ -\nလူတွေလုပ်လေ့ရှိတဲ့ အမှားတစ်ခု\nဘာကြောင့် ဒီအမှားဖြစ်ရသလဲ\nချဉ်းကပ်ဖို့ ပိုကောင်းတဲ့နည်းလမ်း\nနောက်ထပ် ဗဟုသုတတွေရဖို့ Follow လုပ်ထားဖို့ တိုက်တွန်းတဲ့ သဘာဝကျကျ စာကြောင်းတစ်ကြောင်းနဲ့ အဆုံးသတ်ပါ။",
+                    inputs: [
+                        { id: "your niche", label: "Your Niche (သင့်နယ်ပယ်)", type: "text", hint: "ဥပမာ - Facebook Marketing" }
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "၃။ The Relatable Story",
+                    reason: "💡 ဘာကြောင့် အလုပ်ဖြစ်သလဲ: ဇာတ်လမ်းလေးတွေက အဆုံးထိဖတ်ဖို့နဲ့ Share ဖို့ ပိုများစေပါတယ်။ ဒီနှစ်ခုစလုံးက Facebook က အလွန်အားပေးတဲ့ အချက်တွေပါ။",
+                    en: "Turn this idea into a short, relatable Facebook story:\n[insert struggle, lesson, or realization].\nUse short paragraphs.\nWrite like a real person, not a marketer.\nEnd with a simple reflection, not a CTA.",
+                    mm: "ဒီအကြံဉာဏ်ကို တိုတောင်းပြီး လူတွေ ကိုယ်ချင်းစာနိုင်မယ့် Facebook ဇာတ်လမ်းတစ်ပုဒ်အဖြစ် ပြောင်းပေးပါ -\n[insert struggle, lesson, or realization]။\nစာပိုဒ်တိုလေးတွေ သုံးပါ။\nဈေးရောင်းသူတစ်ယောက်လို မဟုတ်ဘဲ တကယ့်လူသားတစ်ယောက်လို ရေးပါ။\nCTA (လုပ်ဆောင်ရန် တိုက်တွန်းချက်) နဲ့ မဟုတ်ဘဲ ရိုးရှင်းတဲ့ တွေးတောဆင်ခြင်မှုလေးနဲ့ အဆုံးသတ်ပါ။",
+                    inputs: [
+                        { id: "insert struggle, lesson, or realization", label: "Idea (အခက်အခဲ သို့မဟုတ် သင်ခန်းစာ)", type: "textarea", hint: "ဥပမာ - အရင်က ပို့စ်တစ်ခုရေးဖို့ ၁ နာရီကြာတယ်၊ အခု AI သုံးပြီး ၅ မိနစ်နဲ့ပြီးသွားတဲ့ သင်ခန်းစာ" }
+                    ]
+                },
+                {
+                    id: 4,
+                    title: "၄။ The Comment Catalyst",
+                    reason: "💡 ဘာကြောင့် အလုပ်ဖြစ်သလဲ: တကယ့် စစ်မှန်တဲ့ Comment တွေဟာ Facebook ရဲ့ အကောင်းဆုံး Reach ရစေတဲ့ အချက်တွေထဲက တစ်ခုဖြစ်ပါတယ်။",
+                    en: "Write 5 Facebook posts on [topic] that naturally invite discussion.\nEnd each post with a thoughtful, open-ended question.\nNo ‘comment YES’, no forced interaction.",
+                    mm: "ဆွေးနွေးချင်စိတ်ကို သဘာဝကျကျ ဖြစ်ပေါ်စေမယ့် [topic] နဲ့ ပတ်သက်တဲ့ Facebook post ၅ ခု ရေးပေးပါ။\nPost တစ်ခုစီကို သေချာစဉ်းစားထားတဲ့ အဖြေဖွင့်မေးခွန်းတစ်ခုနဲ့ အဆုံးသတ်ပါ။\n'YES လို့ မန့်ပေးပါ' ဆိုတာမျိုးနဲ့ အတင်းအကျပ် တုံ့ပြန်ခိုင်းတာမျိုး မပါရပါ။",
+                    inputs: [
+                        { id: "topic", label: "Topic (အကြောင်းအရာ)", type: "text", hint: "ဥပမာ - AI ရဲ့ အနာဂတ်" }
+                    ]
+                },
+                {
+                    id: 5,
+                    title: "၅။ The Save-Worthy Value",
+                    reason: "💡 ဘာကြောင့် အလုပ်ဖြစ်သလဲ: Save လုပ်တာတွေက Facebook ကို 'ဒီ Content က အသုံးဝင်တယ်' ဆိုတာ ပြောပြနေတာပါ။ အသုံးဝင်တဲ့ Content တွေကို Algorithm က ထပ်ခါထပ်ခါ ဖြန့်ဝေပေးပါတယ်။",
+                    en: "Write a Facebook post that teaches one clear, practical idea related to [your niche].\nNo fluff.\nNo motivation quotes.\nExplain it so simply that someone could apply it today.",
+                    mm: "[your niche] နဲ့ ပတ်သက်ပြီး ရှင်းလင်းပြတ်သားပြီး လက်တွေ့ကျတဲ့ အကြံဉာဏ်တစ်ခုကို သင်ကြားပေးမယ့် Facebook post တစ်ခု ရေးပေးပါ။\nအပိုစာသားတွေ မပါရ။\nစိတ်ခွန်အားပေး စာသားတွေ မပါရ။\nဒီနေ့ပဲ ချက်ချင်းလက်တွေ့အသုံးချလို့ရအောင် ရိုးရှင်းစွာ ရှင်းပြပါ။",
+                    inputs: [
+                        { id: "your niche", label: "Your Niche (သင့်နယ်ပယ်)", type: "text", hint: "ဥပမာ - Content Writing" }
+                    ]
+                }
+            ];
+
+            const container = document.getElementById('card-container');
+            const langRadios = document.getElementsByName('language');
+
+            function renderCards() {
+                container.innerHTML = ''; 
+
+                promptData.forEach((data) => {
+                    const card = document.createElement('div');
+                    card.className = 'prompt-card';
+                    card.id = `card-${data.id}`;
+
+                    let html = `
+                        <div class="card-header">
+                            <div class="card-title">${data.title}</div>
+                        </div>
+                    `;
+
+                    if (data.inputs && data.inputs.length > 0) {
+                        data.inputs.forEach(input => {
+                            if(input.type === 'textarea') {
+                                html += `
+                                    <div class="form-group">
+                                        <label>${input.label}</label>
+                                        <textarea id="input-${data.id}-${input.id}" class="input-text" data-item-id="${data.id}" placeholder="${input.hint}"></textarea>
+                                    </div>
+                                `;
+                            } else {
+                                html += `
+                                    <div class="form-group">
+                                        <label>${input.label}</label>
+                                        <input type="text" id="input-${data.id}-${input.id}" data-item-id="${data.id}" placeholder="${input.hint}">
+                                    </div>
+                                `;
+                            }
+                        });
+                    }
+
+                    html += `
+                        <textarea id="output-${data.id}" class="output-area" readonly></textarea>
+                        <button id="copy-${data.id}" data-item-id="${data.id}">Copy Prompt</button>
+                        <div class="card-reason">${data.reason}</div>
+                    `;
+
+                    card.innerHTML = html;
+                    container.appendChild(card);
+                });
+
+                attachEventListeners();
+                updateAllPrompts();
+            }
+
+            function updatePromptForCard(itemId) {
+                const data = promptData.find(p => p.id == itemId);
+                const isMyanmar = document.querySelector('input[name="language"]:checked').value === 'mm';
+                let finalPrompt = isMyanmar ? data.mm : data.en;
+
+                if (data.inputs) {
+                    data.inputs.forEach(input => {
+                        const el = document.getElementById(`input-${data.id}-${input.id}`);
+                        const val = el && el.value.trim() !== "" ? el.value.trim() : `[${input.id}]`;
+                        finalPrompt = finalPrompt.split(`[${input.id}]`).join(val);
+                    });
+                }
+
+                document.getElementById(`output-${data.id}`).value = finalPrompt;
+            }
+
+            function updateAllPrompts() {
+                promptData.forEach(data => updatePromptForCard(data.id));
+            }
+
+            function attachEventListeners() {
+                container.addEventListener('input', (e) => {
+                    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        if (itemId) updatePromptForCard(itemId);
+                    }
+                });
+
+                container.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'BUTTON') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        const outputEl = document.getElementById(`output-${itemId}`);
+                        outputEl.select();
+                        document.execCommand('copy');
+                        
+                        const btn = e.target;
+                        const originalText = btn.innerText;
+                        btn.innerText = "COPIED! ✨";
+                        setTimeout(() => btn.innerText = originalText, 2000);
+                    }
+                });
+            }
+
+            langRadios.forEach(radio => radio.addEventListener('change', updateAllPrompts));
+
+            renderCards();
+        });
+    </script>
+</body>
+</html>

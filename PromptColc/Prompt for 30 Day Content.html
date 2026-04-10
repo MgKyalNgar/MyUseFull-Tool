@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>30 Day Content in 60 Min Prompts</title>
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="My Useful Tools">
+    <link rel="apple-touch-icon" href="../icon-192x192.png">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: #0f172a; /* Deep Navy / Slate */
+            color: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .header-container {
+            width: 100%;
+            max-width: 1000px;
+            text-align: center;
+            margin-bottom: 30px;
+            position: sticky;
+            top: 0;
+            background: rgba(15, 23, 42, 0.95);
+            padding: 20px;
+            z-index: 100;
+            border-bottom: 1px solid #f59e0b; /* Amber */
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #f59e0b; 
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
+            word-wrap: break-word;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .remark {
+            color: #fbbf24;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(245, 158, 11, 0.1);
+            border-radius: 8px;
+            border: 1px dashed #f59e0b;
+            line-height: 1.6;
+        }
+
+        .global-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .radio-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #cbd5e1;
+            font-weight: 600;
+        }
+
+        input[type="radio"] {
+            accent-color: #f59e0b;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ----- Grid Layout for Cards ----- */
+        .card-container {
+            width: 100%;
+            max-width: 1000px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        /* ----- Individual Card Style ----- */
+        .prompt-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-top: 4px solid #f59e0b;
+            border-radius: 12px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        }
+
+        .prompt-card:hover {
+            transform: translateY(-5px);
+            border-color: #f59e0b;
+            box-shadow: 0 20px 25px -5px rgba(245, 158, 11, 0.2);
+        }
+
+        .card-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #334155;
+        }
+
+        .card-title {
+            color: #f8fafc;
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        /* ----- Form Elements ----- */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #fbbf24;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid #334155;
+            color: #fcd34d;
+            padding: 12px;
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"]:focus {
+            border-color: #f59e0b;
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.2);
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            background: #020617;
+            border: 1px solid #334155;
+            color: #f8fafc;
+            padding: 15px;
+            border-radius: 6px;
+            resize: vertical;
+            line-height: 1.6;
+            font-size: 0.9rem;
+            outline: none;
+            margin-top: 10px;
+            flex-grow: 1; /* Pushes button to bottom */
+        }
+
+        textarea:focus {
+            border-color: #f59e0b;
+        }
+
+        button {
+            width: 100%;
+            background: rgba(245, 158, 11, 0.1);
+            color: #fbbf24;
+            border: 1px solid #f59e0b;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #f59e0b;
+            color: #0f172a;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>⏱️ 30-Day Content in 60 Min</h1>
+        <p class="subtitle">မိနစ် ၆၀ အတွင်း ရက် ၃၀ စာ အရည်အသွေးမြင့် Content တွေကို AI သုံးပြီး ဘယ်လိုရေးဆွဲမယ်</p>
+        <div class="remark">
+            💡 ဒီနည်းလမ်းလေးက Content Creators တွေ၊ Marketers တွေနဲ့ ကိုယ်ပိုင်လုပ်ငန်းရှင်တွေအတွက် အချိန်ကုန်သက်သာပြီး ထိရောက်မှုရှိတဲ့ နည်းလမ်းကောင်းတစ်ခုဖြစ်လို့ လက်တွေ့အသုံးချကြည့်ဖို့ တိုက်တွန်းချင်ပါတယ်။
+        </div>
+        <div class="global-options">
+            <label class="radio-btn">
+                <input type="radio" name="language" value="mm" checked> Myanmar Prompt
+            </label>
+            <label class="radio-btn">
+                <input type="radio" name="language" value="en"> English Prompt
+            </label>
+        </div>
+    </div>
+
+    <div class="card-container" id="card-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            const promptData = [
+                {
+                    id: 1,
+                    title: "၁။ The Content Direction Engine",
+                    en: "Act as a social media strategist who builds simple systems. My niche is: [niche]. My audience is: [audience]. My goal is: [goal]. Define the one clear direction my content should follow and explain what problems I should consistently solve so everything I post feels connected and easy to understand.",
+                    mm: "ရိုးရှင်းတဲ့စနစ်တွေကို တည်ဆောက်ပေးတဲ့ Social Media Strategist တစ်ယောက်အနေနဲ့ ကူညီပေးပါ။ ကျွန်တော့်ရဲ့ Niche (လုပ်ငန်းနယ်ပယ်) က [niche] ဖြစ်ပြီး၊ ပစ်မှတ်ထားတဲ့ Audience က [audience] ဖြစ်ပါတယ်။ ကျွန်တော့်ရဲ့ ရည်မှန်းချက် Goal ကတော့ [goal] ပါ။ ကျွန်တော့်ရဲ့ Content တွေသွားရမယ့် လမ်းကြောင်း (Direction) တစ်ခုကို တိတိကျကျ သတ်မှတ်ပေးပါ။ ပြီးတော့ ကျွန်တော်တင်သမျှအရာတိုင်းဟာ ချိတ်ဆက်မှုရှိပြီး နားလည်ရလွယ်ကူစေဖို့ ဘယ်လိုပြဿနာမျိုးတွေကို အမြဲတမ်း ဖြေရှင်းပေးသင့်လဲဆိုတာကို ရှင်းပြပေးပါ။",
+                    inputs: [
+                        { id: "niche", label: "Niche (လုပ်ငန်းနယ်ပယ်)", hint: "ဥပမာ - Digital Marketing" },
+                        { id: "audience", label: "Audience (ပစ်မှတ်ထားသူ)", hint: "ဥပမာ - Small Business Owners" },
+                        { id: "goal", label: "Goal (ရည်မှန်းချက်)", hint: "ဥပမာ - Generate more leads" }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "၂။ The Audience Insight Engine",
+                    en: "Study this audience: [audience]. In this niche: [niche]. Identify their biggest frustrations, common mistakes, hidden fears, and desired outcomes. Focus on insights that can turn into clear useful content people understand quickly and feel connected to.",
+                    mm: "ဒီ [niche] နယ်ပယ်မှာရှိတဲ့ [audience] တွေကို လေ့လာပေးပါ။ သူတို့ရဲ့ အကြီးမားဆုံး စိတ်ပျက်အားငယ်မှုတွေ၊ အဖြစ်များတဲ့ အမှားတွေ၊ ဖုံးကွယ်ထားတဲ့ အကြောက်တရားတွေနဲ့ သူတို့ဖြစ်ချင်တဲ့ ရလဒ်တွေကို ဖော်ထုတ်ပေးပါ။ လူတွေ အလွယ်တကူနားလည်နိုင်ပြီး သူတို့နဲ့သက်ဆိုင်တယ်လို့ ခံစားရစေမယ့် အသုံးဝင်တဲ့ Content တွေအဖြစ် ပြောင်းလဲနိုင်မယ့် အချက်အလက် (Insights) တွေကို အဓိကထားပြီး ရှာဖွေပေးပါ။",
+                    inputs: [
+                        { id: "niche", label: "Niche (လုပ်ငန်းနယ်ပယ်)", hint: "ဥပမာ - Personal Finance" },
+                        { id: "audience", label: "Audience (ပစ်မှတ်ထားသူ)", hint: "ဥပမာ - Young Professionals" }
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "၃။ The Content Pillar System",
+                    en: "Using this niche: [niche]. For this audience: [audience]. Create four strong content pillars that guide what I post. Each pillar should help attract attention, build authority, create trust, and drive engagement in a consistent way.",
+                    mm: "ဒီ [niche] နယ်ပယ်နဲ့ [audience] အတွက် ကျွန်တော်တင်မယ့် ပို့စ်တွေကို လမ်းညွှန်ပေးမယ့် ခိုင်မာတဲ့ Content Pillar (မဏ္ဍိုင်) ၄ ခုကို ဖန်တီးပေးပါ။ Pillar တစ်ခုချင်းစီဟာ လူတွေရဲ့စိတ်ဝင်စားမှုကို ဆွဲဆောင်နိုင်ဖို့၊ ကိုယ့်ရဲ့ကျွမ်းကျင်မှုကိုပြသနိုင်ဖို့ (Authority)၊ ယုံကြည်မှုတည်ဆောက်နိုင်ဖို့နဲ့ Engagement တွေကို ပုံမှန်ရရှိစေဖို့ ကူညီပေးနိုင်တဲ့ အရာတွေဖြစ်ရပါမယ်။",
+                    inputs: [
+                        { id: "niche", label: "Niche (လုပ်ငန်းနယ်ပယ်)", hint: "ဥပမာ - Fitness Coaching" },
+                        { id: "audience", label: "Audience (ပစ်မှတ်ထားသူ)", hint: "ဥပမာ - Busy Moms" }
+                    ]
+                },
+                {
+                    id: 4,
+                    title: "၄။ The Idea Generation Engine",
+                    en: "Using these pillars: [pillars]. In this niche: [niche]. Generate 30 content ideas that fit into this system. Include formats such as mistakes, myths, lessons, frameworks, and simple insights that are easy to create and easy to understand.",
+                    mm: "ဒီ [pillars] တွေနဲ့ [niche] နယ်ပယ်ကိုအသုံးပြုပြီး ဒီစနစ်နဲ့ကိုက်ညီမယ့် Content Idea ၃၀ ခုကို ဖန်တီးပေးပါ။ အဲ့ဒီအထဲမှာ ဖန်တီးရလွယ်ကူပြီး နားလည်ရလွယ်ကူတဲ့ အမှားများ၊ အယူအဆအလွဲများ၊ သင်ခန်းစာများ၊ လုပ်ငန်းစဉ်များ (Frameworks) နဲ့ ရိုးရှင်းတဲ့ ဗဟုသုတတွေ စတဲ့ ပုံစံမျိုးတွေ ထည့်သွင်းပေးပါ။",
+                    inputs: [
+                        { id: "niche", label: "Niche (လုပ်ငန်းနယ်ပယ်)", hint: "ဥပမာ - E-commerce" },
+                        { id: "pillars", label: "Pillars (မဏ္ဍိုင်များ)", hint: "ဥပမာ - Tips, Motivation, Case Studies" }
+                    ]
+                },
+                {
+                    id: 5,
+                    title: "၅။ The Content Creation Flow",
+                    en: "Using this idea: [idea]. For this audience: [audience]. Build a clear post flow that starts with tension, explains the problem, introduces a useful insight, and ends with a practical takeaway that feels easy to apply.",
+                    mm: "ဒီ [idea] နဲ့ [audience] ကိုသုံးပြီး ရှင်းလင်းတဲ့ ပို့စ်စီးဆင်းမှုပုံစံ (Post Flow) တစ်ခုကို တည်ဆောက်ပေးပါ။ အစမှာ စိတ်ဝင်စားစရာ အခက်အခဲ (Tension) တစ်ခုနဲ့ စတင်ပြီး ပြဿနာကို ရှင်းပြပါ၊ အသုံးဝင်တဲ့ အချက်အလက်တစ်ခုကို မိတ်ဆက်ပေးပြီး၊ လက်တွေ့အသုံးချရ လွယ်ကူတဲ့ သင်ခန်းစာ (Practical Takeaway) တစ်ခုနဲ့ အဆုံးသတ်ပေးပါ။",
+                    inputs: [
+                        { id: "audience", label: "Audience (ပစ်မှတ်ထားသူ)", hint: "ဥပမာ - Beginner Freelancers" },
+                        { id: "idea", label: "Idea (အကြံဉာဏ်)", hint: "ဥပမာ - How to set your first pricing" }
+                    ]
+                },
+                {
+                    id: 6,
+                    title: "၆။ The Content Expansion Engine",
+                    en: "Using this core idea: [idea]. In this niche: [niche]. Generate additional variations that expand the topic into multiple posts without repeating the same message while keeping each version fresh, relevant, and consistent.",
+                    mm: "ဒီ အဓိက [idea] နဲ့ [niche] ကိုအသုံးပြုပြီး ဒီအကြောင်းအရာကို ပို့စ်မျိုးစုံအဖြစ် ချဲ့ထွင်နိုင်မယ့် နောက်ထပ်ပုံစံကွဲတွေကို ဖန်တီးပေးပါ။ အကြောင်းအရာတစ်ခုတည်းကို ထပ်ခါတလဲလဲ မပြောဘဲ၊ ပုံစံကွဲတစ်ခုချင်းစီတိုင်းက အသစ်ဖြစ်နေပြီး လက်ရှိအခြေအနေနဲ့လည်း ကိုက်ညီကာ တစ်သမတ်တည်းဖြစ်နေအောင် ရေးသားပေးပါ။",
+                    inputs: [
+                        { id: "niche", label: "Niche (လုပ်ငန်းနယ်ပယ်)", hint: "ဥပမာ - UI/UX Design" },
+                        { id: "idea", label: "Core Idea (အဓိက အကြံဉာဏ်)", hint: "ဥပမာ - Importance of White Space" }
+                    ]
+                }
+            ];
+
+            const container = document.getElementById('card-container');
+            const langRadios = document.getElementsByName('language');
+
+            function renderCards() {
+                container.innerHTML = ''; 
+
+                promptData.forEach((data) => {
+                    const card = document.createElement('div');
+                    card.className = 'prompt-card';
+                    card.id = `card-${data.id}`;
+
+                    let html = `
+                        <div class="card-header">
+                            <div class="card-title">${data.title}</div>
+                        </div>
+                    `;
+
+                    if (data.inputs && data.inputs.length > 0) {
+                        data.inputs.forEach(input => {
+                            html += `
+                                <div class="form-group">
+                                    <label>${input.label}</label>
+                                    <input type="text" id="input-${data.id}-${input.id}" data-item-id="${data.id}" placeholder="${input.hint}">
+                                </div>
+                            `;
+                        });
+                    }
+
+                    html += `
+                        <textarea id="output-${data.id}" readonly></textarea>
+                        <button id="copy-${data.id}" data-item-id="${data.id}">Copy Prompt</button>
+                    `;
+
+                    card.innerHTML = html;
+                    container.appendChild(card);
+                });
+
+                attachEventListeners();
+                updateAllPrompts();
+            }
+
+            function updatePromptForCard(itemId) {
+                const data = promptData.find(p => p.id == itemId);
+                const isMyanmar = document.querySelector('input[name="language"]:checked').value === 'mm';
+                let finalPrompt = isMyanmar ? data.mm : data.en;
+
+                if (data.inputs) {
+                    data.inputs.forEach(input => {
+                        const el = document.getElementById(`input-${data.id}-${input.id}`);
+                        const val = el && el.value.trim() !== "" ? el.value.trim() : `[${input.id}]`;
+                        // Using split.join to replace all occurrences of [placeholder]
+                        finalPrompt = finalPrompt.split(`[${input.id}]`).join(val);
+                    });
+                }
+
+                document.getElementById(`output-${data.id}`).value = finalPrompt;
+            }
+
+            function updateAllPrompts() {
+                promptData.forEach(data => updatePromptForCard(data.id));
+            }
+
+            function attachEventListeners() {
+                container.addEventListener('input', (e) => {
+                    if (e.target.tagName === 'INPUT') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        if (itemId) updatePromptForCard(itemId);
+                    }
+                });
+
+                container.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'BUTTON') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        const outputEl = document.getElementById(`output-${itemId}`);
+                        outputEl.select();
+                        document.execCommand('copy');
+                        
+                        const btn = e.target;
+                        const originalText = btn.innerText;
+                        btn.innerText = "COPIED! ✨";
+                        setTimeout(() => btn.innerText = originalText, 2000);
+                    }
+                });
+            }
+
+            langRadios.forEach(radio => radio.addEventListener('change', updateAllPrompts));
+
+            renderCards();
+        });
+    </script>
+</body>
+</html>
