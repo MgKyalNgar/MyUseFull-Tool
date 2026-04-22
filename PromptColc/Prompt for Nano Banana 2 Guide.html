@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nano Banana 2: The Ultimate Guide</title>
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#18181b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="My Useful Tools">
+    <link rel="apple-touch-icon" href="../icon-192x192.png">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: #18181b; /* Dark Gray */
+            color: #e4e4e7;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 0 15px 50px 15px;
+            line-height: 1.7;
+        }
+
+        /* --- Citations (Subtle integration for system compliance) --- */
+        .cite { opacity: 0.3; font-size: 0.75em; vertical-align: super; }
+
+        .guide-header {
+            width: 100%;
+            max-width: 800px;
+            padding: 50px 20px 30px 20px;
+            border-bottom: 2px solid #facc15; /* Banana Yellow */
+            margin-bottom: 40px;
+            text-align: center;
+            background: linear-gradient(180deg, rgba(250, 204, 21, 0.05) 0%, rgba(24, 24, 27, 0) 100%);
+        }
+
+        .guide-header h1 {
+            color: #facc15;
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .guide-header p {
+            color: #a1a1aa;
+            font-size: 1.1rem;
+        }
+
+        .guide-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 60px; /* Spacing between chapters */
+        }
+
+        .chapter {
+            background: #27272a;
+            border-radius: 12px;
+            padding: 30px;
+            border-left: 5px solid #facc15;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .chapter-title {
+            color: #fef08a;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chapter-desc {
+            color: #d4d4d8;
+            margin-bottom: 25px;
+            font-size: 1rem;
+        }
+
+        /* --- Interactive Builder Area --- */
+        .builder-area {
+            background: #18181b;
+            border: 1px solid #3f3f46;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        label {
+            display: block;
+            color: #facc15;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            background: #27272a;
+            border: 1px solid #52525b;
+            color: #f8fafc;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus, select:focus {
+            border-color: #facc15;
+        }
+
+        /* Checkbox styling */
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .check-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            color: #e4e4e7;
+        }
+        .check-item input {
+            accent-color: #facc15;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        /* --- Output Area --- */
+        .output-area {
+            position: relative;
+        }
+
+        textarea.prompt-output {
+            width: 100%;
+            height: 120px;
+            background: #09090b;
+            border: 1px solid #facc15;
+            color: #fef08a;
+            padding: 15px;
+            padding-bottom: 50px; /* Space for copy btn */
+            border-radius: 8px;
+            resize: vertical;
+            font-family: monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            outline: none;
+        }
+
+        .copy-btn {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            background: #facc15;
+            color: #18181b;
+            border: none;
+            padding: 8px 16px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .copy-btn:hover {
+            background: #eab308;
+            transform: translateY(-2px);
+        }
+
+        /* --- Summary Section --- */
+        .summary-section {
+            background: rgba(250, 204, 21, 0.1);
+            border: 2px dashed #facc15;
+            border-radius: 12px;
+            padding: 30px;
+            margin-top: 20px;
+        }
+        .summary-section ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .summary-section li {
+            margin-bottom: 12px;
+            position: relative;
+            padding-left: 25px;
+        }
+        .summary-section li::before {
+            content: '✅';
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="guide-header">
+        <h1>🍌 Nano Banana 2</h1>
+        <p>အစွမ်းကုန်အသုံးချနိုင်ဖို့အတွက် ပြီးပြည့်စုံတဲ့ Prompt Guide <span class="cite">[cite: 359]</span></p>
+    </div>
+
+    <div class="guide-container">
+
+        <article class="chapter">
+            <div class="chapter-title">1/ Parameter Stack စနစ်</div>
+            <div class="chapter-desc">
+                စာပိုဒ်ရှည်ကြီးတွေ ရေးမယ့်အစား အချက်အလက်တွေကို တိတိကျကျနဲ့ အပိုင်းလိုက်ခွဲရေးပါ။ <span class="cite">[cite: 360]</span> Nano Banana 2 က ရှုပ်ပွနေတဲ့ စာတွေထက် စနစ်တကျစီစဉ်ထားတဲ့ အချက်အလက်တွေကို ပိုပြီး ကောင်းကောင်းနားလည်ပါတယ်။ <span class="cite">[cite: 361]</span>
+            </div>
+            
+            <div class="builder-area">
+                <div class="form-group">
+                    <label>Subject (အဓိကအရာဝတ္ထု)</label>
+                    <input type="text" id="s1-subject" placeholder="A futuristic sports car" oninput="updateS1()">
+                </div>
+                <div class="form-group">
+                    <label>Lighting (အလင်းအမှောင်)</label>
+                    <input type="text" id="s1-light" placeholder="Volumetric, soft purple neon" oninput="updateS1()">
+                </div>
+                <div class="form-group">
+                    <label>Camera (ကင်မရာ)</label>
+                    <input type="text" id="s1-cam" placeholder="35mm lens, low angle" oninput="updateS1()">
+                </div>
+                <div class="form-group">
+                    <label>Environment (ပတ်ဝန်းကျင်)</label>
+                    <input type="text" id="s1-env" placeholder="Wet asphalt, neon reflections" oninput="updateS1()">
+                </div>
+                <div class="form-group">
+                    <label>Texture (မျက်နှာပြင်)</label>
+                    <input type="text" id="s1-tex" placeholder="Polished metal" oninput="updateS1()">
+                </div>
+            </div>
+
+            <div class="output-area">
+                <textarea id="s1-out" class="prompt-output" readonly></textarea>
+                <button class="copy-btn" onclick="copyText('s1-out', this)"><span>📋</span> Copy Prompt</button>
+            </div>
+        </article>
+
+        <article class="chapter">
+            <div class="chapter-title">2/ ရုပ်ရှင်ဆန်ဆန် ဖန်တီးနိုင်မယ့် လျှို့ဝှက်ချက်များ (Cinematic Cheat Codes)</div>
+            <div class="chapter-desc">
+                တကယ်အစစ်နဲ့တူတဲ့ ပုံတွေလိုချင်ရင် AI ကို ဟောလိဝုဒ် ရုပ်ရှင်ရိုက်ကူးရေးဒါရိုက်တာ (DP) တစ်ယောက်လို သဘောထားပြီး ခိုင်းဖို့လိုပါတယ်။ ကင်မရာ အသုံးအနှုန်းတွေကို တိတိကျကျ သုံးပေးခြင်းက ပုံရဲ့ အရည်အသွေးကို ချက်ချင်း မြင့်တက်သွားစေပါတယ်။ <span class="cite">[cite: 362, 363]</span>
+            </div>
+            
+            <div class="builder-area">
+                <div class="form-group">
+                    <label>ဓာတ်ပုံအမျိုးအစား ရွေးချယ်ပါ</label>
+                    <select id="s2-type" onchange="updateS2()">
+                        <option value="portraits">ပုံတူ (Portraits) - 85mm, Rembrandt lighting</option>
+                        <option value="landscapes">ရှုခင်း (Landscapes) - 16mm, Golden hour</option>
+                        <option value="products">ကုန်ပစ္စည်း (Products) - Macro, Focus stacking</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>သင့်အကြောင်းအရာ (Subject)</label>
+                    <input type="text" id="s2-subject" placeholder="A beautiful woman / A grand mountain" oninput="updateS2()">
+                </div>
+            </div>
+
+            <div class="output-area">
+                <textarea id="s2-out" class="prompt-output" readonly></textarea>
+                <button class="copy-btn" onclick="copyText('s2-out', this)"><span>📋</span> Copy Prompt</button>
+            </div>
+        </article>
+
+        <article class="chapter">
+            <div class="chapter-title">3/ ပလတ်စတစ်ဆန်မှုကို ဖယ်ရှားခြင်း (The "Anti-Plastic" Formula)</div>
+            <div class="chapter-desc">
+                AI ပုံအများစုက အရမ်းပြီးပြည့်စုံနေလွန်းလို့ အတုမှန်း သိသာနေတာပါ။ တကယ့် လက်တွေ့ဘဝမှာ အပြစ်အနာအဆာလေးတွေ ရှိပါတယ်။ ဒါကြောင့် အောက်ပါ အသေးစိတ်လေးတွေ ထည့်ပြီး အစစ်နဲ့ပိုတူအောင် ဖန်တီးကြည့်ပါ။ <span class="cite">[cite: 368]</span>
+            </div>
+            
+            <div class="builder-area">
+                <div class="form-group">
+                    <label>မူလ Prompt</label>
+                    <input type="text" id="s3-base" placeholder="A coffee cup on a table" oninput="updateS3()">
+                </div>
+                <div class="form-group checkbox-group" onchange="updateS3()">
+                    <label class="check-item"><input type="checkbox" value="floating dust particles" checked> လေထဲလွင့်နေတဲ့ ဖုန်မှုန့်လေးများ</label>
+                    <label class="check-item"><input type="checkbox" value="subtle film grain (ISO 400)" checked> ဓာတ်ပုံဟောင်းဆန်ဆန် အမှုန်လေးများ (ISO 400)</label>
+                    <label class="check-item"><input type="checkbox" value="micro-scratches on surfaces"> မျက်နှာပြင်ပေါ်က ခြစ်ရာအသေးစားလေးများ</label>
+                    <label class="check-item"><input type="checkbox" value="environmental fog or atmospheric haze"> ပတ်ဝန်းကျင် မြူခိုး (သို့) လေထုထဲက အခိုးအငွေ့များ</label>
+                    <label class="check-item"><input type="checkbox" value="smudges or fingerprints on glass"> မှန်ပေါ်က လက်ဗွေရာ (သို့) အစွန်းအထင်းများ</label>
+                </div>
+            </div>
+
+            <div class="output-area">
+                <textarea id="s3-out" class="prompt-output" readonly></textarea>
+                <button class="copy-btn" onclick="copyText('s3-out', this)"><span>📋</span> Copy Prompt</button>
+            </div>
+        </article>
+
+        <article class="chapter">
+            <div class="chapter-title">4/ ပုံစံကို တိတိကျကျ သတ်မှတ်ခြင်း (Style Anchoring)</div>
+            <div class="chapter-desc">
+                AI ကို ပုံဆွဲစတိုင်လ် ၁၀ မျိုးလောက် ပြိုင်တူ မခိုင်းပါနဲ့။ သူ ရှုပ်ထွေးသွားပါလိမ့်မယ်။ အဓိက လိုချင်တဲ့ အနုပညာစတိုင်လ် တစ်ခုကိုပဲ ရွေးချယ်ပြီး သေချာသတ်မှတ်ပေးပါ။ <span class="cite">[cite: 369]</span>
+            </div>
+            
+            <div class="builder-area">
+                <div class="form-group">
+                    <label>သင့်အကြောင်းအရာ</label>
+                    <input type="text" id="s4-base" placeholder="A futuristic city" oninput="updateS4()">
+                </div>
+                <div class="form-group">
+                    <label>အနုပညာစတိုင်လ် (Style)</label>
+                    <select id="s4-style" onchange="updateS4()">
+                        <option value="Hand-drawn sketch on spiral notebook paper">ခရုပတ် ဗလာစာအုပ်ပေါ်က လက်ဆွဲခဲတံပန်းချီ (Hand-drawn sketch)</option>
+                        <option value="1990s VHS camcorder aesthetic">၁၉၉၀ ဗီဒီယိုကင်မရာ အငွေ့အသက် (1990s VHS)</option>
+                        <option value="High-fashion editorial, Vogue style">အဆင့်မြင့်ဖက်ရှင် မဂ္ဂဇင်းဒီဇိုင်း (Vogue style)</option>
+                        <option value="Custom">အခြားစတိုင်လ် ကိုယ်တိုင်ရေးရန်...</option>
+                    </select>
+                </div>
+                <div class="form-group" id="s4-custom-div" style="display:none;">
+                    <input type="text" id="s4-custom" placeholder="Type your custom style..." oninput="updateS4()">
+                </div>
+            </div>
+
+            <div class="output-area">
+                <textarea id="s4-out" class="prompt-output" readonly></textarea>
+                <button class="copy-btn" onclick="copyText('s4-out', this)"><span>📋</span> Copy Prompt</button>
+            </div>
+        </article>
+
+        <article class="chapter">
+            <div class="chapter-title">5/ မလိုချင်သောအရာများကို တားမြစ်ခြင်း (Natural Language Exclusions)</div>
+            <div class="chapter-desc">
+                Nano Banana 2 က စာသားတွေကို ကောင်းကောင်းနားလည်တဲ့ မော်ဒယ်ဖြစ်လို့ ရိုးရိုး Negative Prompts တွေထက် သေချာတိကျတဲ့ အမိန့်ပေးစာကြောင်းတွေက ပိုထိရောက်ပါတယ်။ <span class="cite">[cite: 373]</span>
+            </div>
+            
+            <div class="builder-area">
+                <div class="form-group">
+                    <label>မူလ Prompt</label>
+                    <input type="text" id="s5-base" placeholder="A realistic human portrait" oninput="updateS5()">
+                </div>
+                <div class="form-group">
+                    <label>မလိုချင်သောအရာများ (Exclusions)</label>
+                    <input type="text" id="s5-exclude" placeholder="warped anatomy, cartoon elements, or oversaturated colors" oninput="updateS5()">
+                </div>
+            </div>
+
+            <div class="output-area">
+                <textarea id="s5-out" class="prompt-output" readonly></textarea>
+                <button class="copy-btn" onclick="copyText('s5-out', this)"><span>📋</span> Copy Prompt</button>
+            </div>
+        </article>
+
+        <article class="chapter">
+            <div class="chapter-title">6/ တိကျစွာ ရောစပ်ခြင်း (Precision Blending)</div>
+            <div class="chapter-desc">
+                လုံးဝကွဲပြားတဲ့ ပုံစံနှစ်ခုကို AI မရှုပ်ထွေးသွားအောင် ဘယ်လိုပေါင်းစပ်မလဲ? ရာခိုင်နှုန်း (%) တွေကို အသုံးပြုပြီး အချိုးကျ ရောစပ်ပေးပါ။ <span class="cite">[cite: 375, 376]</span>
+            </div>
+            
+            <div class="builder-area">
+                <div class="form-group">
+                    <label>ရှုခင်း / အကြောင်းအရာ</label>
+                    <input type="text" id="s6-scene" placeholder="A futuristic cityscape" oninput="updateS6()">
+                </div>
+                <div style="display: flex; gap: 15px;">
+                    <div class="form-group" style="flex: 1;">
+                        <label>% (စတိုင်လ် ၁)</label>
+                        <input type="number" id="s6-p1" value="70" oninput="updateS6()">
+                    </div>
+                    <div class="form-group" style="flex: 3;">
+                        <label>စတိုင်လ် ၁</label>
+                        <input type="text" id="s6-s1" placeholder="Cyberpunk neon" oninput="updateS6()">
+                    </div>
+                </div>
+                <div style="display: flex; gap: 15px;">
+                    <div class="form-group" style="flex: 1;">
+                        <label>% (စတိုင်လ် ၂)</label>
+                        <input type="number" id="s6-p2" value="30" oninput="updateS6()">
+                    </div>
+                    <div class="form-group" style="flex: 3;">
+                        <label>စတိုင်လ် ၂</label>
+                        <input type="text" id="s6-s2" placeholder="Brutalist concrete architecture" oninput="updateS6()">
+                    </div>
+                </div>
+            </div>
+
+            <div class="output-area">
+                <textarea id="s6-out" class="prompt-output" readonly></textarea>
+                <button class="copy-btn" onclick="copyText('s6-out', this)"><span>📋</span> Copy Prompt</button>
+            </div>
+        </article>
+
+        <article class="chapter">
+            <div class="chapter-title">7/ ရူပဗေဒနဲ့ စိတ်ခံစားမှု ပညာရပ် (Physics & Emotion)</div>
+            <div class="chapter-desc">
+                အပျော်တမ်း သုံးသူတွေက "မိုးရေထဲက ဝမ်းနည်းနေတဲ့လူ" လို့ပဲ ရေးတတ်ကြပါတယ်။ ကျွမ်းကျင်သူတွေကတော့ အဲဒီခံစားချက်ကို ရရှိစေမယ့် ရူပဗေဒသဘောတရားနဲ့ အရောင်ပညာရပ်တွေကို ထည့်ရေးပါတယ်။ <span class="cite">[cite: 378, 379, 381]</span>
+            </div>
+            
+            <div class="builder-area">
+                <div class="form-group">
+                    <label>မူလ Prompt</label>
+                    <input type="text" id="s7-base" placeholder="A man standing in the street" oninput="updateS7()">
+                </div>
+                <div class="form-group">
+                    <label>ရူပဗေဒ အခြေအနေ (Actionable Physics)</label>
+                    <input type="text" id="s7-phys" placeholder="Rain droplets violently hitting a metal umbrella, warped reflections" oninput="updateS7()">
+                </div>
+                <div class="form-group">
+                    <label>အရောင်နှင့် စိတ်ခံစားမှု (Color Psychology)</label>
+                    <input type="text" id="s7-color" placeholder="Cold, desaturated blues and slate greys to evoke isolation" oninput="updateS7()">
+                </div>
+            </div>
+
+            <div class="output-area">
+                <textarea id="s7-out" class="prompt-output" readonly></textarea>
+                <button class="copy-btn" onclick="copyText('s7-out', this)"><span>📋</span> Copy Prompt</button>
+            </div>
+        </article>
+
+        <article class="chapter">
+            <div class="chapter-title">8/ အခြေခံ ပုံစံခွက် (The Master Template)</div>
+            <div class="chapter-desc">
+                နောက်တစ်ခါ ပုံဖန်တီးရင် ဒီအဆင်သင့် ပုံစံခွက်လေးကို ဖြည့်စွက်ပြီး အသုံးပြုကြည့်ပါ။ တိကျပြတ်သားတဲ့ လမ်းညွှန်မှုတွေ ပါဝင်ပါတယ်။ <span class="cite">[cite: 383, 385]</span>
+            </div>
+            
+            <div class="builder-area">
+                <div class="form-group">
+                    <label>Medium (ဓာတ်ပုံ၊ ပန်းချီ စသည်)</label>
+                    <input type="text" id="s8-med" value="Cinematic photograph" oninput="updateS8()">
+                </div>
+                <div class="form-group">
+                    <label>Subject (အဓိကအရာဝတ္ထု)</label>
+                    <input type="text" id="s8-sub" placeholder="A lone astronaut" oninput="updateS8()">
+                </div>
+                <div class="form-group">
+                    <label>Action (လုပ်ဆောင်နေမှု)</label>
+                    <input type="text" id="s8-act" placeholder="looking at a glowing artifact" oninput="updateS8()">
+                </div>
+                <div class="form-group">
+                    <label>Environment (ပတ်ဝန်းကျင်)</label>
+                    <input type="text" id="s8-env" placeholder="in a dark alien cave" oninput="updateS8()">
+                </div>
+                <div class="form-group">
+                    <label>Camera Specs</label>
+                    <input type="text" id="s8-cam" placeholder="35mm lens, f/2.8, low angle" oninput="updateS8()">
+                </div>
+                <div class="form-group">
+                    <label>Lighting</label>
+                    <input type="text" id="s8-light" placeholder="glowing blue light, deep shadows" oninput="updateS8()">
+                </div>
+                <div class="form-group">
+                    <label>Atmosphere (လေထု/ရာသီဥတု)</label>
+                    <input type="text" id="s8-atm" placeholder="floating dust particles, humid fog" oninput="updateS8()">
+                </div>
+                <div class="form-group">
+                    <label>Style/Color</label>
+                    <input type="text" id="s8-color" placeholder="cool cyan and deep blacks" oninput="updateS8()">
+                </div>
+            </div>
+
+            <div class="output-area">
+                <textarea id="s8-out" class="prompt-output" style="height: 180px;" readonly></textarea>
+                <button class="copy-btn" onclick="copyText('s8-out', this)"><span>📋</span> Copy Prompt</button>
+            </div>
+        </article>
+
+        <article class="summary-section">
+            <h2 style="color: #facc15; margin-bottom: 15px; font-size: 1.5rem;">💡 အနှစ်ချုပ် (Summary Workflow)</h2>
+            <ul>
+                <li>အချက်အလက်များကို စနစ်တကျစီစဉ်ပါ၊ ပုံပြင်တွေ လျှောက်မရေးပါနဲ့။</li>
+                <li>တကယ့် ကင်မရာ မှန်ဘီလူးနဲ့ Aperture (အလင်းဝင်ပေါက်) အပြင်အဆင်များကို အသုံးပြုပါ။</li>
+                <li>"AI ပုံစံ" ပျောက်သွားအောင် ဖုန်မှုန့်များ၊ အမှုန်အမွှားများနှင့် အသေးစိတ်အချက်အလက်များကို ထည့်ပါ။</li>
+                <li>မော်ဒယ်ကို တိကျပြတ်သားတဲ့ ကန့်သတ်ချက်တွေနဲ့ အမိန့်ပေးပါ။</li>
+                <li>ကိုယ်ပေးချင်တဲ့ စိတ်ခံစားချက်နဲ့ ကိုက်ညီတဲ့ အရောင်အသွေး (Color Grading) ကို အသုံးပြုပါ။ <span class="cite">[cite: 386, 387]</span></li>
+            </ul>
+        </article>
+
+    </div>
+
+    <script>
+        // Setup initial values
+        window.onload = () => {
+            updateS1(); updateS2(); updateS3(); updateS4();
+            updateS5(); updateS6(); updateS7(); updateS8();
+        };
+
+        function updateS1() {
+            const sub = document.getElementById('s1-subject').value || "[Core focus]";
+            const light = document.getElementById('s1-light').value || "[Lighting style]";
+            const cam = document.getElementById('s1-cam').value || "[Camera details]";
+            const env = document.getElementById('s1-env').value || "[Setting]";
+            const tex = document.getElementById('s1-tex').value || "[Surface details]";
+            
+            const out = `Subject: ${sub}\nLighting: ${light}\nCamera: ${cam}\nEnvironment: ${env}\nTexture: ${tex}`;
+            document.getElementById('s1-out').value = out;
+        }
+
+        function updateS2() {
+            const type = document.getElementById('s2-type').value;
+            const sub = document.getElementById('s2-subject').value || "[Your Subject]";
+            let specs = "";
+            if(type === 'portraits') specs = "Shot on 85mm lens, f/1.8, shallow depth of field, Rembrandt lighting.";
+            if(type === 'landscapes') specs = "Shot on 16mm lens, f/8, wide-angle, golden hour natural light.";
+            if(type === 'products') specs = "Macro photography, focus stacking, studio softbox lighting.";
+            
+            document.getElementById('s2-out').value = `${sub}. ${specs}`;
+        }
+
+        function updateS3() {
+            const base = document.getElementById('s3-base').value || "[Your Main Prompt]";
+            const checks = document.querySelectorAll('#s3-out.parentElement .checkbox-group input:checked'); // scope fix
+            // Correct scoping for checkboxes
+            const cbGroup = document.querySelector('.checkbox-group').querySelectorAll('input:checked');
+            let items = [];
+            cbGroup.forEach(cb => items.push(cb.value));
+            
+            let extra = items.length > 0 ? ` Ensure imperfect realism by adding: ${items.join(', ')}.` : '';
+            document.getElementById('s3-out').value = `${base}.${extra}`;
+        }
+
+        function updateS4() {
+            const base = document.getElementById('s4-base').value || "[Your Subject/Scene]";
+            const sel = document.getElementById('s4-style').value;
+            const customDiv = document.getElementById('s4-custom-div');
+            let style = sel;
+            
+            if(sel === 'Custom') {
+                customDiv.style.display = 'block';
+                style = document.getElementById('s4-custom').value || "[Your Custom Style]";
+            } else {
+                customDiv.style.display = 'none';
+            }
+            
+            document.getElementById('s4-out').value = `${base}. Visual Style: ${style}.`;
+        }
+
+        function updateS5() {
+            const base = document.getElementById('s5-base').value || "[Your Main Prompt]";
+            const excl = document.getElementById('s5-exclude').value || "[Unwanted Elements]";
+            document.getElementById('s5-out').value = `${base}. Strict exclusion: Do not include ${excl}. Ensure perfect photorealism.`;
+        }
+
+        function updateS6() {
+            const scene = document.getElementById('s6-scene').value || "[Your Scene]";
+            const p1 = document.getElementById('s6-p1').value || "70";
+            const s1 = document.getElementById('s6-s1').value || "[Style 1]";
+            const p2 = document.getElementById('s6-p2').value || "30";
+            const s2 = document.getElementById('s6-s2').value || "[Style 2]";
+            
+            document.getElementById('s6-out').value = `${scene}. Style composition: ${p1}% ${s1}, ${p2}% ${s2}.`;
+        }
+
+        function updateS7() {
+            const base = document.getElementById('s7-base').value || "[Your Scene]";
+            const phys = document.getElementById('s7-phys').value || "[Actionable Physics]";
+            const col = document.getElementById('s7-color').value || "[Color Psychology]";
+            document.getElementById('s7-out').value = `${base}. Physics: ${phys}. Color grade: ${col}.`;
+        }
+
+        function updateS8() {
+            const med = document.getElementById('s8-med').value || "[Medium]";
+            const sub = document.getElementById('s8-sub').value || "[Subject]";
+            const act = document.getElementById('s8-act').value || "[Action]";
+            const env = document.getElementById('s8-env').value || "[Environment]";
+            const cam = document.getElementById('s8-cam').value || "[Lens/Aperture/Angle]";
+            const light = document.getElementById('s8-light').value || "[Light source/Shadows]";
+            const atm = document.getElementById('s8-atm').value || "[Weather/Micro-details]";
+            const col = document.getElementById('s8-color').value || "[Color palette/Texture]";
+
+            const out = `${med} of ${sub} doing ${act} in ${env}.\nCamera: ${cam}.\nLighting: ${light}.\nAtmosphere/Physics: ${atm}.\nStyle/Color: ${col}.\nStrict Execution: Render exactly as described, photorealistic, strict adherence to composition.`;
+            document.getElementById('s8-out').value = out;
+        }
+
+        function copyText(id, btn) {
+            const el = document.getElementById(id);
+            el.select();
+            document.execCommand('copy');
+            
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = "<span>✨</span> Copied!";
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

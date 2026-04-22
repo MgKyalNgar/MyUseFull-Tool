@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>12 Claude Prompts for Passive Income</title>
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#18181b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="My Useful Tools">
+    <link rel="apple-touch-icon" href="../icon-192x192.png">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: #18181b; /* Deep Zinc / Dark Slate */
+            color: #e4e4e7;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .header-container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            margin-bottom: 25px;
+            position: sticky;
+            top: 0;
+            background: rgba(24, 24, 27, 0.95);
+            padding: 20px;
+            z-index: 100;
+            border-bottom: 1px solid #f97316; /* Warm Amber / Peach */
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #f97316; 
+            font-size: clamp(1.5rem, 5vw, 2.2rem);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(249, 115, 22, 0.4);
+            word-wrap: break-word;
+        }
+
+        .remark {
+            color: #fdba74;
+            font-weight: 500;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(249, 115, 22, 0.1);
+            border-radius: 8px;
+            border: 1px dashed #f97316;
+            line-height: 1.6;
+        }
+
+        .global-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .radio-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #d4d4d8;
+            font-weight: 600;
+        }
+
+        input[type="radio"] {
+            accent-color: #f97316;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ----- Accordion List Container ----- */
+        .accordion-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        /* ----- Accordion Item ----- */
+        .accordion-item {
+            background: #27272a;
+            border: 1px solid #3f3f46;
+            border-left: 4px solid #f97316;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            border-color: #f97316;
+            box-shadow: 0 0 15px rgba(249, 115, 22, 0.1);
+        }
+
+        /* ----- Accordion Header (Clickable) ----- */
+        .accordion-header {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            background: rgba(39, 39, 42, 0.8);
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding-right: 15px;
+        }
+
+        .acc-title {
+            color: #fafafa;
+            font-size: 1.05rem;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        .acc-icon {
+            color: #f97316;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        /* Active State for Accordion */
+        .accordion-item.active .acc-icon {
+            transform: rotate(180deg);
+        }
+        
+        .accordion-item.active {
+            border-color: #fdba74;
+            box-shadow: 0 0 20px rgba(249, 115, 22, 0.15);
+        }
+
+        /* ----- Accordion Body ----- */
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            background: #18181b;
+        }
+
+        .body-inner {
+            padding: 25px 20px;
+            border-top: 1px dashed #3f3f46;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #fdba74;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            background: #27272a;
+            border: 1px solid #3f3f46;
+            color: #f97316;
+            padding: 12px;
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"]:focus {
+            border-color: #f97316;
+            box-shadow: 0 0 10px rgba(249, 115, 22, 0.2);
+        }
+
+        textarea {
+            width: 100%;
+            height: 220px;
+            background: #09090b;
+            border: 1px solid #3f3f46;
+            color: #fafafa;
+            padding: 15px;
+            border-radius: 6px;
+            resize: vertical;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            outline: none;
+            margin-top: 10px;
+        }
+
+        textarea:focus {
+            border-color: #f97316;
+        }
+
+        button {
+            width: 100%;
+            background: transparent;
+            color: #fdba74;
+            border: 1px solid #f97316;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #f97316;
+            color: #18181b;
+            box-shadow: 0 0 15px rgba(249, 115, 22, 0.4);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>💸 Passive Income Prompts</h1>
+        <div class="remark">
+            💡 Laptop တစ်လုံး၊ Wi-Fi နဲ့ အချိန်နည်းနည်းပေးနိုင်ရုံနဲ့ အွန်လိုင်းကနေ ဝင်ငွေစတင်ရှာဖွေဖို့ သင်တို့ကိုအများကြီး အထောက်အကူဖြစ်စေမယ့် Claude AI အတွက်အသုံးဝင်တဲ့ Prompt (၁၂) မျိုး
+        </div>
+        <div class="global-options">
+            <label class="radio-btn">
+                <input type="radio" name="language" value="mm" checked> Myanmar Prompt
+            </label>
+            <label class="radio-btn">
+                <input type="radio" name="language" value="en"> English Prompt
+            </label>
+        </div>
+    </div>
+
+    <div class="accordion-container" id="accordion-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            const promptData = [
+                {
+                    id: 1,
+                    title: "၁။ ကိုယ်ကျွမ်းကျင်တဲ့ ပညာရပ်တစ်ခုကနေ ဝင်ငွေရနိုင်မယ့် Passive Income အိုင်ဒီယာများရှာရန်",
+                    en: "Act as a digital product strategist. My skill is [skill]. My experience level is [beginner/intermediate/expert]. My target audience is [audience]. Give me 15 passive income product ideas I can create from this skill. For each idea, include: what product is, who buys it, what problem it solves, how hard it is to make, how fast I can launch it, best platform to sell it on. Rank ideas from easiest money to highest long-term potential.",
+                    mm: "Digital product strategist တစ်ယောက်လို တွေးပေးပါ။ ကျွန်တော်ကျွမ်းကျင်တဲ့ပညာရပ်ကတော့ [skill] ဖြစ်ပြီး၊ ကျွမ်းကျင်မှုအဆင့်ကတော့ [beginner/intermediate/expert] ပါ။ ကျွန်တော့်ရဲ့ Target audience က [audience] ဖြစ်ပါတယ်။ ဒီကျွမ်းကျင်မှုကနေ ဖန်တီးလို့ရနိုင်တဲ့ Passive income product အိုင်ဒီယာ (၁၅) ခုလောက်ပေးပါ။ အိုင်ဒီယာတစ်ခုချင်းစီအတွက် - Product ဆိုတာ ဘာလဲ၊ ဘယ်သူတွေဝယ်မလဲ၊ ဘယ်လိုပြဿနာတွေကို ဖြေရှင်းပေးနိုင်မလဲ၊ ဖန်တီးဖို့ ဘယ်လောက်ခက်ခဲလဲ၊ ဘယ်လောက်မြန်မြန် Launch လုပ်နိုင်မလဲ၊ ရောင်းဖို့အကောင်းဆုံး Platform က ဘာလဲဆိုတာတွေကို ထည့်သွင်းဖော်ပြပေးပါ။ အလွယ်ကူဆုံး ဝင်ငွေရနိုင်တဲ့အရာကနေ ရေရှည်အကျိုးအမြတ်အများဆုံးရနိုင်တဲ့အရာအထိ အစဉ်လိုက်စီပေးပါ။",
+                    inputs: [
+                        { id: "skill", label: "Skill (ကျွမ်းကျင်မှု)", hint: "ဥပမာ - Graphic Design" },
+                        { id: "beginner/intermediate/expert", label: "Experience (ကျွမ်းကျင်မှုအဆင့်)", hint: "ဥပမာ - intermediate" },
+                        { id: "audience", label: "Audience (ပစ်မှတ်)", hint: "ဥပမာ - Small business owners" }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "၂။ Skill တစ်ခုကို လူတိုင်းစလုပ်နိုင်တဲ့ Digital Products တွေအဖြစ် ပြောင်းလဲရန်",
+                    en: "Help me convert my skill in [skill] into simple digital products I can sell online. My audience is [audience]. Suggest 10 products that do not require advanced tech skills. Focus on products I can create using simple tools like Google Docs, Canva, Notion, or spreadsheets. For each, give me product name, format, price range, creation steps, and why people would buy it.",
+                    mm: "ကျွန်တော့်ရဲ့ [skill] ကျွမ်းကျင်မှုကို အွန်လိုင်းမှာရောင်းလို့ရတဲ့ ရိုးရှင်းတဲ့ Digital product တွေအဖြစ် ပြောင်းလဲဖို့ ကူညီပေးပါ။ ကျွန်တော့် audience က [audience] ပါ။ နည်းပညာအမြင့်ကြီးတွေမလိုဘဲ ဖန်တီးနိုင်တဲ့ Product (၁၀) မျိုးကို အကြံပြုပေးပါ။ Google Docs, Canva, Notion ဒါမှမဟုတ် Spreadsheets လို ရိုးရှင်းတဲ့ Tools တွေသုံးပြီး ဖန်တီးနိုင်တဲ့ Products တွေကိုပဲ အဓိကထားပေးပါ။ တစ်ခုချင်းစီအတွက် Product နာမည်၊ ပုံစံ၊ ဈေးနှုန်းသတ်မှတ်ချက်၊ ဖန်တီးရမယ့် အဆင့်ဆင့်နဲ့ လူတွေဘာကြောင့်ဝယ်သင့်လဲဆိုတာကို ဖော်ပြပေးပါ။",
+                    inputs: [
+                        { id: "skill", label: "Skill (ကျွမ်းကျင်မှု)", hint: "ဥပမာ - Photography" },
+                        { id: "audience", label: "Audience (ပစ်မှတ်)", hint: "ဥပမာ - Content creators" }
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "၃။ (၇) ရက်အတွင်း အမြန်ဆုံး စတင်ရောင်းချနိုင်မယ့် Product ကိုရှာရန်",
+                    en: "I want a passive income product I can create in 7 days using my skill in [skill]. I can spend [X] hours per day. My audience is [audience]. Give me 7 product ideas I can finish quickly. For each one, include day-by-day creation plan, tools needed, estimated selling price, and expected difficulty. Highlight the best option for speed, simplicity, and first sales.",
+                    mm: "ကျွန်တော်ကျွမ်းကျင်တဲ့ [skill] ကိုသုံးပြီး (၇) ရက်အတွင်း ဖန်တီးလို့ရနိုင်မယ့် Passive income product တစ်ခုကို လိုချင်ပါတယ်။ တစ်ရက်ကို [X] နာရီ အချိန်ပေးနိုင်ပါတယ်။ ကျွန်တော့် audience က [audience] ပါ။ အမြန်ဆုံး အပြီးသတ်နိုင်မယ့် Product အိုင်ဒီယာ (၇) ခုကို ပေးပါ။ တစ်ခုချင်းစီအတွက် နေ့အလိုက်လုပ်ဆောင်ရမယ့် အစီအစဉ်၊ လိုအပ်တဲ့ Tools တွေ၊ ခန့်မှန်းရောင်းဈေးနဲ့ အခက်အခဲအဆင့်တွေကို ထည့်သွင်းပေးပါ။ မြန်ဆန်မှု၊ ရိုးရှင်းမှုနဲ့ ပထမဆုံးအရောင်းရဖို့အတွက် အကောင်းဆုံးရွေးချယ်မှုကို အထူးပြုပြပေးပါ။",
+                    inputs: [
+                        { id: "skill", label: "Skill (ကျွမ်းကျင်မှု)", hint: "ဥပမာ - Writing" },
+                        { id: "X", label: "Hours per day (တစ်ရက် အချိန်ပေးနိုင်မှု)", hint: "ဥပမာ - 2" },
+                        { id: "audience", label: "Audience (ပစ်မှတ်)", hint: "ဥပမာ - Freelancers" }
+                    ]
+                },
+                {
+                    id: 4,
+                    title: "၄။ ဈေးသက်သာတဲ့အဆင့်ကနေ Premium အဆင့်အထိ Product Ladder တည်ဆောက်ရန်",
+                    en: "Act as a product ecosystem expert. My skill is [skill] and my audience is [audience]. Build a 4-level product ladder for me: low-ticket, mid-ticket, premium digital, and recurring offer. Each offer should connect naturally to the next one. For each level, explain what to sell, price range, delivery format, buyer type, and how it leads to the next product.",
+                    mm: "Product ecosystem ကျွမ်းကျင်သူတစ်ယောက်အနေနဲ့ ကူညီပေးပါ။ ကျွန်တော့်ရဲ့ ကျွမ်းကျင်မှုက [skill] ဖြစ်ပြီး Audience ကတော့ [audience] ပါ။ Low-ticket၊ Mid-ticket၊ Premium digital နဲ့ Recurring offer ဆိုပြီး အဆင့် (၄) ဆင့်ပါတဲ့ Product ladder တစ်ခုကို တည်ဆောက်ပေးပါ။ ကမ်းလှမ်းမှုတစ်ခုစီတိုင်းက နောက်တစ်ခုဆီကို သဘာဝကျကျ ဆက်စပ်သွားရပါမယ်။ အဆင့်တစ်ခုချင်းစီအတွက် ဘာရောင်းရမလဲ၊ ဈေးနှုန်းအတိုင်းအတာ၊ ပေးပို့မယ့်ပုံစံ၊ ဝယ်ယူမယ့်သူ အမျိုးအစားနဲ့ နောက် Product တစ်ခုဆီကို ဘယ်လိုလမ်းကြောင်းပေးမလဲဆိုတာကို ရှင်းပြပေးပါ။",
+                    inputs: [
+                        { id: "skill", label: "Skill (ကျွမ်းကျင်မှု)", hint: "ဥပမာ - Video Editing" },
+                        { id: "audience", label: "Audience (ပစ်မှတ်)", hint: "ဥပမာ - YouTubers" }
+                    ]
+                },
+                {
+                    id: 5,
+                    title: "၅။ ကိုယ့်ရဲ့ Skill နဲ့ Audience ရဲ့ တကယ့်လိုအပ်ချက်တွေကို ချိတ်ဆက်ရန်",
+                    en: "I have a skill in [skill]. My target audience is [audience]. List the top 15 real problems this audience is actively trying to solve that I can help with using my skill. Then turn each problem into a passive income product idea. Make the ideas practical, sellable, and easy to understand. Show problem, product idea, transformation promised, and likely buyer intent.",
+                    mm: "ကျွန်တော့်မှာ [skill] ကျွမ်းကျင်မှုရှိပါတယ်။ Target audience ကတော့ [audience] ပါ။ ဒီ audience တွေ လက်ရှိကြုံတွေ့နေရပြီး အဖြေရှာနေတဲ့ ပြဿနာ (၁၅) ခုကို စာရင်းပြုစုပေးပါ။ ပြီးရင် ကျွန်တော့် skill ကိုသုံးပြီး အဲ့ဒီပြဿနာတစ်ခုချင်းစီကို Passive income product အိုင်ဒီယာတွေအဖြစ် ပြောင်းလဲပေးပါ။ အိုင်ဒီယာတွေကို လက်တွေ့ကျကျ ရောင်းတန်းဝင်ပြီး နားလည်ရလွယ်ကူအောင် လုပ်ပေးပါ။ ပြဿနာ၊ Product အိုင်ဒီယာ၊ ရရှိလာမယ့် အပြောင်းအလဲ (Transformation) နဲ့ ဝယ်ယူနိုင်ခြေရှိတဲ့ ရည်ရွယ်ချက်တွေကို ဖော်ပြပေးပါ။",
+                    inputs: [
+                        { id: "skill", label: "Skill (ကျွမ်းကျင်မှု)", hint: "ဥပမာ - English Language" },
+                        { id: "audience", label: "Audience (ပစ်မှတ်)", hint: "ဥပမာ - Students going abroad" }
+                    ]
+                },
+                {
+                    id: 6,
+                    title: "၆။ လူတွေတကယ် ပိုက်ဆံပေးဝယ်မယ့်အရာကို သေချာစစ်ဆေးရန် (Validation)",
+                    en: "Act as a market validation researcher. I want to sell a passive income product based on [skill] to [audience]. Give me 10 product ideas, then score each idea from 1–10 on demand, urgency, ease of creation, uniqueness, and purchase likelihood. After that, tell me which top 3 ideas are most likely to generate revenue fastest and explain why.",
+                    mm: "ဈေးကွက်လေ့လာဆန်းစစ်သူ (Market validation researcher) တစ်ယောက်အနေနဲ့ တွေးပေးပါ။ [skill] ကို အခြေခံပြီး [audience] ကို Passive income product တစ်ခု ရောင်းချချင်ပါတယ်။ Product အိုင်ဒီယာ (၁၀) ခုကို ပေးပါ။ ပြီးရင် အိုင်ဒီယာတစ်ခုချင်းစီအတွက် ဝယ်လိုအား၊ အရေးတကြီးလိုအပ်မှု၊ ဖန်တီးရန်လွယ်ကူမှု၊ ထူးခြားမှုနဲ့ ဝယ်ယူနိုင်ခြေရှိမှုတို့အပေါ် မူတည်ပြီး ၁ မှ ၁၀ အထိ အမှတ်ပေးပါ။ အဲ့ဒီနောက် ဝင်ငွေအမြန်ဆုံးရနိုင်ခြေရှိတဲ့ ထိပ်ဆုံး အိုင်ဒီယာ (၃) ခုက ဘာတွေလဲဆိုတာကို အကြောင်းပြချက်နဲ့တကွ ပြောပြပေးပါ။",
+                    inputs: [
+                        { id: "skill", label: "Skill (ကျွမ်းကျင်မှု)", hint: "ဥပမာ - Web Design" },
+                        { id: "audience", label: "Audience (ပစ်မှတ်)", hint: "ဥပမာ - Local businesses" }
+                    ]
+                },
+                {
+                    id: 7,
+                    title: "၇။ လက်ရှိရှိပြီးသား အသိပညာတွေကနေ Product တစ်ခု ဖန်တီးရန်",
+                    en: "I do not want to start from zero. Help me turn what I already know about [skill] into digital products. Ask: what tasks I repeat often, what I explain often, what shortcuts I use, what mistakes I help people avoid, and what frameworks I already follow. Then convert those into 10 passive income products with clear format, title ideas, and ideal customers.",
+                    mm: "သုညကနေ ပြန်မစချင်ပါဘူး။ [skill] နဲ့ပတ်သက်ပြီး ကျွန်တော်သိပြီးသားအရာတွေကို Digital products တွေအဖြစ် ပြောင်းလဲဖို့ ကူညီပေးပါ။ ကျွန်တော်ခဏခဏ လုပ်ဖြစ်တဲ့အရာတွေ၊ ခဏခဏ ရှင်းပြဖြစ်တဲ့အရာတွေ၊ ကျွန်တော်သုံးနေကျ Shortcuts တွေ၊ တခြားသူတွေ အမှားမလုပ်မိအောင် ကူညီပေးနေတဲ့အရာတွေနဲ့ ကျွန်တော်လိုက်နာနေကျ နည်းစနစ်တွေက ဘာတွေလဲဆိုတာကို မေးခွန်းထုတ်ပေးပါ။ ပြီးရင် အဲ့ဒါတွေကို တိကျတဲ့ပုံစံ၊ ခေါင်းစဉ်အိုင်ဒီယာနဲ့ သင့်တော်တဲ့ ဝယ်ယူသူတွေပါဝင်တဲ့ Passive income product (၁၀) မျိုးအဖြစ် ပြောင်းလဲပေးပါ။",
+                    inputs: [
+                        { id: "skill", label: "Skill (ကျွမ်းကျင်မှု)", hint: "ဥပမာ - Social Media Marketing" }
+                    ]
+                },
+                {
+                    id: 8,
+                    title: "၈။ ပြီးပြည့်စုံတဲ့ Digital Product အကြမ်းဖျင်းအစီအစဉ် (Outline) ဆွဲရန်",
+                    en: "I want to create a [product type] about [topic] for [audience]. Build the full outline for me. Include product title, promise, sections/modules, what goes inside each section, bonus ideas, quick-win elements, and final deliverable structure. Make it simple, useful, and worth paying for. Keep it practical, not academic.",
+                    mm: "[audience] အတွက် [topic] နဲ့ပတ်သက်တဲ့ [product type] တစ်ခုကို ဖန်တီးချင်ပါတယ်။ ကျွန်တော့်အတွက် အပြည့်အစုံ Outline တစ်ခု ဆွဲပေးပါ။ Product နာမည်၊ ကတိပေးချက်၊ အခန်းများ/အပိုင်းများ၊ အခန်းတစ်ခုချင်းစီမှာ ပါဝင်မယ့်အရာတွေ၊ အပိုဆု (Bonus) အိုင်ဒီယာများ၊ အလွယ်တကူရလဒ်ထွက်နိုင်မယ့် အချက်များနဲ့ နောက်ဆုံး Delivery ပေးမယ့် ဖွဲ့စည်းပုံတွေကို ထည့်သွင်းပေးပါ။ ရိုးရှင်းပြီး အသုံးဝင်ကာ ပိုက်ဆံပေးဝယ်ရကျိုးနပ်မယ့်အရာမျိုး ဖြစ်ပါစေ။ စာအုပ်ဆန်ဆန်ကြီးမဟုတ်ဘဲ လက်တွေ့ကျကျဖြစ်အောင် ရေးပေးပါ။",
+                    inputs: [
+                        { id: "product type", label: "Product Type (အမျိုးအစား)", hint: "ဥပမာ - E-book / Video Course" },
+                        { id: "topic", label: "Topic (အကြောင်းအရာ)", hint: "ဥပမာ - Facebook Ads" },
+                        { id: "audience", label: "Audience (ပစ်မှတ်)", hint: "ဥပမာ - Beginners" }
+                    ]
+                },
+                {
+                    id: 9,
+                    title: "၉။ ဈေးနှုန်း မှန်မှန်ကန်ကန် သတ်မှတ်ရန်",
+                    en: "I have this digital product idea: [product idea]. My audience is [audience]. Compare 3 pricing options: low, mid, and premium. For each, explain what should be included, what kind of buyer it attracts, expected conversion logic, and the pros and cons. Then recommend the best starting price if I want early sales and testimonials.",
+                    mm: "ကျွန်တော့်မှာ [product idea] ဆိုတဲ့ Digital product အိုင်ဒီယာတစ်ခုရှိပါတယ်။ Audience ကတော့ [audience] ပါ။ Low, Mid နဲ့ Premium ဆိုပြီး ဈေးနှုန်းရွေးချယ်စရာ (၃) မျိုးကို နှိုင်းယှဉ်ပေးပါ။ တစ်ခုချင်းစီအတွက် ဘာတွေပါဝင်သင့်လဲ၊ ဘယ်လိုဝယ်သူမျိုးကို ဆွဲဆောင်နိုင်မလဲ၊ ဝယ်ယူလာအောင် ဘယ်လိုယုတ္တိနဲ့ ဆွဲဆောင်မလဲဆိုတာရယ်၊ ကောင်းကျိုးဆိုးကျိုးတွေကိုပါ ရှင်းပြပေးပါ။ ပြီးရင် အစောပိုင်း အရောင်းရဖို့နဲ့ Customer တွေဆီက သုံးသပ်ချက် (Testimonials) တွေရဖို့ဆိုရင် ဘယ်ဈေးနှုန်းနဲ့ စတင်သင့်လဲဆိုတာကို အကြံပြုပေးပါ။",
+                    inputs: [
+                        { id: "product idea", label: "Product Idea (အိုင်ဒီယာ)", hint: "ဥပမာ - 100 ChatGPT Prompts Template" },
+                        { id: "audience", label: "Audience (ပစ်မှတ်)", hint: "ဥပမာ - Small business owners" }
+                    ]
+                },
+                {
+                    id: 10,
+                    title: "၁၀။ ရောင်းချရန် အကောင်းဆုံး Platform ကို ရွေးချယ်ရန်",
+                    en: "I want to sell a passive income product related to [skill]. Compare the best platforms for me, such as Gumroad, Etsy, Payhip, Shopify, Notion marketplaces, or my own website. Based on my product type [product type], audience [audience], and goal [goal], tell me which platform is best and why. Include fees, ease of setup, traffic potential, and beginner friendliness.",
+                    mm: "[skill] နဲ့ပတ်သက်တဲ့ Passive income product တစ်ခုကို ရောင်းချချင်ပါတယ်။ Gumroad, Etsy, Payhip, Shopify, Notion marketplaces ဒါမှမဟုတ် ကိုယ်ပိုင် Website စတဲ့ အကောင်းဆုံး Platform တွေကို နှိုင်းယှဉ်ပေးပါ။ ကျွန်တော့်ရဲ့ [product type] အမျိုးအစား၊ [audience] နဲ့ ရည်မှန်းချက် [goal] တို့အပေါ်မူတည်ပြီး ဘယ် Platform က အကောင်းဆုံးလဲဆိုတာကို အကြောင်းပြချက်နဲ့တကွ ပြောပြပေးပါ။ ဝန်ဆောင်ခ (Fees)၊ အသုံးပြုရလွယ်ကူမှု၊ ဝင်ရောက်ကြည့်ရှုသူ (Traffic) ရနိုင်ခြေနဲ့ အစပြုသူတွေအတွက် အဆင်ပြေမှုရှိမရှိတို့ကိုပါ ထည့်သွင်းပေးပါ။",
+                    inputs: [
+                        { id: "skill", label: "Skill (ကျွမ်းကျင်မှု)", hint: "ဥပမာ - Drawing" },
+                        { id: "product type", label: "Product Type (အမျိုးအစား)", hint: "ဥပမာ - Digital Prints" },
+                        { id: "audience", label: "Audience (ပစ်မှတ်)", hint: "ဥပမာ - Decor lovers" },
+                        { id: "goal", label: "Goal (ရည်မှန်းချက်)", hint: "ဥပမာ - Easy setup with zero upfront cost" }
+                    ]
+                },
+                {
+                    id: 11,
+                    title: "၁၁။ အရောင်းတက်စေမယ့် Sales Page တစ်ခု ရေးသားရန်",
+                    en: "Write a simple, high-converting sales page for my product. Product: [product name]. Audience: [audience]. Main problem: [problem]. Main result: [result]. Price: [price]. Use clear and simple English. Include headline, hook, problem section, solution section, product benefits, what is included, who it is for, who it is not for, FAQ, and CTA. Make it sound helpful, not pushy.",
+                    mm: "ကျွန်တော့် Product အတွက် ရိုးရှင်းပြီး အရောင်းအများဆုံးရနိုင်မယ့် Sales page စာသားတစ်ခုကို ရေးပေးပါ။ Product နာမည် - [product name]။ Audience - [audience]။ အဓိက ပြဿနာ - [problem]။ ရရှိမယ့် အဓိကရလဒ် - [result]။ ဈေးနှုန်း - [price]။ ရှင်းလင်းပြီး ရိုးရှင်းတဲ့အင်္ဂလိပ်စာကို အသုံးပြုပါ။ Headline, Hook, ပြဿနာအပိုင်း၊ ဖြေရှင်းချက်အပိုင်း၊ Product ရဲ့ အကျိုးကျေးဇူးများ၊ ပါဝင်မယ့်အရာများ၊ ဘယ်သူတွေအတွက်လဲ၊ ဘယ်သူတွေအတွက်မဟုတ်ဘူးလဲ၊ အမေးများသောမေးခွန်းများ (FAQ) နဲ့ Call to Action (CTA) တို့ကို ထည့်သွင်းပေးပါ။ အတင်းရောင်းချင်နေတဲ့ပုံစံမျိုးမပေါက်ဘဲ တကယ်ကူညီပေးချင်တဲ့ အသံထွက်မျိုးဖြစ်ပါစေ။",
+                    inputs: [
+                        { id: "product name", label: "Product Name (ထုတ်ကုန်အမည်)", hint: "ဥပမာ - SEO Mastery Guide" },
+                        { id: "audience", label: "Audience (ပစ်မှတ်)", hint: "ဥပမာ - Bloggers" },
+                        { id: "problem", label: "Main Problem (အဓိကပြဿနာ)", hint: "ဥပမာ - No traffic from Google" },
+                        { id: "result", label: "Main Result (ရရှိမည့်ရလဒ်)", hint: "ဥပမာ - Rank on first page in 30 days" },
+                        { id: "price", label: "Price (ဈေးနှုန်း)", hint: "ဥပမာ - $19" }
+                    ]
+                },
+                {
+                    id: 12,
+                    title: "၁၂။ Product ရောင်းရအောင် နေ့စဉ် Content တွေဖန်တီးပေးမယ့် အစီအစဉ်ဆွဲရန်",
+                    en: "Act as a content strategist. I want to sell my [product type] about [topic] to [audience] on [platform]. Create a 30-day content plan that attracts buyers naturally. Include short post ideas, teaching hooks, pain-point posts, story posts, authority posts, and call-to-action posts. Make the content simple, trust-building, and designed to lead people to my offer without sounding spammy.",
+                    mm: "Content strategist တစ်ယောက်လို တွေးပေးပါ။ ကျွန်တော့်ရဲ့ [topic] နဲ့ပတ်သက်တဲ့ [product type] ကို [audience] တွေဆီ [platform] ပေါ်မှာ ရောင်းချချင်ပါတယ်။ ဝယ်ယူသူတွေကို သဘာဝကျကျ ဆွဲဆောင်နိုင်မယ့် ရက် (၃၀) စာ Content အစီအစဉ်တစ်ခုကို ဖန်တီးပေးပါ။ Short post အိုင်ဒီယာတွေ၊ ပညာပေး Hooks တွေ၊ အခက်အခဲ (Pain-point) တွေကို ထောက်ပြတဲ့ Posts တွေ၊ Story posts တွေ၊ Authority ကိုပြသတဲ့ Posts တွေနဲ့ Call-to-action posts တွေကို ထည့်သွင်းပေးပါ။ Content တွေကို ရိုးရှင်းပြီး ယုံကြည်မှုတည်ဆောက်နိုင်ကာ Spam လုပ်နေသလိုမဖြစ်ဘဲ ကိုယ့်ရဲ့ Product ဆီကို သဘာဝကျကျ လမ်းကြောင်းပေးနိုင်အောင် ဖန်တီးပေးပါ။",
+                    inputs: [
+                        { id: "product type", label: "Product Type (အမျိုးအစား)", hint: "ဥပမာ - Notion Template" },
+                        { id: "topic", label: "Topic (အကြောင်းအရာ)", hint: "ဥပမာ - Habit Tracking" },
+                        { id: "audience", label: "Audience (ပစ်မှတ်)", hint: "ဥပမာ - Students" },
+                        { id: "platform", label: "Platform (ပလက်ဖောင်း)", hint: "ဥပမာ - Facebook" }
+                    ]
+                }
+            ];
+
+            const container = document.getElementById('accordion-container');
+            const langRadios = document.getElementsByName('language');
+
+            function renderAccordion() {
+                container.innerHTML = ''; 
+
+                promptData.forEach((data) => {
+                    const item = document.createElement('div');
+                    item.className = 'accordion-item';
+                    item.id = `acc-item-${data.id}`;
+
+                    let html = `
+                        <div class="accordion-header" onclick="toggleAccordion(${data.id})">
+                            <div class="header-content">
+                                <div class="acc-title">${data.title}</div>
+                            </div>
+                            <div class="acc-icon">▼</div>
+                        </div>
+                    `;
+
+                    html += `<div class="accordion-body" id="acc-body-${data.id}">
+                                <div class="body-inner">`;
+
+                    if (data.inputs && data.inputs.length > 0) {
+                        data.inputs.forEach(input => {
+                            html += `
+                                <div class="form-group">
+                                    <label>${input.label}</label>
+                                    <input type="text" id="input-${data.id}-${input.id}" data-item-id="${data.id}" placeholder="${input.hint}">
+                                </div>
+                            `;
+                        });
+                    }
+
+                    html += `
+                            <textarea id="output-${data.id}" readonly></textarea>
+                            <button id="copy-${data.id}" data-item-id="${data.id}">Copy Prompt</button>
+                        </div>
+                    </div>`;
+
+                    item.innerHTML = html;
+                    container.appendChild(item);
+                });
+
+                attachEventListeners();
+                updateAllPrompts();
+            }
+
+            window.toggleAccordion = function(id) {
+                const item = document.getElementById(`acc-item-${id}`);
+                const body = document.getElementById(`acc-body-${id}`);
+
+                // Auto-collapse logic
+                document.querySelectorAll('.accordion-item').forEach(el => {
+                    if(el.id !== `acc-item-${id}`) {
+                        el.classList.remove('active');
+                        el.querySelector('.accordion-body').style.maxHeight = null;
+                    }
+                });
+
+                if (item.classList.contains('active')) {
+                    item.classList.remove('active');
+                    body.style.maxHeight = null;
+                } else {
+                    item.classList.add('active');
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updatePromptForCard(itemId) {
+                const data = promptData.find(p => p.id == itemId);
+                const isMyanmar = document.querySelector('input[name="language"]:checked').value === 'mm';
+                let finalPrompt = isMyanmar ? data.mm : data.en;
+
+                if (data.inputs) {
+                    data.inputs.forEach(input => {
+                        const el = document.getElementById(`input-${data.id}-${input.id}`);
+                        const val = el && el.value.trim() !== "" ? el.value.trim() : `[${input.id}]`;
+                        // Handle multiple instances of placeholder
+                        finalPrompt = finalPrompt.split(`[${input.id}]`).join(val);
+                    });
+                }
+
+                document.getElementById(`output-${data.id}`).value = finalPrompt;
+            }
+
+            function updateAllPrompts() {
+                promptData.forEach(data => updatePromptForCard(data.id));
+            }
+
+            function attachEventListeners() {
+                container.addEventListener('input', (e) => {
+                    if (e.target.tagName === 'INPUT') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        if (itemId) updatePromptForCard(itemId);
+                    }
+                });
+
+                container.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'BUTTON') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        const outputEl = document.getElementById(`output-${itemId}`);
+                        outputEl.select();
+                        document.execCommand('copy');
+                        
+                        const btn = e.target;
+                        const originalText = btn.innerText;
+                        btn.innerText = "COPIED! ✨";
+                        setTimeout(() => btn.innerText = originalText, 2000);
+                    }
+                });
+            }
+
+            langRadios.forEach(radio => radio.addEventListener('change', updateAllPrompts));
+
+            renderAccordion();
+        });
+    </script>
+</body>
+</html>

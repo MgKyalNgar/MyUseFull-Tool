@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Branding Prompts</title>
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="My Useful Tools">
+    <link rel="apple-touch-icon" href="../icon-192x192.png">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: #0f172a; /* Deep Slate Background */
+            color: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .header-container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            margin-bottom: 25px;
+            position: sticky;
+            top: 0;
+            background: rgba(15, 23, 42, 0.95);
+            padding: 20px;
+            z-index: 100;
+            border-bottom: 1px solid #a855f7; /* Purple */
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #a855f7; 
+            font-size: clamp(1.5rem, 5vw, 2.2rem);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+            word-wrap: break-word;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .remark {
+            color: #d8b4fe;
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(168, 85, 247, 0.1);
+            border-radius: 8px;
+            border: 1px dashed #a855f7;
+            line-height: 1.5;
+        }
+
+        .global-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .radio-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #e2e8f0;
+            font-weight: 600;
+        }
+
+        input[type="radio"] {
+            accent-color: #a855f7;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ----- Accordion List Container ----- */
+        .accordion-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        /* ----- Accordion Item ----- */
+        .accordion-item {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-left: 4px solid #a855f7;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            border-color: #a855f7;
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.1);
+        }
+
+        /* ----- Accordion Header (Clickable) ----- */
+        .accordion-header {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            background: rgba(30, 41, 59, 0.8);
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding-right: 15px;
+        }
+
+        .acc-title {
+            color: #f8fafc;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .acc-icon {
+            color: #a855f7;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        /* Active State for Accordion */
+        .accordion-item.active .acc-icon {
+            transform: rotate(180deg);
+        }
+        
+        .accordion-item.active {
+            border-color: #c084fc;
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.15);
+        }
+
+        /* ----- Accordion Body ----- */
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            background: #0f172a;
+        }
+
+        .body-inner {
+            padding: 25px 20px;
+            border-top: 1px dashed #334155;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #c084fc;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"], textarea.input-text {
+            width: 100%;
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: #e879f9;
+            padding: 12px;
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"]:focus, textarea.input-text:focus {
+            border-color: #a855f7;
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.2);
+        }
+        
+        textarea.input-text {
+            height: 80px;
+            resize: vertical;
+        }
+
+        textarea.output-area {
+            width: 100%;
+            height: 200px;
+            background: #020617;
+            border: 1px solid #334155;
+            color: #f8fafc;
+            padding: 15px;
+            border-radius: 6px;
+            resize: vertical;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        textarea.output-area:focus {
+            border-color: #a855f7;
+        }
+
+        button {
+            width: 100%;
+            background: transparent;
+            color: #d8b4fe;
+            border: 1px solid #a855f7;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #a855f7;
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>🌟 Personal Branding</h1>
+        <div class="remark">
+            စီးပွားရေးနဲ့ Personal Branding အတွက် အကောင်းဆုံး Facebook Page ကို သိသိသာသာ ပြောင်းလဲသွားစေမယ့် ChatGPT Prompt ၈ ခု 
+        </div>
+        <div class="global-options">
+            <label class="radio-btn">
+                <input type="radio" name="language" value="mm" checked> Myanmar Prompt
+            </label>
+            <label class="radio-btn">
+                <input type="radio" name="language" value="en"> English Prompt
+            </label>
+        </div>
+    </div>
+
+    <div class="accordion-container" id="accordion-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            const promptData = [
+                {
+                    id: 1,
+                    title: "၁။ Viral Format Analyzer",
+                    en: "Act as a Facebook content strategist. Analyze the last 20 posts from pages in my niche [Niche] and give me 10 post formats proven to go viral, with hooks, angles, and examples I can copy.",
+                    mm: "Facebook Content Strategist တစ်ယောက်အနေနဲ့ လုပ်ပေးပါ။ ကျွန်တော့်ရဲ့ လုပ်ငန်းနယ်ပယ် [Niche] နဲ့တူတဲ့ Page တွေက နောက်ဆုံးတင်ထားတဲ့ Post အခု (၂၀) ကို ခွဲခြမ်းစိတ်ဖြာပေးပါ။ ပြီးရင် Viral ဖြစ်ဖို့သေချာတဲ့ Post ပုံစံ (၁၀) ခုကို ဆွဲဆောင်မှုရှိတဲ့ အစချီစာကြောင်းတွေ (Hooks)၊ ရေးသားရမယ့် ရှုထောင့်အမြင် (Angles) တွေနဲ့ ကျွန်တော် ကူးယူသုံးလို့ရမယ့် ဥပမာတွေနဲ့တကွ ထုတ်ပေးပါ။",
+                    inputs: [
+                        { id: "Niche", label: "Niche (လုပ်ငန်းနယ်ပယ်)", type: "text", hint: "ဥပမာ - Tech Education" }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "၂။ 30-Day Content Plan",
+                    en: "Create a 30-day Facebook content plan for [Niche] focused on reach + engagement. Include hooks, story angles, carousel ideas, and CTAs for each day.",
+                    mm: "[Niche] အတွက် Reach နဲ့ Engagement တက်ဖို့ကို အဓိကထားပြီး ရက် (၃၀) စာ Facebook Content Plan တစ်ခု ရေးဆွဲပေးပါ။ နေ့ရက်တစ်ခုချင်းစီတိုင်းအတွက် ဆွဲဆောင်မှုရှိတဲ့ Hooks တွေ၊ ဇာတ်လမ်းသွား (Story angles) တွေ၊ ပုံတွဲတင်ဖို့ အိုင်ဒီယာတွေ (Carousel ideas) နဲ့ လုပ်ဆောင်ဖို့ တိုက်တွန်းချက်တွေ (CTAs) ကို ထည့်သွင်းပေးပါ။",
+                    inputs: [
+                        { id: "Niche", label: "Niche (လုပ်ငန်းနယ်ပယ်)", type: "text", hint: "ဥပမာ - Graphic Design Services" }
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "၃။ Story Framework Converter",
+                    en: "Turn this idea into a Facebook-optimized post using the format: Hook → Relatable Story → Sharp Lesson → CTA. Make it bold, conversational, and shareable:\n\n[Idea]",
+                    mm: "ဒီအိုင်ဒီယာကို [ Hook → ကိုယ်ချင်းစာနိုင်မယ့် ဇာတ်လမ်း → ထိမိတဲ့ သင်ခန်းစာ → CTA ] ဆိုတဲ့ ပုံစံကိုသုံးပြီး Facebook နဲ့ အကိုက်ညီဆုံး Post တစ်ခုဖြစ်အောင် ပြောင်းပေးပါ။ ဖတ်ရတာ ရဲတင်းပြီး၊ စကားပြောနေသလိုမျိုးနဲ့ လူတွေ Share ချင်လာအောင် ရေးပေးပါ -\n\n[Idea]",
+                    inputs: [
+                        { id: "Idea", label: "Idea (အိုင်ဒီယာစာသား)", type: "textarea", hint: "မိမိရေးချင်သော အကြောင်းအရာကို ထည့်ပါ..." }
+                    ]
+                },
+                {
+                    id: 4,
+                    title: "၄။ Engagement Maximizer",
+                    en: "Rewrite my Facebook post to maximize comments and saves. Add open loops, curiosity triggers, and punchier sentence flow:\n\n[Post Text]",
+                    mm: "Comment တွေနဲ့ Save လုပ်တာတွေ အများဆုံးရအောင် ကျွန်တော့်ရဲ့ Facebook post ကို ပြန်ရေးပေးပါ။ စာဖတ်သူကို ဆက်ဖတ်ချင်အောင် ဆွဲဆောင်ထားတာတွေ၊ စူးစမ်းချင်စိတ်ဖြစ်စေမယ့် အရာတွေနဲ့ ဖတ်ရတာ ပိုသွက်လက်ထိမိတဲ့ စာကြောင်းအသွားအလာတွေ ထည့်ပေးပါ -\n\n[Post Text]",
+                    inputs: [
+                        { id: "Post Text", label: "Post Text (မူရင်းစာသား)", type: "textarea", hint: "ပြင်ချင်သော Facebook Post စာသားကို ထည့်ပါ..." }
+                    ]
+                },
+                {
+                    id: 5,
+                    title: "၅။ Scroll-Stopping Hooks",
+                    en: "Give me 15 Facebook hooks tailored to my niche: [Niche]. Make them bold, scroll-stopping, and built around tension, fear of missing out, or status.",
+                    mm: "ကျွန်တော့်လုပ်ငန်းနယ်ပယ် [Niche] နဲ့ ကိုက်ညီတဲ့ Facebook Hooks (၁၅) ခု ဖန်တီးပေးပါ။ ရဲရဲတင်းတင်းနဲ့ လူတွေ Scroll ဆွဲဖတ်နေတာကို ရပ်တန့်သွားစေမယ့် စာသားမျိုးတွေဖြစ်ရမယ့်အပြင်၊ စိတ်လှုပ်ရှားမှု၊ အခွင့်အရေး လက်လွတ်သွားမှာကို စိုးရိမ်စိတ် (FOMO) သို့မဟုတ် လူမှုအဆင့်အတန်း စတာတွေကို အခြေခံပြီး ရေးပေးပါ။",
+                    inputs: [
+                        { id: "Niche", label: "Niche (လုပ်ငန်းနယ်ပယ်)", type: "text", hint: "ဥပမာ - Freelance Copywriting" }
+                    ]
+                },
+                {
+                    id: 6,
+                    title: "၆။ Facebook Reel Script",
+                    en: "Create a Facebook reel script (15–25 seconds) that introduces a problem, offers a quick solution, and ends with a strong CTA. Topic: [Topic].",
+                    mm: "ပြဿနာတစ်ခုကို မိတ်ဆက်ပေးပြီး မြန်ဆန်တဲ့ ဖြေရှင်းနည်းတစ်ခုကို ပေးမယ့်အပြင်၊ အဆုံးမှာ ခိုင်မာတဲ့ CTA တစ်ခုပါဝင်တဲ့ (၁၅ စက္ကန့်ကနေ ၂၅ စက္ကန့်စာ) Facebook Reel Script တစ်ခု ဖန်တီးပေးပါ။ အကြောင်းအရာ - [Topic]။",
+                    inputs: [
+                        { id: "Topic", label: "Topic (အကြောင်းအရာ)", type: "text", hint: "ဥပမာ - How to save 2 hours a day" }
+                    ]
+                },
+                {
+                    id: 7,
+                    title: "၇။ Personal Authority Builder",
+                    en: "Generate 10 ‘personal authority’ Facebook posts for [Niche/Expertise] that show expertise without sounding salesy. Include short stories, credibility triggers, and lessons.",
+                    mm: "[Niche/Expertise] နယ်ပယ်အတွက် ဈေးရောင်းနေသလို မဖြစ်စေဘဲ ကိုယ့်ရဲ့ ကျွမ်းကျင်မှုကို ပြသနိုင်မယ့် ‘Personal Authority’ (ပုဂ္ဂိုလ်ရေးဆိုင်ရာ ဩဇာတိက္ကမ) နဲ့ဆိုင်တဲ့ Facebook Posts (၁၀) ခု ဖန်တီးပေးပါ။ တိုတောင်းတဲ့ ဇာတ်လမ်းတွေ၊ ယုံကြည်မှုတိုးစေမယ့် အရာတွေနဲ့ သင်ခန်းစာတွေ ပါဝင်ပါစေ။",
+                    inputs: [
+                        { id: "Niche/Expertise", label: "Niche/Expertise (ကျွမ်းကျင်မှုနယ်ပယ်)", type: "text", hint: "ဥပမာ - Leadership and Management" }
+                    ]
+                },
+                {
+                    id: 8,
+                    title: "၈။ Long-form to Short Viral",
+                    en: "Turn this long-form idea into a short viral Facebook post under 6 lines, optimized for mobile scrolling and shares:\n\n[Long Text]",
+                    mm: "ဒီ ရှည်လျားတဲ့ အိုင်ဒီယာစာသားကို စာကြောင်းရေ (၆) ကြောင်းအောက်ပဲရှိတဲ့ တိုတိုနဲ့ Viral ဖြစ်နိုင်မယ့် Facebook Post တစ်ခုအဖြစ် ပြောင်းပေးပါ။ ဖုန်းနဲ့ Scroll ဆွဲဖတ်ဖို့ အဆင်ပြေစေပြီး လူတွေ Share ချင်အောင် လုပ်ပေးပါ -\n\n[Long Text]",
+                    inputs: [
+                        { id: "Long Text", label: "Long Text (စာရှည်)", type: "textarea", hint: "အရှည်ကြီးရေးထားသော စာကို ထည့်ပါ..." }
+                    ]
+                }
+            ];
+
+            const container = document.getElementById('accordion-container');
+            const langRadios = document.getElementsByName('language');
+
+            function renderAccordion() {
+                container.innerHTML = ''; 
+
+                promptData.forEach((data) => {
+                    const item = document.createElement('div');
+                    item.className = 'accordion-item';
+                    item.id = `acc-item-${data.id}`;
+
+                    let html = `
+                        <div class="accordion-header" onclick="toggleAccordion(${data.id})">
+                            <div class="header-content">
+                                <div class="acc-title">${data.title}</div>
+                            </div>
+                            <div class="acc-icon">▼</div>
+                        </div>
+                    `;
+
+                    html += `<div class="accordion-body" id="acc-body-${data.id}">
+                                <div class="body-inner">`;
+
+                    if (data.inputs && data.inputs.length > 0) {
+                        data.inputs.forEach(input => {
+                            if(input.type === 'textarea') {
+                                html += `
+                                    <div class="form-group">
+                                        <label>${input.label}</label>
+                                        <textarea id="input-${data.id}-${input.id}" class="input-text" data-item-id="${data.id}" placeholder="${input.hint}"></textarea>
+                                    </div>
+                                `;
+                            } else {
+                                html += `
+                                    <div class="form-group">
+                                        <label>${input.label}</label>
+                                        <input type="text" id="input-${data.id}-${input.id}" data-item-id="${data.id}" placeholder="${input.hint}">
+                                    </div>
+                                `;
+                            }
+                        });
+                    }
+
+                    html += `
+                            <textarea id="output-${data.id}" class="output-area" readonly></textarea>
+                            <button id="copy-${data.id}" data-item-id="${data.id}">Copy Prompt</button>
+                        </div>
+                    </div>`;
+
+                    item.innerHTML = html;
+                    container.appendChild(item);
+                });
+
+                attachEventListeners();
+                updateAllPrompts();
+            }
+
+            window.toggleAccordion = function(id) {
+                const item = document.getElementById(`acc-item-${id}`);
+                const body = document.getElementById(`acc-body-${id}`);
+
+                // Auto-collapse logic
+                document.querySelectorAll('.accordion-item').forEach(el => {
+                    if(el.id !== `acc-item-${id}`) {
+                        el.classList.remove('active');
+                        el.querySelector('.accordion-body').style.maxHeight = null;
+                    }
+                });
+
+                if (item.classList.contains('active')) {
+                    item.classList.remove('active');
+                    body.style.maxHeight = null;
+                } else {
+                    item.classList.add('active');
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updatePromptForCard(itemId) {
+                const data = promptData.find(p => p.id == itemId);
+                const isMyanmar = document.querySelector('input[name="language"]:checked').value === 'mm';
+                let finalPrompt = isMyanmar ? data.mm : data.en;
+
+                if (data.inputs) {
+                    data.inputs.forEach(input => {
+                        const el = document.getElementById(`input-${data.id}-${input.id}`);
+                        const val = el && el.value.trim() !== "" ? el.value.trim() : `[${input.id}]`;
+                        finalPrompt = finalPrompt.split(`[${input.id}]`).join(val);
+                    });
+                }
+
+                document.getElementById(`output-${data.id}`).value = finalPrompt;
+            }
+
+            function updateAllPrompts() {
+                promptData.forEach(data => updatePromptForCard(data.id));
+            }
+
+            function attachEventListeners() {
+                container.addEventListener('input', (e) => {
+                    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        if (itemId) updatePromptForCard(itemId);
+                    }
+                });
+
+                container.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'BUTTON') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        const outputEl = document.getElementById(`output-${itemId}`);
+                        outputEl.select();
+                        document.execCommand('copy');
+                        
+                        const btn = e.target;
+                        const originalText = btn.innerText;
+                        btn.innerText = "COPIED! ✨";
+                        setTimeout(() => btn.innerText = originalText, 2000);
+                    }
+                });
+            }
+
+            langRadios.forEach(radio => radio.addEventListener('change', updateAllPrompts));
+
+            renderAccordion();
+        });
+    </script>
+</body>
+</html>

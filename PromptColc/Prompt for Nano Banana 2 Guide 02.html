@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nano Banana 2 Prompt Guide</title>
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="My Useful Tools">
+    <link rel="apple-touch-icon" href="../icon-192x192.png">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: #0f172a; /* Deep Navy / Slate */
+            color: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .header-container {
+            width: 100%;
+            max-width: 1000px;
+            text-align: center;
+            margin-bottom: 30px;
+            position: sticky;
+            top: 0;
+            background: rgba(15, 23, 42, 0.95);
+            padding: 20px;
+            z-index: 100;
+            border-bottom: 1px solid #facc15; /* Banana Yellow */
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #facc15; 
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(250, 204, 21, 0.4);
+            word-wrap: break-word;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .remark {
+            color: #fde047;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(250, 204, 21, 0.1);
+            border-radius: 8px;
+            border: 1px dashed #facc15;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        .global-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .radio-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #cbd5e1;
+            font-weight: 600;
+        }
+
+        input[type="radio"] {
+            accent-color: #facc15;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ----- Grid Layout for Cards ----- */
+        .card-container {
+            width: 100%;
+            max-width: 1000px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        /* ----- Individual Card Style ----- */
+        .prompt-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-top: 4px solid #facc15;
+            border-radius: 12px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        }
+
+        .prompt-card:hover {
+            transform: translateY(-5px);
+            border-color: #facc15;
+            box-shadow: 0 20px 25px -5px rgba(250, 204, 21, 0.2);
+        }
+
+        .card-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #334155;
+        }
+
+        .card-title {
+            color: #f8fafc;
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        /* ----- Form Elements ----- */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #fde047;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid #334155;
+            color: #fef08a;
+            padding: 12px;
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"]:focus {
+            border-color: #facc15;
+            box-shadow: 0 0 10px rgba(250, 204, 21, 0.2);
+        }
+
+        textarea {
+            width: 100%;
+            height: 250px;
+            background: #020617;
+            border: 1px solid #334155;
+            color: #f8fafc;
+            padding: 15px;
+            border-radius: 6px;
+            resize: vertical;
+            line-height: 1.6;
+            font-size: 0.9rem;
+            outline: none;
+            margin-top: 10px;
+            flex-grow: 1;
+        }
+
+        textarea:focus {
+            border-color: #facc15;
+        }
+
+        button {
+            width: 100%;
+            background: rgba(250, 204, 21, 0.1);
+            color: #facc15;
+            border: 1px solid #facc15;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #facc15;
+            color: #0f172a;
+            box-shadow: 0 0 15px rgba(250, 204, 21, 0.5);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>🍌 Nano Banana 2 Guide</h1>
+        <p class="subtitle">Nano Banana 2 အစွမ်းကုန်အသုံးချနိုင်ဖို့အတွက် ပြီးပြည့်စုံတဲ့ Prompt Guide</p>
+        
+        <div class="global-options">
+            <label class="radio-btn">
+                <input type="radio" name="language" value="mm" checked> Myanmar Prompt
+            </label>
+            <label class="radio-btn">
+                <input type="radio" name="language" value="en"> English Prompt
+            </label>
+        </div>
+    </div>
+
+    <div class="card-container" id="card-container"></div>
+	
+	<div class="remark">
+            💡 <strong>အနှစ်ချုပ် (Summary Workflow):</strong><br>
+            • အချက်အလက်များကို စနစ်တကျစီစဉ်ပါ၊ ပုံပြင်တွေ လျှောက်မရေးပါနဲ့။ [cite: 386]<br>
+            • တကယ့် ကင်မရာ မှန်ဘီလူးနဲ့ Aperture (အလင်းဝင်ပေါက်) အပြင်အဆင်များကို အသုံးပြုပါ။ [cite: 386]<br>
+            • "AI ပုံစံ" ပျောက်သွားအောင် ဖုန်မှုန့်များ၊ အမှုန်အမွှားများနှင့် အသေးစိတ်အချက်အလက်များကို ထည့်ပါ။ [cite: 386]<br>
+            • မော်ဒယ်ကို တိကျပြတ်သားတဲ့ ကန့်သတ်ချက်တွေနဲ့ အမိန့်ပေးပါ။ [cite: 387]<br>
+            • ကိုယ်ပေးချင်တဲ့ စိတ်ခံစားချက်နဲ့ ကိုက်ညီတဲ့ အရောင်အသွေး (Color Grading) ကို အသုံးပြုပါ။ [cite: 387]
+        </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            const promptData = [
+                {
+                    id: 1,
+                    title: "1/ Parameter Stack (စနစ်တကျ အချက်အလက်စီစဉ်ခြင်း)",
+                    en: "➔ Subject: [Subject]\n➔ Lighting: [Lighting]\n➔ Camera: [Camera]\n➔ Environment: [Environment]\n➔ Texture: [Texture]",
+                    mm: "➔ Subject (အဓိကအရာဝတ္ထု) - [Subject]\n➔ Lighting (အလင်းအမှောင်) - [Lighting]\n➔ Camera (ကင်မရာ) - [Camera]\n➔ Environment (ပတ်ဝန်းကျင်) - [Environment]\n➔ Texture (မျက်နှာပြင် အထိအတွေ့) - [Texture]",
+                    inputs: [
+                        { id: "Subject", label: "Subject (အဓိကအရာဝတ္ထု)", hint: "ဥပမာ - Core focus, A cyberpunk warrior" },
+                        { id: "Lighting", label: "Lighting (အလင်းအမှောင်)", hint: "ဥပမာ - Volumetric, soft purple neon" },
+                        { id: "Camera", label: "Camera (ကင်မရာ)", hint: "ဥပမာ - 35mm lens, low angle" },
+                        { id: "Environment", label: "Environment (ပတ်ဝန်းကျင်)", hint: "ဥပမာ - Wet asphalt, neon reflections" },
+                        { id: "Texture", label: "Texture (မျက်နှာပြင် အထိအတွေ့)", hint: "ဥပမာ - Polished metal, matte skin" }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "2/ The Cinematic Cheat Codes (ရုပ်ရှင်ဆန်ဆန် ဖန်တီးနည်း)",
+                    en: "[Subject]. Shot on [Lens] lens, [Aperture], [Depth_of_Field], [Lighting_Style].",
+                    mm: "[Subject]။ [Lens] မှန်ဘီလူးဖြင့် ရိုက်ကူးထားသည်၊ [Aperture]၊ [Depth_of_Field]၊ [Lighting_Style]။",
+                    inputs: [
+                        { id: "Subject", label: "Subject (အဓိကအရာဝတ္ထု)", hint: "ဥပမာ - A beautiful portrait / A wide landscape" },
+                        { id: "Lens", label: "Lens (မှန်ဘီလူး)", hint: "ဥပမာ - 85mm / 16mm / Macro" },
+                        { id: "Aperture", label: "Aperture (အလင်းဝင်ပေါက်)", hint: "ဥပမာ - f/1.8 / f/8" },
+                        { id: "Depth_of_Field", label: "Depth of Field (အာရုံစိုက်မှု)", hint: "ဥပမာ - shallow depth of field / wide-angle" },
+                        { id: "Lighting_Style", label: "Lighting Style (အလင်းအမှောင်)", hint: "ဥပမာ - Rembrandt lighting / golden hour natural light" }
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "3/ The 'Anti-Plastic' Formula (ပလတ်စတစ်ဆန်မှုကို ဖယ်ရှားခြင်း)",
+                    en: "[Subject/Scene]. Include subtle realistic imperfections such as: [Imperfection 1], [Imperfection 2], and [Imperfection 3].",
+                    mm: "[Subject/Scene]။ အောက်ပါ လက်တွေ့ကျသော အပြစ်အနာအဆာ အသေးစိတ်များကို ထည့်သွင်းပါ- [Imperfection 1]၊ [Imperfection 2]၊ နှင့် [Imperfection 3]။",
+                    inputs: [
+                        { id: "Subject/Scene", label: "Subject/Scene", hint: "ဥပမာ - A retro car / An old room" },
+                        { id: "Imperfection 1", label: "Imperfection 1 (အပြစ်အနာအဆာ ၁)", hint: "ဥပမာ - Floating dust particles (ဖုန်မှုန့်လေးများ)" },
+                        { id: "Imperfection 2", label: "Imperfection 2 (အပြစ်အနာအဆာ ၂)", hint: "ဥပမာ - Subtle film grain - ISO 400 (ဓာတ်ပုံဟောင်းဆန်ဆန်)" },
+                        { id: "Imperfection 3", label: "Imperfection 3 (အပြစ်အနာအဆာ ၃)", hint: "ဥပမာ - Micro-scratches on surfaces (ခြစ်ရာအသေးစားလေးများ)" }
+                    ]
+                },
+                {
+                    id: 4,
+                    title: "4/ Style Anchoring (ပုံစံကို တိတိကျကျ သတ်မှတ်ခြင်း)",
+                    en: "[Subject/Scene]. Render in the exact style of: [Specific Style].",
+                    mm: "[Subject/Scene]။ ဤအနုပညာစတိုင်လ်ဖြင့် အတိအကျ ဖန်တီးပါ- [Specific Style]။",
+                    inputs: [
+                        { id: "Subject/Scene", label: "Subject/Scene", hint: "ဥပမာ - A coffee cup" },
+                        { id: "Specific Style", label: "Specific Style (အနုပညာစတိုင်လ်)", hint: "ဥပမာ - Hand-drawn sketch on spiral notebook paper / 1990s VHS camcorder aesthetic / High-fashion editorial, Vogue style" }
+                    ]
+                },
+                {
+                    id: 5,
+                    title: "5/ Natural Language Exclusions (မလိုချင်သောအရာများကို တားမြစ်ခြင်း)",
+                    en: "[Main Prompt]. Strict exclusion: Do not include [Exclusion 1], [Exclusion 2], or [Exclusion 3]. Ensure perfect photorealism.",
+                    mm: "[Main Prompt]။ တိကျသော ကန့်သတ်ချက် - [Exclusion 1]၊ [Exclusion 2]၊ (သို့) [Exclusion 3] တို့ မပါဝင်စေရ။ ပြီးပြည့်စုံသော အစစ်အမှန်ပုံစံ ဖြစ်ရမည်။",
+                    inputs: [
+                        { id: "Main Prompt", label: "Main Prompt (အဓိက ဖန်တီးလိုသောအရာ)", hint: "ဥပမာ - A realistic human hand" },
+                        { id: "Exclusion 1", label: "Exclusion 1 (မလိုချင်သောအရာ ၁)", hint: "ဥပမာ - warped anatomy (ပုံပျက်နေသော ခန္ဓာကိုယ်)" },
+                        { id: "Exclusion 2", label: "Exclusion 2 (မလိုချင်သောအရာ ၂)", hint: "ဥပမာ - cartoon elements (ကာတွန်းဆန်သောအရာများ)" },
+                        { id: "Exclusion 3", label: "Exclusion 3 (မလိုချင်သောအရာ ၃)", hint: "ဥပမာ - oversaturated colors (အရောင်တောက်လွန်းခြင်းများ)" }
+                    ]
+                },
+                {
+                    id: 6,
+                    title: "6/ Precision Blending (ရာခိုင်နှုန်းဖြင့် အချိုးကျ ရောစပ်ခြင်း)",
+                    en: "[Subject/Scene]. Style composition: [Percentage 1]% [Style 1], [Percentage 2]% [Style 2].",
+                    mm: "[Subject/Scene]။ ပုံစံဖွဲ့စည်းမှု - [Percentage 1]% [Style 1]၊ [Percentage 2]% [Style 2]။",
+                    inputs: [
+                        { id: "Subject/Scene", label: "Subject/Scene", hint: "ဥပမာ - A futuristic cityscape" },
+                        { id: "Percentage 1", label: "Percentage 1 (%)", hint: "ဥပမာ - 70" },
+                        { id: "Style 1", label: "Style 1 (ပထမပုံစံ)", hint: "ဥပမာ - Cyberpunk neon" },
+                        { id: "Percentage 2", label: "Percentage 2 (%)", hint: "ဥပမာ - 30" },
+                        { id: "Style 2", label: "Style 2 (ဒုတိယပုံစံ)", hint: "ဥပမာ - Brutalist concrete architecture" }
+                    ]
+                },
+                {
+                    id: 7,
+                    title: "7/ Physics & Emotional Psychology (ရူပဗေဒနဲ့ စိတ်ခံစားမှု)",
+                    en: "[Subject/Scene]. Actionable Physics: [Physics Description]. Color grade: [Color Description] to evoke [Emotion].",
+                    mm: "[Subject/Scene]။ လက်တွေ့ကျသော ရူပဗေဒ - [Physics Description]။ အရောင်အသွေး - [Emotion] ကို ခံစားရစေရန် [Color Description]။",
+                    inputs: [
+                        { id: "Subject/Scene", label: "Subject/Scene", hint: "ဥပမာ - A lonely person holding an umbrella" },
+                        { id: "Physics Description", label: "Physics Description", hint: "ဥပမာ - Rain droplets violently hitting a metal umbrella, wind distorting the fabric, warped reflections in street puddles" },
+                        { id: "Color Description", label: "Color Description", hint: "ဥပမာ - Cold, desaturated blues and slate greys" },
+                        { id: "Emotion", label: "Emotion (ခံစားချက်)", hint: "ဥပမာ - isolation and technological dread (အထီးကျန်ဆန်မှုနှင့် ထိတ်လန့်မှု)" }
+                    ]
+                },
+                {
+                    id: 8,
+                    title: "8/ The Master Template (အခြေခံ ပုံစံခွက်)",
+                    en: "[Medium] of [Subject] doing [Action] in [Environment].\nCamera: [Lens/Aperture/Angle].\nLighting: [Light_Source/Shadows].\nAtmosphere/Physics: [Weather/Micro_Details].\nStyle/Color: [Color_Palette/Texture].\nStrict Execution: Render exactly as described, photorealistic, strict adherence to composition.",
+                    mm: "[Environment] တွင် [Action] လုပ်နေသော [Subject] ၏ [Medium]။\nCamera: [Lens/Aperture/Angle]။\nLighting: [Light_Source/Shadows]။\nAtmosphere/Physics: [Weather/Micro_Details]။\nStyle/Color: [Color_Palette/Texture]။\nတိကျစွာ လုပ်ဆောင်ရန် - ဖော်ပြထားသည့်အတိုင်း အတိအကျ ဖန်တီးပါ၊ အစစ်အမှန်ပုံစံဖြစ်ရမည်၊ ဖွဲ့စည်းပုံကို တိကျစွာ လိုက်နာပါ။",
+                    inputs: [
+                        { id: "Medium", label: "Medium (ပုံစံအမျိုးအစား)", hint: "ဥပမာ - Cinematic photograph" },
+                        { id: "Subject", label: "Subject (အဓိကအရာဝတ္ထု)", hint: "ဥပမာ - a detective" },
+                        { id: "Action", label: "Action (လုပ်ဆောင်ချက်)", hint: "ဥပမာ - smoking a cigar" },
+                        { id: "Environment", label: "Environment (ပတ်ဝန်းကျင်)", hint: "ဥပမာ - a dark alleyway" },
+                        { id: "Lens/Aperture/Angle", label: "Camera (ကင်မရာ)", hint: "ဥပမာ - 50mm, f/1.4, eye-level" },
+                        { id: "Light_Source/Shadows", label: "Lighting (အလင်း)", hint: "ဥပမာ - Harsh street lamp, deep shadows" },
+                        { id: "Weather/Micro_Details", label: "Atmosphere (ပတ်ဝန်းကျင်)", hint: "ဥပမာ - Heavy rain, smoke drifting" },
+                        { id: "Color_Palette/Texture", label: "Style (စတိုင်လ်)", hint: "ဥပမာ - High contrast noir, gritty texture" }
+                    ]
+                }
+            ];
+
+            const container = document.getElementById('card-container');
+            const langRadios = document.getElementsByName('language');
+
+            function renderCards() {
+                container.innerHTML = ''; 
+
+                promptData.forEach((data) => {
+                    const card = document.createElement('div');
+                    card.className = 'prompt-card';
+                    card.id = `card-${data.id}`;
+
+                    let html = `
+                        <div class="card-header">
+                            <div class="card-title">${data.title}</div>
+                        </div>
+                    `;
+
+                    if (data.inputs && data.inputs.length > 0) {
+                        data.inputs.forEach(input => {
+                            html += `
+                                <div class="form-group">
+                                    <label>${input.label}</label>
+                                    <input type="text" id="input-${data.id}-${input.id}" data-item-id="${data.id}" placeholder="${input.hint}">
+                                </div>
+                            `;
+                        });
+                    }
+
+                    html += `
+                        <textarea id="output-${data.id}" readonly></textarea>
+                        <button id="copy-${data.id}" data-item-id="${data.id}">Copy Prompt</button>
+                    `;
+
+                    card.innerHTML = html;
+                    container.appendChild(card);
+                });
+
+                attachEventListeners();
+                updateAllPrompts();
+            }
+
+            function updatePromptForCard(itemId) {
+                const data = promptData.find(p => p.id == itemId);
+                const isMyanmar = document.querySelector('input[name="language"]:checked').value === 'mm';
+                let finalPrompt = isMyanmar ? data.mm : data.en;
+
+                if (data.inputs) {
+                    data.inputs.forEach(input => {
+                        const el = document.getElementById(`input-${data.id}-${input.id}`);
+                        const val = el && el.value.trim() !== "" ? el.value.trim() : `[${input.id}]`;
+                        finalPrompt = finalPrompt.split(`[${input.id}]`).join(val);
+                    });
+                }
+
+                document.getElementById(`output-${data.id}`).value = finalPrompt;
+            }
+
+            function updateAllPrompts() {
+                promptData.forEach(data => updatePromptForCard(data.id));
+            }
+
+            function attachEventListeners() {
+                container.addEventListener('input', (e) => {
+                    if (e.target.tagName === 'INPUT') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        if (itemId) updatePromptForCard(itemId);
+                    }
+                });
+
+                container.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'BUTTON') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        const outputEl = document.getElementById(`output-${itemId}`);
+                        outputEl.select();
+                        document.execCommand('copy');
+                        
+                        const btn = e.target;
+                        const originalText = btn.innerText;
+                        btn.innerText = "COPIED! ✨";
+                        setTimeout(() => btn.innerText = originalText, 2000);
+                    }
+                });
+            }
+
+            langRadios.forEach(radio => radio.addEventListener('change', updateAllPrompts));
+
+            renderCards();
+        });
+    </script>
+</body>
+</html>

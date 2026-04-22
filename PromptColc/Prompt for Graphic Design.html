@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphic Design Prompts</title>
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#1e1b4b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="My Useful Tools">
+    <link rel="apple-touch-icon" href="../icon-192x192.png">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: #0f172a; /* Deep Slate Background */
+            color: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .header-container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            margin-bottom: 25px;
+            position: sticky;
+            top: 0;
+            background: rgba(15, 23, 42, 0.95);
+            padding: 20px;
+            z-index: 100;
+            border-bottom: 1px solid #2dd4bf; /* Neon Cyan */
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #2dd4bf; 
+            font-size: clamp(1.5rem, 5vw, 2.2rem);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(45, 212, 191, 0.4);
+            word-wrap: break-word;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .remark {
+            color: #5eead4;
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: rgba(45, 212, 191, 0.1);
+            border-radius: 8px;
+            border: 1px dashed #2dd4bf;
+        }
+
+        .global-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .radio-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #e2e8f0;
+            font-weight: 600;
+        }
+
+        input[type="radio"] {
+            accent-color: #2dd4bf;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ----- Accordion List Container ----- */
+        .accordion-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        /* ----- Accordion Item ----- */
+        .accordion-item {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-left: 4px solid #2dd4bf;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            border-color: #2dd4bf;
+            box-shadow: 0 0 15px rgba(45, 212, 191, 0.1);
+        }
+
+        /* ----- Accordion Header (Clickable) ----- */
+        .accordion-header {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            background: rgba(30, 41, 59, 0.8);
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding-right: 15px;
+        }
+
+        .acc-title {
+            color: #f8fafc;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .acc-icon {
+            color: #2dd4bf;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        /* Active State for Accordion */
+        .accordion-item.active .acc-icon {
+            transform: rotate(180deg);
+        }
+        
+        .accordion-item.active {
+            border-color: #5eead4;
+            box-shadow: 0 0 20px rgba(45, 212, 191, 0.15);
+        }
+
+        /* ----- Accordion Body ----- */
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            background: #0f172a;
+        }
+
+        .body-inner {
+            padding: 25px 20px;
+            border-top: 1px dashed #334155;
+        }
+
+        textarea {
+            width: 100%;
+            height: 250px;
+            background: #020617;
+            border: 1px solid #334155;
+            color: #f8fafc;
+            padding: 15px;
+            border-radius: 6px;
+            resize: vertical;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        textarea:focus {
+            border-color: #2dd4bf;
+        }
+
+        button {
+            width: 100%;
+            background: transparent;
+            color: #5eead4;
+            border: 1px solid #2dd4bf;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #2dd4bf;
+            color: #0f172a;
+            box-shadow: 0 0 15px rgba(45, 212, 191, 0.4);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>🎨 Graphic Design AI</h1>
+        <div class="remark">
+            Graphic Design ပိုင်းမှာ ပင်ပန်းတဲ့လုပ်ရိုးလုပ်စဉ်တွေကို အချိန်ကုန် လူပန်းသက်သာပြီး အဆင့်မြင့်မဟာဗျူဟာမြောက် လုပ်ငန်းစဉ်တွေအဖြစ် ပြောင်းလဲပေးမယ့် Prompt ၈ ခု 
+        </div>
+        <p class="subtitle">Image Generation & Editing AI (Midjourney, DALL-E, Photoshop AI) များတွင် အသုံးပြုရန်</p>
+        <div class="global-options">
+            <label class="radio-btn">
+                <input type="radio" name="language" value="mm" checked> Myanmar Prompt
+            </label>
+            <label class="radio-btn">
+                <input type="radio" name="language" value="en"> English Prompt
+            </label>
+        </div>
+    </div>
+
+    <div class="accordion-container" id="accordion-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            const promptData = [
+                {
+                    id: 1,
+                    title: "၁။ Background ဖယ်ရှားခြင်း (သပ်ရပ်ပြီး စီးပွားရေးလုပ်ငန်းသုံးအတွက်)",
+                    en: "Remove the background from the attached image. Preserve the original subject exactly as photographed, including edges, shadows, and surface texture. Output a clean, transparent background with no haloing, no blur, and no artificial smoothing. Maintain original resolution and proportions. This image will be used for professional product listings.",
+                    mm: "ပူးတွဲပါပုံမှ background ကိုဖယ်ရှားပေးပါ။ အနားသတ်များ၊ အရိပ်များနှင့် မျက်နှာပြင် အနေအထားများအပါအဝင် မူလအရာဝတ္ထုကို ရိုက်ကူးထားသည့်အတိုင်း အတိအကျ ထိန်းသိမ်းထားပေးပါ။ အလင်းရောင်ဝိုင်းနေခြင်း (haloing)၊ ဝါးနေခြင်းနှင့် ဖန်တီးထားသော ချောမွေ့မှုများမပါဝင်ဘဲ သပ်ရပ်ပြီး အနောက်ခံအကြည် (transparent background) ဖြင့် ထုတ်ပေးပါ။ မူလ resolution နှင့် အချိုးအစားကို ထိန်းသိမ်းထားပေးပါ။ ဤပုံကို ပရော်ဖက်ရှင်နယ် ထုတ်ကုန်ပြသခြင်းများအတွက် အသုံးပြုမည်ဖြစ်သည်။"
+                },
+                {
+                    id: 2,
+                    title: "၂။ Color Palette ခွဲထုတ်ခြင်းနှင့် Brand Kit ဖန်တီးခြင်း",
+                    en: "Analyze the attached image and extract the 5 most dominant colors. For each color, provide the exact HEX code, RGB value, and a suggested use case (primary, secondary, accent, background, text). Then generate a brand color palette card with proper contrast ratios for accessibility. Output as a clean, presentation-ready visual.",
+                    mm: "ပူးတွဲပါပုံကို ခွဲခြမ်းစိတ်ဖြာပြီး အလွှမ်းမိုးဆုံး အရောင် ၅ ရောင်ကို ထုတ်ယူပေးပါ။ အရောင်တစ်ခုစီအတွက် တိကျသော HEX code၊ RGB တန်ဖိုးနှင့် အကြံပြုထားသော အသုံးပြုပုံ (အဓိက၊ ဒုတိယ၊ အသားပေး၊ နောက်ခံ၊ စာသား) တို့ကို ဖော်ပြပေးပါ။ ထို့နောက် မျက်စိမြင်သာမှုအတွက် သင့်လျော်သော contrast အချိုးများပါဝင်သည့် brand color palette card တစ်ခုကို ဖန်တီးပေးပါ။ သပ်ရပ်ပြီး presentation ပြသရန်အသင့်ဖြစ်သော ပုံစံဖြင့် ထုတ်ပေးပါ။"
+                },
+                {
+                    id: 3,
+                    title: "၃။ ပုံအရည်အသွေးမြှင့်တင်ခြင်း (Print-Ready Enhancement)",
+                    en: "Upscale the attached image to 4x its current resolution. Preserve all original details, textures, and color accuracy. Remove any compression artifacts, noise, or pixelation without adding artificial sharpening or smoothing. The final output must be suitable for large-format print at 300 DPI. Maintain the exact aspect ratio.",
+                    mm: "ပူးတွဲပါပုံကို လက်ရှိ resolution ၏ ၄ ဆသို့ မြှင့်တင်ပေးပါ။ မူလ အသေးစိတ်အချက်အလက်များ၊ အသွင်အပြင်များနှင့် အရောင်တိကျမှုအားလုံးကို ထိန်းသိမ်းပေးပါ။ ဖန်တီးထားသော ထက်မြက်မှု (sharpening) သို့မဟုတ် ချောမွေ့မှု (smoothing) တို့ကို မထည့်သွင်းဘဲ compression artifacts၊ noise သို့မဟုတ် pixelation များကို ဖယ်ရှားပေးပါ။ နောက်ဆုံးရလဒ်သည် 300 DPI ဖြင့် အရွယ်အစားကြီးမားသော print ထုတ်ခြင်းအတွက် သင့်လျော်ရမည်။ မူလ အချိုးအစားကို တိကျစွာ ထိန်းသိမ်းပေးပါ။"
+                },
+                {
+                    id: 4,
+                    title: "၄။ Social Media အတွက် အရွယ်အစားနှင့် ပုံစံပြောင်းလဲခြင်း",
+                    en: "Take the attached image and reformat it into 4 optimized versions: Instagram post (1080x1080), Instagram Story (1080x1920), LinkedIn banner (1584x396), and Twitter/X header (1500x500). Keep the subject properly centered and visible in every crop. No stretching, no distortion, no important content cut off. Output all 4 as separate files.",
+                    mm: "ပူးတွဲပါပုံကိုယူပြီး အကောင်းဆုံးဖြစ်အောင်ပြင်ဆင်ထားသော ပုံစံ ၄ မျိုးဖြင့် ပြန်လည်ဖန်တီးပေးပါ- Instagram post (1080x1080)၊ Instagram Story (1080x1920)၊ LinkedIn banner (1584x396) နှင့် Twitter/X header (1500x500)။ ဖြတ်တောက်မှုတိုင်းတွင် အဓိကအရာဝတ္ထုကို အလယ်တည့်တည့်နှင့် သေချာစွာမြင်ရအောင် ထားရှိပေးပါ။ ဆွဲဆန့်ခြင်း၊ ပုံပျက်ခြင်း၊ အရေးကြီးသော အကြောင်းအရာများ ပြတ်တောက်သွားခြင်းမျိုး မရှိစေရပါ။ ပုံ ၄ ပုံလုံးကို သီးခြား file များအနေဖြင့် ထုတ်ပေးပါ။"
+                },
+                {
+                    id: 5,
+                    title: "၅။ Product Mockup ဖန်တီးခြင်း",
+                    en: "Place the attached product image onto a realistic mockup scene. Use a clean, modern lifestyle setting with natural lighting and soft shadows. The product must look physically present in the environment, not pasted on. Match the perspective, lighting direction, and color temperature of the scene. Output at high resolution suitable for e-commerce or ad creative.",
+                    mm: "ပူးတွဲပါ ထုတ်ကုန်ပုံကို လက်တွေ့ကျသော mockup မြင်ကွင်းတစ်ခုပေါ်တွင် ထည့်သွင်းပေးပါ။ သဘာဝအလင်းရောင်နှင့် နူးညံ့သော အရိပ်များပါဝင်သည့် သပ်ရပ်ပြီး ခေတ်မီသော lifestyle နောက်ခံကို အသုံးပြုပါ။ ထုတ်ကုန်သည် ပတ်ဝန်းကျင်တွင် အမှန်တကယ်ရှိနေသကဲ့သို့ ဖြစ်ရမည်ဖြစ်ပြီး ကပ်ထားသကဲ့သို့ မဖြစ်စေရပါ။ မြင်ကွင်း၏ ရှုထောင့်၊ အလင်းရောင်ဦးတည်ချက်နှင့် အရောင်အပူချိန်တို့ကို လိုက်ဖက်အောင်လုပ်ဆောင်ပေးပါ။ E-commerce သို့မဟုတ် ကြော်ငြာဖန်တီးမှုအတွက် သင့်လျော်သော high resolution ဖြင့် ထုတ်ပေးပါ။"
+                },
+                {
+                    id: 6,
+                    title: "၆။ စာသားများဖယ်ရှားခြင်းနှင့် သပ်ရပ်စွာ ပြန်လည်ဖြည့်တင်းခြင်း (Clean Inpainting)",
+                    en: "Remove all text, watermarks, and overlays from the attached image. Reconstruct the areas behind the removed elements using context-aware inpainting that matches the surrounding textures, colors, and patterns seamlessly. No smudging, no blurring, no visible patches. The final image should look like the text was never there. Maintain original resolution.",
+                    mm: "ပူးတွဲပါပုံမှ စာသားများ၊ watermark များနှင့် ထပ်နေသော အရာအားလုံးကို ဖယ်ရှားပေးပါ။ ဖယ်ရှားလိုက်သော အရာများ၏ အနောက်ဘက်ရှိ နေရာများကို ဝန်းကျင်ရှိ အသွင်အပြင်များ၊ အရောင်များနှင့် ပုံစံများကို ချောမွေ့စွာ ကိုက်ညီစေသော context-aware inpainting ကို အသုံးပြု၍ ပြန်လည်တည်ဆောက်ပေးပါ။ စွန်းထင်းမှု၊ ဝါးနေမှုနှင့် သိသာသော ဖာထေးမှုများ မရှိစေရပါ။ နောက်ဆုံးပုံသည် စာသားများ လုံးဝမရှိခဲ့သကဲ့သို့ ဖြစ်နေရမည်။ မူလ resolution ကို ထိန်းသိမ်းပေးပါ။"
+                },
+                {
+                    id: 7,
+                    title: "၇။ တစ်သမတ်တည်းဖြစ်သော Brand Template ဖန်တီးခြင်း",
+                    en: "Design a reusable social media post template based on the attached brand guidelines image. Extract the fonts, colors, and layout style. Create a clean template with placeholder zones for: headline text, body text, product image, logo, and CTA button. The template must be visually consistent across 10 different posts. Output as an editable layout with exact spacing and alignment specs.",
+                    mm: "ပူးတွဲပါ brand လမ်းညွှန်ချက်ပုံပေါ်အခြေခံ၍ ပြန်လည်အသုံးပြုနိုင်သော social media post template တစ်ခုကို ဒီဇိုင်းဆွဲပေးပါ။ Font များ၊ အရောင်များနှင့် layout ပုံစံကို ထုတ်ယူပါ။ ခေါင်းစဉ်စာသား၊ ကိုယ်ထည်စာသား၊ ထုတ်ကုန်ပုံ၊ လိုဂိုနှင့် CTA button တို့အတွက် နေရာလွတ်များ (placeholder zones) ပါဝင်သော သပ်ရပ်သည့် template တစ်ခုကို ဖန်တီးပါ။ အဆိုပါ template သည် မတူညီသော post ၁၀ ခုအတွက် အမြင်ပိုင်းဆိုင်ရာ တစ်သမတ်တည်းဖြစ်ရမည်။ တိကျသော အကွာအဝေးနှင့် နေရာချထားမှု အချက်အလက်များပါဝင်သည့် ပြင်ဆင်နိုင်သော layout အဖြစ် ထုတ်ပေးပါ။"
+                },
+                {
+                    id: 8,
+                    title: "၈။ ဓာတ်ပုံမှ Vector Illustration သို့ ပြောင်းလဲခြင်း",
+                    en: "Convert the attached photograph into a clean vector-style illustration. Maintain the likeness, proportions, and key details of the original subject. Use flat color blocks with minimal gradients, clean outlines, and a modern aesthetic suitable for branding or web use. No cartoonish distortion. Output in a style that would work as an app icon, avatar, or brand asset.",
+                    mm: "ပူးတွဲပါ ဓာတ်ပုံကို သပ်ရပ်သော vector ပုံစံ illustration အဖြစ် ပြောင်းလဲပေးပါ။ မူလအရာဝတ္ထု၏ ပုံပန်းသဏ္ဌာန်၊ အချိုးအစားများနှင့် အဓိကအသေးစိတ်အချက်အလက်များကို ထိန်းသိမ်းပေးပါ။ Gradient အနည်းငယ်သာပါဝင်သော ပြန့်ပြူးသည့် အရောင်တုံးများ (flat color blocks)၊ သပ်ရပ်သော အနားသတ်မျဉ်းများနှင့် branding သို့မဟုတ် web အသုံးပြုမှုအတွက် သင့်လျော်သော ခေတ်မီသည့် အလှအပကို အသုံးပြုပါ။ ကာတွန်းဆန်ဆန် ပုံပျက်ခြင်းမျိုး မရှိစေရပါ။ App icon၊ avatar သို့မဟုတ် brand asset အဖြစ် အသုံးပြု၍ရနိုင်သော ပုံစံဖြင့် ထုတ်ပေးပါ။"
+                }
+            ];
+
+            const container = document.getElementById('accordion-container');
+            const langRadios = document.getElementsByName('language');
+
+            function renderAccordion() {
+                container.innerHTML = ''; 
+
+                promptData.forEach((data) => {
+                    const item = document.createElement('div');
+                    item.className = 'accordion-item';
+                    item.id = `acc-item-${data.id}`;
+
+                    let html = `
+                        <div class="accordion-header" onclick="toggleAccordion(${data.id})">
+                            <div class="header-content">
+                                <div class="acc-title">${data.title}</div>
+                            </div>
+                            <div class="acc-icon">▼</div>
+                        </div>
+                    `;
+
+                    html += `<div class="accordion-body" id="acc-body-${data.id}">
+                                <div class="body-inner">`;
+
+                    html += `
+                            <textarea id="output-${data.id}" readonly></textarea>
+                            <button id="copy-${data.id}" data-item-id="${data.id}">Copy Prompt</button>
+                        </div>
+                    </div>`;
+
+                    item.innerHTML = html;
+                    container.appendChild(item);
+                });
+
+                attachEventListeners();
+                updateAllPrompts();
+            }
+
+            window.toggleAccordion = function(id) {
+                const item = document.getElementById(`acc-item-${id}`);
+                const body = document.getElementById(`acc-body-${id}`);
+
+                // Auto-collapse logic
+                document.querySelectorAll('.accordion-item').forEach(el => {
+                    if(el.id !== `acc-item-${id}`) {
+                        el.classList.remove('active');
+                        el.querySelector('.accordion-body').style.maxHeight = null;
+                    }
+                });
+
+                if (item.classList.contains('active')) {
+                    item.classList.remove('active');
+                    body.style.maxHeight = null;
+                } else {
+                    item.classList.add('active');
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updatePromptForCard(itemId) {
+                const data = promptData.find(p => p.id == itemId);
+                const isMyanmar = document.querySelector('input[name="language"]:checked').value === 'mm';
+                let finalPrompt = isMyanmar ? data.mm : data.en;
+
+                document.getElementById(`output-${data.id}`).value = finalPrompt;
+            }
+
+            function updateAllPrompts() {
+                promptData.forEach(data => updatePromptForCard(data.id));
+            }
+
+            function attachEventListeners() {
+                container.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'BUTTON') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        const outputEl = document.getElementById(`output-${itemId}`);
+                        outputEl.select();
+                        document.execCommand('copy');
+                        
+                        const btn = e.target;
+                        const originalText = btn.innerText;
+                        btn.innerText = "COPIED! ✨";
+                        setTimeout(() => btn.innerText = originalText, 2000);
+                    }
+                });
+            }
+
+            langRadios.forEach(radio => radio.addEventListener('change', updateAllPrompts));
+
+            renderAccordion();
+        });
+    </script>
+</body>
+</html>
