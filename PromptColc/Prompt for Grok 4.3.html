@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>11 Powerful Prompts for Grok 4.3</title>
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="My Useful Tools">
+    <link rel="apple-touch-icon" href="../icon-192x192.png">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: #0f172a; /* Deep Slate Background */
+            color: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .header-container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            margin-bottom: 25px;
+            position: sticky;
+            top: 0;
+            background: rgba(15, 23, 42, 0.95);
+            padding: 20px;
+            z-index: 100;
+            border-bottom: 1px solid #0ea5e9; /* Cyber Blue */
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #0ea5e9; 
+            font-size: clamp(1.5rem, 5vw, 2.2rem);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(14, 165, 233, 0.4);
+            word-wrap: break-word;
+        }
+
+        .remark {
+            color: #7dd3fc;
+            font-weight: 500;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(14, 165, 233, 0.1);
+            border-radius: 8px;
+            border: 1px dashed #0ea5e9;
+            line-height: 1.6;
+        }
+
+        .global-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .radio-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #cbd5e1;
+            font-weight: 600;
+        }
+
+        input[type="radio"] {
+            accent-color: #0ea5e9;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ----- Accordion List Container ----- */
+        .accordion-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        /* ----- Accordion Item ----- */
+        .accordion-item {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-left: 4px solid #0ea5e9;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            border-color: #0ea5e9;
+            box-shadow: 0 0 15px rgba(14, 165, 233, 0.1);
+        }
+
+        /* ----- Accordion Header (Clickable) ----- */
+        .accordion-header {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            background: rgba(30, 41, 59, 0.8);
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding-right: 15px;
+        }
+
+        .acc-title {
+            color: #f8fafc;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .acc-icon {
+            color: #0ea5e9;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        /* Active State for Accordion */
+        .accordion-item.active .acc-icon {
+            transform: rotate(180deg);
+        }
+        
+        .accordion-item.active {
+            border-color: #7dd3fc;
+            box-shadow: 0 0 20px rgba(14, 165, 233, 0.15);
+        }
+
+        /* ----- Accordion Body ----- */
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            background: #0f172a;
+        }
+
+        .body-inner {
+            padding: 25px 20px;
+            border-top: 1px dashed #334155;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #7dd3fc;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"], textarea.input-text {
+            width: 100%;
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: #38bdf8;
+            padding: 12px;
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"]:focus, textarea.input-text:focus {
+            border-color: #0ea5e9;
+            box-shadow: 0 0 10px rgba(14, 165, 233, 0.2);
+        }
+        
+        textarea.input-text {
+            height: 80px;
+            resize: vertical;
+        }
+
+        textarea.output-area {
+            width: 100%;
+            height: 250px;
+            background: #020617;
+            border: 1px solid #334155;
+            color: #f8fafc;
+            padding: 15px;
+            border-radius: 6px;
+            resize: vertical;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            outline: none;
+            margin-top: 10px;
+        }
+
+        textarea.output-area:focus {
+            border-color: #0ea5e9;
+        }
+
+        button {
+            width: 100%;
+            background: transparent;
+            color: #7dd3fc;
+            border: 1px solid #0ea5e9;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #0ea5e9;
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(14, 165, 233, 0.4);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>🌌 Grok 4.3 Prompts</h1>
+
+        <div class="global-options">
+            <label class="radio-btn">
+                <input type="radio" name="language" value="mm" checked> Myanmar Prompt
+            </label>
+            <label class="radio-btn">
+                <input type="radio" name="language" value="en"> English Prompt
+            </label>
+        </div>
+    </div>
+       <div class="remark">
+            💡 Content creation နဲ့ Research ပိုင်းမှာ တိတ်တဆိတ်နဲ့ အစွမ်းပြနေတဲ့ Content Creator တွေအတွက် လက်မလွှတ်သင့်တဲ့အမိုက်စား Grok 4.3 ရဲ့ Prompts (၁၁) ခု။
+        </div>
+
+    <div class="accordion-container" id="accordion-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            const promptData = [
+                {
+                    id: 1,
+                    title: "၁။ သုတေသန (Research)",
+                    en: "You are an expert research analyst. I need comprehensive research on [TOPIC]. Please provide: 1. Key findings from the last 12 months 2. Data and statistics with sources 3. Expert opinions and quotes 4. Emerging trends and predictions 5. Controversial viewpoints or debates 6. Practical implications for [INDUSTRY/AUDIENCE]. Format as an executive brief with clear sections. Include source links for all claims. Additional context: [YOUR SPECIFIC NEEDS].",
+                    mm: "ခင်ဗျားက ကျွမ်းကျင်တဲ့ သုတေသနဆန်းစစ်သူတစ်ယောက်ပါ။ [TOPIC] အကြောင်း ကျယ်ကျယ်ပြန့်ပြန့် သုတေသနပြုလုပ်ပေးဖို့ လိုအပ်ပါတယ်။ ကျေးဇူးပြုပြီး အောက်ပါအချက်အလက်တွေကို ပေးပါ - ၁။ ပြီးခဲ့တဲ့ ၁၂ လအတွင်းက အဓိကတွေ့ရှိချက်များ ၂။ ရင်းမြစ်များနှင့်အတူ ဒေတာနှင့် စာရင်းဇယားများ ၃။ ကျွမ်းကျင်သူများ၏ ထင်မြင်ချက်များနှင့် ကိုးကားချက်များ ၄။ ပေါ်ပေါက်လာသော လမ်းကြောင်းသစ်များနှင့် ခန့်မှန်းချက်များ ၅။ အငြင်းပွားဖွယ်ရာ အမြင်များ သို့မဟုတ် ဆွေးနွေးမှုများ ၆။ [INDUSTRY/AUDIENCE] အတွက် လက်တွေ့အသုံးချနိုင်သော အကျိုးသက်ရောက်မှုများ။ ရှင်းလင်းသော ကဏ္ဍခွဲများဖြင့် စီမံခန့်ခွဲမှု အကျဉ်းချုပ်အဖြစ် ပုံစံချပါ။ အဆိုပြုချက်အားလုံးအတွက် ရင်းမြစ်လင့်ခ်များ ထည့်သွင်းပါ။ နောက်ထပ် အကြောင်းအရာ: [YOUR SPECIFIC NEEDS]။",
+                    inputs: [
+                        { id: "TOPIC", label: "Topic (အကြောင်းအရာ)", type: "text", hint: "ဥပမာ - AI in Healthcare" },
+                        { id: "INDUSTRY/AUDIENCE", label: "Industry/Audience (လုပ်ငန်းနယ်ပယ်)", type: "text", hint: "ဥပမာ - Medical Professionals" },
+                        { id: "YOUR SPECIFIC NEEDS", label: "Specific Needs (အခြားလိုအပ်ချက်များ)", type: "textarea", hint: "ဥပမာ - Focus mainly on diagnostic tools" }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "၂။ အစီရင်ခံစာများ ရေးသားခြင်း (Writing white papers)",
+                    en: "You are a technical writer specializing in authoritative white papers. Write a white paper on [TOPIC] for [TARGET AUDIENCE]. Structure: - Executive Summary (150 words) - Problem Statement with market data - Current Solutions and their limitations - Our Approach/Solution with technical details - Case Studies or proof points - Implementation framework - ROI Analysis - Conclusion and Call to Action. Tone: [Authoritative/Conversational/Technical] Length: [2000-5000 words]. Include: - Relevant statistics and citations - Visual placeholders for charts/diagrams - Quotes from industry experts (mark as [NEEDS VERIFICATION]). Background context: [YOUR COMPANY/PRODUCT INFO].",
+                    mm: "ခင်ဗျားက တရားဝင် အစီရင်ခံစာတွေမှာ အထူးပြုတဲ့ နည်းပညာရှင် စာရေးဆရာတစ်ယောက်ပါ။ [TARGET AUDIENCE] အတွက် [TOPIC] အကြောင်း အစီရင်ခံစာတစ်စောင် ရေးသားပေးပါ။ ဖွဲ့စည်းပုံ - စီမံခန့်ခွဲမှု အကျဉ်းချုပ် (စလုံး ၁၅၀) - စျေးကွက်ဒေတာနှင့်အတူ ပြဿနာဖော်ပြချက် - လက်ရှိဖြေရှင်းနည်းများနှင့် ၎င်းတို့၏ ကန့်သတ်ချက်များ - နည်းပညာပိုင်းဆိုင်ရာ အသေးစိတ်အချက်အလက်များနှင့်အတူ ကျွန်ုပ်တို့၏ ချဉ်းကပ်မှု/ဖြေရှင်းနည်း - ဖြစ်ရပ်မှန်လေ့လာမှုများ သို့မဟုတ် သက်သေအချက်အလက်များ - အကောင်အထည်ဖော်မှု မူဘောင် - ရင်းနှီးမြှုပ်နှံမှုအပေါ် ပြန်လည်ရရှိမှု ခွဲခြမ်းစိတ်ဖြာမှု - နိဂုံးနှင့် လုပ်ဆောင်ရန် တိုက်တွန်းချက်။ လေသံ - [Authoritative/Conversational/Technical] အရှည် - [2000-5000 words]။ အောက်ပါတို့ကို ထည့်သွင်းပါ - သက်ဆိုင်ရာ စာရင်းဇယားများနှင့် ကိုးကားချက်များ - ဇယားများ/ပုံကြမ်းများအတွက် အမြင်ဆိုင်ရာ နေရာလပ်များ - လုပ်ငန်းကျွမ်းကျင်သူများထံမှ ကိုးကားချက်များ ([NEEDS VERIFICATION] အဖြစ် မှတ်သားပါ)။ နောက်ခံအကြောင်းအရာ - [YOUR COMPANY/PRODUCT INFO]။",
+                    inputs: [
+                        { id: "TOPIC", label: "Topic (အကြောင်းအရာ)", type: "text", hint: "ဥပမာ - Cloud Security" },
+                        { id: "TARGET AUDIENCE", label: "Target Audience (ပစ်မှတ်)", type: "text", hint: "ဥပမာ - IT Managers" },
+                        { id: "Authoritative/Conversational/Technical", label: "Tone (လေသံ)", type: "text", hint: "ဥပမာ - Technical and Authoritative" },
+                        { id: "2000-5000 words", label: "Length (အရှည်)", type: "text", hint: "ဥပမာ - 2000 words" },
+                        { id: "YOUR COMPANY/PRODUCT INFO", label: "Company Info (ကုမ္ပဏီအချက်အလက်)", type: "textarea", hint: "ဥပမာ - We provide enterprise cloud solutions..." }
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "၃။ လှပသော UI များ ဒီဇိုင်းဆွဲခြင်း (Designing beautiful UIs)",
+                    en: "You are a senior product designer with expertise in [WEB/MOBILE] interfaces. Design a [COMPONENT/PAGE] for [PRODUCT TYPE]. Requirements: - User goal: [WHAT USER WANTS TO ACCOMPLISH] - Design system: [MODERN/MINIMAL/BOLD/etc] - Color preferences: [COLORS OR \"SURPRISE ME\"] - Key elements: [LIST MUST-HAVE FEATURES]. Provide: 1. Detailed layout description with measurements 2. Component hierarchy and spacing 3. Interaction states (hover, active, disabled) 4. Responsive behavior for mobile 5. Accessibility considerations 6. React/Tailwind component code. Style: Clean, modern, follows [DESIGN TREND]. Inspiration: [REFERENCE SITES IF ANY].",
+                    mm: "ခင်ဗျားက [WEB/MOBILE] ကြားခံမျက်နှာပြင်များတွင် ကျွမ်းကျင်သော အဆင့်မြင့် ထုတ်ကုန်ဒီဇိုင်နာတစ်ယောက်ပါ။ [PRODUCT TYPE] အတွက် [COMPONENT/PAGE] တစ်ခုကို ဒီဇိုင်းဆွဲပါ။ လိုအပ်ချက်များ - အသုံးပြုသူ၏ ပန်းတိုင်: [WHAT USER WANTS TO ACCOMPLISH] - ဒီဇိုင်းစနစ်: [MODERN/MINIMAL/BOLD/etc] - အရောင်ရွေးချယ်မှု: [COLORS OR \"SURPRISE ME\"] - အဓိက အစိတ်အပိုင်းများ: [LIST MUST-HAVE FEATURES]။ အောက်ပါတို့ကို ပေးပါ - ၁။ အတိုင်းအတာများနှင့်အတူ အသေးစိတ် Layout ဖော်ပြချက် ၂။ Component hierarchy နှင့် spacing ၃။ အပြန်အလှန်တုံ့ပြန်မှု အခြေအနေများ (hover, active, disabled) ၄။ မိုဘိုင်းအတွက် Responsive ဖြစ်မှု ၅။ Accessibility ဆိုင်ရာ ထည့်သွင်းစဉ်းစားမှုများ ၆။ React/Tailwind component code။ စတိုင်လ် - သန့်ရှင်းသပ်ရပ်ပြီး ခေတ်မီသော [DESIGN TREND] ကို လိုက်နာပါ။ စိတ်ကူးစိတ်သန်း - [REFERENCE SITES IF ANY]။",
+                    inputs: [
+                        { id: "WEB/MOBILE", label: "Platform (Web သို့ Mobile)", type: "text", hint: "ဥပမာ - MOBILE" },
+                        { id: "PRODUCT TYPE", label: "Product Type (ထုတ်ကုန်အမျိုးအစား)", type: "text", hint: "ဥပမာ - Fintech App" },
+                        { id: "COMPONENT/PAGE", label: "Component/Page (အစိတ်အပိုင်း)", type: "text", hint: "ဥပမာ - Dashboard Page" },
+                        { id: "WHAT USER WANTS TO ACCOMPLISH", label: "User Goal (အသုံးပြုသူပန်းတိုင်)", type: "text", hint: "ဥပမာ - Check account balance and recent transactions" },
+                        { id: "MODERN/MINIMAL/BOLD/etc", label: "Design System", type: "text", hint: "ဥပမာ - MINIMAL" },
+                        { id: "COLORS OR \"SURPRISE ME\"", label: "Colors (အရောင်)", type: "text", hint: "ဥပမာ - Dark mode with neon blue accents" },
+                        { id: "LIST MUST-HAVE FEATURES", label: "Key Elements", type: "text", hint: "ဥပမာ - Balance card, Transfer button, Chart" },
+                        { id: "DESIGN TREND", label: "Design Trend", type: "text", hint: "ဥပမာ - Glassmorphism" },
+                        { id: "REFERENCE SITES IF ANY", label: "Reference Sites (စံနမူနာ)", type: "text", hint: "ဥပမာ - Apple Wallet UI" }
+                    ]
+                },
+                {
+                    id: 4,
+                    title: "၄။ ပြိုင်ဘက်များကို ဆန်းစစ်ခြင်း (Competitor Analysis)",
+                    en: "You are a strategic market analyst. Conduct a deep-dive competitor analysis of [COMPETITOR NAME] for [YOUR COMPANY]. Analyze: 1. Product features and pricing strategy 2. Target audience and positioning 3. Marketing channels and messaging 4. SWOT analysis (Strengths, Weaknesses, Opportunities, Threats) 5. Customer sentiment and reviews 6. Recent strategic moves and partnerships. Synthesize into a strategic report with actionable recommendations for [YOUR COMPANY]. Additional context: [YOUR SPECIFIC GOALS].",
+                    mm: "ခင်ဗျားက မဟာဗျူဟာမြောက် စျေးကွက်ဆန်းစစ်သူတစ်ယောက်ပါ။ [YOUR COMPANY] အတွက် [COMPETITOR NAME] ကို အသေးစိတ် ပြိုင်ဘက်ဆန်းစစ်မှု ပြုလုပ်ပေးပါ။ ဆန်းစစ်ရန် - ၁။ ထုတ်ကုန်အင်္ဂါရပ်များနှင့် စျေးနှုန်းဗျူဟာ ၂။ ပစ်မှတ်ထားသော လူတန်းစားနှင့် နေရာယူမှု ၃။ စျေးကွက်ရှာဖွေရေး လမ်းကြောင်းများနှင့် သတင်းစကားများ ၄။ SWOT analysis (အားသာချက်၊ အားနည်းချက်၊ အခွင့်အလမ်း၊ ခြိမ်းခြောက်မှု) ၅။ ဝယ်ယူသူများ၏ သဘောထားနှင့် သုံးသပ်ချက်များ ၆။ လတ်တလော မဟာဗျူဟာမြောက် လှုပ်ရှားမှုများနှင့် မိတ်ဖက်များ။ [YOUR COMPANY] အတွက် လက်တွေ့လုပ်ဆောင်နိုင်သော အကြံပြုချက်များနှင့်အတူ မဟာဗျူဟာမြောက် အစီရင်ခံစာအဖြစ် ပေါင်းစပ်ပေးပါ။ နောက်ထပ် အကြောင်းအရာ: [YOUR SPECIFIC GOALS]။",
+                    inputs: [
+                        { id: "COMPETITOR NAME", label: "Competitor (ပြိုင်ဘက်အမည်)", type: "text", hint: "ဥပမာ - Stripe" },
+                        { id: "YOUR COMPANY", label: "Your Company (သင့်ကုမ္ပဏီ)", type: "text", hint: "ဥပမာ - My New Payment Startup" },
+                        { id: "YOUR SPECIFIC GOALS", label: "Specific Goals (ရည်မှန်းချက်များ)", type: "text", hint: "ဥပမာ - Find gaps in their customer service" }
+                    ]
+                },
+                {
+                    id: 5,
+                    title: "၅။ အချက်အလက်များကို ရှင်းပြခြင်း (Data Storytelling)",
+                    en: "You are a data storyteller. I have this dataset: [PASTE DATA OR DESCRIBE]. Transform this data into a compelling narrative for [AUDIENCE]. Requirements: 1. Identify the 'Big Idea' or main insight 2. Create a logical flow: Hook, Context, Climax (Insight), and Resolution (Action) 3. Suggest visual metaphors or analogies to simplify complex data 4. Recommend the best chart types for each insight 5. Write clear, punchy headlines for each section. Goal: Make the data easy to understand and impossible to ignore. Additional context: [YOUR SPECIFIC GOALS].",
+                    mm: "ခင်ဗျားက အချက်အလက်များမှတစ်ဆင့် ပုံပြင်ပြောပြသူတစ်ယောက်ပါ။ ကျွန်တော့်မှာ ဒီဒေတာတွေ ရှိပါတယ် - [PASTE DATA OR DESCRIBE]။ ဒီဒေတာတွေကို [AUDIENCE] အတွက် ဆွဲဆောင်မှုရှိတဲ့ ဇာတ်လမ်းတစ်ပုဒ်အဖြစ် ပြောင်းလဲပေးပါ။ လိုအပ်ချက်များ - ၁။ 'Big Idea' သို့မဟုတ် အဓိက အနှစ်သာရကို ရှာဖွေပါ ၂။ ယုတ္တိရှိသော စီးဆင်းမှုတစ်ခု ဖန်တီးပါ - ဆွဲဆောင်မှု (Hook)၊ နောက်ခံအကြောင်းအရာ (Context)၊ အထွတ်အထိပ် (Insight) နှင့် ဖြေရှင်းချက် (Action) ၃။ ရှုပ်ထွေးသော ဒေတာများကို ရိုးရှင်းစေရန် အမြင်ဆိုင်ရာ တင်စားချက်များ သို့မဟုတ် နှိုင်းယှဉ်ချက်များကို အကြံပြုပါ ၄။ Insight တစ်ခုချင်းစီအတွက် အကောင်းဆုံး ဇယားအမျိုးအစားများကို အကြံပြုပါ ၅။ ကဏ္ဍတစ်ခုချင်းစီအတွက် ရှင်းလင်းပြတ်သားသော ခေါင်းစဉ်များကို ရေးသားပါ။ ရည်ရွယ်ချက် - ဒေတာများကို နားလည်လွယ်စေပြီး လျစ်လျူရှု၍မရအောင် ပြုလုပ်ရန်။ နောက်ထပ် အကြောင်းအရာ: [YOUR SPECIFIC GOALS]။",
+                    inputs: [
+                        { id: "PASTE DATA OR DESCRIBE", label: "Data (အချက်အလက်များ)", type: "textarea", hint: "ဥပမာ - Q1 Sales increased by 40%..." },
+                        { id: "AUDIENCE", label: "Audience (ပစ်မှတ်)", type: "text", hint: "ဥပမာ - Board of Directors" },
+                        { id: "YOUR SPECIFIC GOALS", label: "Specific Goals (ရည်မှန်းချက်များ)", type: "text", hint: "ဥပမာ - Secure more marketing budget" }
+                    ]
+                },
+                {
+                    id: 6,
+                    title: "၆။ နည်းပညာပိုင်းဆိုင်ရာ သင်ကြားပြသခြင်း (Technical Tutoring)",
+                    en: "You are a world-class technical mentor. Explain [COMPLEX CONCEPT/TECHNOLOGY] to someone who has [EXPERIENCE LEVEL]. Structure: 1. Simple analogy to build intuition 2. High-level overview of how it works 3. Step-by-step breakdown of core components 4. Common pitfalls and how to avoid them 5. Practical code example or exercise 6. Resources for further learning. Use clear, jargon-free language. Additional context: [YOUR SPECIFIC QUESTIONS].",
+                    mm: "ခင်ဗျားက ကမ္ဘာ့အဆင့်မီ နည်းပညာပိုင်းဆိုင်ရာ လမ်းပြသူတစ်ယောက်ပါ။ [EXPERIENCE LEVEL] ရှိတဲ့သူတစ်ယောက်ကို [COMPLEX CONCEPT/TECHNOLOGY] အကြောင်း ရှင်းပြပေးပါ။ ဖွဲ့စည်းပုံ - ၁။ နားလည်လွယ်စေရန် ရိုးရှင်းသော နှိုင်းယှဉ်ချက် ၂။ အလုပ်လုပ်ပုံ၏ အဆင့်မြင့် ခြုံငုံသုံးသပ်ချက် ၃။ အဓိက အစိတ်အပိုင်းများကို အဆင့်ဆင့် ခွဲခြမ်းစိတ်ဖြာပြချက် ၄။ အဖြစ်များသော မှားယွင်းမှုများနှင့် ၎င်းတို့ကို ရှောင်ရှားနည်း ၅။ လက်တွေ့ ကုဒ်ဥပမာ သို့မဟုတ် လေ့ကျင့်ခန်း ၆။ ဆက်လက်လေ့လာရန် ရင်းမြစ်များ။ ရှင်းလင်းပြီး နည်းပညာစကားလုံးများ မပါသော ဘာသာစကားကို အသုံးပြုပါ။ နောက်ထပ် အကြောင်းအရာ: [YOUR SPECIFIC QUESTIONS]။",
+                    inputs: [
+                        { id: "COMPLEX CONCEPT/TECHNOLOGY", label: "Concept/Tech (နည်းပညာ)", type: "text", hint: "ဥပမာ - Blockchain" },
+                        { id: "EXPERIENCE LEVEL", label: "Experience Level (ကျွမ်းကျင်မှုအဆင့်)", type: "text", hint: "ဥပမာ - High School Student" },
+                        { id: "YOUR SPECIFIC QUESTIONS", label: "Specific Questions (မေးခွန်းများ)", type: "text", hint: "ဥပမာ - How is it different from a database?" }
+                    ]
+                },
+                {
+                    id: 7,
+                    title: "၇။ အီးမေးလ်များ ရေးသားခြင်း (Cold Emailing)",
+                    en: "You are a high-performance sales copywriter. Write a 3-step cold email sequence to [TARGET PERSON] at [COMPANY] to pitch [PRODUCT/SERVICE]. Strategy: - Email 1: The Insight-Led Hook (Focus on a specific problem they have) - Email 2: The Proof Point (Case study or social proof) - Email 3: The Soft Close (Low-friction call to action). Requirements: - Subject lines that get opened - Personalized opening lines - Clear value proposition - No fluff, under 150 words per email. Additional context: [YOUR SPECIFIC OFFER/CONTEXT].",
+                    mm: "ခင်ဗျားက စွမ်းဆောင်ရည်မြင့် အရောင်းစာရေးဆရာတစ်ယောက်ပါ။ [COMPANY] က [TARGET PERSON] ဆီကို [PRODUCT/SERVICE] အကြောင်း ကမ်းလှမ်းဖို့ အီးမေးလ် ၃ စောင်တွဲကို ရေးသားပေးပါ။ ဗျူဟာ - အီးမေးလ် ၁ - Insight-Led Hook (သူတို့မှာရှိတဲ့ သီးခြားပြဿနာတစ်ခုကို အာရုံစိုက်ပါ) အီးမေးလ် ၂ - သက်သေအချက်အလက် (ဖြစ်ရပ်မှန်လေ့လာမှု သို့မဟုတ် လူမှုရေးဆိုင်ရာ သက်သေ) အီးမေးလ် ၃ - Soft Close (ရိုးရှင်းသော လုပ်ဆောင်ရန် တိုက်တွန်းချက်)။ လိုအပ်ချက်များ - ဖွင့်ကြည့်ချင်စရာ ခေါင်းစဉ်များ - တစ်ဦးချင်းအတွက် သီးသန့်ဖြစ်သော အဖွင့်စာသားများ - ရှင်းလင်းသော တန်ဖိုးမြှင့် ကမ်းလှမ်းချက် - အပိုစကားများ မပါဘဲ အီးမေးလ်တစ်စောင်လျှင် စာလုံး ၁၅၀ အောက်။ နောက်ထပ် အကြောင်းအရာ: [YOUR SPECIFIC OFFER/CONTEXT]။",
+                    inputs: [
+                        { id: "TARGET PERSON", label: "Target Person (ပစ်မှတ်)", type: "text", hint: "ဥပမာ - Marketing Director" },
+                        { id: "COMPANY", label: "Company (ကုမ္ပဏီအမည်)", type: "text", hint: "ဥပမာ - Google" },
+                        { id: "PRODUCT/SERVICE", label: "Product/Service (ထုတ်ကုန်/ဝန်ဆောင်မှု)", type: "text", hint: "ဥပမာ - AI Writing Tool" },
+                        { id: "YOUR SPECIFIC OFFER/CONTEXT", label: "Specific Offer/Context (ကမ်းလှမ်းချက်)", type: "textarea", hint: "ဥပမာ - We offer a 30-day free trial..." }
+                    ]
+                },
+                {
+                    id: 8,
+                    title: "၈။ လူမှုကွန်ရက်အတွက် ဗျူဟာ (Social Media Strategy)",
+                    en: "You are a social media growth expert. Create a 30-day content calendar for [BRAND/NICHE] on [PLATFORM]. Goal: [GROWTH/ENGAGEMENT/SALES]. Deliverables: 1. Content pillars and themes 2. Specific post ideas for each day 3. Recommended formats (Reels, Carousel, Static) 4. Hook ideas for every post 5. Hashtag strategy 6. Engagement tactics to build community. Tone: [Brand Voice]. Additional context: [YOUR SPECIFIC TARGETS].",
+                    mm: "ခင်ဗျားက လူမှုကွန်ရက် ဖွံ့ဖြိုးတိုးတက်ရေး ကျွမ်းကျင်သူတစ်ယောက်ပါ။ [PLATFORM] ပေါ်က [BRAND/NICHE] အတွက် ရက် ၃၀ စာ Content Calendar တစ်ခု ဖန်တီးပေးပါ။ ရည်ရွယ်ချက် - [GROWTH/ENGAGEMENT/SALES]။ ပေးရမည့်အချက်များ - ၁။ အဓိက ကဏ္ဍများနှင့် အကြောင်းအရာများ ၂။ နေ့စဉ်အတွက် သီးခြား Post စိတ်ကူးများ ၃။ အကြံပြုထားသော ပုံစံများ (Reels, Carousel, Static) ၄။ Post တိုင်းအတွက် ဆွဲဆောင်မှုရှိသော အဖွင့် (Hook) စိတ်ကူးများ ၅။ Hashtag ဗျူဟာ ၆။ Community တည်ဆောက်ရန် အပြန်အလှန်တုံ့ပြန်မှု နည်းဗျူဟာများ။ Tone - [Brand Voice]။ နောက်ထပ် အကြောင်းအရာ: [YOUR SPECIFIC TARGETS]။",
+                    inputs: [
+                        { id: "BRAND/NICHE", label: "Brand/Niche (အမှတ်တံဆိပ်/နယ်ပယ်)", type: "text", hint: "ဥပမာ - Vegan Skincare" },
+                        { id: "PLATFORM", label: "Platform (ပလက်ဖောင်း)", type: "text", hint: "ဥပမာ - Instagram" },
+                        { id: "GROWTH/ENGAGEMENT/SALES", label: "Goal (ရည်ရွယ်ချက်)", type: "text", hint: "ဥပမာ - SALES" },
+                        { id: "Brand Voice", label: "Brand Voice (လေသံ)", type: "text", hint: "ဥပမာ - Friendly and Educational" },
+                        { id: "YOUR SPECIFIC TARGETS", label: "Specific Targets (ပစ်မှတ်များ)", type: "text", hint: "ဥပမာ - Target Gen Z women" }
+                    ]
+                },
+                {
+                    id: 9,
+                    title: "၉။ Slide များ ပြင်ဆင်ခြင်း (Presentation Deck Structure)",
+                    en: "You are a presentation design consultant. Outline a 10-slide deck for [TOPIC] aimed at [AUDIENCE]. Structure: 1. Title & Hook 2. The Problem (The Gap) 3. The Solution (The Bridge) 4. How it Works (The Mechanics) 5. Key Benefits (The Value) 6. Social Proof (The Trust) 7. The Roadmap (The Future) 8. FAQ/Objection Handling 9. The Ask (Call to Action) 10. Thank You & Contact. For each slide, provide: - Main headline - Key bullet points - Suggested visual/image. Additional context: [YOUR SPECIFIC GOALS].",
+                    mm: "ခင်ဗျားက Presentation ဒီဇိုင်း အကြံပေးတစ်ယောက်ပါ။ [AUDIENCE] အတွက် [TOPIC] အကြောင်း Slide ၁၀ ခုပါတဲ့ Outline တစ်ခုကို ရေးဆွဲပေးပါ။ ဖွဲ့စည်းပုံ - ၁။ ခေါင်းစဉ်နှင့် ဆွဲဆောင်မှု ၂။ ပြဿနာ ၃။ ဖြေရှင်းချက် ၄။ အလုပ်လုပ်ပုံ ၅။ အဓိက အကျိုးကျေးဇူးများ ၆။ သက်သေအချက်အလက်များ ၇။ ရှေ့ဆက်မည့် လမ်းပြမြေပုံ ၈။ FAQ/ကန့်ကွက်မှုများကို ဖြေရှင်းခြင်း ၉။ တောင်းဆိုချက် (CTA) ၁၀။ ကျေးဇူးတင်လွှာနှင့် ဆက်သွယ်ရန်။ Slide တစ်ခုချင်းစီအတွက် - အဓိကခေါင်းစဉ် - အဓိကအချက်များ - အကြံပြုထားသော ပုံရိပ်များ။ နောက်ထပ် အကြောင်းအရာ: [YOUR SPECIFIC GOALS]။",
+                    inputs: [
+                        { id: "TOPIC", label: "Topic (အကြောင်းအရာ)", type: "text", hint: "ဥပမာ - Q3 Financial Report" },
+                        { id: "AUDIENCE", label: "Audience (ပစ်မှတ်)", type: "text", hint: "ဥပမာ - Investors" },
+                        { id: "YOUR SPECIFIC GOALS", label: "Specific Goals (ရည်မှန်းချက်များ)", type: "text", hint: "ဥပမာ - Raise $1M in funding" }
+                    ]
+                },
+                {
+                    id: 10,
+                    title: "၁၀။ အလုပ်အကိုင်အတွက် ကိုယ်ရေးရာဇဝင် (Resume Optimization)",
+                    en: "You are a professional career coach. Optimize my resume for the [JOB TITLE] role at [COMPANY]. I will provide my current resume and the job description. Tasks: 1. Identify key skills and keywords missing from my resume 2. Rewrite my bullet points using the Google XYZ formula (Accomplished [X] as measured by [Y], by doing [Z]) 3. Craft a powerful professional summary 4. Suggest improvements to the layout for ATS compatibility 5. Write a tailored cover letter. Additional context: [YOUR CAREER GOALS].",
+                    mm: "ခင်ဗျားက ပရော်ဖက်ရှင်နယ် အသက်မွေးဝမ်းကျောင်း လမ်းပြသူတစ်ယောက်ပါ။ [COMPANY] က [JOB TITLE] ရာထူးအတွက် ကျွန်တော့်ရဲ့ Resume ကို အကောင်းဆုံးဖြစ်အောင် ပြင်ဆင်ပေးပါ။ ကျွန်တော့်ရဲ့ လက်ရှိ Resume နဲ့ အလုပ်ခေါ်စာ (Job Description) ကို ပေးပါမယ်။ လုပ်ဆောင်ရန် - ၁။ Resume မှာ လိုအပ်နေတဲ့ အဓိက ကျွမ်းကျင်မှုတွေနဲ့ Keyword တွေကို ရှာဖွေပါ ၂။ Google XYZ formula (Accomplished [X] as measured by [Y], by doing [Z]) ကို သုံးပြီး အချက်အလက်တွေကို ပြန်ရေးပါ ၃။ အားကောင်းတဲ့ Professional Summary တစ်ခု ရေးသားပါ ၄။ ATS နဲ့ ကိုက်ညီစေဖို့ Layout ကို အကြံပြုပါ ၅။ သီးသန့် Cover Letter တစ်စောင် ရေးသားပေးပါ။ နောက်ထပ် အကြောင်းအရာ: [YOUR CAREER GOALS]။",
+                    inputs: [
+                        { id: "JOB TITLE", label: "Job Title (အလုပ်အကိုင်)", type: "text", hint: "ဥပမာ - Senior Web Developer" },
+                        { id: "COMPANY", label: "Company (ကုမ္ပဏီအမည်)", type: "text", hint: "ဥပမာ - Microsoft" },
+                        { id: "YOUR CAREER GOALS", label: "Career Goals (ရည်မှန်းချက်များ)", type: "text", hint: "ဥပမာ - Transitioning from junior to senior role" }
+                    ]
+                },
+                {
+                    id: 11,
+                    title: "၁၁။ Website အတွက် ပြည့်စုံသော Master Plan",
+                    en: "Act as a senior web strategist and help me plan a high-converting website for a [business type] in [industry/location]. My target audience is [audience], and the primary goal is [sales/leads/bookings/portfolio]. Map out the ideal pages this website should have, explain what each page must include to convert visitors, and design a clear site structure with navigation and hierarchy. Also show the key user journey from first visit to final action so the entire website feels intentional, not random. Keep everything simple, strategic, and beginner-friendly.",
+                    mm: "Senior Web Strategist တစ်ယောက်အနေနဲ့ [business type] အတွက် အရောင်းအဝယ်/အလုပ်ဖြစ်စေမယ့် Website တစ်ခုကို စီစဉ်ပေးပါ။ ပစ်မှတ်ထားမယ့် Customer တွေက [audience] ဖြစ်ပြီး အဓိကရည်ရွယ်ချက်ကတော့ [sales/leads/bookings/portfolio] ပဲဖြစ်ပါတယ်။ Website မှာ ပါဝင်သင့်တဲ့ စာမျက်နှာ (Pages) တွေ၊ Page တစ်ခုချင်းစီမှာ Visitor တွေကို ဆွဲဆောင်နိုင်ဖို့ ဘာတွေပါဝင်သင့်တယ်ဆိုတာတွေနဲ့ ရှင်းလင်းတဲ့ Site Structure (Navigation နဲ့ Hierarchy) တွေကို ရေးဆွဲပေးပါ။ ပုံမှန်လာကြည့်သူတစ်ယောက်ကနေ ဖောက်သည်ဖြစ်သွားတဲ့အထိ User Journey ကိုပါ ပြသပေးပါ။ အရာအားလုံးကို ရိုးရှင်းပြီး၊ မဟာဗျူဟာကျကျနဲ့ စတင်လေ့လာသူတွေအတွက်ပါ နားလည်လွယ်အောင် ရေးပေးပါ။",
+                    inputs: [
+                        { id: "business type", label: "Business Type (လုပ်ငန်းအမျိုးအစား)", type: "text", hint: "ဥပမာ - Consulting Agency" },
+                        { id: "industry/location", label: "Industry/Location (နေရာ/နယ်ပယ်)", type: "text", hint: "ဥပမာ - Digital Marketing in Yangon" },
+                        { id: "audience", label: "Target Audience (ပစ်မှတ်)", type: "text", hint: "ဥပမာ - SME Owners" },
+                        { id: "sales/leads/bookings/portfolio", label: "Goal (ရည်ရွယ်ချက်)", type: "text", hint: "ဥပမာ - Bookings" }
+                    ]
+                }
+            ];
+
+            const container = document.getElementById('accordion-container');
+            const langRadios = document.getElementsByName('language');
+
+            function renderAccordion() {
+                container.innerHTML = ''; 
+
+                promptData.forEach((data) => {
+                    const item = document.createElement('div');
+                    item.className = 'accordion-item';
+                    item.id = `acc-item-${data.id}`;
+
+                    let html = `
+                        <div class="accordion-header" onclick="toggleAccordion(${data.id})">
+                            <div class="header-content">
+                                <div class="acc-title">${data.title}</div>
+                            </div>
+                            <div class="acc-icon">▼</div>
+                        </div>
+                    `;
+
+                    html += `<div class="accordion-body" id="acc-body-${data.id}">
+                                <div class="body-inner">`;
+
+                    if (data.inputs && data.inputs.length > 0) {
+                        data.inputs.forEach(input => {
+                            if(input.type === 'textarea') {
+                                html += `
+                                    <div class="form-group">
+                                        <label>${input.label}</label>
+                                        <textarea id="input-${data.id}-${input.id}" class="input-text" data-item-id="${data.id}" placeholder="${input.hint}"></textarea>
+                                    </div>
+                                `;
+                            } else {
+                                html += `
+                                    <div class="form-group">
+                                        <label>${input.label}</label>
+                                        <input type="text" id="input-${data.id}-${input.id}" data-item-id="${data.id}" placeholder="${input.hint}">
+                                    </div>
+                                `;
+                            }
+                        });
+                    }
+
+                    html += `
+                            <textarea id="output-${data.id}" class="output-area" readonly></textarea>
+                            <button id="copy-${data.id}" data-item-id="${data.id}">Copy Prompt</button>
+                        </div>
+                    </div>`;
+
+                    item.innerHTML = html;
+                    container.appendChild(item);
+                });
+
+                attachEventListeners();
+                updateAllPrompts();
+            }
+
+            window.toggleAccordion = function(id) {
+                const item = document.getElementById(`acc-item-${id}`);
+                const body = document.getElementById(`acc-body-${id}`);
+
+                // Auto-collapse logic
+                document.querySelectorAll('.accordion-item').forEach(el => {
+                    if(el.id !== `acc-item-${id}`) {
+                        el.classList.remove('active');
+                        el.querySelector('.accordion-body').style.maxHeight = null;
+                    }
+                });
+
+                if (item.classList.contains('active')) {
+                    item.classList.remove('active');
+                    body.style.maxHeight = null;
+                } else {
+                    item.classList.add('active');
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updatePromptForCard(itemId) {
+                const data = promptData.find(p => p.id == itemId);
+                const isMyanmar = document.querySelector('input[name="language"]:checked').value === 'mm';
+                let finalPrompt = isMyanmar ? data.mm : data.en;
+
+                if (data.inputs) {
+                    data.inputs.forEach(input => {
+                        const el = document.getElementById(`input-${data.id}-${input.id}`);
+                        const val = el && el.value.trim() !== "" ? el.value.trim() : `[${input.id}]`;
+                        // Handle multiple instances of placeholder
+                        finalPrompt = finalPrompt.split(`[${input.id}]`).join(val);
+                    });
+                }
+
+                document.getElementById(`output-${data.id}`).value = finalPrompt;
+            }
+
+            function updateAllPrompts() {
+                promptData.forEach(data => updatePromptForCard(data.id));
+            }
+
+            function attachEventListeners() {
+                container.addEventListener('input', (e) => {
+                    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        if (itemId) updatePromptForCard(itemId);
+                    }
+                });
+
+                container.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'BUTTON') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        const outputEl = document.getElementById(`output-${itemId}`);
+                        outputEl.select();
+                        document.execCommand('copy');
+                        
+                        const btn = e.target;
+                        const originalText = btn.innerText;
+                        btn.innerText = "COPIED! ✨";
+                        setTimeout(() => btn.innerText = originalText, 2000);
+                    }
+                });
+            }
+
+            langRadios.forEach(radio => radio.addEventListener('change', updateAllPrompts));
+
+            renderAccordion();
+        });
+    </script>
+</body>
+</html>

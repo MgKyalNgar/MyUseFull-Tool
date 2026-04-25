@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10 Web Builder Prompts for Gemini</title>
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="My Useful Tools">
+    <link rel="apple-touch-icon" href="../icon-192x192.png">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: #0f172a; /* Deep Slate Background */
+            color: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 0 20px 50px 20px;
+        }
+
+        /* Sticky Header - No Remarks here anymore */
+        .header-container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            padding: 30px 20px 20px 20px;
+            margin-bottom: 25px;
+            position: sticky;
+            top: 0;
+            background: rgba(15, 23, 42, 0.95);
+            z-index: 100;
+            border-bottom: 1px solid #10b981; /* Emerald Green */
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #10b981; 
+            font-size: clamp(1.5rem, 5vw, 2.2rem);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+            word-wrap: break-word;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .global-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .radio-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #cbd5e1;
+            font-weight: 600;
+        }
+
+        input[type="radio"] {
+            accent-color: #10b981;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Remark Section outside the sticky header */
+        .remark-container {
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 25px;
+        }
+
+        .remark {
+            color: #6ee7b7;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 15px;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 8px;
+            border: 1px dashed #10b981;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        /* ----- Accordion List Container ----- */
+        .accordion-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* ----- Accordion Item ----- */
+        .accordion-item {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-left: 4px solid #10b981;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            border-color: #10b981;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);
+        }
+
+        /* ----- Accordion Header (Clickable) ----- */
+        .accordion-header {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            background: rgba(30, 41, 59, 0.8);
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding-right: 15px;
+        }
+
+        .acc-title {
+            color: #f8fafc;
+            font-size: 1.1rem;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        .acc-icon {
+            color: #10b981;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        /* Active State for Accordion */
+        .accordion-item.active .acc-icon {
+            transform: rotate(180deg);
+        }
+        
+        .accordion-item.active {
+            border-color: #34d399;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
+        }
+
+        /* ----- Accordion Body ----- */
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            background: #0f172a;
+        }
+
+        .body-inner {
+            padding: 25px 20px;
+            border-top: 1px dashed #334155;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #6ee7b7;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: #34d399;
+            padding: 12px;
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"]:focus {
+            border-color: #10b981;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+        }
+
+        textarea {
+            width: 100%;
+            height: 220px;
+            background: #020617;
+            border: 1px solid #334155;
+            color: #f8fafc;
+            padding: 15px;
+            border-radius: 6px;
+            resize: vertical;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            outline: none;
+            margin-top: 10px;
+        }
+
+        textarea:focus {
+            border-color: #10b981;
+        }
+
+        button {
+            width: 100%;
+            background: transparent;
+            color: #6ee7b7;
+            border: 1px solid #10b981;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #10b981;
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>🌐 Web Builder Prompts</h1>
+        <p class="subtitle">Gemini ဖြင့် ဒေါ်လာ ၅၀၀၀ တန် ပရောဂျက်တစ်ခုလို Web ဖန်တီးနည်း</p>
+        <div class="global-options">
+            <label class="radio-btn">
+                <input type="radio" name="language" value="mm" checked> Myanmar Prompt
+            </label>
+            <label class="radio-btn">
+                <input type="radio" name="language" value="en"> English Prompt
+            </label>
+        </div>
+    </div>
+
+    <div class="remark-container">
+        <div class="remark">
+            💡 Gemini ရဲ့ Website တစ်ခုကို ဒေါ်လာ ၅၀၀၀ တန် ပရောဂျက်တစ်ခုလိုမျိုး professional ကျကျ ဖန်တီးနိုင်မယ့် Prompts (၁၀) ခု
+        </div>
+    </div>
+
+    <div class="accordion-container" id="accordion-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            const promptData = [
+                {
+                    id: 1,
+                    title: "1. ပြည့်စုံတဲ့ Website တစ်ခုတည်ဆောက်ဖို့ Master Plan (The Ultimate Website Blueprint Prompt)",
+                    en: "Act as a senior web strategist and help me plan a high-converting website for a [business type] in [industry/location]. My target audience is [audience], and the primary goal is [goal]. Map out the ideal pages this website should have, explain what each page must include to convert visitors, and design a clear site structure with navigation and hierarchy. Also show the key user journey from first visit to final action so the entire website feels intentional, not random. Keep everything simple, strategic, and beginner-friendly.",
+                    mm: "Senior Web Strategist တစ်ယောက်အနေနဲ့ [business type] အတွက် အရောင်းအဝယ်/အလုပ်ဖြစ်စေမယ့် Website တစ်ခုကို စီစဉ်ပေးပါ။ ပစ်မှတ်ထားမယ့် Customer တွေက [audience] ဖြစ်ပြီး အဓိကရည်ရွယ်ချက်ကတော့ [goal] ပဲဖြစ်ပါတယ်။ Website မှာ ပါဝင်သင့်တဲ့ စာမျက်နှာ (Pages) တွေ၊ Page တစ်ခုချင်းစီမှာ Visitor တွေကို ဆွဲဆောင်နိုင်ဖို့ ဘာတွေပါဝင်သင့်တယ်ဆိုတာတွေနဲ့ ရှင်းလင်းတဲ့ Site Structure (Navigation နဲ့ Hierarchy) တွေကို ရေးဆွဲပေးပါ။ ပုံမှန်လာကြည့်သူတစ်ယောက်ကနေ ဖောက်သည်ဖြစ်သွားတဲ့အထိ User Journey ကိုပါ ပြသပေးပါ။ အရာအားလုံးကို ရိုးရှင်းပြီး၊ မဟာဗျူဟာကျကျနဲ့ စတင်လေ့လာသူတွေအတွက်ပါ နားလည်လွယ်အောင် ရေးပေးပါ။",
+                    inputs: [
+                        { id: "business type", label: "Business Type (လုပ်ငန်းအမျိုးအစား)", hint: "ဥပမာ - Freelance Agency" },
+                        { id: "industry/location", label: "Industry/Location (တည်နေရာ/နယ်ပယ်)", hint: "ဥပမာ - Yangon" },
+                        { id: "audience", label: "Target Audience (ပစ်မှတ်)", hint: "ဥပမာ - Local SMEs" },
+                        { id: "goal", label: "Goal (ရည်ရွယ်ချက်)", hint: "ဥပမာ - Lead generation" }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "2. လူကြိုက်များပြီး အလုပ်ဖြစ်စေမယ့် Homepage ဖွဲ့စည်းပုံ (The High-Converting Homepage Layout Prompt)",
+                    en: "Act as a conversion-focused web designer and create a homepage structure for a [business type] website that is built to turn visitors into customers. Include a strong hero section, trust elements, services overview, benefits, testimonials, FAQs, and clear call-to-action sections. For each section, explain its purpose, what content should go inside, and how it contributes to conversions. The tone should be [tone], and the layout should feel clean, intentional, and easy to follow.",
+                    mm: "Conversion ကို အဓိကထားတဲ့ Web Designer တစ်ယောက်အနေနဲ့ [business type] အတွက် လာကြည့်သူတွေကို Customer အဖြစ် ပြောင်းလဲပေးနိုင်မယ့် Homepage ဖွဲ့စည်းပုံကို ဖန်တီးပေးပါ။ Strong Hero Section၊ ယုံကြည်မှုတည်ဆောက်နိုင်မယ့် အစိတ်အပိုင်းတွေ၊ Services Overview၊ အကျိုးကျေးဇူးတွေ၊ Customer တွေရဲ့ မှတ်ချက်များ (Testimonials)၊ အမေးများတဲ့မေးခွန်းများ (FAQs) နဲ့ ရှင်းလင်းတဲ့ Call-To-Action (CTA) တွေ ပါဝင်ရပါမယ်။ Section တစ်ခုချင်းစီရဲ့ ရည်ရွယ်ချက်နဲ့ ဘာတွေထည့်ရေးသင့်တယ်ဆိုတာကို ရှင်းပြပေးပါ။ အရေးအသား Tone ကို [tone] ဖြစ်စေပြီး သပ်ရပ်ရှင်းလင်းတဲ့ Layout မျိုးဖြစ်အောင် ဖန်တီးပေးပါ။",
+                    inputs: [
+                        { id: "business type", label: "Business Type (လုပ်ငန်းအမျိုးအစား)", hint: "ဥပမာ - Tech Startup" },
+                        { id: "tone", label: "Tone (လေသံ)", hint: "ဥပမာ - Modern and Professional" }
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "3. ဆွဲဆောင်မှုအပြည့်ရှိတဲ့ Homepage စာသားများ (The Persuasive Homepage Copy Prompt)",
+                    en: "Act as a direct-response copywriter and write compelling homepage copy for a [business type] website. Include a powerful headline that clearly communicates the value proposition, a supporting subheadline, high-converting call-to-action button text, three strong benefits focused on the customer, and a short closing section that builds trust and encourages action. The target audience is [audience], the main goal is [goal], and the tone should be [tone]. Keep the writing simple, clear, and persuasive without unnecessary fluff.",
+                    mm: "Direct-response Copywriter တစ်ယောက်အနေနဲ့ [business type] Website အတွက် ဆွဲဆောင်မှုရှိတဲ့ Homepage စာသား (Copy) တွေကို ရေးသားပေးပါ။ Value Proposition ကို ရှင်းရှင်းလင်းလင်းပြသနိုင်တဲ့ အားကောင်းတဲ့ ခေါင်းစဉ် (Headline)၊ ၎င်းကိုပံ့ပိုးပေးမယ့် Subheadline၊ အလုပ်ဖြစ်စေမယ့် Call-to-action Button စာသားတွေ၊ Customer တွေအတွက် အဓိကအကျိုးကျေးဇူး (၃) ခုနဲ့ ယုံကြည်မှုတည်ဆောက်ပေးမယ့် နိဂုံးချုပ်စာသားတိုလေး ပါဝင်ရပါမယ်။ Target Audience က [audience] ဖြစ်ပြီး အဓိကရည်ရွယ်ချက်က [goal] ဖြစ်ပါတယ်။ Tone အနေနဲ့ [tone] ကို အသုံးပြုပေးပါ။ ရိုးရှင်း၊ ရှင်းလင်းပြီး မလိုအပ်တဲ့စကားလုံးတွေမပါဘဲ ဆွဲဆောင်မှုရှိအောင် ရေးသားပေးပါ။",
+                    inputs: [
+                        { id: "business type", label: "Business Type (လုပ်ငန်းအမျိုးအစား)", hint: "ဥပမာ - Online Course" },
+                        { id: "audience", label: "Audience (ပစ်မှတ်)", hint: "ဥပမာ - Students" },
+                        { id: "goal", label: "Goal (ရည်ရွယ်ချက်)", hint: "ဥပမာ - Enroll in course" },
+                        { id: "tone", label: "Tone (လေသံ)", hint: "ဥပမာ - Friendly" }
+                    ]
+                },
+                {
+                    id: 4,
+                    title: "4. ပရော်ဖက်ရှင်နယ်ကျတဲ့ Website Design System (The Professional Website Design System Prompt)",
+                    en: "Act as a UI/UX designer and suggest a complete visual style for a [business type] website that looks polished and professional. Recommend a cohesive color palette with primary, secondary, and accent colors (including HEX codes), font pairings for headings and body text, button styles, spacing guidelines, and an overall design mood. The brand should feel [tone], and the design must be optimized for readability and user experience. Provide clear reasoning for your design choices.",
+                    mm: "UI/UX Designer တစ်ယောက်အနေနဲ့ [business type] Website အတွက် သပ်ရပ်ပြီး ပရော်ဖက်ရှင်နယ်ကျတဲ့ Visual Style တစ်ခုကို အကြံပြုပေးပါ။ Primary, Secondary နဲ့ Accent အရောင်တွေ (HEX codes တွေအပါအဝင်)၊ ခေါင်းစဉ်နဲ့ စာသားတွေအတွက် Font တွဲဖက်မှုတွေ၊ Button Style တွေ၊ Spacing Guideline တွေနဲ့ Design တစ်ခုလုံးရဲ့ Mood ကို အကြံပေးပါ။ Brand ရဲ့ ခံစားချက်က [tone] ဖြစ်ရမှာဖြစ်ပြီး ဖတ်ရလွယ်ကူမှုနဲ့ User Experience အတွက် အကောင်းဆုံးဖြစ်ရပါမယ်။ သင်ရွေးချယ်ထားတဲ့ Design တွေအတွက် ခိုင်လုံတဲ့ အကြောင်းပြချက်တွေကိုလည်း ရှင်းပြပေးပါ။",
+                    inputs: [
+                        { id: "business type", label: "Business Type (လုပ်ငန်းအမျိုးအစား)", hint: "ဥပမာ - Law Firm" },
+                        { id: "tone", label: "Brand Mood (ခံစားချက်)", hint: "ဥပမာ - Luxury and Trustworthy" }
+                    ]
+                },
+                {
+                    id: 5,
+                    title: "5. ယုံကြည်မှုတည်ဆောက်ပေးမယ့် About Us စာမျက်နှာ (The Trust-Building About Page Prompt)",
+                    en: "Act as a brand storyteller and write a compelling About Us page for a [business type]. Focus on building trust and connection with the audience. Include a brief story of how the business started, the mission and values, what makes us different from competitors, and a section that highlights the team or the expertise behind the brand. The tone should be [tone], and the goal is to make the reader feel confident in choosing us.",
+                    mm: "Brand Storyteller တစ်ယောက်အနေနဲ့ [business type] အတွက် ဆွဲဆောင်မှုရှိတဲ့ About Us Page ကို ရေးသားပေးပါ။ Audience နဲ့ ယုံကြည်မှု တည်ဆောက်နိုင်ဖို့ကို အဓိကထားပါ။ လုပ်ငန်းစတင်ခဲ့ပုံ၊ Mission နဲ့ Values တွေ၊ ပြိုင်ဘက်တွေနဲ့ မတူညီတဲ့အချက်တွေနဲ့ Brand ရဲ့နောက်ကွယ်က ကျွမ်းကျင်မှုတွေကို ဖော်ပြပေးပါ။ Tone အနေနဲ့ [tone] ကို အသုံးပြုပြီး ဖတ်ရှုသူတွေက ကျွန်ုပ်တို့ကို ရွေးချယ်ဖို့ ယုံကြည်မှုရှိလာအောင် ဖန်တီးပေးပါ။",
+                    inputs: [
+                        { id: "business type", label: "Business Type (လုပ်ငန်းအမျိုးအစား)", hint: "ဥပမာ - Digital Agency" },
+                        { id: "tone", label: "Tone (လေသံ)", hint: "ဥပမာ - Authentic and Inspiring" }
+                    ]
+                },
+                {
+                    id: 6,
+                    title: "6. အသေးစိတ်ကျတဲ့ Service စာမျက်နှာများ (The Detailed Service Page Prompt)",
+                    en: "Act as a sales consultant and write a detailed service page for [specific service name] offered by a [business type]. Explain exactly what the service is, who it is for, the specific problems it solves, the process of how it works (step-by-step), and the results the customer can expect. Include a FAQ section related to this specific service and a strong call-to-action to book or inquire. The tone should be [tone].",
+                    mm: "Sales Consultant တစ်ယောက်အနေနဲ့ [business type] ရဲ့ [specific service name] အတွက် အသေးစိတ်ကျတဲ့ Service Page ကို ရေးသားပေးပါ။ ဝန်ဆောင်မှုအကြောင်း၊ ဘယ်သူတွေအတွက်လဲဆိုတာ၊ ဘယ်လိုပြဿနာတွေကို ဖြေရှင်းပေးနိုင်လဲဆိုတာ၊ အလုပ်လုပ်ပုံအဆင့်ဆင့်နဲ့ ရရှိလာမယ့်ရလဒ်တွေကို ရှင်းပြပေးပါ။ ဒီဝန်ဆောင်မှုနဲ့ပတ်သက်တဲ့ FAQ Section နဲ့ ဝယ်ယူဖို့/စုံစမ်းဖို့အတွက် Call-to-action ကိုပါ ထည့်သွင်းပေးပါ။ Tone အနေနဲ့ [tone] ကို အသုံးပြုပေးပါ။",
+                    inputs: [
+                        { id: "business type", label: "Business Type (လုပ်ငန်းအမျိုးအစား)", hint: "ဥပမာ - SEO Agency" },
+                        { id: "specific service name", label: "Service Name (ဝန်ဆောင်မှုအမည်)", hint: "ဥပမာ - Website SEO Audit" },
+                        { id: "tone", label: "Tone (လေသံ)", hint: "ဥပမာ - Expert and Helpful" }
+                    ]
+                },
+                {
+                    id: 7,
+                    title: "7. အလုပ်ဖြစ်စေမယ့် Contact Page (The High-Conversion Contact Page Prompt)",
+                    en: "Act as a UX writer and design a contact page structure for a [business type] that encourages inquiries. Include a friendly invitation to get in touch, a simple contact form with necessary fields, alternative contact methods (email, phone, social media), a map or location details if applicable, and a 'What happens next' section to set expectations after they submit the form. The tone should be [tone].",
+                    mm: "UX Writer တစ်ယောက်အနေနဲ့ [business type] အတွက် ဆက်သွယ်မေးမြန်းမှုတွေ ပိုများလာစေမယ့် Contact Page ကို ဖန်တီးပေးပါ။ ဆက်သွယ်ဖို့ ဖိတ်ခေါ်ချက်၊ လိုအပ်တဲ့အချက်အလက်တွေပဲပါတဲ့ ရိုးရှင်းတဲ့ Contact Form၊ အခြားဆက်သွယ်နိုင်မယ့်နည်းလမ်းတွေ (Email, Phone, Social Media)၊ လိပ်စာမြေပုံနဲ့ Form တင်ပြီးရင် ဘာတွေဆက်ဖြစ်မလဲဆိုတဲ့ 'What happens next' အပိုင်းတွေကို ထည့်သွင်းပေးပါ။ Tone အနေနဲ့ [tone] ကို အသုံးပြုပေးပါ။",
+                    inputs: [
+                        { id: "business type", label: "Business Type (လုပ်ငန်းအမျိုးအစား)", hint: "ဥပမာ - Photography Studio" },
+                        { id: "tone", label: "Tone (လေသံ)", hint: "ဥပမာ - Welcoming" }
+                    ]
+                },
+                {
+                    id: 8,
+                    title: "8. SEO အတွက် အကောင်းဆုံး Blog Post (The SEO-Optimized Blog Post Prompt)",
+                    en: "Act as an SEO content specialist and write a high-quality blog post for a [business type] website on the topic: [Topic Name]. Target keywords are [Keywords]. Include an attention-grabbing title, an introduction that hooks the reader, well-structured subheadings (H2, H3), informative and engaging body content, and a conclusion with a call-to-action. The post should provide real value to the reader and be optimized for search engines without keyword stuffing.",
+                    mm: "SEO Content Specialist တစ်ယောက်အနေနဲ့ [business type] Website အတွက် [Topic Name] အကြောင်း Blog Post တစ်ခုကို ရေးသားပေးပါ။ Target Keywords တွေက [Keywords] ဖြစ်ပါတယ်။ စိတ်ဝင်စားစရာခေါင်းစဉ်၊ ဆွဲဆောင်မှုရှိတဲ့ နိဒါန်း၊ စနစ်တကျရှိတဲ့ Subheadings (H2, H3)၊ ဗဟုသုတရစေမယ့် စာသားတွေနဲ့ CTA ပါဝင်တဲ့ နိဂုံးချုပ်တို့ကို ထည့်သွင်းပေးပါ။ ဖတ်ရှုသူအတွက် တကယ်အကျိုးရှိစေပြီး Keyword stuffing မဖြစ်စေဘဲ SEO အတွက် အကောင်းဆုံးဖြစ်အောင် ရေးသားပေးပါ။",
+                    inputs: [
+                        { id: "business type", label: "Business Type (လုပ်ငန်းအမျိုးအစား)", hint: "ဥပမာ - Fitness Gym" },
+                        { id: "Topic Name", label: "Topic (ခေါင်းစဉ်)", hint: "ဥပမာ - How to lose weight fast" },
+                        { id: "Keywords", label: "Keywords (အဓိကစကားလုံးများ)", hint: "ဥပမာ - weight loss, fitness tips" }
+                    ]
+                },
+                {
+                    id: 9,
+                    title: "9. မိုဘိုင်းဖုန်းအတွက် အဆင်ပြေစေမယ့် Design (The Mobile-First Optimization Prompt)",
+                    en: "Act as a mobile UX expert and provide a checklist of optimizations to ensure a [business type] website is perfectly mobile-responsive. Focus on button sizes, font legibility, image optimization, navigation menu design for small screens, and page loading speed. Explain why each optimization is crucial for mobile users and how it affects the overall conversion rate.",
+                    mm: "Mobile UX Expert တစ်ယောက်အနေနဲ့ [business type] Website ကို မိုဘိုင်းဖုန်းမှာ ကြည့်ရင် အဆင်ပြေဆုံးဖြစ်စေဖို့ (Mobile-responsive) လိုအပ်တဲ့အချက်တွေကို အကြံပြုပေးပါ။ Button Size တွေ၊ စာဖတ်ရလွယ်ကူမှု၊ ပုံတွေကို Optimize လုပ်ပုံ၊ ဖုန်းမျက်နှာပြင်အတွက် Navigation Menu Design နဲ့ Page loading speed တို့ကို အဓိကထားပါ။ အချက်တစ်ခုချင်းစီက မိုဘိုင်းအသုံးပြုသူတွေအတွက် ဘာကြောင့်အရေးကြီးတယ်ဆိုတာနဲ့ Conversion Rate အပေါ် ဘယ်လိုသက်ရောက်မှုရှိတယ်ဆိုတာကို ရှင်းပြပေးပါ။",
+                    inputs: [
+                        { id: "business type", label: "Business Type (လုပ်ငန်းအမျိုးအစား)", hint: "ဥပမာ - E-commerce Store" }
+                    ]
+                },
+                {
+                    id: 10,
+                    title: "10. Website မလွှင့်တင်ခင် စစ်ဆေးရမယ့်အချက်များ (The Pre-Launch Website Audit Prompt)",
+                    en: "Act as a meticulous web quality assurance (QA) tester and provide a comprehensive pre-launch checklist for a [business type] website. Include technical checks (broken links, speed, forms), SEO checks (meta tags, alt text), content checks (typos, consistency), and usability checks across different browsers and devices. The goal is to ensure the website is 100% ready and professional before going live.",
+                    mm: "Web QA Tester တစ်ယောက်အနေနဲ့ [business type] Website မလွှင့်တင်ခင် (Launch မလုပ်ခင်) စစ်ဆေးရမယ့် အချက်အလက်တွေကို ဖော်ပြပေးပါ။ Technical Checks (Broken links, speed, forms)၊ SEO Checks (Meta tags, alt text)၊ Content Checks (စာလုံးပေါင်းသတ်ပုံ၊ Consistency) နဲ့ Usability Checks တွေကို စစ်ဆေးရပါမယ်။ ရည်ရွယ်ချက်ကတော့ Website မလွှင့်တင်ခင် ၁၀၀ ရာခိုင်နှုန်း အဆင်သင့်ဖြစ်ပြီး ပရော်ဖက်ရှင်နယ်ကျနေစေဖို့ ဖြစ်ပါတယ်။",
+                    inputs: [
+                        { id: "business type", label: "Business Type (လုပ်ငန်းအမျိုးအစား)", hint: "ဥပမာ - Real Estate Agency" }
+                    ]
+                }
+            ];
+
+            const container = document.getElementById('accordion-container');
+            const langRadios = document.getElementsByName('language');
+
+            function renderAccordion() {
+                container.innerHTML = ''; 
+
+                promptData.forEach((data) => {
+                    const item = document.createElement('div');
+                    item.className = 'accordion-item';
+                    item.id = `acc-item-${data.id}`;
+
+                    let html = `
+                        <div class="accordion-header" onclick="toggleAccordion(${data.id})">
+                            <div class="header-content">
+                                <div class="acc-title">${data.title}</div>
+                            </div>
+                            <div class="acc-icon">▼</div>
+                        </div>
+                    `;
+
+                    html += `<div class="accordion-body" id="acc-body-${data.id}">
+                                <div class="body-inner">`;
+
+                    if (data.inputs && data.inputs.length > 0) {
+                        data.inputs.forEach(input => {
+                            html += `
+                                <div class="form-group">
+                                    <label>${input.label}</label>
+                                    <input type="text" id="input-${data.id}-${input.id}" data-item-id="${data.id}" placeholder="${input.hint}">
+                                </div>
+                            `;
+                        });
+                    }
+
+                    html += `
+                            <textarea id="output-${data.id}" class="output-area" readonly></textarea>
+                            <button id="copy-${data.id}" data-item-id="${data.id}">Copy Prompt</button>
+                        </div>
+                    </div>`;
+
+                    item.innerHTML = html;
+                    container.appendChild(item);
+                });
+
+                attachEventListeners();
+                updateAllPrompts();
+            }
+
+            window.toggleAccordion = function(id) {
+                const item = document.getElementById(`acc-item-${id}`);
+                const body = document.getElementById(`acc-body-${id}`);
+
+                // Auto-collapse logic
+                document.querySelectorAll('.accordion-item').forEach(el => {
+                    if(el.id !== `acc-item-${id}`) {
+                        el.classList.remove('active');
+                        el.querySelector('.accordion-body').style.maxHeight = null;
+                    }
+                });
+
+                if (item.classList.contains('active')) {
+                    item.classList.remove('active');
+                    body.style.maxHeight = null;
+                } else {
+                    item.classList.add('active');
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updatePromptForCard(itemId) {
+                const data = promptData.find(p => p.id == itemId);
+                const isMyanmar = document.querySelector('input[name="language"]:checked').value === 'mm';
+                let finalPrompt = isMyanmar ? data.mm : data.en;
+
+                if (data.inputs) {
+                    data.inputs.forEach(input => {
+                        const el = document.getElementById(`input-${data.id}-${input.id}`);
+                        const val = el && el.value.trim() !== "" ? el.value.trim() : `[${input.id}]`;
+                        // Handle multiple instances of placeholder
+                        finalPrompt = finalPrompt.split(`[${input.id}]`).join(val);
+                    });
+                }
+
+                document.getElementById(`output-${data.id}`).value = finalPrompt;
+            }
+
+            function updateAllPrompts() {
+                promptData.forEach(data => updatePromptForCard(data.id));
+            }
+
+            function attachEventListeners() {
+                container.addEventListener('input', (e) => {
+                    if (e.target.tagName === 'INPUT') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        if (itemId) updatePromptForCard(itemId);
+                    }
+                });
+
+                container.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'BUTTON') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        const outputEl = document.getElementById(`output-${itemId}`);
+                        outputEl.select();
+                        document.execCommand('copy');
+                        
+                        const btn = e.target;
+                        const originalText = btn.innerText;
+                        btn.innerText = "COPIED! ✨";
+                        setTimeout(() => btn.innerText = originalText, 2000);
+                    }
+                });
+            }
+
+            langRadios.forEach(radio => radio.addEventListener('change', updateAllPrompts));
+
+            renderAccordion();
+        });
+    </script>
+</body>
+</html>

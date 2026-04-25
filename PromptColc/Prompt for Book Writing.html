@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>12 ChatGPT Prompts for Book Writing</title>
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="My Useful Tools">
+    <link rel="apple-touch-icon" href="../icon-192x192.png">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: #0f172a; /* Deep Slate Background */
+            color: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .header-container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            margin-bottom: 25px;
+            position: sticky;
+            top: 0;
+            background: rgba(15, 23, 42, 0.95);
+            padding: 20px;
+            z-index: 100;
+            border-bottom: 1px solid #e11d48; /* Crimson Rose */
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #e11d48; 
+            font-size: clamp(1.5rem, 5vw, 2.2rem);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(225, 29, 72, 0.4);
+            word-wrap: break-word;
+        }
+
+        .global-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .radio-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #cbd5e1;
+            font-weight: 600;
+        }
+
+        input[type="radio"] {
+            accent-color: #e11d48;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ----- Accordion List Container ----- */
+        .accordion-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        /* ----- Accordion Item ----- */
+        .accordion-item {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-left: 4px solid #e11d48;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            border-color: #e11d48;
+            box-shadow: 0 0 15px rgba(225, 29, 72, 0.1);
+        }
+
+        /* ----- Accordion Header (Clickable) ----- */
+        .accordion-header {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            background: rgba(30, 41, 59, 0.8);
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding-right: 15px;
+        }
+
+        .acc-title {
+            color: #f8fafc;
+            font-size: 1.1rem;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+        
+        .acc-remark {
+            color: #fda4af;
+            font-size: 0.9rem;
+            font-style: italic;
+            line-height: 1.4;
+        }
+
+        .acc-icon {
+            color: #e11d48;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        /* Active State for Accordion */
+        .accordion-item.active .acc-icon {
+            transform: rotate(180deg);
+        }
+        
+        .accordion-item.active {
+            border-color: #fb7185;
+            box-shadow: 0 0 20px rgba(225, 29, 72, 0.15);
+        }
+
+        /* ----- Accordion Body ----- */
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            background: #0f172a;
+        }
+
+        .body-inner {
+            padding: 25px 20px;
+            border-top: 1px dashed #334155;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #fda4af;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"], textarea.input-text {
+            width: 100%;
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: #fb7185;
+            padding: 12px;
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"]:focus, textarea.input-text:focus {
+            border-color: #e11d48;
+            box-shadow: 0 0 10px rgba(225, 29, 72, 0.2);
+        }
+        
+        textarea.input-text {
+            height: 100px;
+            resize: vertical;
+        }
+
+        textarea.output-area {
+            width: 100%;
+            height: 250px;
+            background: #020617;
+            border: 1px solid #334155;
+            color: #f8fafc;
+            padding: 15px;
+            border-radius: 6px;
+            resize: vertical;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            outline: none;
+            margin-top: 10px;
+        }
+
+        textarea.output-area:focus {
+            border-color: #e11d48;
+        }
+
+        button {
+            width: 100%;
+            background: transparent;
+            color: #fda4af;
+            border: 1px solid #e11d48;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #e11d48;
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(225, 29, 72, 0.4);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>📖 Book Writing Prompts</h1>
+        <div style="color: #cbd5e1; font-size: 0.95rem;">စာအုပ်တစ်အုပ်ကို အစကနေအဆုံး စနစ်တကျ ရေးသားနိုင်မည့် AI Prompts များ</div>
+        <div class="global-options">
+            <label class="radio-btn">
+                <input type="radio" name="language" value="mm" checked> Myanmar Prompt
+            </label>
+            <label class="radio-btn">
+                <input type="radio" name="language" value="en"> English Prompt
+            </label>
+        </div>
+    </div>
+
+    <div class="accordion-container" id="accordion-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            const promptData = [
+                {
+                    id: 1,
+                    title: "1. Book Concept Generator (စာအုပ် Concept ရှာဖွေခြင်း)",
+                    remark: "💡 ကိုယ့်စာအုပ်က ဈေးကွက်ဝင်မလား၊ လူဖတ်ပါ့မလားဆိုတာ မရေးခင်ကတည်းက ကြိုသိဖို့လိုပါတယ်။",
+                    en: "You are a bestselling book strategist. Generate 5 unique book concepts for [Niche/Expertise].\n\nFor each concept, provide:\n- Compelling title + subtitle\n- Target audience demographics\n- Unique angle vs existing books\n- Estimated market size\n- Why readers would pay $20-30\n- Trending topics aligned with current demand",
+                    mm: "သင်ဟာ ရောင်းအားအကောင်းဆုံး စာအုပ်မဟာဗျူဟာပညာရှင်တစ်ယောက်ပါ။ [Niche/Expertise] အတွက် ထူးခြားတဲ့ စာအုပ် Concept ၅ ခုကို ဖန်တီးပေးပါ။\n\nConcept တစ်ခုချင်းစီအတွက် အောက်ပါတို့ကို ထည့်သွင်းပေးပါ:\n- ဆွဲဆောင်မှုရှိသော ခေါင်းစဉ် + ခေါင်းစဉ်ခွဲ\n- ပစ်မှတ်ထားသော စာဖတ်ပရိသတ် (Target Audience)\n- လက်ရှိစာအုပ်တွေနဲ့ မတူကွဲပြားမယ့် ရှုထောင့်\n- ခန့်မှန်းခြေ ဈေးကွက်အရွယ်အစား\n- စာဖတ်သူတွေက ဒီစာအုပ်အတွက် ဘာကြောင့် ပိုက်ဆံပေးဝယ်သင့်သလဲ\n- လက်ရှိခေတ်စားနေတဲ့ အကြောင်းအရာများနဲ့ ချိတ်ဆက်မှု",
+                    inputs: [
+                        { id: "Niche/Expertise", label: "Niche / Expertise (နယ်ပယ်/ကျွမ်းကျင်မှု)", type: "text", hint: "ဥပမာ - Productivity for Introverts" }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "2. Complete Book Outline Builder (စာအုပ်တိုက် အကြမ်းဖျင်းပုံစံ ရေးဆွဲခြင်း)",
+                    remark: "💡 စာရွက်အလွတ်ကြီးကို ထိုင်ကြည့်ပြီး ဘာဆက်ရေးရမလဲ စဉ်းစားနေစရာမလိုတော့ပါဘူး။",
+                    en: "Create a detailed chapter-by-chapter outline for a [Genre] book titled [Book Title] targeting [Audience]. Include 10-15 chapters.\n\nFor each chapter:\n- Chapter title\n- 3-5 key points to cover\n- Estimated word count (1500-3000)\n- Reader transformation by end\n- Connection to next chapter\n- Compelling hook for chapter 1\n- Satisfying conclusion for final chapter",
+                    mm: "[Audience] ကို ရည်ရွယ်ထားတဲ့ [Book Title] ဆိုတဲ့ [Genre] အတွက် အခန်းတစ်ခန်းချင်းစီပါဝင်တဲ့ အသေးစိတ် Outline တစ်ခု ရေးဆွဲပေးပါ။ အခန်း ၁၀ ကနေ ၁၅ ခန်းလောက် ထည့်ပေးပါ။\n\nအခန်းတစ်ခုချင်းစီအတွက်:\n- အခန်းခေါင်းစဉ်\n- ပါဝင်ရမယ့် အဓိကအချက် ၃-၅ ချက်\n- ခန့်မှန်းခြေ စကားလုံးအရေအတွက် (၁၅၀၀-၃၀၀၀)\n- ဒီအခန်းပြီးရင် စာဖတ်သူ ဘာပြောင်းလဲသွားမလဲ\n- နောက်အခန်းနဲ့ ချိတ်ဆက်ပုံ\n- အခန်း ၁ အတွက် ဆွဲဆောင်မှုရှိတဲ့ အဖွင့် (Hook)\n- နောက်ဆုံးအခန်းအတွက် ကျေနပ်ဖွယ်ကောင်းတဲ့ နိဂုံး",
+                    inputs: [
+                        { id: "Genre", label: "Genre (စာအုပ်အမျိုးအစား)", type: "text", hint: "ဥပမာ - Self-help" },
+                        { id: "Book Title", label: "Book Title (စာအုပ်ခေါင်းစဉ်)", type: "text", hint: "ဥပမာ - The Quiet Leader" },
+                        { id: "Audience", label: "Audience (ပစ်မှတ်ပရိသတ်)", type: "text", hint: "ဥပမာ - Managers" }
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "3. Chapter Content Expander (အခန်းလိုက် အသေးစိတ် ရေးသားခြင်း)",
+                    remark: "💡 ဒီ Prompt က အခန်းတစ်ခန်းချင်းစီကို အသေးစိတ် ချရေးပေးပါလိမ့်မယ်။",
+                    en: "Write a complete draft of Chapter [Number]: [Chapter Title] for my book about [Topic].\n\nRequirements:\n- Target audience: [Audience]\n- Tone: [Tone]\n- Word count: [Word Count] words\n\nInclude:\n- Engaging opening hook\n- 3-4 main sections with subheadings\n- Concrete examples or case studies\n- Actionable takeaways\n- Transition to next chapter\n- Write in active voice. Avoid clichés.",
+                    mm: "[Topic] အကြောင်း ကျွန်ုပ်၏စာအုပ်အတွက် အခန်း [Number]: [Chapter Title] ၏ မူကြမ်းအပြည့်အစုံကို ရေးပေးပါ။\n\nလိုအပ်ချက်များ:\n- ပစ်မှတ်ပရိသတ်: [Audience]\n- လေသံ (Tone): [Tone]\n- စကားလုံးအရေအတွက်: [Word Count]\n\nပါဝင်ရမည့်အရာများ:\n- စိတ်ဝင်စားဖွယ် အဖွင့်\n- ခေါင်းစဉ်ခွဲများပါဝင်သော အဓိကအပိုင်း ၃-၄ ပိုင်း\n- ခိုင်လုံသော ဥပမာများ သို့မဟုတ် Case Studies\n- လက်တွေ့လိုက်နာနိုင်မည့် အချက်များ\n- နောက်အခန်းသို့ ကူးပြောင်းခြင်း\n- Active voice ဖြင့်ရေးပါ။ ထပ်နေကျ စကားလုံးများကို ရှောင်ပါ။",
+                    inputs: [
+                        { id: "Number", label: "Chapter Number (အခန်းနံပါတ်)", type: "text", hint: "ဥပမာ - 1" },
+                        { id: "Chapter Title", label: "Chapter Title (အခန်းခေါင်းစဉ်)", type: "text", hint: "ဥပမာ - The Power of Silence" },
+                        { id: "Topic", label: "Topic (အကြောင်းအရာ)", type: "text", hint: "ဥပမာ - Introverted Leadership" },
+                        { id: "Audience", label: "Audience (ပစ်မှတ်ပရိသတ်)", type: "text", hint: "ဥပမာ - New Managers" },
+                        { id: "Tone", label: "Tone (လေသံ)", type: "text", hint: "ဥပမာ - Professional and Inspiring" },
+                        { id: "Word Count", label: "Word Count (စကားလုံးအရေအတွက်)", type: "text", hint: "ဥပမာ - 1500-3000" }
+                    ]
+                },
+                {
+                    id: 4,
+                    title: "4. Story & Anecdote Creator (ဇာတ်လမ်းတိုလေးတွေ ဖန်တီးခြင်း)",
+                    remark: "💡 စာအုပ်တစ်အုပ်မှာ ဇာတ်လမ်းလေးတွေပါမှ လူတွေက ဖတ်ချင်ကြတာပါ။",
+                    en: "Generate 8 original stories that illustrate [Key Concept] for a [Genre] book.\n\nEach story must:\n- Be 150-250 words\n- Include specific details + dialogue\n- Have clear beginning-middle-end\n- Relate to [Target Audience]'s experiences\n- End with a lesson or insight\n- Make stories emotionally resonant but not preachy.",
+                    mm: "[Genre] စာအုပ်အတွက် [Key Concept] ကို ပေါ်လွင်စေမယ့် ကိုယ်ပိုင်ဇာတ်လမ်းတို ၈ ပုဒ်ကို ဖန်တီးပေးပါ။\n\nဇာတ်လမ်းတစ်ခုစီတိုင်းတွင်:\n- စကားလုံး ၁၅၀-၂၅၀ ရှိရမည်\n- အသေးစိတ်အချက်အလက်များနှင့် စကားပြောခန်းများ ပါရမည်\n- အစ၊ အလယ်၊ အဆုံး ရှင်းလင်းရမည်\n- [Target Audience] ၏ အတွေ့အကြုံများနှင့် ဆက်စပ်မှုရှိရမည်\n- သင်ခန်းစာ သို့မဟုတ် အတွေးအမြင်တစ်ခုဖြင့် အဆုံးသတ်ရမည်\n- ခံစားချက်ကို ထိခိုက်စေပြီး ဆရာလုပ်သလို မဖြစ်စေရပါ။",
+                    inputs: [
+                        { id: "Genre", label: "Genre (စာအုပ်အမျိုးအစား)", type: "text", hint: "ဥပမာ - Business" },
+                        { id: "Key Concept", label: "Key Concept (အဓိကအကြောင်းအရာ)", type: "text", hint: "ဥပမာ - Overcoming fear of failure" },
+                        { id: "Target Audience", label: "Target Audience (ပစ်မှတ်ပရိသတ်)", type: "text", hint: "ဥပမာ - Entrepreneurs" }
+                    ]
+                },
+                {
+                    id: 5,
+                    title: "5. Book Introduction Writer (နိဒါန်း ရေးသားခြင်း)",
+                    remark: "💡 စာဖတ်သူက ဒီစာအုပ်ကို ဝယ်မလား၊ ထားခဲ့မလားဆိုတာ နိဒါန်းပေါ်မှာ မူတည်ပါတယ်။",
+                    en: "Write a compelling introduction for [Book Title].\n\nStructure:\n- Hook readers in first 2 sentences (surprising fact or bold statement)\n- Explain the problem this book solves\n- Establish credibility as [Your Background]\n- Outline what readers gain by the end\n- Preview the book structure\n- End with transformation promise\n- Length: 800-1200 words\n- Tone: [Style]",
+                    mm: "[Book Title] အတွက် ဆွဲဆောင်မှုရှိသော နိဒါန်းတစ်ခု ရေးပေးပါ။\n\nဖွဲ့စည်းပုံ:\n- ပထမ စာကြောင်း ၂ ကြောင်းတွင် စာဖတ်သူကို ဖမ်းစားပါ (အံ့သြဖွယ်အချက်အလက် သို့မဟုတ် ရဲရင့်သော ပြောဆိုမှု)\n- ဤစာအုပ်က ဖြေရှင်းပေးမည့် ပြဿနာကို ရှင်းပြပါ\n- [Your Background] အားဖြင့် ယုံကြည်စိတ်ချရမှုကို တည်ဆောက်ပါ\n- စာအုပ်ဆုံးလျှင် စာဖတ်သူ ဘာရမလဲဆိုတာ ပြောပြပါ\n- စာအုပ်ဖွဲ့စည်းပုံကို အကြမ်းဖျင်းပြပါ\n- ပြောင်းလဲသွားမည့် ရလဒ်ကတိဖြင့် အဆုံးသတ်ပါ\n- အရှည်: ၈၀၀-၁၂၀၀ စကားလုံး\n- လေသံ: [Style]",
+                    inputs: [
+                        { id: "Book Title", label: "Book Title (စာအုပ်ခေါင်းစဉ်)", type: "text", hint: "ဥပမာ - Master Your Mind" },
+                        { id: "Your Background", label: "Your Background (သင့်နောက်ခံ)", type: "text", hint: "ဥပမာ - 10 years experienced psychologist" },
+                        { id: "Style", label: "Style / Tone (လေသံ)", type: "text", hint: "ဥပမာ - Conversational and Empathetic" }
+                    ]
+                },
+                {
+                    id: 6,
+                    title: "6. Research & Fact Integration (အချက်အလက်နှင့် သုတေသနများ ထည့်သွင်းခြင်း)",
+                    remark: "💡 Google Scholar မှာ အချိန်ကုန်စရာမလိုဘဲ တိကျတဲ့ Data တွေ ရှာခိုင်းပါမယ်။",
+                    en: "I'm writing about [Topic] for Chapter [X]. Research and provide:\n\nData needed:\n- 10 credible statistics (with sources)\n- 5 expert quotes from recognized authorities\n- 3 recent studies supporting [Your Argument]\n- 4 counterarguments with rebuttals\n\nPresent as table.",
+                    mm: "အခန်း [X] အတွက် [Topic] အကြောင်း ရေးသားနေပါသည်။ သုတေသနလုပ်ပြီး အောက်ပါတို့ကို ပေးပါ:\n\n- ခိုင်လုံသော စာရင်းအင်း ၁၀ ခု (ရင်းမြစ်များနှင့်အတူ)\n- အသိအမှတ်ပြု ပညာရှင်များထံမှ Quote ၅ ခု\n- [Your Argument] ကို ထောက်ခံသော မကြာသေးမီက လေ့လာမှု ၃ ခု\n- ဆန့်ကျင်ဘက် အမြင် ၄ ခုနှင့် ပြန်လည်ချေပချက်များ\n\nဇယားကွက် (Table) ဖြင့် ဖော်ပြပေးပါ။",
+                    inputs: [
+                        { id: "Topic", label: "Topic (အကြောင်းအရာ)", type: "text", hint: "ဥပမာ - Impact of AI on Jobs" },
+                        { id: "X", label: "Chapter X (အခန်းနံပါတ်)", type: "text", hint: "ဥပမာ - 3" },
+                        { id: "Your Argument", label: "Your Argument (သင့်အကြောင်းပြချက်)", type: "text", hint: "ဥပမာ - AI creates more jobs than it destroys" }
+                    ]
+                },
+                {
+                    id: 7,
+                    title: "7. Chapter Transition Specialist (အခန်းကူးပြောင်းမှု ချောမွေ့စေခြင်း)",
+                    remark: "💡 စာဖတ်သူကို စာအုပ်မချသွားအောင် ဆွဲဆောင်မယ့် Prompt ပါ။",
+                    en: "Review these chapter summaries:\n\n[Chapter X Summary]\n\n[Chapter X+1 Summary]\n\nWrite 3 transition paragraphs (50-100 words each) that:\n- End chapter X with hook/cliffhanger\n- Create curiosity about what's coming\n- Connect topics naturally",
+                    mm: "ဒီ အခန်းအကျဉ်းချုပ်တွေကို သုံးသပ်ပေးပါ:\n\n[Chapter X Summary]\n\n[Chapter X+1 Summary]\n\nအောက်ပါအချက်များပါဝင်သော ကူးပြောင်းစာပိုဒ် ၃ ခု (စကားလုံး ၅၀-၁၀၀ စီ) ကို ရေးပေးပါ:\n- အခန်း X ကို Hook သို့မဟုတ် Cliffhanger ဖြင့် အဆုံးသတ်ပါ\n- လာမည့်အရာအတွက် သိချင်စိတ်ကို ဖြစ်ပေါ်စေပါ\n- ခေါင်းစဉ်များကို သဘာဝကျကျ ချိတ်ဆက်ပါ",
+                    inputs: [
+                        { id: "Chapter X Summary", label: "Chapter X Summary (လက်ရှိအခန်းအကျဉ်းချုပ်)", type: "textarea", hint: "လက်ရှိအခန်းရဲ့ အကျဉ်းချုပ်ကို ထည့်ပါ..." },
+                        { id: "Chapter X+1 Summary", label: "Chapter X+1 Summary (နောက်အခန်းအကျဉ်းချုပ်)", type: "textarea", hint: "နောက်လာမယ့်အခန်းရဲ့ အကျဉ်းချုပ်ကို ထည့်ပါ..." }
+                    ]
+                },
+                {
+                    id: 8,
+                    title: "8. Case Study Generator (Case Study များ ဖန်တီးခြင်း)",
+                    remark: "💡 စာဖတ်သူတွေက သူတို့ကိုယ်သူတို့ ဒီဇာတ်လမ်းတွေထဲမှာ မြင်ယောင်လာအောင် လုပ်ပါမယ်။",
+                    en: "Create 6 detailed case studies for [Topic] book.\n\nEach case study includes:\n\nBefore state:\n- Realistic person in [Target Audience]\n- Specific struggles and pain points\n\nThe change:\n- Intervention or solution applied\n\nThe After state:\n- Measurable results (numbers matter)\n\nLessons:\n- 2-3 key takeaways",
+                    mm: "[Topic] စာအုပ်အတွက် အသေးစိတ် Case Study ၆ ခု ဖန်တီးပေးပါ။\n\nCase study တစ်ခုစီတွင် ပါဝင်ရမည်မှာ:\n\nအရင်အခြေအနေ:\n- [Target Audience] ထဲမှ သဘာဝကျသော လူတစ်ဦး\n- တိကျသော အခက်အခဲများနှင့် နာကျင်စရာအချက်များ\n\nပြောင်းလဲမှု:\n- အသုံးပြုခဲ့သော ဖြေရှင်းနည်း သို့မဟုတ် နည်းလမ်း\n\nနောက်ပိုင်းအခြေအနေ:\n- တိုင်းတာရရှိနိုင်သော ရလဒ်များ (ကိန်းဂဏန်းများ ပါရမည်)\n\nသင်ခန်းစာများ:\n- အဓိက မှတ်သားစရာ ၂-၃ ချက်",
+                    inputs: [
+                        { id: "Topic", label: "Topic (ခေါင်းစဉ်)", type: "text", hint: "ဥပမာ - Time Management" },
+                        { id: "Target Audience", label: "Target Audience (ပစ်မှတ်ပရိသတ်)", type: "text", hint: "ဥပမာ - Working Mothers" }
+                    ]
+                },
+                {
+                    id: 9,
+                    title: "9. Book Conclusion Writer (နိဂုံးချုပ် ရေးသားခြင်း)",
+                    remark: "💡 စာအုပ်ပြီးသွားရင် သူများတွေကို ပြန်ညွှန်းချင်အောင် နိဂုံးချုပ်ကောင်းဖို့ လိုပါတယ်။",
+                    en: "Write a powerful conclusion for [Book Title].\n\nMust include:\n- The recap: 3-5 biggest insights\n- The vision: Reader's future after applying knowledge\n- The obstacles: Common barriers + how to overcome them\n- The path forward: Next steps\n- The finale: Inspiring final thought\n\nLength: 600-1000 words",
+                    mm: "[Book Title] အတွက် ထိရောက်သော နိဂုံးတစ်ခု ရေးပေးပါ။\n\nပါဝင်ရမည်မှာ:\n- ပြန်လည်သုံးသပ်ခြင်း: အကြီးမားဆုံး သိမြင်မှု ၃-၅ ချက်\n- မျှော်မှန်းချက်: အသိပညာကို အသုံးချပြီးနောက် စာဖတ်သူ၏ အနာဂတ်\n- အတားအဆီးများ: ကြုံတွေ့ရနိုင်သော အတားအဆီးများနှင့် ကျော်လွှားနည်း\n- ရှေ့ဆက်ရမည့်လမ်း: နောက်ထပ်အဆင့်များ\n- နောက်ဆုံးပိတ်: စိတ်ဓာတ်တက်ကြွဖွယ် နောက်ဆုံးအတွေး\n- အရှည်: ၆၀၀-၁၀၀၀ စကားလုံး",
+                    inputs: [
+                        { id: "Book Title", label: "Book Title (စာအုပ်ခေါင်းစဉ်)", type: "text", hint: "ဥပမာ - The Minimalist Entrepreneur" }
+                    ]
+                },
+                {
+                    id: 10,
+                    title: "10. Back Cover Blurb Creator (စာအုပ်အနောက်ဖုံး စာသား ရေးသားခြင်း)",
+                    remark: "💡 စာအုပ်ဆိုင်မှာ လူတွေက ဒါကိုဖတ်ပြီး ဝယ်ကြတာပါ။",
+                    en: "Write 3 versions of back cover description for [Book Title] targeting [Audience].\n\nFormula: Problem → Agitation → Solution → Benefits → Credibility",
+                    mm: "[Audience] ကို ဦးတည်ထားသော [Book Title] အတွက် စာအုပ်အနောက်ဖုံးစာသား (Blurb) ၃ မျိုး ရေးပေးပါ။\n\nပုံသေနည်း: ပြဿနာ → လှုံ့ဆော်မှု → ဖြေရှင်းချက် → အကျိုးကျေးဇူးများ → ယုံကြည်စိတ်ချရမှု",
+                    inputs: [
+                        { id: "Book Title", label: "Book Title (စာအုပ်ခေါင်းစဉ်)", type: "text", hint: "ဥပမာ - Digital Detox" },
+                        { id: "Audience", label: "Audience (ပစ်မှတ်ပရိသတ်)", type: "text", hint: "ဥပမာ - Smartphone Addicts" }
+                    ]
+                },
+                {
+                    id: 11,
+                    title: "11. Author Bio Writer (စာရေးသူ၏ Bio ရေးသားခြင်း)",
+                    remark: "💡 စာဖတ်သူတွေ သင့်ကို ယုံကြည်လာအောင် လုပ်ဆောင်မယ့်အပိုင်းပါ။",
+                    en: "Create compelling author bio for [Your Name] writing about [Topic].\n\nInclude:\n- Relevant credentials + experience\n- Why qualified to write this book\n- 2-3 impressive achievements\n- Personal connection to topic\n- Format: Third person",
+                    mm: "[Topic] အကြောင်း ရေးသားမည့် [Your Name] အတွက် ဆွဲဆောင်မှုရှိသော စာရေးသူ၏ အတ္ထုပ္ပတ္တိ (Bio) ကို ဖန်တီးပေးပါ။\n\nပါဝင်ရမည်မှာ:\n- သက်ဆိုင်ရာ အရည်အချင်းများနှင့် အတွေ့အကြုံ\n- ဤစာအုပ်ကို ရေးသားရန် ဘာကြောင့် အရည်အချင်းပြည့်မီသလဲ\n- ထင်ရှားသော အောင်မြင်မှု ၂-၃ ခု\n- ခေါင်းစဉ်နှင့် ပတ်သက်သော ကိုယ်ပိုင်ခံစားချက်\n- ပုံစံ: Third person (သူ/သူမ ဟု သုံးနှုန်းပါ)",
+                    inputs: [
+                        { id: "Your Name", label: "Your Name (သင့်နာမည်)", type: "text", hint: "ဥပမာ - John Doe" },
+                        { id: "Topic", label: "Topic (ခေါင်းစဉ်)", type: "text", hint: "ဥပမာ - Healthy Lifestyle" }
+                    ]
+                },
+                {
+                    id: 12,
+                    title: "12. Chapter Quality Checker (အရည်အသွေး စစ်ဆေးခြင်း)",
+                    remark: "💡 ကိုယ့်ဘာသာပြန်ဖတ်ရင် အမှားမမြင်ရတတ်ပါဘူး။ AI ကို Editor အဖြစ် သုံးပါမယ်။",
+                    en: "Review this chapter: [Paste Text]\n\nEvaluate for:\n- Clarity of main points\n- Logical flow between sections\n- Reader engagement level\n- Sentence variety + readability\n\nProvide: Specific improvement suggestions & Priority fixes ranked",
+                    mm: "ဤအခန်းကို ပြန်လည်သုံးသပ်ပေးပါ: [Paste Text]\n\nအောက်ပါတို့ကို အကဲဖြတ်ပါ:\n- အဓိကအချက်များ ရှင်းလင်းမှုရှိမရှိ\n- အပိုင်းများကြား စီးဆင်းမှု (Flow) ကောင်းမကောင်း\n- စာဖတ်သူကို ဆွဲဆောင်နိုင်မှု အဆင့်\n- ဝါကျကွဲပြားမှုနှင့် ဖတ်ရှုရလွယ်ကူမှု\n\nပေးရန်: တိကျသော ပြုပြင်မွမ်းမံရန် အကြံပြုချက်များနှင့် ဦးစားပေး ပြင်ဆင်ရမည့်အရာများ",
+                    inputs: [
+                        { id: "Paste Text", label: "Paste Text (စာသားကို ထည့်ပါ)", type: "textarea", hint: "ပြန်လည်စစ်ဆေးလိုသော အခန်းစာသားကို ထည့်ပါ..." }
+                    ]
+                }
+            ];
+
+            const container = document.getElementById('accordion-container');
+            const langRadios = document.getElementsByName('language');
+
+            function renderAccordion() {
+                container.innerHTML = ''; 
+
+                promptData.forEach((data) => {
+                    const item = document.createElement('div');
+                    item.className = 'accordion-item';
+                    item.id = `acc-item-${data.id}`;
+
+                    let html = `
+                        <div class="accordion-header" onclick="toggleAccordion(${data.id})">
+                            <div class="header-content">
+                                <div class="acc-title">${data.title}</div>
+                                <div class="acc-remark">${data.remark}</div>
+                            </div>
+                            <div class="acc-icon">▼</div>
+                        </div>
+                    `;
+
+                    html += `<div class="accordion-body" id="acc-body-${data.id}">
+                                <div class="body-inner">`;
+
+                    if (data.inputs && data.inputs.length > 0) {
+                        data.inputs.forEach(input => {
+                            if(input.type === 'textarea') {
+                                html += `
+                                    <div class="form-group">
+                                        <label>${input.label}</label>
+                                        <textarea id="input-${data.id}-${input.id}" class="input-text" data-item-id="${data.id}" placeholder="${input.hint}"></textarea>
+                                    </div>
+                                `;
+                            } else {
+                                html += `
+                                    <div class="form-group">
+                                        <label>${input.label}</label>
+                                        <input type="text" id="input-${data.id}-${input.id}" data-item-id="${data.id}" placeholder="${input.hint}">
+                                    </div>
+                                `;
+                            }
+                        });
+                    }
+
+                    html += `
+                            <textarea id="output-${data.id}" class="output-area" readonly></textarea>
+                            <button id="copy-${data.id}" data-item-id="${data.id}">Copy Prompt</button>
+                        </div>
+                    </div>`;
+
+                    item.innerHTML = html;
+                    container.appendChild(item);
+                });
+
+                attachEventListeners();
+                updateAllPrompts();
+            }
+
+            window.toggleAccordion = function(id) {
+                const item = document.getElementById(`acc-item-${id}`);
+                const body = document.getElementById(`acc-body-${id}`);
+
+                // Auto-collapse logic
+                document.querySelectorAll('.accordion-item').forEach(el => {
+                    if(el.id !== `acc-item-${id}`) {
+                        el.classList.remove('active');
+                        el.querySelector('.accordion-body').style.maxHeight = null;
+                    }
+                });
+
+                if (item.classList.contains('active')) {
+                    item.classList.remove('active');
+                    body.style.maxHeight = null;
+                } else {
+                    item.classList.add('active');
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updatePromptForCard(itemId) {
+                const data = promptData.find(p => p.id == itemId);
+                const isMyanmar = document.querySelector('input[name="language"]:checked').value === 'mm';
+                let finalPrompt = isMyanmar ? data.mm : data.en;
+
+                if (data.inputs) {
+                    data.inputs.forEach(input => {
+                        const el = document.getElementById(`input-${data.id}-${input.id}`);
+                        const val = el && el.value.trim() !== "" ? el.value.trim() : `[${input.id}]`;
+                        // Handle multiple instances of placeholder
+                        finalPrompt = finalPrompt.split(`[${input.id}]`).join(val);
+                    });
+                }
+
+                document.getElementById(`output-${data.id}`).value = finalPrompt;
+            }
+
+            function updateAllPrompts() {
+                promptData.forEach(data => updatePromptForCard(data.id));
+            }
+
+            function attachEventListeners() {
+                container.addEventListener('input', (e) => {
+                    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        if (itemId) updatePromptForCard(itemId);
+                    }
+                });
+
+                container.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'BUTTON') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        const outputEl = document.getElementById(`output-${itemId}`);
+                        outputEl.select();
+                        document.execCommand('copy');
+                        
+                        const btn = e.target;
+                        const originalText = btn.innerText;
+                        btn.innerText = "COPIED! ✨";
+                        setTimeout(() => btn.innerText = originalText, 2000);
+                    }
+                });
+            }
+
+            langRadios.forEach(radio => radio.addEventListener('change', updateAllPrompts));
+
+            renderAccordion();
+        });
+    </script>
+</body>
+</html>
