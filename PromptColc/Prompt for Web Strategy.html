@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8 Web Builder Prompts</title>
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="My Useful Tools">
+    <link rel="apple-touch-icon" href="../icon-192x192.png">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: #0f172a; /* Deep Slate Background */
+            color: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 0 20px 50px 20px;
+        }
+
+        /* Sticky Header - No Remarks here anymore */
+        .header-container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            padding: 30px 20px 20px 20px;
+            margin-bottom: 25px;
+            position: sticky;
+            top: 0;
+            background: rgba(15, 23, 42, 0.95);
+            z-index: 100;
+            border-bottom: 1px solid #8b5cf6; /* Electric Violet */
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #8b5cf6; 
+            font-size: clamp(1.5rem, 5vw, 2.2rem);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+            word-wrap: break-word;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .global-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .radio-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #cbd5e1;
+            font-weight: 600;
+        }
+
+        input[type="radio"] {
+            accent-color: #8b5cf6;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Remark Section outside the sticky header */
+        .remark-container {
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 25px;
+        }
+
+        .remark {
+            color: #c4b5fd;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 15px;
+            background: rgba(139, 92, 246, 0.1);
+            border-radius: 8px;
+            border: 1px dashed #8b5cf6;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        /* ----- Accordion List Container ----- */
+        .accordion-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* ----- Accordion Item ----- */
+        .accordion-item {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-left: 4px solid #8b5cf6;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            border-color: #8b5cf6;
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.1);
+        }
+
+        /* ----- Accordion Header (Clickable) ----- */
+        .accordion-header {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            background: rgba(30, 41, 59, 0.8);
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding-right: 15px;
+        }
+
+        .acc-title {
+            color: #f8fafc;
+            font-size: 1.1rem;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+        
+        .acc-remark {
+            color: #fca5a5;
+            font-size: 0.85rem;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        .acc-icon {
+            color: #8b5cf6;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        /* Active State for Accordion */
+        .accordion-item.active .acc-icon {
+            transform: rotate(180deg);
+        }
+        
+        .accordion-item.active {
+            border-color: #a78bfa;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.15);
+        }
+
+        /* ----- Accordion Body ----- */
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            background: #0f172a;
+        }
+
+        .body-inner {
+            padding: 25px 20px;
+            border-top: 1px dashed #334155;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #c4b5fd;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"], textarea.input-text {
+            width: 100%;
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: #a78bfa;
+            padding: 12px;
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"]:focus, textarea.input-text:focus {
+            border-color: #8b5cf6;
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.2);
+        }
+
+        textarea.input-text {
+            height: 60px;
+            resize: vertical;
+        }
+
+        textarea.output-area {
+            width: 100%;
+            height: 250px;
+            background: #020617;
+            border: 1px solid #334155;
+            color: #f8fafc;
+            padding: 15px;
+            border-radius: 6px;
+            resize: vertical;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            outline: none;
+            margin-top: 10px;
+        }
+
+        textarea.output-area:focus {
+            border-color: #8b5cf6;
+        }
+
+        button {
+            width: 100%;
+            background: transparent;
+            color: #c4b5fd;
+            border: 1px solid #8b5cf6;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #8b5cf6;
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Sticky Header (Cleaned up) -->
+    <div class="header-container">
+        <h1>🕸️ Web Strategy Prompts</h1>
+        <p class="subtitle">ဝက်ဘ်ဆိုက်တည်ဆောက်ရေး၊ ရေးသားရေးနှင့် စစ်ဆေးရေး Prompts များ</p>
+        <div class="global-options">
+            <label class="radio-btn">
+                <input type="radio" name="language" value="mm" checked> Myanmar Prompt
+            </label>
+            <label class="radio-btn">
+                <input type="radio" name="language" value="en"> English Prompt
+            </label>
+        </div>
+    </div>
+
+    <!-- Scrollable Remark Area (Outside Header) -->
+    <div class="remark-container">
+        <div class="remark">
+            💡 ကိုယ်ပိုင်အလုပ်အကိုင်ပြ (Portfolio) ကနေ အရောင်းဝက်ဘ်ဆိုက် (Landing Page) တွေအထိ ပြီးပြည့်စုံတဲ့ ဝက်ဘ်ဆိုက်တစ်ခု ရေးဆွဲဖို့အတွက် တိကျသေချာတဲ့ AI Prompts များ
+        </div>
+    </div>
+
+    <!-- Accordion Content -->
+    <div class="accordion-container" id="accordion-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            const promptData = [
+                {
+                    id: 1,
+                    title: "1. Website Structure (ဝက်ဘ်ဆိုက်ဖွဲ့စည်းပုံ ရေးဆွဲခြင်း)",
+                    remark: "💡 အကြမ်းထည် စတင်ဆွဲတော့မယ်ဆိုရင် သိုသိုဝပ်ဝပ်နဲ့ လိုရင်းတိုရှင်း Structure ထွက်လာဖို့ ဒီ Prompt ကို သုံးပါ။",
+                    en: "Act as a senior web strategist. I’m building a website for [business/profession] that offers [product/service] to [target audience]. Create the website structure, including the pages I need, the sections for each page, the order of those sections, the main CTA, and the information visitors need before taking action. Keep the structure simple, practical, and suitable for a real website. Do not add unnecessary pages or sections. Do not invent business information, testimonials, statistics, credentials, or results.",
+                    mm: "မင်းကို Senior Web Strategist တစ်ယောက်အနေနဲ့ ပြုလုပ်စေချင်တယ်။ ငါက [target audience] အတွက် [product/service] ဝန်ဆောင်မှုပေးတဲ့ [business/profession] အတွက် Website Structure တစ်ခု ဆွဲချင်တယ်။ လိုအပ်တဲ့ Pages တွေ၊ Page တစ်ခုချင်းစီမှာ ပါရမယ့် Sections တွေ၊ အဲဒီ Sections တွေရဲ့ စီစဉ်ပုံ အစီအစဉ်၊ အဓိက CTA နဲ့ Visitor တွေ Action မယူခင် သိထားဖို့လိုတဲ့ အချက်အလက်တွေကို ရေးဆွဲပေးပါ။ Structure ကို ရိုးရှင်းပြီး တကယ့် Website အတွက် လက်တွေ့ကျကျ ဖြစ်ပါစေ။ မလိုအပ်တဲ့ Pages သို့မဟုတ် Sections တွေ မထည့်ပါနဲ့။ မမှန်ကန်တဲ့ စီးပွားရေးအချက်အလက်တွေ၊ Testimonials၊ ကိန်းဂဏန်းအချက်အလက်တွေနဲ့ ရလဒ်တွေကို လျှောက်မလုပ်ပါနဲ့။",
+                    inputs: [
+                        { id: "business/profession", label: "Business/Profession (စီးပွားရေး/အလုပ်အကိုင်)", type: "text", hint: "ဥပမာ - Graphic Design Agency" },
+                        { id: "product/service", label: "Product/Service (ထုတ်ကုန်/ဝန်ဆောင်မှု)", type: "text", hint: "ဥပမာ - Branding and Logo Design" },
+                        { id: "target audience", label: "Target Audience (ပစ်မှတ်ပရိသတ်)", type: "text", hint: "ဥပမာ - Startups" }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "2. Homepage Hero Section (အဓိက မျက်နှာစာ Hero ရေးသားခြင်း)",
+                    remark: "💡 Website ရဲ့ ပထမဆုံး မြင်ရတဲ့ Hero Section က သုံးစွဲသူကို ဆွဲဆောင်ဖို့ အရေးကြီးဆုံးပါ။",
+                    en: "Act as a website copywriter. Create the hero section for my [business/service] website. My target audience is [audience], and I help them with [problem/need]. Write 5 specific headlines, 3 supporting descriptions, and 3 CTA options. Each option should clearly explain what I offer and who it is for without hype, vague claims, or generic phrases. Recommend the strongest option and provide the exact hero layout, including headline, description, CTA, supporting text, and visual.",
+                    mm: "မင်းကို Website Copywriter တစ်ယောက်အနေနဲ့ ပြုလုပ်စေချင်တယ်။ ငါ့ရဲ့ [business/service] အတွက် Hero Section ရေးပေးပါ။ Target audience က [audience] ဖြစ်ပြီး၊ သူတို့ရဲ့ [problem/need] ကို ကူညီဖြေရှင်းပေးတာပါ။ တိကျတဲ့ Headlines ၅ ခု၊ Supporting Descriptions ၃ ခုနဲ့ CTA Options ၃ ခု ရေးပေးပါ။ Option တစ်ခုစီမှာ ငါ ဘာဝန်ဆောင်မှုပေးလဲဆိုတာနဲ့ ဘယ်သူ့အတွက်လဲ ဆိုတာကို ပိုပိုသာသာ ပြောဆိုတာတွေ၊ ဝေဝါးတဲ့ ပြောကြားချက်တွေ မပါဘဲ ရှင်းရှင်းလင်းလင်း ဖော်ပြရပါမယ်။ အကောင်းဆုံး Option ကို ထောက်ခံပေးပြီး Headline, Description, CTA, Supporting Text နဲ့ Visual တွေပါဝင်တဲ့ Hero Layout ကို အတိအကျ ပေးပါ။",
+                    inputs: [
+                        { id: "business/service", label: "Business/Service (လုပ်ငန်း/ဝန်ဆောင်မှု)", type: "text", hint: "ဥပမာ - Accounting Firm" },
+                        { id: "audience", label: "Audience (ပစ်မှတ်ပရိသတ်)", type: "text", hint: "ဥပမာ - Small Business Owners" },
+                        { id: "problem/need", label: "Problem/Need (ပြဿနာ/လိုအပ်ချက်)", type: "text", hint: "ဥပမာ - Tax preparation and bookkeeping" }
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "3. Landing Page Copy (အရောင်းစကားပြော Landing Page ရေးခြင်း)",
+                    remark: "💡 အဝယ်လိုက်စေမယ့် Landing Page Copy အတွက် ဖွဲ့စည်းပုံအပြည့်အဝပါတဲ့ ဒီ Prompt ကို သုံးပါ။",
+                    en: "Write a complete landing page for [product/service] targeting [audience]. Structure it as: hero, problem, solution, benefits, features or deliverables, how it works, proof, objections, FAQ, and CTA. Write the actual copy for every section and recommend what visual or component should appear beside it. Use only the information I provide. If information is missing, write [NEEDS INPUT] instead of inventing it. Keep the copy specific, concise, and focused on helping the visitor decide whether the offer is right for them.",
+                    mm: "[audience] ကို ဦးတည်ထားတဲ့ [product/service] အတွက် ပြီးပြည့်စုံတဲ့ Landing Page ရေးပေးပါ။ Structure ကိုတော့ Hero, Problem, Solution, Benefits, Features/Deliverables, How it works, Proof, Objections, FAQ နဲ့ CTA ဆိုပြီး စီစဉ်ပေးပါ။ Section တစ်ခုစီအတွက် တကယ့် Copy တွေကို ရေးပေးပြီး အနားမှာ ဘယ်လို Visual သို့မဟုတ် Component မျိုး ယှဉ်တွဲဖော်ပြရမလဲဆိုတာ အကြံပြုပေးပါ။ ငါပေးထားတဲ့ အချက်အလက်များကိုသာ သုံးပါ။ အချက်အလက် လိုအပ်နေပါက လျှောက်မရေးဘဲ [NEEDS INPUT] ဟု သီးသန့်ရေးပေးပါ။ Copy ကို တိကျ၊ လိုရင်းတိုရှင်း ဖြစ်စေပြီး Visitor က Offer ကို လက်ခံသင့်မသင့် ဆုံးဖြတ်ရလွယ်ကူအောင် ဦးတည်ပေးပါ။",
+                    inputs: [
+                        { id: "product/service", label: "Product/Service (ထုတ်ကုန်/ဝန်ဆောင်မှု)", type: "text", hint: "ဥပမာ - SEO Optimization Course" },
+                        { id: "audience", label: "Audience (ပစ်မှတ်ပရိသတ်)", type: "text", hint: "ဥပမာ - Beginner Bloggers" }
+                    ]
+                },
+                {
+                    id: 4,
+                    title: "4. Portfolio Website (ကိုယ်ပိုင် အလုပ်အကိုင်ပြ ဝက်ဘ်ဆိုက်)",
+                    remark: "💡 Freelancer နဲ့ Professional တွေအတွက် Client သစ်တွေ ဆွဲဆောင်နိုင်မယ့် Portfolio ရေးဆွဲနည်းပါ။",
+                    en: "Design a portfolio website for me. I’m a [profession] and want to attract [client type]. Create the homepage structure, navigation, hero, selected projects, case studies, About section, services or skills, process, and contact section. For each project, provide a structure covering the client or project, objective, my role, process, work delivered, and results. Do not invent clients, results, testimonials, or experience. If I don't have enough evidence for a section, tell me what I should add.",
+                    mm: "ငါ့အတွက် Portfolio Website Structure တစ်ခု ဒီဇိုင်းထုတ်ပေးပါ။ ငါက [profession] ဖြစ်ပြီး [client type] တွေကို ဆွဲဆောင်ချင်တာပါ။ Homepage structure, Navigation, Hero, Selected projects, Case studies, About section, Services/Skills, Process နဲ့ Contact section တွေကို ဖန်တီးပေးပါ။ Project တစ်ခုစီအတွက် Client/Project, Objective, My role, Process, Work delivered နဲ့ Results တွေပါဝင်တဲ့ Structure မျိုး ပေးပါ။ Client၊ Result၊ Testimonial ဒါမှမဟုတ် Experience တွေကို လျှောက်မဖန်တီးပါနဲ့။ Section တစ်ခုအတွက် သက်သေအထောက်အထား မလုံလောက်ရင် ဘာထပ်ဖြည့်ရမလဲဆိုတာ ပြောပြပေးပါ။",
+                    inputs: [
+                        { id: "profession", label: "Profession (အသက်မွေးဝမ်းကျောင်း)", type: "text", hint: "ဥပမာ - Web Developer" },
+                        { id: "client type", label: "Client Type (ဆွဲဆောင်လိုသော Client)", type: "text", hint: "ဥပမာ - E-commerce Brands" }
+                    ]
+                },
+                {
+                    id: 5,
+                    title: "5. Service Page (ဝန်ဆောင်မှု စာမျက်နှာ ရေးသားခြင်း)",
+                    remark: "💡 Customer တွေ ဝန်ဆောင်မှုအကြောင်း ရှင်းရှင်းလင်းလင်း နားလည်သွားအောင် ရေးသားမယ့် Prompt ဖြစ်ပါတယ်။",
+                    en: "Write a service page for [service] offered to [target customer]. Clearly explain what the service is, who it is for, the problem it addresses, what is included, how the process works, the expected timeline, pricing or factors that affect pricing, what the client needs to provide, and how to get started. Write the complete copy and give me the recommended section order. Use plain language and avoid exaggerated claims, guarantees, and unnecessary marketing language.",
+                    mm: "[target customer] အတွက် [service] ဝန်ဆောင်မှု စာမျက်နှာ တစ်ခု ရေးပေးပါ။ ဒီ Service က ဘာလဲ၊ ဘယ်သူ့အတွက်လဲ၊ ဘယ်ပြဿနာကို ဖြေရှင်းပေးတာလဲ၊ ဘာတွေပါဝင်လဲ၊ လုပ်ငန်းစဉ် ဘယ်လိုသွားလဲ၊ ကြာမြင့်ချိန် Timeline၊ ဈေးနှုန်း သို့မဟုတ် ဈေးနှုန်းကို သက်ရောက်စေတဲ့ အချက်များ၊ Client ဘက်က ဘာတွေပေးဖို့လိုလဲနဲ့ စတင်ဖို့ ဘယ်လိုလုပ်ရမလဲ ဆိုတာတွေကို ရှင်းရှင်းလင်းလင်း ဖော်ပြပေးပါ။ Complete Copy နဲ့ ထားရှိရမယ့် Section အစီအစဉ်ကို ရေးပေးပါ။ ရိုးရှင်းသော ဘာသာစကားကို သုံးပြီး ပိုမိုလှည့်ဖျားထားသော ရေးသားချက်များ၊ အာမခံချက်များနှင့် မလိုအပ်သော Marketing စကားလုံးများကို ရှောင်ကြဉ်ပါ။",
+                    inputs: [
+                        { id: "service", label: "Service (ဝန်ဆောင်မှု)", type: "text", hint: "ဥပမာ - Social Media Management" },
+                        { id: "target customer", label: "Target Customer (ပစ်မှတ် ဖောက်သည်)", type: "text", hint: "ဥပမာ - Local Restaurants" }
+                    ]
+                },
+                {
+                    id: 6,
+                    title: "6. About Page (အကြောင်းအရာနှင့် နောက်ခံ စာမျက်နှာ)",
+                    remark: "💡 လုပ်ငန်း သို့မဟုတ် မိမိအကြောင်းကို ယုံကြည်မှုတိုးစေဖို့ ဖော်ပြမယ့် စာမျက်နှာအတွက်ပါ။",
+                    en: "Write an About page for [business/person]. Use the information I provide to explain who we are, what we do, who we serve, why the business exists, relevant experience, how we work, and what makes our approach different. Keep the focus on information that helps a potential customer decide whether to work with us. Do not exaggerate achievements or invent facts. End with a relevant CTA.",
+                    mm: "[business/person] အတွက် About Page တစ်ခု ရေးပေးပါ။ ငါပေးထားတဲ့ အချက်အလက်တွေကို သုံးပြီး ငါတို့က ဘယ်သူလဲ၊ ဘာလုပ်တာလဲ၊ ဘယ်သူ့ကို ဝန်ဆောင်မှုပေးတာလဲ၊ စီးပွားရေး လုပ်ဆောင်ရတဲ့ ရည်ရွယ်ချက်၊ သက်ဆိုင်ရာ အတွေ့အကြုံ၊ လုပ်ကိုင်ပုံ လုပ်ငန်းစဉ်နဲ့ ငါတို့ရဲ့ ခြားနားချက်တွေကို ရှင်းပြပါ။ Potential customer က ငါတို့နဲ့ အလုပ်တွဲလုပ်သင့်မလုပ်သင့် ဆုံးဖြတ်နိုင်စေမယ့် အချက်အလက်တွေကိုပဲ အဓိကထားပါ။ အောင်မြင်မှုတွေကို အပိုမပြောပါနဲ့၊ အချက်အလက် မမှန်တာတွေ မရေးပါနဲ့။ ဆီလျော်တဲ့ CTA နဲ့ အဆုံးသတ်ပေးပါ။",
+                    inputs: [
+                        { id: "business/person", label: "Business/Person (လုပ်ငန်း သို့မဟုတ် လူပုဂ္ဂိုလ်)", type: "textarea", hint: "လုပ်ငန်းအကြောင်း အချက်အလက်အကျဉ်းကို ထည့်ပါ..." }
+                    ]
+                },
+                {
+                    id: 7,
+                    title: "7. Mobile Website Audit (ဖုန်းထဲတွင် UX စစ်ဆေးခြင်း)",
+                    remark: "💡 မိုဘိုင်းဖုန်းပေါ်မှာ စာဖတ်ရတာနဲ့ သုံးရတာ လွယ်မလွယ် ပြန်လည် Audit လုပ်ခိုင်းမယ့် Prompt ဖြစ်ပါတယ်။",
+                    en: "Audit my website for mobile usability. Review the navigation, layout, typography, spacing, buttons, forms, images, content hierarchy, accessibility, page length, performance, and conversion flow. For every issue, provide: Problem, Why it matters, Fix, and Priority. Separate the recommendations into Critical, Important, and Optional. Focus on changes that improve usability, readability, accessibility, and speed. Do not recommend animations or visual effects unless they solve a specific problem.",
+                    mm: "ငါ့ရဲ့ Website ကို Mobile usability အတွက် Audit လုပ်ပေးပါ။ Navigation, Layout, Typography, Spacing, Buttons, Forms, Images, Content hierarchy, Accessibility, Page length, Performance နဲ့ Conversion flow တွေကို စစ်ဆေးပေးပါ။ ပြဿနာတစ်ခုစီအတွက် Problem၊ Why it matters၊ Fix နဲ့ Priority ဆိုပြီး ဖော်ပြပေးပါ။ Recommendations တွေကို Critical၊ Important နဲ့ Optional ဆိုပြီး ခွဲခြားပေးပါ။ Usability, Readability, Accessibility နဲ့ Speed ကို တိုးတက်စေမယ့် ပြင်ဆင်မှုတွေကိုပဲ အဓိကထားပါ။ ပြဿနာတစ်ခုခုကို မဖြေရှင်းနိုင်သရွေ့ Animations သို့မဟုတ် Visual Effects တွေကို မအကြံပြုပါနဲ့။",
+                    inputs: []
+                },
+                {
+                    id: 8,
+                    title: "8. Complete Website Copy (တစ်ဝက်ဘ်ဆိုက်လုံးအတွက် Copywriting)",
+                    remark: "💡 Website တစ်ခုလုံးရဲ့ စာသား (Copy) အားလုံးကို ညီညီညာညာနဲ့ တိတိကျကျ ထွက်လာစေဖို့ သုံးရမယ့် Prompt ကြီးပါ။",
+                    en: "Create the copy for my [business type] website using this information: Business: [description]. Audience: [target audience]. Offer: [product/service]. Goal: [goal]. Location/market: [market]. Tone: [tone]. Differentiator: [differentiator]. Write the homepage, services or product section, About page, CTAs, FAQ, Contact page, navigation labels, form text, and footer. Keep the language consistent and specific. Every claim must be supported by the information I provide. Do not invent testimonials, statistics, awards, certifications, customer numbers, guarantees, or results. Mark missing information as [NEEDS INPUT].",
+                    mm: "ငါပေးထားတဲ့ အချက်အလက်တွေကို သုံးပြီး [business type] ဝက်ဘ်ဆိုက်အတွက် Copy ရေးပေးပါ။\n(Business: [description] / Audience: [target audience] / Offer: [product/service] / Goal: [goal] / Location: [market] / Tone: [tone] / Differentiator: [differentiator])\nHomepage, Services/Product section, About page, CTAs, FAQ, Contact page, Navigation labels, Form text နဲ့ Footer တွေအထိ ရေးပေးပါ။ ဘာသာစကား သုံးစွဲမှုကို ညီညွတ်ပြီး တိကျပါစေ။ ဖော်ပြချက်တိုင်းဟာ ငါပေးထားတဲ့ အချက်အလက်တွေနဲ့ ကိုက်ညီရပါမယ်။ လိုအပ်နေတဲ့ အချက်အလက်များကို [NEEDS INPUT] ဟုသာ မှတ်သားပေးပါ။",
+                    inputs: [
+                        { id: "business type", label: "Business Type", type: "text", hint: "ဥပမာ - Marketing Agency" },
+                        { id: "description", label: "Business Description", type: "text", hint: "လုပ်ငန်းအကြောင်းအကျဉ်း" },
+                        { id: "target audience", label: "Target Audience", type: "text", hint: "ဥပမာ - Tech Startups" },
+                        { id: "product/service", label: "Offer", type: "text", hint: "ဥပမာ - Content Marketing" },
+                        { id: "goal", label: "Goal", type: "text", hint: "ဥပမာ - Get more clients" },
+                        { id: "market", label: "Location/Market", type: "text", hint: "ဥပမာ - Myanmar" },
+                        { id: "tone", label: "Tone", type: "text", hint: "ဥပမာ - Professional" },
+                        { id: "differentiator", label: "Differentiator (ကွဲပြားချက်)", type: "text", hint: "ဥပမာ - Data-driven approach" }
+                    ]
+                }
+            ];
+
+            const container = document.getElementById('accordion-container');
+            const langRadios = document.getElementsByName('language');
+
+            function renderAccordion() {
+                container.innerHTML = ''; 
+
+                promptData.forEach((data) => {
+                    const item = document.createElement('div');
+                    item.className = 'accordion-item';
+                    item.id = `acc-item-${data.id}`;
+
+                    let html = `
+                        <div class="accordion-header" onclick="toggleAccordion(${data.id})">
+                            <div class="header-content">
+                                <div class="acc-title">${data.title}</div>
+                                ${data.remark ? `<div class="acc-remark">${data.remark}</div>` : ''}
+                            </div>
+                            <div class="acc-icon">▼</div>
+                        </div>
+                    `;
+
+                    html += `<div class="accordion-body" id="acc-body-${data.id}">
+                                <div class="body-inner">`;
+
+                    if (data.inputs && data.inputs.length > 0) {
+                        data.inputs.forEach(input => {
+                            if(input.type === 'textarea') {
+                                html += `
+                                    <div class="form-group">
+                                        <label>${input.label}</label>
+                                        <textarea id="input-${data.id}-${input.id}" class="input-text" data-item-id="${data.id}" placeholder="${input.hint}"></textarea>
+                                    </div>
+                                `;
+                            } else {
+                                html += `
+                                    <div class="form-group">
+                                        <label>${input.label}</label>
+                                        <input type="text" id="input-${data.id}-${input.id}" data-item-id="${data.id}" placeholder="${input.hint}">
+                                    </div>
+                                `;
+                            }
+                        });
+                    }
+
+                    html += `
+                            <textarea id="output-${data.id}" class="output-area" readonly></textarea>
+                            <button id="copy-${data.id}" data-item-id="${data.id}">Copy Prompt</button>
+                        </div>
+                    </div>`;
+
+                    item.innerHTML = html;
+                    container.appendChild(item);
+                });
+
+                attachEventListeners();
+                updateAllPrompts();
+            }
+
+            window.toggleAccordion = function(id) {
+                const item = document.getElementById(`acc-item-${id}`);
+                const body = document.getElementById(`acc-body-${id}`);
+
+                // Auto-collapse logic
+                document.querySelectorAll('.accordion-item').forEach(el => {
+                    if(el.id !== `acc-item-${id}`) {
+                        el.classList.remove('active');
+                        el.querySelector('.accordion-body').style.maxHeight = null;
+                    }
+                });
+
+                if (item.classList.contains('active')) {
+                    item.classList.remove('active');
+                    body.style.maxHeight = null;
+                } else {
+                    item.classList.add('active');
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updatePromptForCard(itemId) {
+                const data = promptData.find(p => p.id == itemId);
+                const isMyanmar = document.querySelector('input[name="language"]:checked').value === 'mm';
+                let finalPrompt = isMyanmar ? data.mm : data.en;
+
+                if (data.inputs) {
+                    data.inputs.forEach(input => {
+                        const el = document.getElementById(`input-${data.id}-${input.id}`);
+                        const val = el && el.value.trim() !== "" ? el.value.trim() : `[${input.id}]`;
+                        // Handle multiple instances of placeholder
+                        finalPrompt = finalPrompt.split(`[${input.id}]`).join(val);
+                    });
+                }
+
+                document.getElementById(`output-${data.id}`).value = finalPrompt;
+            }
+
+            function updateAllPrompts() {
+                promptData.forEach(data => updatePromptForCard(data.id));
+            }
+
+            function attachEventListeners() {
+                container.addEventListener('input', (e) => {
+                    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        if (itemId) updatePromptForCard(itemId);
+                    }
+                });
+
+                container.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'BUTTON') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        const outputEl = document.getElementById(`output-${itemId}`);
+                        outputEl.select();
+                        document.execCommand('copy');
+                        
+                        const btn = e.target;
+                        const originalText = btn.innerText;
+                        btn.innerText = "COPIED! ✨";
+                        setTimeout(() => btn.innerText = originalText, 2000);
+                    }
+                });
+            }
+
+            langRadios.forEach(radio => radio.addEventListener('change', updateAllPrompts));
+
+            renderAccordion();
+        });
+    </script>
+</body>
+</html>
