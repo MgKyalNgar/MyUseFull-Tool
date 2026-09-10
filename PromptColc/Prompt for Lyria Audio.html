@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Lyria 3.5 AI Prompts</title>
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="My Useful Tools">
+    <link rel="apple-touch-icon" href="../icon-192x192.png">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: #0f172a; /* Deep Slate Background */
+            color: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 0 15px 50px 15px;
+            line-height: 1.7;
+        }
+
+        /* --- Citations --- */
+        .cite { opacity: 0.5; font-size: 0.8em; vertical-align: super; color: #d946ef; }
+
+        /* Sticky Header - No Remarks here */
+        .guide-header {
+            width: 100%;
+            max-width: 800px;
+            padding: 30px 20px 20px 20px;
+            border-bottom: 2px solid #d946ef; /* Neon Fuchsia */
+            margin-bottom: 25px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            background: rgba(15, 23, 42, 0.95);
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .guide-header h1 {
+            color: #d946ef;
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(217, 70, 239, 0.4);
+        }
+
+        .global-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .radio-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #cbd5e1;
+            font-weight: 600;
+        }
+
+        input[type="radio"] {
+            accent-color: #d946ef;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Remark Section outside the sticky header */
+        .remark-container {
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 35px;
+        }
+
+        .remark {
+            color: #f0abfc;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 15px;
+            background: rgba(217, 70, 239, 0.1);
+            border-radius: 8px;
+            border: 1px dashed #d946ef;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        /* --- Guide Chapters --- */
+        .guide-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px; /* Spacing between chapters */
+        }
+
+        .chapter {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 30px;
+            border-left: 5px solid #d946ef;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .chapter-title {
+            color: #fdf4ff;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        /* --- Interactive Builder Area --- */
+        .builder-area {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            margin-top: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        label {
+            display: block;
+            color: #e879f9;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            background: #1e293b;
+            border: 1px solid #475569;
+            color: #f0abfc;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus, select:focus {
+            border-color: #d946ef;
+            box-shadow: 0 0 10px rgba(217, 70, 239, 0.2);
+        }
+
+        /* --- Output Area --- */
+        .output-area {
+            position: relative;
+        }
+
+        textarea.prompt-output {
+            width: 100%;
+            height: 220px;
+            background: #020617;
+            border: 1px solid #d946ef;
+            color: #fdf4ff;
+            padding: 15px;
+            padding-bottom: 60px; /* Space for copy btn */
+            border-radius: 8px;
+            resize: vertical;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            outline: none;
+        }
+
+        .copy-btn {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            background: #d946ef;
+            color: #ffffff;
+            border: none;
+            padding: 10px 18px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 4px 10px rgba(217, 70, 239, 0.3);
+        }
+
+        .copy-btn:hover {
+            background: #c026d3;
+            transform: translateY(-2px);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Sticky Header -->
+    <div class="guide-header">
+        <h1>🎵 Lyria 3.5 Prompts</h1>
+        <div style="color: #cbd5e1; font-size: 0.95rem; margin-bottom: 10px;">Interactive Audio Generation Guide</div>
+        <div class="global-options">
+            <label class="radio-btn">
+                <input type="radio" name="language" value="mm" checked> Myanmar Prompt
+            </label>
+            <label class="radio-btn">
+                <input type="radio" name="language" value="en"> English Prompt
+            </label>
+        </div>
+    </div>
+
+    <!-- Scrollable Remark Area (Outside Header) -->
+    <div class="remark-container">
+        <div class="remark">
+            💡 Google ရဲ့ Lyria 3.5 ကို အသုံးပြုပြီး cinematic tracks တွေ၊ viral ဖြစ်မယ့် background music တွေ၊ brand jingles တွေ၊ emotional songs တွေ၊ podcast themes တွေနဲ့ ကိုယ်ပိုင် custom audio တွေကို ဖန်တီးဖို့ ဒီ Prompt (၇) ခု <span class="cite">[cite: 14]</span>
+        </div>
+    </div>
+
+    <!-- Interactive Guide Content -->
+    <div class="guide-container" id="guide-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            // Define the 7 prompts based on the provided source
+            const promptData = [
+                {
+                    id: 1,
+                    title: "၁။ The Cinematic Score (ရုပ်ရှင်ဆန်ဆန် တေးသွား)",
+                    en: "Create a cinematic instrumental track for [VIDEO/STORY]. The music should communicate [EMOTION] and gradually build from [OPENING MOOD] toward [FINAL EMOTION]. Use a carefully layered arrangement with [INSTRUMENTS], strong dynamic progression, memorable motifs, and tasteful transitions. Keep the music synchronized to the emotional arc rather than making every section equally intense. Avoid generic trailer clichés and unnecessary complexity. The final result should feel cinematic, polished, emotionally engaging, and suitable for professional video production. Create an arrangement that remains interesting even without dialogue.",
+                    mm: "[VIDEO/STORY] အတွက် ရုပ်ရှင်ဆန်ဆန် တူရိယာသံသက်သက် တေးသွားတစ်ခု ဖန်တီးပေးပါ။ ဂီတက [EMOTION] ကို ဖော်ပြနေရမှာဖြစ်ပြီး [OPENING MOOD] ကနေ [FINAL EMOTION] ဆီကို တဖြည်းဖြည်း တက်သွားရပါမယ်။ [INSTRUMENTS] တွေနဲ့ စနစ်တကျ အလွှာလိုက်စီစဥ်ထားပြီး dynamic progression အားကောင်းတာ၊ မှတ်မိလွယ်တဲ့ motif တွေနဲ့ သပ်ရပ်တဲ့ transition တွေ ပါဝင်ရပါမယ်။ အပိုင်းတိုင်းကို အလွန်အမင်း ပြင်းပြနေစေမယ့်အစား စိတ်ခံစားချက်အလွှာ (emotional arc) နဲ့ ကိုက်ညီအောင် လုပ်ဆောင်ပါ။ အလွယ်သုံးလေ့ရှိတဲ့ trailer clichés တွေနဲ့ မလိုအပ်တဲ့ ရှုပ်ထွေးမှုတွေကို ရှောင်ရှားပါ။ ရလဒ်က ရုပ်ရှင်ဆန်ဆန်၊ သပ်ရပ်ပြီး စိတ်လှုပ်ရှားဖွယ်ကောင်းကာ ပရော်ဖက်ရှင်နယ် ဗီဒီယိုထုတ်လုပ်ရေးအတွက် သင့်လျော်ရပါမယ်။ စကားပြောမပါဘဲ နားထောင်ရင်တောင် စိတ်ဝင်စားစရာကောင်းတဲ့ တေးသွားကို ဖန်တီးပေးပါ။",
+                    inputs: [
+                        { id: "VIDEO/STORY", label: "Video / Story (ဗီဒီယို သို့ ဇာတ်လမ်း)", type: "text", hint: "ဥပမာ - A short film about space exploration" },
+                        { id: "EMOTION", label: "Emotion (ခံစားချက်)", type: "text", hint: "ဥပမာ - Hope and determination" },
+                        { id: "OPENING MOOD", label: "Opening Mood (အစပိုင်း ခံစားချက်)", type: "text", hint: "ဥပမာ - Mysterious silence" },
+                        { id: "FINAL EMOTION", label: "Final Emotion (အဆုံးသတ် ခံစားချက်)", type: "text", hint: "ဥပမာ - Triumphant joy" },
+                        { id: "INSTRUMENTS", label: "Instruments (တူရိယာများ)", type: "text", hint: "ဥပမာ - Orchestral strings and synths" }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "၂။ The Viral Reel Background (Reels တွေအတွက် viral ဖြစ်မယ့် နောက်ခံတေးဂီတ)",
+                    en: "Create an energetic background track for a short-form video about [TOPIC]. The first few seconds should immediately establish the mood and make the track work under a fast visual hook. Use [GENRE/STYLE] with a modern rhythm, memorable musical motif, controlled energy changes, and clean sections that can support cuts and transitions. Keep the arrangement engaging without overpowering spoken dialogue. Design the track so the strongest musical moment can align with the video's key reveal at [TIMESTAMP]. Avoid distracting vocals unless specifically requested.",
+                    mm: "[TOPIC] အကြောင်း တိုတောင်းတဲ့ short-form video တစ်ခုအတွက် စွမ်းအင်အပြည့်ရှိတဲ့ နောက်ခံတေးသွားတစ်ခု ဖန်တီးပေးပါ။ ပထမစက္ကန့်ပိုင်းလေးတွေမှာတင် မုဒ် (mood) ကို ချက်ချင်းဖန်တီးပေးနိုင်ပြီး မြန်ဆန်တဲ့ visual hook အောက်မှာ အလုပ်လုပ်နိုင်ရပါမယ်။ ခေတ်မီ rhythm၊ မှတ်မိလွယ်တဲ့ musical motif၊ ထိန်းချုပ်ထားတဲ့ energy ပြောင်းလဲမှုတွေနဲ့ cut တွေ transition တွေကို အထောက်အကူဖြစ်စေမယ့် clean sections တွေပါတဲ့ [GENRE/STYLE] ကို အသုံးပြုပါ။ ပြောတဲ့စကားသံတွေကို မလွှမ်းမိုးသွားစေဘဲ ဆွဲဆောင်မှုရှိတဲ့ အစီအစဥ်ကို ဖန်တီးပါ။ ဗီဒီယိုရဲ့ [TIMESTAMP] မှာရှိတဲ့ အဓိက အထူးအဆန်း/ဖော်ပြချက် (key reveal) နဲ့ အကောင်းဆုံး တိုက်ဆိုင်နေမယ့် ဂီတအခိုက်အတန့်ကို ဒီဇိုင်းဆွဲပေးပါ။ အထူးတောင်းဆိုထားခြင်းမရှိရင် အာရုံနောက်စေမယ့် vocals တွေကို ရှောင်ရှားပါ။",
+                    inputs: [
+                        { id: "TOPIC", label: "Topic (အကြောင်းအရာ)", type: "text", hint: "ဥပမာ - Tech Gadget Review" },
+                        { id: "GENRE/STYLE", label: "Genre / Style (ဂီတအမျိုးအစား)", type: "select", options: ["Lo-fi Hip Hop", "Energetic EDM", "Upbeat Pop", "Cinematic Ambient", "Phonk"] },
+                        { id: "TIMESTAMP", label: "Timestamp (အဓိက အချိန်နေရာ)", type: "text", hint: "ဥပမာ - 0:15" }
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "၃။ The Brand Jingle",
+                    en: "Create a distinctive brand jingle for [BRAND] that communicates [BRAND PERSONALITY] to [TARGET AUDIENCE]. Keep the musical identity simple enough to become recognizable after repeated exposure but distinctive enough to avoid sounding generic. Use [INSTRUMENTS/SOUND PALETTE] and build a memorable melodic signature around [BRAND IDEA]. Create a polished version suitable for ads, social media intros, product launches, and short videos. The ending should contain a clean sonic resolution that can function as the brand's audio signature.",
+                    mm: "[TARGET AUDIENCE] ဆီကို [BRAND PERSONALITY] ကို ပို့ဆောင်ပေးမယ့် [BRAND] အတွက် ထူးခြားတဲ့ brand jingle တစ်ခု ဖန်တီးပေးပါ။ အကြိမ်ကြိမ်နားထောင်ရုံနဲ့ အလွယ်တကူ မှတ်မိနိုင်လောက်အောင် ရိုးရှင်းပြီး၊ သာမန်ဆန်လွန်းတာမျိုး မဖြစ်စေဘဲ ထူးခြားနေရပါမယ်။ [INSTRUMENTS/SOUND PALETTE] ကိုသုံးပြီး [BRAND IDEA] ပတ်လည်မှာ မှတ်မိလွယ်တဲ့ မယ်လိုဒီလက်မှတ် (melodic signature) တစ်ခုကို တည်ဆောက်ပါ။ ကြော်ငြာတွေ၊ ဆိုရှယ်မီဒီယာ intros တွေ၊ ပစ္စည်းအသစ်ထုတ်လုပ်မှုတွေနဲ့ short videos တွေမှာ သုံးလို့ကောင်းမယ့် သပ်ရပ်တဲ့ဗားရှင်းကို ဖန်တီးပါ။ အဆုံးသတ်မှာ brand ရဲ့ audio signature အဖြစ် အလုပ်လုပ်နိုင်မယ့် clean sonic resolution ပါဝင်ရပါမယ်။",
+                    inputs: [
+                        { id: "BRAND", label: "Brand Name (အမှတ်တံဆိပ်)", type: "text", hint: "ဥပမာ - TechNova" },
+                        { id: "BRAND PERSONALITY", label: "Brand Personality (အမှတ်တံဆိပ် စရိုက်လက္ခဏာ)", type: "text", hint: "ဥပမာ - Innovative and fast" },
+                        { id: "TARGET AUDIENCE", label: "Target Audience (ပစ်မှတ်ပရိသတ်)", type: "text", hint: "ဥပမာ - Gen Z gamers" },
+                        { id: "INSTRUMENTS/SOUND PALETTE", label: "Instruments (တူရိယာ/အသံများ)", type: "text", hint: "ဥပမာ - 8-bit synths and punchy bass" },
+                        { id: "BRAND IDEA", label: "Brand Idea (အဓိကအိုင်ဒီယာ)", type: "text", hint: "ဥပမာ - Level up your life" }
+                    ]
+                },
+                {
+                    id: 4,
+                    title: "၄။ The Emotional Song (ရင်ကိုထိစေမယ့် စိတ်ခံစားချက်ပါတဲ့ သီချင်း)",
+                    en: "Create an emotionally powerful song about [THEME/STORY]. The emotional journey should move from [STARTING EMOTION] through [CONFLICT/CHANGE] toward [ENDING EMOTION]. Use [GENRE] with expressive vocals, a memorable chorus, meaningful lyrical imagery, and an arrangement that evolves naturally between sections. Avoid repetitive filler lyrics and predictable phrases. Make the verses feel intimate, let the chorus deliver the emotional peak, and use instrumentation that reinforces the story. The final track should feel personal, authentic, and suitable for repeated listening.",
+                    mm: "[THEME/STORY] အကြောင်း စိတ်ခံစားချက် အလွန်ပြင်းထန်တဲ့ သီချင်းတစ်ပုဒ် ဖန်တီးပေးပါ။ စိတ်ခံစားချက် ခရီးစဉ်က [STARTING EMOTION] ကနေ [CONFLICT/CHANGE] ကိုဖြတ်ပြီး [ENDING EMOTION] ဆီကို ရောက်သွားရပါမယ်။ အဓိပ္ပာယ်ရှိတဲ့ စာသားပုံရိပ်တွေ၊ အလွန်ဖော်ပြနိုင်စွမ်းရှိတဲ့ vocals တွေ၊ မှတ်မိလွယ်တဲ့ chorus နဲ့ အပိုင်းတွေကြားမှာ သဘာဝကျကျ ပြောင်းလဲသွားတဲ့ အစီအစဥ်ပါတဲ့ [GENRE] ကို အသုံးပြုပါ။ ထပ်ခါထပ်ခါဖြစ်နေတဲ့ filler lyrics တွေနဲ့ ခန့်မှန်းရလွယ်တဲ့ စကားစုတွေကို ရှောင်ရှားပါ။ Verses တွေက ရင်းနှီးနွေးထွေးမှုရှိရမယ်၊ chorus က စိတ်ခံစားချက်အထွတ်အထိပ်ကို ပေးစွမ်းနိုင်ရမယ်၊ ဇာတ်လမ်းကို ပိုအားဖြည့်ပေးမယ့် တူရိယာတွေကို အသုံးပြုပါ။ နောက်ဆုံးထွက်လာတဲ့ တေးသွားက ကိုယ်ပိုင်ဆန်ပြီး၊ စစ်မှန်ကာ ထပ်ခါထပ်ခါ နားထောင်ချင်စရာကောင်းနေရပါမယ်။",
+                    inputs: [
+                        { id: "THEME/STORY", label: "Theme / Story (အဓိကအကြောင်းအရာ)", type: "text", hint: "ဥပမာ - Overcoming a hard breakup" },
+                        { id: "STARTING EMOTION", label: "Starting Emotion (အစပိုင်း ခံစားချက်)", type: "text", hint: "ဥပမာ - Deep heartbreak" },
+                        { id: "CONFLICT/CHANGE", label: "Conflict / Change (အပြောင်းအလဲ)", type: "text", hint: "ဥပမာ - Self-discovery journey" },
+                        { id: "ENDING EMOTION", label: "Ending Emotion (အဆုံးသတ် ခံစားချက်)", type: "text", hint: "ဥပမာ - Empowerment and freedom" },
+                        { id: "GENRE", label: "Genre (ဂီတအမျိုးအစား)", type: "select", options: ["Indie Pop", "Acoustic Ballad", "Soul / R&B", "Alternative Rock"] }
+                    ]
+                },
+                {
+                    id: 5,
+                    title: "၅။ The Podcast Theme (podcast အတွက် ဇာတ်ဝင်တေး)",
+                    en: "Create a professional theme song for a podcast called [PODCAST NAME] about [TOPIC]. The sound should communicate [PERSONALITY: intelligent, energetic, mysterious, premium, friendly, etc.] while remaining suitable for spoken-word content. Use [GENRE/INSTRUMENTS] with a strong but uncluttered musical identity. Create a memorable opening, a natural transition point for the host's voice, and a satisfying ending. Avoid excessive musical density because narration will be layered over it. The final result should sound polished enough for a professional podcast brand.",
+                    mm: "[TOPIC] အကြောင်း တင်ဆက်တဲ့ [PODCAST NAME] လို့ခေါ်တဲ့ ပေါ့ဒ်ကတ်စ်တစ်ခုအတွက် ပရော်ဖက်ရှင်နယ် theme song တစ်ပုဒ် ဖန်တီးပေးပါ။ အသံထွက်က စကားပြော အကြောင်းအရာတွေနဲ့ လိုက်ဖက်ညီနေပြီး [PERSONALITY: intelligent, energetic, mysterious, premium, friendly, etc.] ကို ပုံဖော်ပေးရပါမယ်။ ရှုပ်ထွေးမှုမရှိဘဲ ခိုင်မာတဲ့ ဂီတဆိုင်ရာ အမှတ်အသားပါတဲ့ [GENRE/INSTRUMENTS] ကို အသုံးပြုပါ။ မှတ်မိလွယ်တဲ့ အဖွင့်၊ host ရဲ့ အသံအတွက် သဘာဝကျတဲ့ transition နေရာနဲ့ ကျေနပ်စရာ အဆုံးသတ်ကို ဖန်တီးပါ။ ဇာတ်ကြောင်းပြောသံတွေ ထပ်ဆင့်တင်မှာဖြစ်လို့ ဂီတအလွန်အမင်း ထူထပ်တာမျိုးကို ရှောင်ရှားပါ။ နောက်ဆုံးထွက်လာတဲ့ ရလဒ်က ပရော်ဖက်ရှင်နယ် podcast brandအတွက် လုံလောက်အောင် သပ်ရပ်နေရပါမယ်။",
+                    inputs: [
+                        { id: "PODCAST NAME", label: "Podcast Name (အမည်)", type: "text", hint: "ဥပမာ - The Daily Grind" },
+                        { id: "TOPIC", label: "Topic (အကြောင်းအရာ)", type: "text", hint: "ဥပမာ - Entrepreneurship" },
+                        { id: "PERSONALITY: intelligent, energetic, mysterious, premium, friendly, etc.", label: "Personality (စရိုက်လက္ခဏာ)", type: "select", options: ["Intelligent", "Energetic", "Mysterious", "Premium", "Friendly"] },
+                        { id: "GENRE/INSTRUMENTS", label: "Genre / Instruments (အမျိုးအစား/တူရိယာ)", type: "text", hint: "ဥပမာ - Jazz Hop with saxophone" }
+                    ]
+                },
+                {
+                    id: 6,
+                    title: "၆။ The YouTube Creator Track (YouTube ဖန်တီးရှင်တွေအတွက် နောက်ခံတေးဂီတ)",
+                    en: "Create a versatile background music track for my YouTube channel about [NICHE]. My audience is [AUDIENCE] and my content style is [STYLE]. The track should have enough energy to maintain attention while remaining unobtrusive beneath narration. Build clear sections that can support an intro, explanation, transition, and final payoff. Use [GENRE] with [INSTRUMENTS] and a recognizable recurring motif. Avoid sudden volume changes, distracting lead elements, or overly dramatic sections. Make the arrangement flexible enough to loop cleanly when additional runtime is needed.",
+                    mm: "[NICHE] အကြောင်း တင်ဆက်တဲ့ ကျွန်ုပ်ရဲ့ YouTube ချန်နယ်အတွက် ဘက်စုံသုံးနိုင်တဲ့ နောက်ခံတေးသွားတစ်ခု ဖန်တီးပေးပါ။ ကျွန်ုပ်ရဲ့ပရိသတ်က [AUDIENCE] ဖြစ်ပြီး အကြောင်းအရာတင်ဆက်ပုံ စတိုင်က [STYLE] ဖြစ်ပါတယ်။ ဒီတေးသွားဟာ ဇာတ်ကြောင်းပြောသံအောက်မှာ အနှောင့်အယှက်မဖြစ်စေဘဲ အာရုံစိုက်မှုကို ထိန်းသိမ်းထားနိုင်လောက်တဲ့ စွမ်းအင်ရှိရပါမယ်။ Intro, explanation, transition နဲ့ final payoff တွေကို ထောက်ပံ့ပေးနိုင်မယ့် သပ်ရပ်တဲ့ အပိုင်းတွေကို တည်ဆောက်ပါ။ မှတ်မိလွယ်တဲ့ ထပ်ကျော့ motif ပါရှိတဲ့ [INSTRUMENTS] တွေပါတဲ့ [GENRE] ကို အသုံးပြုပါ။ ရုတ်တရက် အသံအထွက်ပြောင်းလဲတာ၊ အာရုံနောက်စေမယ့် အဓိက အစိတ်အပိုင်းတွေ ဒါမှမဟုတ် အလွန်အမင်း ဒရာမာဆန်တဲ့ အပိုင်းတွေကို ရှောင်ရှားပါ။ အချိန်ပိုလိုအပ်လာတဲ့အခါ သန့်သန့်ရှင်းရှင်း loop လုပ်လို့ရအောင် အစီအစဥ်ကို လိုက်လျောညီထွေရှိအောင် လုပ်ဆောင်ပါ။",
+                    inputs: [
+                        { id: "NICHE", label: "Niche (ချန်နယ်နယ်ပယ်)", type: "text", hint: "ဥပမာ - Home Cooking" },
+                        { id: "AUDIENCE", label: "Audience (ပရိသတ်)", type: "text", hint: "ဥပမာ - Home chefs" },
+                        { id: "STYLE", label: "Style (တင်ဆက်မှုပုံစံ)", type: "text", hint: "ဥပမာ - Relaxing and cozy" },
+                        { id: "GENRE", label: "Genre (ဂီတအမျိုးအစား)", type: "text", hint: "ဥပမာ - Acoustic Folk" },
+                        { id: "INSTRUMENTS", label: "Instruments (တူရိယာများ)", type: "text", hint: "ဥပမာ - Acoustic guitar and light piano" }
+                    ]
+                },
+                {
+                    id: 7,
+                    title: "၇။ The Social Media Soundtrack (ဆိုရှယ်မီဒီယာ တေးသံစဥ်)",
+                    en: "Create a modern, highly replayable track for [PLATFORM] content about [TOPIC]. The target audience is [AUDIENCE], and the intended feeling is [EMOTION]. Combine [GENRE] with contemporary production, a strong rhythmic identity, and a memorable musical hook that can work alongside fast edits. Structure the track so creators can easily cut it into short clips without losing musical coherence. Include natural moments for transitions, visual reveals, and a final payoff. Keep the production clean, current, and commercially usable without copying any specific artist's signature style.",
+                    mm: "[TOPIC] အကြောင်း [PLATFORM] ပါ အကြောင်းအရာတွေအတွက် ခေတ်မီပြီး အကြိမ်ကြိမ် ပြန်နားထောင်ချင်စရာကောင်းတဲ့ တေးသွားတစ်ခု ဖန်တီးပေးပါ။ ပစ်မှတ်ပရိသတ်က [AUDIENCE] ဖြစ်ပြီး ရည်ရွယ်ထားတဲ့ ခံစားချက်က [EMOTION] ဖြစ်ပါတယ်။ ခေတ်မီထုတ်လုပ်မှု၊ ခိုင်မာတဲ့ rhythm အမှတ်အသားနဲ့ မြန်ဆန်တဲ့ edit တွေနဲ့ အတူတူအလုပ်လုပ်နိုင်တဲ့ မှတ်မိလွယ်တဲ့ musical hook တို့ကို [GENRE] နဲ့ ပေါင်းစပ်ပါ။ ဖန်တီးရှင်တွေအနေနဲ့ ဂီတရဲ့ ချိတ်ဆက်မှုမပျက်ဘဲ ကလစ်တိုလေးတွေအဖြစ် အလွယ်တကူ ဖြတ်တောက်အသုံးပြုနိုင်အောင် ဖွဲ့စည်းတည်ဆောက်ပေးပါ။ ခြုံငုံသုံးသပ်ချက်တွေ၊ visual reveals နဲ့ final payoff တွေအတွက် သဘာဝကျတဲ့ အချိန်အခါလေးတွေ ထည့်သွင်းပေးပါ။ ထုတ်လုပ်မှုက သန့်ရှင်းရမယ်၊ ခေတ်မီရမယ်၊ ဘယ်အနုပညာရှင်ရဲ့ အမှတ်အလက်စတိုင်ကိုမှ မကူးဘဲ စီးပွားဖြစ် အသုံးပြုလို့ရတာမျိုး ဖြစ်ရပါမယ်။",
+                    inputs: [
+                        { id: "PLATFORM", label: "Platform (ပလက်ဖောင်း)", type: "select", options: ["TikTok", "Instagram Reels", "YouTube Shorts"] },
+                        { id: "TOPIC", label: "Topic (အကြောင်းအရာ)", type: "text", hint: "ဥပမာ - Travel Vlog" },
+                        { id: "AUDIENCE", label: "Audience (ပရိသတ်)", type: "text", hint: "ဥပမာ - Young travelers" },
+                        { id: "EMOTION", label: "Emotion (ခံစားချက်)", type: "text", hint: "ဥပမာ - Excitement and wanderlust" },
+                        { id: "GENRE", label: "Genre (ဂီတအမျိုးအစား)", type: "text", hint: "ဥပမာ - Electronic Dance" }
+                    ]
+                }
+            ];
+
+            const container = document.getElementById('guide-container');
+            const langRadios = document.getElementsByName('language');
+
+            function renderGuide() {
+                container.innerHTML = ''; 
+
+                promptData.forEach((data) => {
+                    const article = document.createElement('article');
+                    article.className = 'chapter';
+                    article.id = `chapter-${data.id}`;
+
+                    let html = `<div class="chapter-title">${data.title}</div>`;
+
+                    if (data.inputs && data.inputs.length > 0) {
+                        html += `<div class="builder-area">`;
+                        data.inputs.forEach(input => {
+                            html += `<div class="form-group">
+                                        <label>${input.label}</label>`;
+                            
+                            if (input.type === 'select') {
+                                html += `<select id="input-${data.id}-${input.id}" data-item-id="${data.id}">
+                                            <option value="">-- ရွေးချယ်ပါ --</option>
+                                            ${input.options.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+                                         </select>`;
+                            } else if (input.type === 'textarea') {
+                                html += `<textarea id="input-${data.id}-${input.id}" class="input-text" data-item-id="${data.id}" placeholder="${input.hint}"></textarea>`;
+                            } else {
+                                html += `<input type="text" id="input-${data.id}-${input.id}" data-item-id="${data.id}" placeholder="${input.hint}">`;
+                            }
+                            html += `</div>`;
+                        });
+                        html += `</div>`;
+                    }
+
+                    html += `
+                        <div class="output-area">
+                            <textarea id="output-${data.id}" class="prompt-output" readonly></textarea>
+                            <button class="copy-btn" onclick="copyText('output-${data.id}', this)"><span>📋</span> Copy Prompt</button>
+                        </div>
+                    `;
+
+                    article.innerHTML = html;
+                    container.appendChild(article);
+                });
+
+                attachEventListeners();
+                updateAllPrompts();
+            }
+
+            function updatePromptForCard(itemId) {
+                const data = promptData.find(p => p.id == itemId);
+                const isMyanmar = document.querySelector('input[name="language"]:checked').value === 'mm';
+                let finalPrompt = isMyanmar ? data.mm : data.en;
+
+                if (data.inputs) {
+                    data.inputs.forEach(input => {
+                        const el = document.getElementById(`input-${data.id}-${input.id}`);
+                        const val = el && el.value.trim() !== "" ? el.value.trim() : `[${input.id}]`;
+                        // Handle replacement safely
+                        finalPrompt = finalPrompt.split(`[${input.id}]`).join(val);
+                    });
+                }
+
+                document.getElementById(`output-${data.id}`).value = finalPrompt;
+            }
+
+            function updateAllPrompts() {
+                promptData.forEach(data => updatePromptForCard(data.id));
+            }
+
+            function attachEventListeners() {
+                container.addEventListener('input', (e) => {
+                    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        if (itemId) updatePromptForCard(itemId);
+                    }
+                });
+            }
+
+            langRadios.forEach(radio => radio.addEventListener('change', updateAllPrompts));
+
+            renderGuide();
+        });
+
+        // Global Copy Function for the buttons
+        window.copyText = function(id, btn) {
+            const el = document.getElementById(id);
+            el.select();
+            document.execCommand('copy');
+            
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = "<span>✨</span> COPIED!";
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
