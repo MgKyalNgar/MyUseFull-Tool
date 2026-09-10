@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10 AI Digital Operator Prompts</title>
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="My Useful Tools">
+    <link rel="apple-touch-icon" href="../icon-192x192.png">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: #0f172a; /* Deep Slate Background */
+            color: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 0 20px 50px 20px;
+        }
+
+        /* Sticky Header - No Remarks here */
+        .header-container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            padding: 30px 20px 20px 20px;
+            margin-bottom: 25px;
+            position: sticky;
+            top: 0;
+            background: rgba(15, 23, 42, 0.95);
+            z-index: 100;
+            border-bottom: 1px solid #06b6d4; /* Cyber Cyan */
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #06b6d4; 
+            font-size: clamp(1.5rem, 5vw, 2.2rem);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
+            word-wrap: break-word;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .global-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .radio-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #cbd5e1;
+            font-weight: 600;
+        }
+
+        input[type="radio"] {
+            accent-color: #06b6d4;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Remark Section outside the sticky header */
+        .remark-container {
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 25px;
+        }
+
+        .remark {
+            color: #67e8f9;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 15px;
+            background: rgba(6, 182, 212, 0.1);
+            border-radius: 8px;
+            border: 1px dashed #06b6d4;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        /* ----- Accordion List Container ----- */
+        .accordion-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* ----- Accordion Item ----- */
+        .accordion-item {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-left: 4px solid #06b6d4;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            border-color: #06b6d4;
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);
+        }
+
+        /* ----- Accordion Header (Clickable) ----- */
+        .accordion-header {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            background: rgba(30, 41, 59, 0.8);
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding-right: 15px;
+        }
+
+        .acc-title {
+            color: #f8fafc;
+            font-size: 1.1rem;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        .acc-icon {
+            color: #06b6d4;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        /* Active State for Accordion */
+        .accordion-item.active .acc-icon {
+            transform: rotate(180deg);
+        }
+        
+        .accordion-item.active {
+            border-color: #22d3ee;
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
+        }
+
+        /* ----- Accordion Body ----- */
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            background: #0f172a;
+        }
+
+        .body-inner {
+            padding: 25px 20px;
+            border-top: 1px dashed #334155;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #67e8f9;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: #22d3ee;
+            padding: 12px;
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"]:focus {
+            border-color: #06b6d4;
+            box-shadow: 0 0 10px rgba(6, 182, 212, 0.2);
+        }
+
+        textarea {
+            width: 100%;
+            height: 250px;
+            background: #020617;
+            border: 1px solid #334155;
+            color: #f8fafc;
+            padding: 15px;
+            border-radius: 6px;
+            resize: vertical;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            outline: none;
+            margin-top: 10px;
+        }
+
+        textarea:focus {
+            border-color: #06b6d4;
+        }
+
+        button {
+            width: 100%;
+            background: transparent;
+            color: #67e8f9;
+            border: 1px solid #06b6d4;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #06b6d4;
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Sticky Header -->
+    <div class="header-container">
+        <h1>🤖 AI Operator Prompts</h1>
+        <p class="subtitle">AI ကို Digital Operator အဖြစ် ပြောင်းလဲပေးနိုင်မယ့် Prompts များ</p>
+        <div class="global-options">
+            <label class="radio-btn">
+                <input type="radio" name="language" value="mm" checked> Myanmar Prompt
+            </label>
+            <label class="radio-btn">
+                <input type="radio" name="language" value="en"> English Prompt
+            </label>
+        </div>
+    </div>
+
+    <!-- Scrollable Remark Area -->
+    <div class="remark-container">
+        <div class="remark">
+            💡 AI Agents နဲ့ Research လုပ်တာ၊ Plan ဆွဲတာ၊ Tools တွေ အသုံးပြုတာ၊ Task တွေကို Execution လုပ်တာနဲ့ Result တွေကို Verify လုပ်တာတွေအထိ အပြည့်အဝ လုပ်ဆောင်နိုင်ဖို့ သင့်ရဲ့ AI ကို အမှန်တကယ်အလုပ်လုပ်ပေးနိုင်တဲ့ Digital Operator တစ်ယောက်အဖြစ် ပြောင်းလဲပေးနိုင်မယ့် Prompt (၁၀) ခု
+        </div>
+    </div>
+
+    <!-- Accordion Content -->
+    <div class="accordion-container" id="accordion-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            const promptData = [
+                {
+                    id: 1,
+                    title: "၁။ Build My AI Operator (ကိုယ့်ရဲ့ AI Operator ကို တည်ဆောက်ခြင်း)",
+                    en: "Act as my AI operations operator for [Business]. Understand my [Goal], [Priorities], [Problems], [Tools], and [Resources]. Determine which tasks can be handled autonomously, which require my approval, and which should remain human-only. Design an end-to-end operating workflow where you plan the work, execute permitted tasks, verify the results, report important decisions, and escalate anything outside your defined authority.",
+                    mm: "[Business] အတွက် ကျွန်ုပ်ရဲ့ AI operations operator အဖြစ် ဆောင်ရွက်ပေးပါ။ ကျွန်ုပ်ရဲ့ [Goal]၊ [Priorities]၊ [Problems]၊ [Tools] နဲ့ [Resources] တွေကို နားလည်အောင်လုပ်ပါ။ ဘယ် task တွေကို ကိုယ်ပိုင်ဆုံးဖြတ်ချက်နဲ့ (autonomously) လုပ်ဆောင်နိုင်လဲ၊ ဘယ်ဟာတွေက ကျွန်ုပ်ရဲ့ approval လိုလဲ၊ ဘယ်ဟာတွေက လူကိုယ်တိုင်ပဲ လုပ်ရမလဲဆိုတာကို ခွဲခြားပေးပါ။ အလုပ်ကို plan ဆွဲတာ၊ ခွင့်ပြုထားတဲ့ task တွေကို execute လုပ်တာ၊ result တွေကို verify လုပ်တာ၊ အရေးကြီးတဲ့ ဆုံးဖြတ်ချက်တွေကို report လုပ်တာနဲ့ သတ်မှတ်ထားတဲ့ authority ထက်ကျော်လွန်နေတဲ့အရာတွေကို escalate လုပ်တာတွေပါဝင်တဲ့ end-to-end operating workflow တစ်ခုကို ဒီဇိုင်းဆွဲပေးပါ။",
+                    inputs: [
+                        { id: "Business", label: "Business (စီးပွားရေးလုပ်ငန်း)", hint: "ဥပမာ - Tech Startup" },
+                        { id: "Goal", label: "Goal (ရည်မှန်းချက်)", hint: "ဥပမာ - Scale content production" },
+                        { id: "Priorities", label: "Priorities (ဦးစားပေးများ)", hint: "ဥပမာ - Quality over quantity" },
+                        { id: "Problems", label: "Problems (ပြဿနာများ)", hint: "ဥပမာ - Lack of time" },
+                        { id: "Tools", label: "Tools (ကိရိယာများ)", hint: "ဥပမာ - Notion, Zapier" },
+                        { id: "Resources", label: "Resources (အရင်းအမြစ်များ)", hint: "ဥပမာ - Team of 2" }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "၂။ Build a Deep Research Agent (Deep Research Agent တစ်ခု တည်ဆောက်ခြင်း)",
+                    en: "Act as a senior research agent investigating [Topic] for [Business]. First identify the questions that matter most to my [Goal]. Then gather relevant evidence, compare competing information, separate facts from assumptions, identify contradictions and gaps, and synthesize the findings into actionable conclusions. Rank recommendations by impact and confidence and clearly flag claims that require additional verification before I act on them.",
+                    mm: "[Business] အတွက် [Topic] ကို လေ့လာဆန်းစစ်နေတဲ့ senior research agent တစ်ယောက်အဖြစ် ဆောင်ရွက်ပေးပါ။ ပထမဦးဆုံး ကျွန်ုပ်ရဲ့ [Goal] အတွက် အအရေးအကြီးဆုံး မေးခွန်းတွေကို ဖော်ထုတ်ပေးပါ။ ပြီးရင် သက်ဆိုင်ရာ evidence တွေကို စုဆောင်းပါ၊ ဆန့်ကျင်ဘက် အချက်အလက်တွေကို နှိုင်းယှဉ်ပါ၊ facts တွေကို assumptions တွေနဲ့ ခွဲထုတ်ပါ၊ contradictions နဲ့ gaps တွေကို ရှာဖွေပြီး တွေ့ရှိချက်တွေကို actionable conclusions အဖြစ် ပေါင်းစပ်ဖော်ပြပေးပါ။ recommendations တွေကို impact နဲ့ confidence အလိုက် rank လုပ်ပေးပြီး ကျွန်ုပ် မလုပ်ဆောင်ခင်မှာ additional verification လိုအပ်တဲ့ claims တွေကို ရှင်းရှင်းလင်းလင်း flag လုပ်ပြပေးပါ။",
+                    inputs: [
+                        { id: "Topic", label: "Topic (အကြောင်းအရာ)", hint: "ဥပမာ - AI Trends in 2025" },
+                        { id: "Business", label: "Business (စီးပွားရေးလုပ်ငန်း)", hint: "ဥပမာ - Marketing Agency" },
+                        { id: "Goal", label: "Goal (ရည်မှန်းချက်)", hint: "ဥပမာ - Find new service offerings" }
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "၃. Turn AI Into a Competitor Analyst (AI ကို Competitor Analyst အဖြစ် ပြောင်းလဲခြင်း)",
+                    en: "Act as a competitive intelligence agent for my [Business] in the [Industry]. Analyze [Competitors] across positioning, pricing, offers, customer segments, messaging, distribution, strengths, weaknesses, recent moves, and strategic opportunities. Identify what competitors are doing well, what they are ignoring, and where customers appear underserved. Convert the analysis into a prioritized action plan that helps me differentiate without simply copying competitors.",
+                    mm: "[Industry] ထဲမှာရှိတဲ့ ကျွန်ုပ်ရဲ့ [Business] အတွက် competitive intelligence agent အဖြစ် ဆောင်ရွက်ပေးပါ။ [Competitors] တွေရဲ့ positioning, pricing, offers, customer segments, messaging, distribution, strengths, weaknesses, recent moves နဲ့ strategic opportunities တွေကို နှိုင်းယှဉ်ဆန်းစစ်ပေးပါ။ competitors တွေ ဘာတွေကောင်းအောင်လုပ်နေလဲ၊ ဘယ်ဟာတွေကို လျစ်လျူရှုထားလဲ၊ customer တွေ ဘယ်နေရာတွေမှာ လိုအပ်ချက်ရှိနေသေးလဲဆိုတာကို ရှာဖွေပေးပါ။ competitors တွေကို အလွယ်တကူ ကူးချတာမျိုးမဟုတ်ဘဲ ကျွန်ုပ်အတွက် ထူးခြားကွဲပြားမှု (differentiate) ဖြစ်စေမယ့် prioritized action plan တစ်ခုအဖြစ် ပြောင်းလဲပေးပါ။",
+                    inputs: [
+                        { id: "Business", label: "Business (စီးပွားရေးလုပ်ငန်း)", hint: "ဥပမာ - SaaS Company" },
+                        { id: "Industry", label: "Industry (လုပ်ငန်းနယ်ပယ်)", hint: "ဥပမာ - Productivity Software" },
+                        { id: "Competitors", label: "Competitors (ပြိုင်ဘက်များ)", hint: "ဥပမာ - Notion, Evernote" }
+                    ]
+                },
+                {
+                    id: 4,
+                    title: "၄. Build My Content Agent (Content Agent တစ်ခု တည်ဆောက်ခြင်း)",
+                    en: "Act as my autonomous content strategist for [Platform]. Using my [Topic], [Target Audience], [Industry], [Goal], and [Competitors], identify promising content opportunities, generate original angles, develop strong hooks, create useful content, and adapt each idea into multiple formats. Prioritize originality, credibility, practical value, and shareability. Before finalizing anything, remove repetitive ideas, unsupported claims, weak hooks, and content that does not clearly serve my audience.",
+                    mm: "[Platform] အတွက် ကျွန်ုပ်ရဲ့ autonomous content strategist အဖြစ် ဆောင်ရွက်ပေးပါ။ ကျွန်ုပ်ရဲ့ [Topic]၊ [Target Audience]၊ [Industry]၊ [Goal] နဲ့ [Competitors] တွေကို အသုံးချပြီး အလားအလာရှိတဲ့ content opportunities တွေကို ရှာဖွေပါ၊ original angles တွေကို ဖန်တီးပါ၊ strong hooks တွေကို တည်ဆောက်ပါ၊ အသုံးဝင်တဲ့ content တွေကို ဖန်တီးပြီး တစ်ခုချင်းစီကို formats အမျိုးမျိုးနဲ့ အံဝင်ခွင်ကျဖြစ်အောင် လုပ်ဆောင်ပါ။ originality, credibility, practical value နဲ့ shareability တွေကို ဦးစားပေးပါ။ မဆုံးဖြတ်ခင်မှာ repetitive ideas တွေ၊ unsupported claims တွေ၊ weak hooks တွေနဲ့ audience တွေအတွက် တကယ်မဖြစ်မနေ အသုံးမဝင်တဲ့ content တွေကို ဖယ်ရှားပစ်ပါ။",
+                    inputs: [
+                        { id: "Platform", label: "Platform (ပလက်ဖောင်း)", hint: "ဥပမာ - LinkedIn" },
+                        { id: "Topic", label: "Topic (အကြောင်းအရာ)", hint: "ဥပမာ - AI Automation" },
+                        { id: "Target Audience", label: "Target Audience (ပစ်မှတ်)", hint: "ဥပမာ - Business Founders" },
+                        { id: "Industry", label: "Industry (လုပ်ငန်းနယ်ပယ်)", hint: "ဥပမာ - Technology" },
+                        { id: "Goal", label: "Goal (ရည်မှန်းချက်)", hint: "ဥပမာ - Build authority" },
+                        { id: "Competitors", label: "Competitors (ပြိုင်ဘက်များ)", hint: "ဥပမာ - Top AI Influencers" }
+                    ]
+                },
+                {
+                    id: 5,
+                    title: "၅. Make AI Challenge My Decisions (AI ကို ကိုယ့်ရဲ့ ဆုံးဖြတ်ချက်တွေကို စိန်ခေါ်ခိုင်းခြင်း)",
+                    en: "Act as an adversarial decision-making agent for [Project]. Analyze my proposed decision, [Goal], [Resources], [Budget], [Timeline], and known constraints. Challenge my assumptions instead of agreeing with me. Identify hidden risks, missing information, opportunity costs, second-order effects, and plausible failure scenarios. Compare the strongest alternatives and recommend the option with the best risk-adjusted outcome, explaining what evidence could change your recommendation.",
+                    mm: "[Project] အတွက် adversarial decision-making agent အဖြစ် ဆောင်ရွက်ပေးပါ။ ကျွန်ုပ် முன்արկထားတဲ့ decision, [Goal], [Resources], [Budget], [Timeline] နဲ့ constraints တွေကို သုံးသပ်ပါ။ ကျွန်ုပ်ပြောသမျှကို ခေါင်းညိတ်လက်ခံမယ့်အစား ကျွန်ုပ်ရဲ့ assumptions တွေကို စိန်ခေါ်ပါ။ hidden risks တွေ၊ လွဲချော်နေတဲ့ information တွေ၊ opportunity costs တွေ၊ second-order effects နဲ့ ဖြစ်နိုင်ခြေရှိတဲ့ failure scenarios တွေကို ရှာဖွေဖော်ထုတ်ပေးပါ။ အကောင်းဆုံး alternatives တွေကို နှိုင်းယှဉ်ပြီး risk-adjusted outcome အကောင်းဆုံး option ကို အကြံပြုပေးကာ ဘယ်လို evidence တွေက သင့်ရဲ့ recommendation ကို ပြောင်းလဲစေနိုင်လဲဆိုတာကို ရှင်းပြပေးပါ။",
+                    inputs: [
+                        { id: "Project", label: "Project (ပရောဂျက်)", hint: "ဥပမာ - New App Launch" },
+                        { id: "Goal", label: "Goal (ရည်မှန်းချက်)", hint: "ဥပမာ - 10k users in 3 months" },
+                        { id: "Resources", label: "Resources (အရင်းအမြစ်များ)", hint: "ဥပမာ - 3 Developers" },
+                        { id: "Budget", label: "Budget (ဘတ်ဂျက်)", hint: "ဥပမာ - $5000" },
+                        { id: "Timeline", label: "Timeline (အချိန်ကာလ)", hint: "ဥပမာ - 4 Weeks" }
+                    ]
+                },
+                {
+                    id: 6,
+                    title: "၆. Find Everything I Can Automate (အလိုအလျောက် လုပ်ဆောင်နိုင်သမျှ ရှာဖွေခြင်း)",
+                    en: "Audit my workflow for [Business] and identify repetitive, time-consuming, rule-based, research-heavy, or information-processing tasks that could be assisted or automated with AI. Estimate the potential time saved, implementation difficulty, risk, and business impact of each opportunity. Rank them by expected value and design the ideal workflow for the top opportunities, including inputs, tools, actions, verification, human approval, failure handling, and measurable [Success] criteria.",
+                    mm: "[Business] အတွက် ကျွန်ုပ်ရဲ့ workflow ကို audit လုပ်ပြီး AI နဲ့ assist လုပ်လို့ရတဲ့ (သို့) automate လုပ်လို့ရတဲ့ repetitive, time-consuming, rule-based, research-heavy ဒါမှမဟုတ် information-processing tasks တွေကို ရှာဖွေပေးပါ။ အခွင့်အလမ်း တစ်ခုချင်းစီအတွက် ဖြစ်နိုင်ချေရှိတဲ့ time saved, implementation difficulty, risk နဲ့ business impact တွေကို ခန့်မှန်းပေးပါ။ expected value အလိုက် rank လုပ်ပေးပြီး top opportunities တွေအတွက် inputs, tools, actions, verification, human approval, failure handling နဲ့ measurable [Success] criteria တွေပါဝင်တဲ့ ideal workflow ကို ဒီဇိုင်းဆွဲပေးပါ။",
+                    inputs: [
+                        { id: "Business", label: "Business (စီးပွားရေးလုပ်ငန်း)", hint: "ဥပမာ - E-commerce Store" },
+                        { id: "Success", label: "Success (အောင်မြင်မှု ပေတံ)", hint: "ဥပမာ - 20 hours saved per week" }
+                    ]
+                },
+                {
+                    id: 7,
+                    title: "၇. Give AI a Second Brain (AI ကို Second Brain တစ်ခု ပေးခြင်း)",
+                    en: "Act as an independent quality-control agent for [Project]. Review every important output against my [Success] criteria. Check factual accuracy, reasoning, calculations, completeness, consistency, assumptions, edge cases, and unsupported claims. Identify the highest-impact problems first, explain why each matters, propose corrections, independently verify those corrections, and only then produce the final validated output.",
+                    mm: "[Project] အတွက် independent quality-control agent အဖြစ် ဆောင်ရွက်ပေးပါ။ အရေးကြီးတဲ့ output တိုင်းကို ကျွန်ုပ်ရဲ့ [Success] criteria နဲ့ တိုက်ဆိုင်စစ်ဆေးပါ။ factual accuracy, reasoning, calculations, completeness, consistency, assumptions, edge cases နဲ့ unsupported claims တွေကို စစ်ဆေးပါ။ highest-impact problems တွေကို ဦးစားပေးဖော်ထုတ်ပါ၊ ဘာကြောင့်အရေးကြီးလဲရှင်းပြပါ၊ corrections တွေကို propose လုပ်ပါ၊ ပြီးရင် အဲ့ဒီ corrections တွေကို independently verify လုပ်ပြီးမှသာ final validated output ကို ထုတ်ပေးပါ။",
+                    inputs: [
+                        { id: "Project", label: "Project (ပရောဂျက်)", hint: "ဥပမာ - Weekly Newsletter" },
+                        { id: "Success", label: "Success Criteria (အောင်မြင်မှုပေတံ)", hint: "ဥပမာ - Zero grammar errors, high click rate" }
+                    ]
+                },
+                {
+                    id: 8,
+                    title: "၈. Build My AI Chief of Staff (AI Chief of Staff တစ်ခု တည်ဆောက်ခြင်း)",
+                    en: "Act as my AI chief of staff. Analyze my [Goals], [Projects], [Priorities], [Problems], [Timeline], and [Resources]. Determine what deserves my attention, what should be delegated, what can be automated, what should be postponed, and what should be eliminated. Create a prioritized execution plan and identify the single highest-leverage action I should take next. Challenge any task that does not meaningfully contribute to my stated goals.",
+                    mm: "ကျွန်ုပ်ရဲ့ AI chief of staff အဖြစ် ဆောင်ရွက်ပေးပါ။ ကျွန်ုပ်ရဲ့ [Goals]၊ [Projects]၊ [Priorities]၊ [Problems]၊ [Timeline] နဲ့ [Resources] တွေကို analyze လုပ်ပါ။ ဘာတွေက ကျွန်ုပ်ရဲ့ attention ကို ယူသင့်လဲ၊ ဘယ်ဟာတွေကို delegate လုပ်ရမလဲ၊ ဘယ်ဟာတွေကို automate လုပ်နိုင်လဲ၊ ဘယ်ဟာတွေကို postpone လုပ်သင့်လဲ၊ ဘယ်ဟာတွေကို eliminate လုပ်သင့်လဲဆိုတာကို ဆုံးဖြတ်ပေးပါ။ prioritized execution plan တစ်ခုကို ဖန်တီးပေးပြီး နောက်ထပ်လုပ်ဆောင်သင့်တဲ့ single highest-leverage action ကို ဖော်ထုတ်ပေးပါ။ ကျွန်ုပ်ရဲ့ stated goals တွေဆီကို တကယ်တမ်း အဓိပ္ပာယ်ရှိရှိ မထောက်ကူပေးနိုင်တဲ့ task မှန်သမျှကို စိန်ခေါ်ပါ။",
+                    inputs: [
+                        { id: "Goals", label: "Goals (ရည်မှန်းချက်များ)", hint: "ဥပမာ - Launch product in Q2" },
+                        { id: "Projects", label: "Projects (ပရောဂျက်များ)", hint: "ဥပမာ - Website redesign" },
+                        { id: "Priorities", label: "Priorities (ဦးစားပေးများ)", hint: "ဥပမာ - Revenue generation" },
+                        { id: "Problems", label: "Problems (ပြဿနာများ)", hint: "ဥပမာ - Team burnout" },
+                        { id: "Timeline", label: "Timeline (အချိန်ကာလ)", hint: "ဥပမာ - 3 Months" },
+                        { id: "Resources", label: "Resources (အရင်းအမြစ်များ)", hint: "ဥပမာ - Limited budget" }
+                    ]
+                },
+                {
+                    id: 9,
+                    title: "၉. Give My Agent Boundaries (Agent အတွက် နယ်သတ်မှတ်ချက်များ ချမှတ်ခြင်း)",
+                    en: "Design a safe operating protocol for an AI agent working on [Project]. Define exactly what the agent may do autonomously, what requires verification, and what requires explicit human approval. Include permission boundaries, sensitive-data restrictions, tool-access rules, spending limits, irreversible-action safeguards, escalation conditions, stop conditions, audit requirements, and recovery procedures. Optimize for useful autonomy without allowing unauthorized or irreversible actions.",
+                    mm: "[Project] မှာ အလုပ်လုပ်မယ့် AI agent အတွက် safe operating protocol တစ်ခုကို ဒီဇိုင်းဆွဲပေးပါ။ agent က autonomous အဖြစ် ဘာတွေလုပ်လို့ရလဲ၊ ဘယ်ဟာတွေက verification လိုလဲ၊ ဘယ်ဟာတွေက explicit human approval လိုလဲဆိုတာကို အတိအကျ သတ်မှတ်ပေးပါ။ permission boundaries, sensitive-data restrictions, tool-access rules, spending limits, irreversible-action safeguards, escalation conditions, stop conditions, audit requirements နဲ့ recovery procedures တွေကို ထည့်သွင်းပေးပါ။ unauthorized (သို့) irreversible actions တွေ မဖြစ်စေဘဲ useful autonomy ကို အကောင်းဆုံးဖြစ်အောင် လုပ်ဆောင်ပေးပါ။",
+                    inputs: [
+                        { id: "Project", label: "Project (ပရောဂျက်)", hint: "ဥပမာ - Customer Support Automation" }
+                    ]
+                },
+                {
+                    id: 10,
+                    title: "၁၀. Build My AI Workforce (AI Workforce တစ်ခု တည်ဆောက်ခြင်း)",
+                    en: "Act as an AI workforce architect for [Business]. Analyze my [Goals], [Projects], [Problems], [Tools], [Resources], and [Priorities]. Design a team of specialized AI roles for research, analysis, execution, content, operations, quality control, and strategy. Define each role's responsibility, inputs, outputs, authority, handoff rules, verification process, and escalation conditions. Then design the workflow that coordinates these AI roles while keeping critical decisions under human control.",
+                    mm: "[Business] အတွက် AI workforce architect အဖြစ် ဆောင်ရွက်ပေးပါ။ ကျွန်ုပ်ရဲ့ [Goals]၊ [Projects]၊ [Problems]၊ [Tools]၊ [Resources] နဲ့ [Priorities] တွေကို analyze လုပ်ပါ။ research, analysis, execution, content, operations, quality control နဲ့ strategy တို့အတွက် specialized AI roles တွေပါဝင်တဲ့ team တစ်ခုကို ဒီဇိုင်းဆွဲပေးပါ။ role တစ်ခုချင်းစီရဲ့ responsibility, inputs, outputs, authority, handoff rules, verification process နဲ့ escalation conditions တွေကို သတ်မှတ်ပေးပါ။ ပြီးရင် critical decisions တွေကို human control အောက်မှာ ထားရှိပြီး ဒီ AI roles တွေကို ညှိနှိုင်းဆောင်ရွက်ပေးမယ့် workflow ကို ဒီဇိုင်းဆွဲပေးပါ။",
+                    inputs: [
+                        { id: "Business", label: "Business (စီးပွားရေးလုပ်ငန်း)", hint: "ဥပမာ - Creative Agency" },
+                        { id: "Goals", label: "Goals (ရည်မှန်းချက်များ)", hint: "ဥပမာ - Automate 50% of tasks" },
+                        { id: "Projects", label: "Projects (ပရောဂျက်များ)", hint: "ဥပမာ - AI content generation pipeline" },
+                        { id: "Problems", label: "Problems (ပြဿနာများ)", hint: "ဥပမာ - Slow delivery times" },
+                        { id: "Tools", label: "Tools (ကိရိယာများ)", hint: "ဥပမာ - Make.com, ChatGPT" },
+                        { id: "Resources", label: "Resources (အရင်းအမြစ်များ)", hint: "ဥပမာ - 1 Developer" },
+                        { id: "Priorities", label: "Priorities (ဦးစားပေးများ)", hint: "ဥပမာ - Efficiency" }
+                    ]
+                }
+            ];
+
+            const container = document.getElementById('accordion-container');
+            const langRadios = document.getElementsByName('language');
+
+            function renderAccordion() {
+                container.innerHTML = ''; 
+
+                promptData.forEach((data) => {
+                    const item = document.createElement('div');
+                    item.className = 'accordion-item';
+                    item.id = `acc-item-${data.id}`;
+
+                    let html = `
+                        <div class="accordion-header" onclick="toggleAccordion(${data.id})">
+                            <div class="header-content">
+                                <div class="acc-title">${data.title}</div>
+                            </div>
+                            <div class="acc-icon">▼</div>
+                        </div>
+                    `;
+
+                    html += `<div class="accordion-body" id="acc-body-${data.id}">
+                                <div class="body-inner">`;
+
+                    if (data.inputs && data.inputs.length > 0) {
+                        data.inputs.forEach(input => {
+                            html += `
+                                <div class="form-group">
+                                    <label>${input.label}</label>
+                                    <input type="text" id="input-${data.id}-${input.id}" data-item-id="${data.id}" placeholder="${input.hint}">
+                                </div>
+                            `;
+                        });
+                    }
+
+                    html += `
+                            <textarea id="output-${data.id}" class="output-area" readonly></textarea>
+                            <button id="copy-${data.id}" data-item-id="${data.id}">Copy Prompt</button>
+                        </div>
+                    </div>`;
+
+                    item.innerHTML = html;
+                    container.appendChild(item);
+                });
+
+                attachEventListeners();
+                updateAllPrompts();
+            }
+
+            window.toggleAccordion = function(id) {
+                const item = document.getElementById(`acc-item-${id}`);
+                const body = document.getElementById(`acc-body-${id}`);
+
+                // Auto-collapse logic
+                document.querySelectorAll('.accordion-item').forEach(el => {
+                    if(el.id !== `acc-item-${id}`) {
+                        el.classList.remove('active');
+                        el.querySelector('.accordion-body').style.maxHeight = null;
+                    }
+                });
+
+                if (item.classList.contains('active')) {
+                    item.classList.remove('active');
+                    body.style.maxHeight = null;
+                } else {
+                    item.classList.add('active');
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updatePromptForCard(itemId) {
+                const data = promptData.find(p => p.id == itemId);
+                const isMyanmar = document.querySelector('input[name="language"]:checked').value === 'mm';
+                let finalPrompt = isMyanmar ? data.mm : data.en;
+
+                if (data.inputs) {
+                    data.inputs.forEach(input => {
+                        const el = document.getElementById(`input-${data.id}-${input.id}`);
+                        const val = el && el.value.trim() !== "" ? el.value.trim() : `[${input.id}]`;
+                        // Handle multiple instances of placeholder
+                        finalPrompt = finalPrompt.split(`[${input.id}]`).join(val);
+                    });
+                }
+
+                document.getElementById(`output-${data.id}`).value = finalPrompt;
+            }
+
+            function updateAllPrompts() {
+                promptData.forEach(data => updatePromptForCard(data.id));
+            }
+
+            function attachEventListeners() {
+                container.addEventListener('input', (e) => {
+                    if (e.target.tagName === 'INPUT') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        if (itemId) updatePromptForCard(itemId);
+                    }
+                });
+
+                container.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'BUTTON') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        const outputEl = document.getElementById(`output-${itemId}`);
+                        outputEl.select();
+                        document.execCommand('copy');
+                        
+                        const btn = e.target;
+                        const originalText = btn.innerText;
+                        btn.innerText = "COPIED! ✨";
+                        setTimeout(() => btn.innerText = originalText, 2000);
+                    }
+                });
+            }
+
+            langRadios.forEach(radio => radio.addEventListener('change', updateAllPrompts));
+
+            renderAccordion();
+        });
+    </script>
+</body>
+</html>
