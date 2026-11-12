@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="My Useful Tools">
+    <link rel="apple-touch-icon" href="../icon-192x192.png">
+    <title>ChatGPT Freelance Prompts</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: #0f172a;
+            color: #e4e4e7;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .header-container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            margin-bottom: 25px;
+            position: sticky;
+            top: 0;
+            background: rgba(15, 23, 42, 0.95);
+            padding: 20px;
+            z-index: 100;
+            border-bottom: 1px solid #10a37f; /* ChatGPT Green */
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #10a37f;
+            font-size: clamp(1.4rem, 5vw, 2.2rem);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(16, 163, 127, 0.3);
+        }
+
+        .subtitle {
+            color: #a1a1aa;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .global-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .radio-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #d4d4d8;
+            font-weight: 600;
+        }
+
+        input[type="radio"] {
+            accent-color: #10a37f;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ----- Remark (Sticky Header အပြင်ဘက်၊ Scroll လုပ်လို့ရသော အပိုင်း) ----- */
+        .remark-container {
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 25px;
+        }
+
+        .remark {
+            color: #6ee7b7;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 15px;
+            background: rgba(16, 163, 127, 0.1);
+            border-radius: 8px;
+            border: 1px dashed #10a37f;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        .remark h2 {
+            color: #6ee7b7;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .remark ul {
+            padding-left: 20px;
+            margin: 10px 0;
+        }
+
+        .remark li {
+            margin-bottom: 6px;
+        }
+
+        .remark li b {
+            color: #6ee7b7;
+        }
+
+        .remark-source {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin-top: 12px;
+        }
+
+        /* ----- Accordion List Container ----- */
+        .accordion-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        /* ----- Accordion Item ----- */
+        .accordion-item {
+            background: #27272a;
+            border: 1px solid #3f3f46;
+            border-left: 4px solid #10a37f;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            border-color: #10a37f;
+            box-shadow: 0 0 15px rgba(16, 163, 127, 0.1);
+        }
+
+        /* ----- Accordion Header (Clickable) ----- */
+        .accordion-header {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            background: rgba(39, 39, 42, 0.8);
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding-right: 15px;
+        }
+
+        .acc-title {
+            color: #fafafa;
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        .acc-desc {
+            color: #a1a1aa;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .acc-icon {
+            color: #10a37f;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-item.active .acc-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-item.active {
+            border-color: #10a37f;
+            box-shadow: 0 0 20px rgba(16, 163, 127, 0.15);
+        }
+
+        /* ----- Accordion Body ----- */
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            background: #0f172a;
+        }
+
+        .body-inner {
+            padding: 25px 20px;
+            border-top: 1px dashed #3f3f46;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #6ee7b7;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"], textarea.input-textarea {
+            width: 100%;
+            background: #27272a;
+            border: 1px solid #3f3f46;
+            color: #10a37f;
+            padding: 12px;
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        textarea.input-textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        input[type="text"]:focus, textarea.input-textarea:focus {
+            border-color: #10a37f;
+            box-shadow: 0 0 10px rgba(16, 163, 127, 0.2);
+        }
+
+        textarea.output-area {
+            width: 100%;
+            height: 220px;
+            background: #09090b;
+            border: 1px solid #3f3f46;
+            color: #fafafa;
+            padding: 15px;
+            border-radius: 6px;
+            resize: vertical;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            outline: none;
+            margin-top: 10px;
+        }
+
+        textarea.output-area:focus {
+            border-color: #10a37f;
+        }
+
+        button {
+            width: 100%;
+            background: transparent;
+            color: #10a37f;
+            border: 1px solid #10a37f;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #10a37f;
+            color: #0f172a;
+            box-shadow: 0 0 15px rgba(16, 163, 127, 0.4);
+        }
+
+        /* ----- Responsive (ဖုန်းစခရင်) ----- */
+        @media (max-width: 600px) {
+            body {
+                padding: 20px 12px;
+            }
+
+            .header-container {
+                padding: 15px 12px;
+                margin-bottom: 20px;
+            }
+
+            h1 {
+                letter-spacing: 1px;
+            }
+
+            .subtitle {
+                font-size: 0.9rem;
+            }
+
+            .remark {
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+
+            .accordion-header {
+                padding: 15px;
+            }
+
+            .acc-title {
+                font-size: 1rem;
+            }
+
+            .acc-desc {
+                font-size: 0.85rem;
+            }
+
+            .body-inner {
+                padding: 20px 12px;
+            }
+
+            textarea.output-area {
+                height: 180px;
+            }
+
+            button {
+                padding: 11px;
+                font-size: 0.95rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>💼 Prompt for ChatGPT Freelance</h1>
+        <p class="subtitle">ChatGPT နဲ့ Freelance စတင်ပြီး ဝင်ငွေရှာဖို့ အသုံးဝင်တဲ့ Prompt (7) မျိုး</p>
+        <div class="global-options">
+            <label class="radio-btn">
+                <input type="radio" name="language" value="mm" checked> Myanmar Prompt
+            </label>
+            <label class="radio-btn">
+                <input type="radio" name="language" value="en"> English Prompt
+            </label>
+        </div>
+    </div>
+
+    <!-- Scrollable Remark Area -->
+    <div class="remark-container">
+        <div class="remark">
+        <h2>💡 Skill မရှိသေးလို့ တွန့်ဆုတ်နေလား?</h2>
+        <p>Skill မရှိသေးလို့ ဒါမှမဟုတ် စတင်ဖို့ နည်းလမ်းမသိသေးလို့ တွန့်ဆုတ်နေပါသလား? Client ရှာတာကနေ ကိုယ်ပိုင် Freelance Business တစ်ခုတည်ဆောက်တဲ့အထိ ကူညီပေးနိုင်မယ့် Smart Strategies တွေနဲ့ Powerful Prompts ၇ ခုပါ။</p>
+        <p>💡 Pro Tip: ChatGPT ကို အသုံးပြုတဲ့အခါ [ ] ထဲမှာ ကိုယ့်ရဲ့ အချက်အလက်တွေကို တတ်နိုင်သမျှ တိတိကျကျ ဖြည့်သွင်းပေးမှ ပိုမိုကောင်းမွန်တဲ့ ရလဒ်တွေကို ရရှိမှာဖြစ်ပါတယ်။</p>
+        <p class="remark-source">ရင်းမြစ် — Cross-X Facebook Post, 07 Nov 2026</p>
+        </div>
+    </div>
+
+    <div class="accordion-container" id="accordion-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            const promptData = [
+                {
+                    id: 1,
+                    title: "၁။ The Profitable Skill Finder (ဝင်ငွေကောင်းမယ့် ကျွမ်းကျင်မှု ရှာဖွေနည်း)",
+                    desc: "ကိုယ့်ရဲ့ Skill တွေထဲက ဝင်ငွေကောင်းမယ့် Freelance Service ကို ရှာဖွေရန်။",
+                    en: "Analyze my skills, interests, and experience: [Details]. Identify 5 freelance services I could realistically offer. Rank them by market demand, earning potential, competition, and beginner-friendliness. Recommend the best one to start with.",
+                    mm: "ကျွန်တော့်ရဲ့ Skills၊ ဝါသနာနဲ့ အတွေ့အကြုံတွေဖြစ်တဲ့ [Details] ကို လေ့လာဆန်းစစ်ပေးပါ။ ကျွန်တော် လက်တွေ့ကျကျ ဆောင်ရွက်ပေးနိုင်မယ့် Freelance Services ၅ ခုကို ဖော်ထုတ်ပေးပါ။ အဆိုပါ ဝန်ဆောင်မှုတွေကို Market Demand၊ Earning Potential၊ Competition နဲ့ Beginner-friendliness တို့အပေါ် မူတည်ပြီး အဆင့်သတ်မှတ်ပေးပါ။ စတင်ဖို့ အသင့်တော်ဆုံး ဝန်ဆောင်မှုတစ်ခုကိုလည်း အကြံပြုပေးပါ။",
+                    inputs: [
+                        { id: "Details", label: "ကိုယ့်ရဲ့ Skills၊ ဝါသနာနဲ့ အတွေ့အကြုံ", type: "textarea", hint: "ဥပမာ - graphic design, 2 years experience, love drawing" }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "၂။ The First Client Hunter (ပထမဆုံး ဖောက်သည် ရှာဖွေနည်း)",
+                    desc: "ပထမဆုံး Client ရရှိဖို့ ၇ ရက်စာ Action Plan ရေးဆွဲရန်။",
+                    en: "Act as my freelance client acquisition strategist. I offer [Service]. Identify my ideal clients, where to find them, what problems they need solved, and create a practical 7-day action plan to help me find my first client.",
+                    mm: "ကျွန်တော့်ရဲ့ Freelance Client Acquisition Strategist အဖြစ် ဆောင်ရွက်ပေးပါ။ ကျွန်တော်က [Service] ဝန်ဆောင်မှုကို ပေးတာဖြစ်ပါတယ်။ ကျွန်တော့်ရဲ့ Ideal Clients တွေက ဘယ်သူတွေလဲ၊ သူတို့ကို ဘယ်မှာ ရှာရမလဲ၊ သူတို့ ဖြေရှင်းချင်နေတဲ့ ပြဿနာတွေက ဘာတွေလဲဆိုတာကို ဖော်ထုတ်ပေးပြီး ပထမဆုံး Client ရရှိဖို့အတွက် လက်တွေ့ကျတဲ့ ၇ ရက်စာ Action Plan တစ်ခု ရေးဆွဲပေးပါ။",
+                    inputs: [
+                        { id: "Service", label: "ပေးမည့် ဝန်ဆောင်မှု", type: "text", hint: "ဥပမာ - logo design" }
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "၃။ The Portfolio Builder (ဆွဲဆောင်မှုရှိတဲ့ Portfolio ဖန်တီးနည်း)",
+                    desc: "Client တွေ သဘောကျစေမယ့် Professional Portfolio ဖန်တီးရန်။",
+                    en: "Help me build a professional freelance portfolio for [Skill]. Create 3 realistic sample project ideas, explain how to present my work, write compelling project descriptions, and make my portfolio attractive to potential clients.",
+                    mm: "ကျွန်တော့်ရဲ့ [Skill] အတွက် Professional Freelance Portfolio တစ်ခု ဖန်တီးဖို့ ကူညီပေးပါ။ လက်တွေ့ကျတဲ့ Sample Project Ideas ၃ ခုကို ဖန်တီးပေးပြီး လုပ်ငန်းတွေကို စနစ်တကျ ပြသနည်း၊ စိတ်ဝင်စားစရာ Project Descriptions ရေးသားနည်းနဲ့ Potential Clients တွေ သဘောကျစေမယ့် Portfolio ဖြစ်အောင် ဖန်တီးနည်းတွေကို ရှင်းပြပေးပါ။",
+                    inputs: [
+                        { id: "Skill", label: "Portfolio ဖန်တီးမည့် Skill", type: "text", hint: "ဥပမာ - graphic design" }
+                    ]
+                },
+                {
+                    id: 4,
+                    title: "၄။ The Winning Proposal Writer (အလုပ်ရနိုင်ခြေမြင့်မားတဲ့ Proposal ရေးသားနည်း)",
+                    desc: "အလုပ်ရနိုင်ခြေမြင့်မားတဲ့ Freelance Proposal ရေးသားရန်။",
+                    en: "Write a personalized freelance proposal for this job: [Job Description]. Start with the client's main problem, explain my solution, highlight relevant skills, and finish with a natural call to action. Keep it professional, specific, and convincing.",
+                    mm: "ဒီ အလုပ်ခေါ်ယူမှု [Job Description] အတွက် သီးသန့်ဆန်းသစ်တဲ့ Freelance Proposal တစ်ခု ရေးပေးပါ။ Client ရဲ့ အဓိက ပြဿနာကနေ စတင်ပြီး ကျွန်တော့်ရဲ့ Solution ရှင်းလင်းချက်၊ ဆက်စပ်နေတဲ့ Skills တွေနဲ့ သဘာဝကျကျ ဆက်သွယ်နိုင်မယ့် Call to Action တို့နဲ့ အဆုံးသတ်ပေးပါ။ သတ်မှတ်ချက်တွေနဲ့ ကိုက်ညီပြီး Professional ဆန်ဆန် ရေးသားပေးပါ။",
+                    inputs: [
+                        { id: "Job Description", label: "အလုပ်ခေါ်ယူမှု အကြောင်းအရာ", type: "textarea", hint: "အလုပ်ခေါ်ယူမှု စာသားအပြည့်အစုံကို ဒီနေရာမှာ ထည့်ပါ" }
+                    ]
+                },
+                {
+                    id: 5,
+                    title: "၅။ The Freelance Pricing Strategist (ဈေးနှုန်းသတ်မှတ်မှု ဗျူဟာ)",
+                    desc: "Pricing Packages ၃ ခု ဖန်တီးပြီး Rates မြှင့်တင်ဖို့ Strategy ဆွဲရန်။",
+                    en: "Act as a freelance pricing consultant. My service is [Service], and my experience level is [Level]. Help me create 3 pricing packages with clear deliverables, realistic price ranges, revision limits, and a strategy for increasing my rates over time.",
+                    mm: "ကျွန်တော့်ရဲ့ Freelance Pricing Consultant အဖြစ် ဆောင်ရွက်ပေးပါ။ ကျွန်တော့်ရဲ့ Service က [Service] ဖြစ်ပြီး Experience Level ကတော့ [Level] ဖြစ်ပါတယ်။ သီးသန့် Deliverables တွေ၊ လက်တွေ့ကျတဲ့ Price Ranges တွေ၊ Revision Limits တွေနဲ့ နောက်ပိုင်းမှာ Rates မြှင့်တင်သွားနိုင်မယ့် Strategy ပါဝင်တဲ့ Pricing Packages ၃ ခုကို ဖန်တီးပေးပါ။",
+                    inputs: [
+                        { id: "Service", label: "ပေးမည့် ဝန်ဆောင်မှု", type: "text", hint: "ဥပမာ - logo design" },
+                        { id: "Level", label: "အတွေ့အကြုံ အဆင့်", type: "text", hint: "ဥပမာ - beginner" }
+                    ]
+                },
+                {
+                    id: 6,
+                    title: "၆။ The Client Communication Expert (Client နဲ့ မိတ်ဆက်ပြောဆိုဆက်ဆံနည်း)",
+                    desc: "Client နဲ့ Professional ဆန်ဆန် ပြောဆိုဆက်ဆံဖို့ Message Templates ရေးရန်။",
+                    en: "Act as my professional client communication assistant. Help me respond to client inquiries, negotiate project details, handle revision requests, and communicate professionally. Create ready-to-use message templates for common freelance situations.",
+                    mm: "ကျွန်တော့်ရဲ့ Professional Client Communication Assistant အဖြစ် ဆောင်ရွက်ပေးပါ။ Client အမေးအမြန်းတွေကို တုံ့ပြန်ရာမှာ၊ Project အသေးစိတ် ညှိနှိုင်းရာမှာ၊ Revision Requests တွေကို ကိုင်တွယ်ရာမှာနဲ့ Professional ဆန်ဆန် ပြောဆိုဆက်ဆံရာမှာ ကူညီပေးပါ။ အသုံးများတဲ့ Freelance အခြေအနေတွေအတွက် ready-to-use Message Templates တွေကို ရေးသားပေးပါ။",
+                    inputs: []
+                },
+                {
+                    id: 7,
+                    title: "၇။ The Freelance Business Growth Engine (ရက် ၉၀ တွင်း စီးပွားရေး တိုးတက်စေမယ့် လမ်းပြမြေပုံ)",
+                    desc: "ရက် ၉၀ စာ Freelance Business Growth Roadmap တည်ဆောက်ရန်။",
+                    en: "Build a 90-day freelance business growth roadmap for my service: [Service]. Include weekly goals, client acquisition strategies, portfolio improvements, income targets, and performance tracking. Make the plan realistic for my current experience and available time.",
+                    mm: "ကျွန်တော့်ရဲ့ ဝန်ဆောင်မှု [Service] အတွက် ရက် ၉၀ စာ Freelance Business Growth Roadmap တစ်ခု တည်ဆောက်ပေးပါ။ ၎င်းထဲမှာ Weekly Goals၊ Client Acquisition Strategies၊ Portfolio Improvements၊ Income Targets နဲ့ Performance Tracking တို့ ပါဝင်ရပါမယ်။ ကျွန်တော့်ရဲ့ လက်ရှိ အတွေ့အကြုံနဲ့ အားလပ်ချိန်တို့နဲ့ ကိုက်ညီတဲ့ လက်တွေ့ကျကျ Plan တစ်ခု ဖြစ်ပါစေ။",
+                    inputs: [
+                        { id: "Service", label: "ပေးမည့် ဝန်ဆောင်မှု", type: "text", hint: "ဥပမာ - logo design" }
+                    ]
+                }
+            ];
+
+            const container = document.getElementById('accordion-container');
+            const langRadios = document.getElementsByName('language');
+
+            function renderAccordion() {
+                container.innerHTML = '';
+
+                promptData.forEach((data) => {
+                    const item = document.createElement('div');
+                    item.className = 'accordion-item';
+                    item.id = `acc-item-${data.id}`;
+
+                    let html = `
+                        <div class="accordion-header" onclick="toggleAccordion(${data.id})">
+                            <div class="header-content">
+                                <div class="acc-title">${data.title}</div>
+                                <div class="acc-desc">💡 ${data.desc}</div>
+                            </div>
+                            <div class="acc-icon">▼</div>
+                        </div>
+                    `;
+
+                    html += `<div class="accordion-body" id="acc-body-${data.id}">
+                                <div class="body-inner">`;
+
+                    if(data.inputs.length > 0) {
+                        data.inputs.forEach(input => {
+                            if(input.type === 'textarea') {
+                                html += `
+                                    <div class="form-group">
+                                        <label>${input.label}</label>
+                                        <textarea id="input-${data.id}-${input.id}" class="input-textarea" data-item-id="${data.id}" placeholder="${input.hint}"></textarea>
+                                    </div>
+                                `;
+                            } else {
+                                html += `
+                                    <div class="form-group">
+                                        <label>${input.label}</label>
+                                        <input type="text" id="input-${data.id}-${input.id}" data-item-id="${data.id}" placeholder="${input.hint}">
+                                    </div>
+                                `;
+                            }
+                        });
+                    }
+
+                    html += `
+                            <textarea id="output-${data.id}" class="output-area" readonly></textarea>
+                            <button id="copy-${data.id}" data-item-id="${data.id}">Copy Prompt</button>
+                        </div>
+                    </div>`;
+
+                    item.innerHTML = html;
+                    container.appendChild(item);
+                });
+
+                attachEventListeners();
+                updateAllPrompts();
+            }
+
+            window.toggleAccordion = function(id) {
+                const item = document.getElementById(`acc-item-${id}`);
+                const body = document.getElementById(`acc-body-${id}`);
+
+                // Auto-collapse logic
+                document.querySelectorAll('.accordion-item').forEach(el => {
+                    if(el.id !== `acc-item-${id}`) {
+                        el.classList.remove('active');
+                        el.querySelector('.accordion-body').style.maxHeight = null;
+                    }
+                });
+
+                if (item.classList.contains('active')) {
+                    item.classList.remove('active');
+                    body.style.maxHeight = null;
+                } else {
+                    item.classList.add('active');
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updatePromptForCard(itemId) {
+                const data = promptData.find(p => p.id == itemId);
+                const isMyanmar = document.querySelector('input[name="language"]:checked').value === 'mm';
+                let finalPrompt = isMyanmar ? data.mm : data.en;
+
+                data.inputs.forEach(input => {
+                    const el = document.getElementById(`input-${data.id}-${input.id}`);
+                    const val = el && el.value.trim() !== "" ? el.value.trim() : `[${input.id}]`;
+                    finalPrompt = finalPrompt.split(`[${input.id}]`).join(val);
+                });
+
+                document.getElementById(`output-${data.id}`).value = finalPrompt;
+
+                const body = document.getElementById(`acc-body-${data.id}`);
+                const item = document.getElementById(`acc-item-${data.id}`);
+                if(item.classList.contains('active')) {
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updateAllPrompts() {
+                promptData.forEach(data => updatePromptForCard(data.id));
+            }
+
+            function attachEventListeners() {
+                container.addEventListener('input', (e) => {
+                    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        if (itemId) updatePromptForCard(itemId);
+                    }
+                });
+
+                container.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'BUTTON') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        const outputEl = document.getElementById(`output-${itemId}`);
+                        outputEl.select();
+                        document.execCommand('copy');
+
+                        const btn = e.target;
+                        const originalText = btn.innerText;
+                        btn.innerText = "COPIED! ✨";
+                        setTimeout(() => btn.innerText = originalText, 2000);
+                    }
+                });
+            }
+
+            langRadios.forEach(radio => radio.addEventListener('change', updateAllPrompts));
+
+            renderAccordion();
+            setTimeout(() => { toggleAccordion(1); }, 100);
+        });
+    </script>
+</body>
+</html>
