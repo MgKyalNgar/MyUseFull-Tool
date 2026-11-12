@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="My Useful Tools">
+    <link rel="apple-touch-icon" href="../icon-192x192.png">
+    <title>Claude Coding Prompts</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: #0f172a;
+            color: #e4e4e7;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .header-container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            margin-bottom: 25px;
+            position: sticky;
+            top: 0;
+            background: rgba(15, 23, 42, 0.95);
+            padding: 20px;
+            z-index: 100;
+            border-bottom: 1px solid #d97757; /* Claude Terracotta/Amber */
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #d97757;
+            font-size: clamp(1.4rem, 5vw, 2.2rem);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(217, 119, 87, 0.3);
+        }
+
+        .subtitle {
+            color: #a1a1aa;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .global-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .radio-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #d4d4d8;
+            font-weight: 600;
+        }
+
+        input[type="radio"] {
+            accent-color: #d97757;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ----- Remark (Sticky Header အပြင်ဘက်၊ Scroll လုပ်လို့ရသော အပိုင်း) ----- */
+        .remark-box {
+            width: 100%;
+            max-width: 800px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-left: 4px solid #d97757;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+            color: #e2e8f0;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .remark-box h2 {
+            color: #d97757;
+            font-size: 1.05rem;
+            margin-bottom: 10px;
+        }
+
+        .remark-box ul {
+            padding-left: 20px;
+            margin: 10px 0;
+        }
+
+        .remark-box li {
+            margin-bottom: 6px;
+        }
+
+        .remark-box li b {
+            color: #f4a286;
+        }
+
+        .remark-source {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin-top: 12px;
+        }
+
+        /* ----- Accordion List Container ----- */
+        .accordion-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        /* ----- Accordion Item ----- */
+        .accordion-item {
+            background: #27272a;
+            border: 1px solid #3f3f46;
+            border-left: 4px solid #d97757;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            border-color: #d97757;
+            box-shadow: 0 0 15px rgba(217, 119, 87, 0.1);
+        }
+
+        /* ----- Accordion Header (Clickable) ----- */
+        .accordion-header {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            background: rgba(39, 39, 42, 0.8);
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding-right: 15px;
+        }
+
+        .acc-title {
+            color: #fafafa;
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        .acc-desc {
+            color: #a1a1aa;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .acc-icon {
+            color: #d97757;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-item.active .acc-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-item.active {
+            border-color: #d97757;
+            box-shadow: 0 0 20px rgba(217, 119, 87, 0.15);
+        }
+
+        /* ----- Accordion Body ----- */
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            background: #0f172a;
+        }
+
+        .body-inner {
+            padding: 25px 20px;
+            border-top: 1px dashed #3f3f46;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #f4a286;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"], textarea.input-textarea {
+            width: 100%;
+            background: #27272a;
+            border: 1px solid #3f3f46;
+            color: #d97757;
+            padding: 12px;
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        textarea.input-textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        input[type="text"]:focus, textarea.input-textarea:focus {
+            border-color: #d97757;
+            box-shadow: 0 0 10px rgba(217, 119, 87, 0.2);
+        }
+
+        textarea.output-area {
+            width: 100%;
+            height: 220px;
+            background: #09090b;
+            border: 1px solid #3f3f46;
+            color: #fafafa;
+            padding: 15px;
+            border-radius: 6px;
+            resize: vertical;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            outline: none;
+            margin-top: 10px;
+        }
+
+        textarea.output-area:focus {
+            border-color: #d97757;
+        }
+
+        button {
+            width: 100%;
+            background: transparent;
+            color: #d97757;
+            border: 1px solid #d97757;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #d97757;
+            color: #0f172a;
+            box-shadow: 0 0 15px rgba(217, 119, 87, 0.4);
+        }
+
+        /* ----- Responsive (ဖုန်းစခရင်) ----- */
+        @media (max-width: 600px) {
+            body {
+                padding: 20px 12px;
+            }
+
+            .header-container {
+                padding: 15px 12px;
+                margin-bottom: 20px;
+            }
+
+            h1 {
+                letter-spacing: 1px;
+            }
+
+            .subtitle {
+                font-size: 0.9rem;
+            }
+
+            .remark-box {
+                padding: 15px;
+                font-size: 0.9rem;
+            }
+
+            .accordion-header {
+                padding: 15px;
+            }
+
+            .acc-title {
+                font-size: 1rem;
+            }
+
+            .acc-desc {
+                font-size: 0.85rem;
+            }
+
+            .body-inner {
+                padding: 20px 12px;
+            }
+
+            textarea.output-area {
+                height: 180px;
+            }
+
+            button {
+                padding: 11px;
+                font-size: 0.95rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>💻 Prompt for Claude Coding</h1>
+        <p class="subtitle">Claude AI ကို Senior AI Developer တစ်ယောက်လို အသုံးချဖို့ အသုံးဝင်တဲ့ Prompt (9) မျိုး</p>
+        <div class="global-options">
+            <label class="radio-btn">
+                <input type="radio" name="language" value="mm" checked> Myanmar Prompt
+            </label>
+            <label class="radio-btn">
+                <input type="radio" name="language" value="en"> English Prompt
+            </label>
+        </div>
+    </div>
+
+    <div class="remark-box">
+        <h2>💡 ဘာကြောင့် ဒီ Prompt တွေ အလုပ်ဖြစ်သလဲ</h2>
+        <p>Claude ကို AI Assistant တစ်ယောက်လိုပဲ ခိုင်းစေနေတာ ရပ်လိုက်ပါ။ ပိုမိုထက်မြက်တဲ့ Senior AI Developer တစ်ယောက်လို အသုံးချကြည့်ပါ။ "ဒါလုပ်ပေးပါ။" "Code ရေးပေးပါ။" "ဒီ Error ကို ဖြေရှင်းပေးပါ။" လို့ ရိုးရိုးရှင်းရှင်း ခိုင်းစေနေရုံနဲ့ မလုံလောက်ပါဘူး။</p>
+        <p>AI ကို အသုံးပြုတဲ့အခါ ကိုယ်လိုချင်တဲ့အရာကိုပဲ တိုက်ရိုက်ခိုင်းစေတာထက် အောက်ပါအချက်တွေကိုပါ ထည့်သွင်းညွှန်ကြားနိုင်ရင် ပိုကောင်းတဲ့ ရလဒ်တွေ ရရှိနိုင်ပါတယ်။</p>
+        <ul>
+            <li><b>Context</b> – လက်ရှိ Project အကြောင်း အရင်နားလည်ခိုင်းပါ။</li>
+            <li><b>Requirements</b> – လိုချင်တဲ့ Feature နဲ့ လုပ်ဆောင်ချက်တွေကို တိတိကျကျ သတ်မှတ်ပါ။</li>
+            <li><b>Evidence</b> – ခန့်မှန်းချက်မဟုတ်ဘဲ အထောက်အထားနဲ့ ဆုံးဖြတ်ခိုင်းပါ။</li>
+            <li><b>Constraints</b> – မပြောင်းလဲသင့်တဲ့အရာတွေကို ကြိုတင်သတ်မှတ်ပါ။</li>
+            <li><b>Verification</b> – အလုပ်ပြီးသွားရုံမဟုတ်ဘဲ မှန်ကန်မှုရှိ၊ မရှိ ပြန်လည်စစ်ဆေးခိုင်းပါ။</li>
+        </ul>
+        <p class="remark-source">ရင်းမြစ် — Cross-X Facebook Post, 10 Nov 2026</p>
+    </div>
+
+    <div class="accordion-container" id="accordion-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            const promptData = [
+                {
+                    id: 1,
+                    title: "၁။ Project ကို မပြင်ဆင်ခင် အရင်ဆုံး နားလည်အောင် လေ့လာခိုင်းပါ",
+                    desc: "Coding မလုပ်ခင် Project တစ်ခုလုံး ဘယ်လိုအလုပ်လုပ်သလဲ အရင်နားလည်အောင် လေ့လာခိုင်းရန်။",
+                    en: "Trace how [a user submits the checkout form] works in this project. Start at the screen, follow the relevant functions, and end at the database or external service. Reference the actual files and function names you find. Explain each step in plain English, identify where validation and errors are handled, and tell me which files would need changing to add [discount codes]. Don't modify anything yet. Flag any files you need but cannot access.",
+                    mm: "ဒီ Project ထဲမှာ [a user submits the checkout form] ဘယ်လိုအလုပ်လုပ်သလဲဆိုတာ အစအဆုံး လိုက်လံစစ်ဆေးလေ့လာပေးပါ။\nအစပိုင်းမှာ User မြင်ရတဲ့ Screen ကနေ စတင်ပြီး သက်ဆိုင်ရာ Functions တွေကို တစ်ဆင့်ချင်း လိုက်လံစစ်ဆေးကာ နောက်ဆုံး Database သို့မဟုတ် External Service အထိ ဘယ်လိုချိတ်ဆက်အလုပ်လုပ်သလဲဆိုတာ ရှင်းပြပါ။\nစစ်ဆေးတွေ့ရှိတဲ့ တကယ့် File Name နဲ့ Function Name တွေကို ကိုးကားဖော်ပြပေးပါ။ အဆင့်တိုင်းမှာ ဘာတွေဖြစ်ပျက်နေသလဲဆိုတာ နားလည်လွယ်တဲ့စကားလုံးတွေနဲ့ ရှင်းပြပြီး Validation နဲ့ Error Handling တွေကို ဘယ်နေရာမှာ လုပ်ဆောင်ထားသလဲဆိုတာ ဖော်ထုတ်ပေးပါ။\nနောက်ထပ် [discount codes] ထည့်သွင်းချင်တယ်ဆိုရင် ဘယ် File တွေကို ပြင်ဆင်ဖို့ လိုအပ်မလဲဆိုတာလည်း ပြောပြပါ။\nလောလောဆယ် ဘာ Code ကိုမှ မပြင်ဆင်ပါနဲ့။ လိုအပ်ပေမဲ့ Access မရနိုင်တဲ့ File တွေရှိရင်လည်း သီးခြားဖော်ပြပေးပါ။",
+                    inputs: [
+                        { id: "a user submits the checkout form", label: "လေ့လာရမည့် လုပ်ဆောင်ချက် (Action)", type: "text", hint: "ဥပမာ - a user submits the checkout form" },
+                        { id: "discount codes", label: "ထည့်ချင်သော Feature (Feature)", type: "text", hint: "ဥပမာ - discount codes" }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "၂။ လိုချင်တဲ့ရလဒ်ကို သတ်မှတ်ပြီး Feature အသစ်တည်ဆောက်ခိုင်းပါ",
+                    desc: "လိုချင်တဲ့ ရလဒ်ကို တိတိကျကျ သတ်မှတ်ပြီး Feature အသစ် တည်ဆောက်ခိုင်းရန်။",
+                    en: "Add [a searchable product list] to my [React] app using the attached project files. Users must be able to [search by name, filter by category, and clear filters]. Include loading, empty, and error states. Follow the project's existing components and styling; avoid new dependencies unless necessary. First identify the files involved and any blocking questions, then implement the feature. Finish with the changed files and a short checklist I can use to verify each requirement.",
+                    mm: "ပူးတွဲပေးထားတဲ့ Project Files တွေကို အသုံးပြုပြီး ကျွန်တော့်ရဲ့ [React] App ထဲမှာ [a searchable product list] Feature အသစ်တစ်ခု ထည့်သွင်းတည်ဆောက်ပေးပါ။\nUser တွေအနေနဲ့ အောက်ပါလုပ်ဆောင်ချက်တွေကို အသုံးပြုနိုင်ရပါမယ်။\nProduct Name နဲ့ ရှာဖွေနိုင်ရမယ်။\nCategory အလိုက် Filter လုပ်နိုင်ရမယ်။\nအသုံးပြုထားတဲ့ Filter တွေကို ပြန်လည်ရှင်းလင်းနိုင်ရမယ်။\nLoading State၊ Empty State နဲ့ Error State တွေကိုလည်း ထည့်သွင်းပေးပါ။\nလက်ရှိ Project မှာ အသုံးပြုထားတဲ့ Components နဲ့ Styling ပုံစံအတိုင်း လိုက်နာပါ။ မဖြစ်မနေလိုအပ်ခြင်းမရှိရင် Dependency အသစ်တွေ ထပ်မထည့်ပါနဲ့။\nအရင်ဆုံး ဒီ Feature အတွက် ပြင်ဆင်ရမယ့် Files တွေကို ဖော်ထုတ်ပြီး အကောင်အထည်ဖော်ရာမှာ အဟန့်အတားဖြစ်နိုင်တဲ့ မေးခွန်းတွေရှိရင် အရင်မေးပါ။ ပြီးမှ Feature ကို အကောင်အထည်ဖော်ပေးပါ။\nနောက်ဆုံးမှာ ပြင်ဆင်ခဲ့တဲ့ Files တွေကို စာရင်းပြုစုပေးပြီး လိုအပ်ချက်တစ်ခုချင်းစီ မှန်ကန်စွာ အလုပ်လုပ်ခြင်းရှိ၊ မရှိ စစ်ဆေးနိုင်မယ့် Checklist တစ်ခုကိုပါ ထည့်ပေးပါ။",
+                    inputs: [
+                        { id: "a searchable product list", label: "တည်ဆောက်ရမည့် Feature", type: "text", hint: "ဥပမာ - a searchable product list" },
+                        { id: "React", label: "အသုံးပြုထားသော Framework", type: "text", hint: "ဥပမာ - React" },
+                        { id: "search by name, filter by category, and clear filters", label: "User လုပ်နိုင်ရမည့် လုပ်ဆောင်ချက်များ", type: "text", hint: "ဥပမာ - search by name, filter by category, and clear filters" }
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "၃။ ခန့်မှန်းချက်မဟုတ်ဘဲ အထောက်အထားအပေါ်မူတည်ပြီး Error ဖြေရှင်းခိုင်းပါ",
+                    desc: "ခန့်မှန်းချက်မဟုတ်ဘဲ အထောက်အထားနဲ့ Error ရဲ့ အကြောင်းရင်းကို ရှာပြီး ဖြေရှင်းခိုင်းရန်။",
+                    en: "Help me fix this error: [paste the complete error]. It happens when I [exact steps], but I expected [result]. My stack is [language/framework/version], and the relevant code is attached. Trace the failure through the code and distinguish confirmed facts from possible causes. If the cause is uncertain, give me the smallest diagnostic check to run first. Once supported by evidence, provide a minimal fix, explain why it works, and show how to verify the original failure is gone.",
+                    mm: "ဒီ Error ကို ဖြေရှင်းပေးပါ။\n[paste the complete error]\nဒီ Error က [exact steps] အဲဒီအချိန်မှာ ဖြစ်ပေါ်လာတာပါ။ ကျွန်တော် မျှော်လင့်ထားတဲ့ ရလဒ်ကတော့ [result] ဖြစ်ပါတယ်။\nအသုံးပြုထားတဲ့ Technology Stack က [language/framework/version] ဖြစ်ပြီး သက်ဆိုင်ရာ Code တွေကိုလည်း ပူးတွဲပေးထားပါတယ်။\nCode တစ်ခုလုံးကို လိုက်လံစစ်ဆေးပြီး Error ဖြစ်ပေါ်လာတဲ့ အကြောင်းရင်းကို ရှာဖွေပေးပါ။ သေချာအတည်ပြုနိုင်တဲ့ အချက်အလက်တွေနဲ့ ဖြစ်နိုင်ခြေရှိတဲ့ အကြောင်းရင်းတွေကို ခွဲခြားဖော်ပြပေးပါ။\nအကြောင်းရင်းကို အတိအကျ မသိသေးရင် အရင်ဆုံး စမ်းသပ်စစ်ဆေးသင့်တဲ့ အရိုးရှင်းဆုံး Diagnostic Check ကို ပြောပြပါ။\nအထောက်အထားနဲ့ အကြောင်းရင်းကို အတည်ပြုပြီးမှ လိုအပ်သလောက်သာ Code ကို ပြင်ဆင်ပေးပါ။ ဘာကြောင့် ဒီနည်းလမ်းက အလုပ်လုပ်သလဲဆိုတာ ရှင်းပြပြီး မူလ Error ပျောက်သွားပြီလားဆိုတာ ဘယ်လိုပြန်စစ်ဆေးရမလဲဆိုတာပါ ဖော်ပြပေးပါ။",
+                    inputs: [
+                        { id: "paste the complete error", label: "Error Message အပြည့်အစုံ", type: "textarea", hint: "Error Message အပြည့်အစုံကို ဒီနေရာမှာ ထည့်ပါ" },
+                        { id: "exact steps", label: "Error ဖြစ်ပေါ်လာတဲ့ အဆင့်များ", type: "text", hint: "ဥပမာ - click submit and refresh the page" },
+                        { id: "result", label: "မျှော်လင့်ထားတဲ့ ရလဒ်", type: "text", hint: "ဥပမာ - the order is saved once" },
+                        { id: "language/framework/version", label: "အသုံးပြုထားသော Technology Stack", type: "text", hint: "ဥပမာ - React 18 / Node 20" }
+                    ]
+                },
+                {
+                    id: 4,
+                    title: "၄။ Screenshot တစ်ပုံကနေ အလုပ်လုပ်နိုင်တဲ့ UI Screen တည်ဆောက်ခိုင်းပါ",
+                    desc: "Screenshot ပုံတစ်ပုံကနေ အလုပ်လုပ်နိုင်တဲ့ UI Screen တစ်ခုလုံး ပြန်လည်တည်ဆောက်ခိုင်းရန်။",
+                    en: "Recreate the attached [dashboard] screenshot inside my existing [framework] project. Inspect the current styling and reusable components first. Match the layout, spacing, typography, colors, and alignment as closely as the provided assets allow. Make it usable on mobile, with keyboard-accessible controls and visible focus states. Use existing icons and assets where available; identify missing assets instead of inventing them. Implement the screen, connect [specified interactions], and explain any visual differences that remain.",
+                    mm: "ပူးတွဲပေးထားတဲ့ [dashboard] Screenshot ပုံအတိုင်း ကျွန်တော့်ရဲ့ လက်ရှိ [framework] Project ထဲမှာ UI Screen တစ်ခုကို တတ်နိုင်သမျှ တစ်ထပ်တည်းတူညီအောင် ပြန်လည်တည်ဆောက်ပေးပါ။\nအရင်ဆုံး Project ထဲမှာ ရှိပြီးသား Styling နဲ့ ပြန်လည်အသုံးပြုနိုင်တဲ့ Components တွေကို စစ်ဆေးပါ။\nပေးထားတဲ့ Reference ပုံနဲ့ အနီးစပ်ဆုံးတူညီစေရန် အောက်ပါအချက်တွေကို ဂရုစိုက်ပါ။\nLayout နဲ့ Element နေရာချထားမှု\nSpacing နဲ့ Alignment\nTypography နဲ့ Font Size\nColors နဲ့ Visual Design\nMobile Device တွေမှာလည်း အဆင်ပြေစွာ အသုံးပြုနိုင်ရပါမယ်။ Keyboard နဲ့ ထိန်းချုပ်အသုံးပြုနိုင်တဲ့ Controls တွေနဲ့ Focus State တွေကိုလည်း ထည့်သွင်းပေးပါ။\nProject ထဲမှာ ရှိပြီးသား Icons နဲ့ Assets တွေကို ဦးစားပေးအသုံးပြုပါ။ မရှိတဲ့ Assets တွေကို ကိုယ့်သဘောနဲ့ ဖန်တီးမထည့်ဘဲ ဘာတွေလိုအပ်နေသလဲဆိုတာ ဖော်ပြပေးပါ။\nနောက်ဆုံးမှာ UI Screen ကို အကောင်အထည်ဖော်ပြီး [specified interactions] တွေနဲ့ ချိတ်ဆက်ပေးပါ။ Reference ပုံနဲ့ ကွဲပြားနေသေးတဲ့ Visual Differences တွေရှိရင်လည်း ရှင်းပြပေးပါ။",
+                    inputs: [
+                        { id: "dashboard", label: "Screenshot ထဲက Screen အမျိုးအစား", type: "text", hint: "ဥပမာ - dashboard" },
+                        { id: "framework", label: "အသုံးပြုထားသော Framework", type: "text", hint: "ဥပမာ - React" },
+                        { id: "specified interactions", label: "ချိတ်ဆက်ရမည့် Interactions", type: "text", hint: "ဥပမာ - search, filter, and pagination" }
+                    ]
+                },
+                {
+                    id: 5,
+                    title: "၅။ ရှုပ်ထွေးနေတဲ့ Code တွေကို မူလလုပ်ဆောင်ချက်မပျက်ဘဲ ပြန်လည်ပြုပြင်ခိုင်းပါ",
+                    desc: "ရှုပ်ထွေးနေတဲ့ Code ကို မူလလုပ်ဆောင်ချက် မပျက်ဘဲ နားလည်လွယ်အောင် ပြန်လည်ပြုပြင်ခိုင်းရန်။",
+                    en: "Refactor [attached function/file] to make [the nested conditions and repeated validation] easier to understand. Preserve its public interface, return values, error behavior, and existing edge cases. First summarize its current behavior and identify the specific complexity you'll remove. Then make the smallest useful refactor, following the project's conventions. Avoid unrelated cleanup or new dependencies. Run existing relevant tests if available, and explain any behavior you could not verify.",
+                    mm: "ပူးတွဲပေးထားတဲ့ [attached function/file] ထဲက [the nested conditions and repeated validation] ကို ပိုမိုနားလည်လွယ်အောင် ပြန်လည်ပြုပြင်ပေးပါ။\nပြုပြင်တဲ့အခါ မူလ Code ရဲ့ အောက်ပါအချက်တွေကို လုံးဝမပြောင်းလဲစေရပါဘူး။\nPublic Interface\nReturn Values\nError Behavior\nရှိပြီးသား Edge Cases များ\nအရင်ဆုံး လက်ရှိ Code က ဘယ်လိုအလုပ်လုပ်နေသလဲဆိုတာ အကျဉ်းချုပ်ရှင်းပြပြီး ဘယ်လိုရှုပ်ထွေးမှုတွေကို ဖယ်ရှားပေးမလဲဆိုတာ ဖော်ပြပါ။\nပြီးမှ Project ရဲ့ လက်ရှိ Coding Convention တွေနဲ့ ကိုက်ညီအောင် အမှန်တကယ်လိုအပ်တဲ့ အနည်းဆုံးပြုပြင်မှုကိုသာ လုပ်ဆောင်ပါ။\nမသက်ဆိုင်တဲ့ Code တွေကို လိုက်လံပြင်ဆင်ခြင်းနဲ့ Dependency အသစ်တွေ ထည့်သွင်းခြင်းကို ရှောင်ကြဉ်ပါ။\nအသုံးပြုနိုင်တဲ့ သက်ဆိုင်ရာ Tests တွေရှိရင် Run ပေးပါ။ အတည်ပြုစစ်ဆေးနိုင်ခြင်းမရှိတဲ့ လုပ်ဆောင်ချက်တွေရှိရင်လည်း သီးခြားဖော်ပြပေးပါ။",
+                    inputs: [
+                        { id: "attached function/file", label: "ပြန်လည်ပြုပြင်ရမည့် Function / File", type: "text", hint: "ဥပမာ - validateCheckout() in checkout.js" },
+                        { id: "the nested conditions and repeated validation", label: "ဖယ်ရှားရမည့် ရှုပ်ထွေးမှု", type: "text", hint: "ဥပမာ - the nested conditions and repeated validation" }
+                    ]
+                },
+                {
+                    id: 6,
+                    title: "၆။ တကယ့် Bug တွေကို ဖမ်းမိနိုင်မယ့် Tests တွေ ရေးခိုင်းပါ",
+                    desc: "တကယ့် Bug ကို ဖမ်းမိနိုင်မယ့် Regression Tests တွေ ရေးခိုင်းရန်။",
+                    en: "Write regression tests for this bug: [submitting the payment form twice creates two orders]. Expected behavior: [only one order is created while a request is pending]. Use the project's existing test framework and the attached implementation. Test observable behavior rather than private helper functions. Cover the original failure, a successful submission, a failed request, and retrying afterward. Keep mocks limited to external boundaries. Explain what each test proves, and run the tests if your environment supports it.",
+                    mm: "ဒီ Bug ကို နောက်တစ်ကြိမ် ထပ်မဖြစ်ပွားစေရန် Regression Tests တွေ ရေးသားပေးပါ။\n[submitting the payment form twice creates two orders]\nမျှော်လင့်ထားတဲ့ လုပ်ဆောင်ချက်ကတော့ Request တစ်ခု Pending ဖြစ်နေချိန်မှာ Order တစ်ခုတည်းသာ ဖန်တီးနိုင်ရပါမယ်။\nProject မှာ လက်ရှိအသုံးပြုနေတဲ့ Test Framework နဲ့ ပူးတွဲပေးထားတဲ့ Implementation ကို အသုံးပြုပေးပါ။\nPrivate Helper Functions တွေကိုသာ စစ်ဆေးတာမျိုးမလုပ်ဘဲ User တကယ်မြင်တွေ့ရတဲ့ လုပ်ဆောင်ချက်ရလဒ်တွေကို အခြေခံပြီး Test ရေးပေးပါ။\nအောက်ပါအခြေအနေတွေကို မဖြစ်မနေ စစ်ဆေးပေးပါ။\nမူလ Bug ဖြစ်ပေါ်ခဲ့တဲ့ အခြေအနေ။\nSubmission အောင်မြင်တဲ့ အခြေအနေ။\nRequest မအောင်မြင်တဲ့ အခြေအနေ။\nမအောင်မြင်ပြီးနောက် ထပ်မံကြိုးစားတဲ့ အခြေအနေ။\nMocks တွေကို External Boundaries တွေမှာသာ လိုအပ်သလောက် အသုံးပြုပါ။\nTest တစ်ခုချင်းစီက ဘယ်အချက်ကို အတည်ပြုပေးသလဲဆိုတာ ရှင်းပြပေးပြီး အသုံးပြုနိုင်တဲ့ Environment ဖြစ်ပါက Tests တွေကို Run ပေးပါ။",
+                    inputs: [
+                        { id: "submitting the payment form twice creates two orders", label: "စစ်ဆေးရမည့် Bug", type: "text", hint: "ဥပမာ - submitting the payment form twice creates two orders" },
+                        { id: "only one order is created while a request is pending", label: "မျှော်လင့်ထားတဲ့ လုပ်ဆောင်ချက်", type: "text", hint: "ဥပမာ - only one order is created while a request is pending" }
+                    ]
+                },
+                {
+                    id: 7,
+                    title: "၇။ Website တစ်ခု နှေးကွေးနေတဲ့ အကြောင်းရင်းကို ရှာဖွေခိုင်းပါ",
+                    desc: "Website နှေးကွေးနေတဲ့ အကြောင်းရင်းကို အထောက်အထားနဲ့ ရှာဖွေခိုင်းရန်။",
+                    en: "Investigate why [the product search page] takes [four seconds] after [typing a search term]. Relevant files and any timing information are attached. Follow the path from the interaction to rendering and network requests. Rank likely bottlenecks using evidence from this code, and tell me what measurement would confirm each one. Implement the smallest supported improvement. Preserve existing behavior, and report measured results if available; otherwise give me exact steps to compare before and after.",
+                    mm: "ဒီ [the product search page] မှာ Search Term တစ်ခု ရိုက်ထည့်ပြီးနောက် [four seconds] ကြာမှသာ ရလဒ်ပေါ်လာတဲ့ အကြောင်းရင်းကို စုံစမ်းဖော်ထုတ်ပေးပါ။\nသက်ဆိုင်ရာ Files တွေနဲ့ Timing Information တွေကို ပူးတွဲပေးထားပါတယ်။\nUser က Search လုပ်လိုက်တဲ့အချိန်ကနေ စတင်ပြီး UI Rendering နဲ့ Network Requests တွေအထိ ဘယ်လိုအဆင့်ဆင့် အလုပ်လုပ်နေသလဲဆိုတာ လိုက်လံစစ်ဆေးပေးပါ။\nCode ထဲက အထောက်အထားတွေအပေါ် မူတည်ပြီး Performance ကို နှေးကွေးစေနိုင်တဲ့ အကြောင်းရင်းတွေကို ဖြစ်နိုင်ခြေအလိုက် အဆင့်သတ်မှတ်ပေးပါ။\nအကြောင်းရင်းတစ်ခုချင်းစီကို အတည်ပြုဖို့ ဘယ်လို Measurement တွေ လုပ်ဆောင်သင့်သလဲဆိုတာလည်း ရှင်းပြပါ။\nအထောက်အထားအရ အမှန်တကယ်လိုအပ်တဲ့ အနည်းဆုံးပြုပြင်မှုကိုသာ လုပ်ဆောင်ပေးပါ။ မူလလုပ်ဆောင်ချက်တွေကို မပျက်စီးစေပါနဲ့။\nတိုင်းတာထားတဲ့ ရလဒ်တွေရှိရင် မပြင်ဆင်ခင်နဲ့ ပြင်ဆင်ပြီးနောက် Performance ကွာခြားချက်ကို ဖော်ပြပေးပါ။ တိုင်းတာနိုင်ခြင်းမရှိရင်လည်း နှိုင်းယှဉ်စစ်ဆေးနိုင်မယ့် အဆင့်တွေကို တိတိကျကျ ရေးပေးပါ။",
+                    inputs: [
+                        { id: "the product search page", label: "နှေးကွေးနေသော Page", type: "text", hint: "ဥပမာ - the product search page" },
+                        { id: "four seconds", label: "ကြာမြင့်ချိန်", type: "text", hint: "ဥပမာ - four seconds" },
+                        { id: "typing a search term", label: "လုပ်ဆောင်ချက်", type: "text", hint: "ဥပမာ - typing a search term" }
+                    ]
+                },
+                {
+                    id: 8,
+                    title: "၈။ App ကို Release မလုပ်ခင် Code တွေကို စစ်ဆေးခိုင်းပါ",
+                    desc: "Release မလုပ်ခင် Code Changes တွေကို ပြန်လည်စစ်ဆေးခိုင်းရန်။",
+                    en: "Review the attached diff for [adding subscription cancellation]. Intended behavior: [access continues until the paid period ends]. Check for incorrect behavior, missing permission checks, data loss, unhandled failures, and regressions in existing flows. Report only actionable findings, ordered by severity. For each, include the file and line when available, a concrete failure scenario, and a suggested fix. Separate confirmed issues from questions. Skip cosmetic preferences, and state which behavior still needs testing before release.",
+                    mm: "[adding subscription cancellation] ထည့်သွင်းထားတဲ့ Code Changes (Diff) တွေကို Release မလုပ်ခင် စနစ်တကျ ပြန်လည်စစ်ဆေးပေးပါ။\nဒီ Feature ရဲ့ ရည်ရွယ်ထားတဲ့ လုပ်ဆောင်ချက်ကတော့ User တစ်ယောက်က Subscription ကို Cancel လုပ်ပြီးသွားရင်တောင် လက်ရှိငွေပေးချေထားတဲ့ ကာလကုန်ဆုံးတဲ့အချိန်အထိ Service ကို ဆက်လက်အသုံးပြုခွင့်ရှိနေရပါမယ်။\nအောက်ပါအချက်တွေကို အဓိကထား စစ်ဆေးပေးပါ။\nမှားယွင်းနေတဲ့ လုပ်ဆောင်ချက်များ။\nPermission Checks မပြည့်စုံခြင်း။\nData ပျောက်ဆုံးနိုင်ခြင်း။\nကိုင်တွယ်ဖြေရှင်းထားခြင်းမရှိတဲ့ Failures များ။\nရှိပြီးသား Features တွေမှာ ပြဿနာအသစ် ဖြစ်ပေါ်လာနိုင်ခြင်း။\nအမှန်တကယ် ပြင်ဆင်ဖို့လိုအပ်တဲ့ ပြဿနာတွေကိုသာ Severity အလိုက် အဆင့်သတ်မှတ်ပြီး ဖော်ပြပေးပါ။\nပြဿနာတစ်ခုချင်းစီအတွက် ဖြစ်နိုင်ပါက File Name နဲ့ Line Number ကို ဖော်ပြပါ။ ဘယ်လိုအခြေအနေမှာ ပြဿနာဖြစ်ပေါ်နိုင်သလဲဆိုတဲ့ လက်တွေ့ဥပမာနဲ့ ဖြေရှင်းဖို့ အကြံပြုချက်ကိုပါ ထည့်ပေးပါ။\nသေချာအတည်ပြုနိုင်တဲ့ ပြဿနာတွေနဲ့ ထပ်မံမေးမြန်းစစ်ဆေးဖို့ လိုအပ်တဲ့ အချက်တွေကို သီးခြားခွဲခြားဖော်ပြပေးပါ။\nအလှအပဆိုင်ရာ ကိုယ်ပိုင်အကြိုက်တွေကို ချန်လှပ်ထားပြီး Release မလုပ်ခင် ထပ်မံစမ်းသပ်ဖို့ လိုအပ်နေသေးတဲ့ လုပ်ဆောင်ချက်တွေကိုလည်း ပြောပြပေးပါ။",
+                    inputs: [
+                        { id: "adding subscription cancellation", label: "စစ်ဆေးရမည့် Feature", type: "text", hint: "ဥပမာ - adding subscription cancellation" },
+                        { id: "access continues until the paid period ends", label: "ရည်ရွယ်ထားတဲ့ လုပ်ဆောင်ချက်", type: "text", hint: "ဥပမာ - access continues until the paid period ends" }
+                    ]
+                },
+                {
+                    id: 9,
+                    title: "၉။ Screen တစ်ခုကို API နဲ့ စနစ်တကျ ချိတ်ဆက်ခိုင်းပါ",
+                    desc: "Screen တစ်ခုကို API နဲ့ စနစ်တကျ ချိတ်ဆက်ခိုင်းရန်။",
+                    en: "Connect [my newsletter signup form] to [endpoint] using the attached API documentation and project files. The request fields are [email and name], and success should [show a confirmation message]. Follow the project's existing request pattern. Handle validation, pending requests, duplicate submissions, documented API errors, and network failures. Keep credentials that must remain private out of browser code. If the API contract is incomplete, ask for the missing details. Implement the integration and give me a manual test checklist.",
+                    mm: "ပူးတွဲပေးထားတဲ့ API Documentation နဲ့ Project Files တွေကို အသုံးပြုပြီး ကျွန်တော့်ရဲ့ [my newsletter signup form] ကို [endpoint] နဲ့ ချိတ်ဆက်ပေးပါ။\nAPI Request မှာ အောက်ပါ Fields တွေ ပါဝင်ရပါမယ်။\nEmail\nName\nလုပ်ဆောင်ချက် အောင်မြင်သွားတဲ့အခါ User ကို Confirmation Message ပြသပေးရပါမယ်။\nProject မှာ ရှိပြီးသား API Request Pattern အတိုင်း လိုက်နာပေးပါ။\nအောက်ပါအခြေအနေတွေကို စနစ်တကျ ကိုင်တွယ်ပေးပါ။\nUser Input Validation။\nRequest Pending ဖြစ်နေချိန်။\nDuplicate Submissions များ။\nAPI Documentation မှာ ဖော်ပြထားတဲ့ Error များ။\nNetwork Connection ပြတ်တောက်မှုကြောင့် ဖြစ်ပေါ်လာတဲ့ Failures များ။\nလျှို့ဝှက်ထားရမယ့် API Credentials တွေကို Browser Code ထဲမှာ မထည့်ပါနဲ့။\nAPI Contract မှာ မပြည့်စုံတဲ့ အချက်အလက်တွေရှိရင် လိုအပ်တဲ့ အသေးစိတ်အချက်အလက်တွေကို အရင်မေးမြန်းပါ။\nနောက်ဆုံးမှာ API Integration ကို အကောင်အထည်ဖော်ပေးပြီး အမှန်တကယ် အလုပ်လုပ်ခြင်းရှိ၊ မရှိ စမ်းသပ်နိုင်မယ့် Manual Testing Checklist တစ်ခုကိုပါ ရေးပေးပါ။",
+                    inputs: [
+                        { id: "my newsletter signup form", label: "ချိတ်ဆက်ရမည့် Form", type: "text", hint: "ဥပမာ - my newsletter signup form" },
+                        { id: "endpoint", label: "API Endpoint", type: "text", hint: "ဥပမာ - /api/subscribe" },
+                        { id: "email and name", label: "Request Fields", type: "text", hint: "ဥပမာ - email and name" },
+                        { id: "show a confirmation message", label: "အောင်မြင်တဲ့အခါ ပြသရမည့် အရာ", type: "text", hint: "ဥပမာ - show a confirmation message" }
+                    ]
+                }
+            ];
+
+            const container = document.getElementById('accordion-container');
+            const langRadios = document.getElementsByName('language');
+
+            function renderAccordion() {
+                container.innerHTML = '';
+
+                promptData.forEach((data) => {
+                    const item = document.createElement('div');
+                    item.className = 'accordion-item';
+                    item.id = `acc-item-${data.id}`;
+
+                    let html = `
+                        <div class="accordion-header" onclick="toggleAccordion(${data.id})">
+                            <div class="header-content">
+                                <div class="acc-title">${data.title}</div>
+                                <div class="acc-desc">💡 ${data.desc}</div>
+                            </div>
+                            <div class="acc-icon">▼</div>
+                        </div>
+                    `;
+
+                    html += `<div class="accordion-body" id="acc-body-${data.id}">
+                                <div class="body-inner">`;
+
+                    if(data.inputs.length > 0) {
+                        data.inputs.forEach(input => {
+                            if(input.type === 'textarea') {
+                                html += `
+                                    <div class="form-group">
+                                        <label>${input.label}</label>
+                                        <textarea id="input-${data.id}-${input.id}" class="input-textarea" data-item-id="${data.id}" placeholder="${input.hint}"></textarea>
+                                    </div>
+                                `;
+                            } else {
+                                html += `
+                                    <div class="form-group">
+                                        <label>${input.label}</label>
+                                        <input type="text" id="input-${data.id}-${input.id}" data-item-id="${data.id}" placeholder="${input.hint}">
+                                    </div>
+                                `;
+                            }
+                        });
+                    }
+
+                    html += `
+                            <textarea id="output-${data.id}" class="output-area" readonly></textarea>
+                            <button id="copy-${data.id}" data-item-id="${data.id}">Copy Prompt</button>
+                        </div>
+                    </div>`;
+
+                    item.innerHTML = html;
+                    container.appendChild(item);
+                });
+
+                attachEventListeners();
+                updateAllPrompts();
+            }
+
+            window.toggleAccordion = function(id) {
+                const item = document.getElementById(`acc-item-${id}`);
+                const body = document.getElementById(`acc-body-${id}`);
+
+                // Auto-collapse logic
+                document.querySelectorAll('.accordion-item').forEach(el => {
+                    if(el.id !== `acc-item-${id}`) {
+                        el.classList.remove('active');
+                        el.querySelector('.accordion-body').style.maxHeight = null;
+                    }
+                });
+
+                if (item.classList.contains('active')) {
+                    item.classList.remove('active');
+                    body.style.maxHeight = null;
+                } else {
+                    item.classList.add('active');
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updatePromptForCard(itemId) {
+                const data = promptData.find(p => p.id == itemId);
+                const isMyanmar = document.querySelector('input[name="language"]:checked').value === 'mm';
+                let finalPrompt = isMyanmar ? data.mm : data.en;
+
+                data.inputs.forEach(input => {
+                    const el = document.getElementById(`input-${data.id}-${input.id}`);
+                    const val = el && el.value.trim() !== "" ? el.value.trim() : `[${input.id}]`;
+                    finalPrompt = finalPrompt.split(`[${input.id}]`).join(val);
+                });
+
+                document.getElementById(`output-${data.id}`).value = finalPrompt;
+
+                const body = document.getElementById(`acc-body-${data.id}`);
+                const item = document.getElementById(`acc-item-${data.id}`);
+                if(item.classList.contains('active')) {
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updateAllPrompts() {
+                promptData.forEach(data => updatePromptForCard(data.id));
+            }
+
+            function attachEventListeners() {
+                container.addEventListener('input', (e) => {
+                    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        if (itemId) updatePromptForCard(itemId);
+                    }
+                });
+
+                container.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'BUTTON') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        const outputEl = document.getElementById(`output-${itemId}`);
+                        outputEl.select();
+                        document.execCommand('copy');
+
+                        const btn = e.target;
+                        const originalText = btn.innerText;
+                        btn.innerText = "COPIED! ✨";
+                        setTimeout(() => btn.innerText = originalText, 2000);
+                    }
+                });
+            }
+
+            langRadios.forEach(radio => radio.addEventListener('change', updateAllPrompts));
+
+            renderAccordion();
+            setTimeout(() => { toggleAccordion(1); }, 100);
+        });
+    </script>
+</body>
+</html>
