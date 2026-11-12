@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="My Useful Tools">
+    <link rel="apple-touch-icon" href="../icon-192x192.png">
+    <title>ChatGPT Video Editing Prompts</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: #0f172a;
+            color: #e4e4e7;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .header-container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            margin-bottom: 25px;
+            position: sticky;
+            top: 0;
+            background: rgba(15, 23, 42, 0.95);
+            padding: 20px;
+            z-index: 100;
+            border-bottom: 1px solid #ec4899; /* Pink */
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #ec4899;
+            font-size: clamp(1.4rem, 5vw, 2.2rem);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(236, 72, 153, 0.3);
+        }
+
+        .subtitle {
+            color: #a1a1aa;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .global-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .radio-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #d4d4d8;
+            font-weight: 600;
+        }
+
+        input[type="radio"] {
+            accent-color: #ec4899;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ----- Remark (Sticky Header အပြင်ဘက်၊ Scroll လုပ်လို့ရသော အပိုင်း) ----- */
+        .remark-container {
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 25px;
+        }
+
+        .remark {
+            color: #f9a8d4;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 15px;
+            background: rgba(236, 72, 153, 0.1);
+            border-radius: 8px;
+            border: 1px dashed #ec4899;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        .remark h2 {
+            color: #f9a8d4;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .remark ul {
+            padding-left: 20px;
+            margin: 10px 0;
+        }
+
+        .remark li {
+            margin-bottom: 6px;
+        }
+
+        .remark li b {
+            color: #f9a8d4;
+        }
+
+        /* ----- Accordion List Container ----- */
+        .accordion-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        /* ----- Accordion Item ----- */
+        .accordion-item {
+            background: #27272a;
+            border: 1px solid #3f3f46;
+            border-left: 4px solid #ec4899;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            border-color: #ec4899;
+            box-shadow: 0 0 15px rgba(236, 72, 153, 0.1);
+        }
+
+        /* ----- Accordion Header (Clickable) ----- */
+        .accordion-header {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            background: rgba(39, 39, 42, 0.8);
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding-right: 15px;
+        }
+
+        .acc-title {
+            color: #fafafa;
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        .acc-desc {
+            color: #a1a1aa;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .acc-icon {
+            color: #ec4899;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-item.active .acc-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-item.active {
+            border-color: #ec4899;
+            box-shadow: 0 0 20px rgba(236, 72, 153, 0.15);
+        }
+
+        /* ----- Accordion Body ----- */
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            background: #0f172a;
+        }
+
+        .body-inner {
+            padding: 25px 20px;
+            border-top: 1px dashed #3f3f46;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #f9a8d4;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"], textarea.input-textarea {
+            width: 100%;
+            background: #27272a;
+            border: 1px solid #3f3f46;
+            color: #ec4899;
+            padding: 12px;
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        textarea.input-textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        input[type="text"]:focus, textarea.input-textarea:focus {
+            border-color: #ec4899;
+            box-shadow: 0 0 10px rgba(236, 72, 153, 0.2);
+        }
+
+        textarea.output-area {
+            width: 100%;
+            height: 220px;
+            background: #09090b;
+            border: 1px solid #3f3f46;
+            color: #fafafa;
+            padding: 15px;
+            border-radius: 6px;
+            resize: vertical;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            outline: none;
+            margin-top: 10px;
+        }
+
+        textarea.output-area:focus {
+            border-color: #ec4899;
+        }
+
+        button {
+            width: 100%;
+            background: transparent;
+            color: #ec4899;
+            border: 1px solid #ec4899;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #ec4899;
+            color: #0f172a;
+            box-shadow: 0 0 15px rgba(236, 72, 153, 0.4);
+        }
+
+        /* ----- Responsive (ဖုန်းစခရင်) ----- */
+        @media (max-width: 600px) {
+            body {
+                padding: 20px 12px;
+            }
+
+            .header-container {
+                padding: 15px 12px;
+                margin-bottom: 20px;
+            }
+
+            h1 {
+                letter-spacing: 1px;
+            }
+
+            .subtitle {
+                font-size: 0.9rem;
+            }
+
+            .remark {
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+
+            .accordion-header {
+                padding: 15px;
+            }
+
+            .acc-title {
+                font-size: 1rem;
+            }
+
+            .acc-desc {
+                font-size: 0.85rem;
+            }
+
+            .body-inner {
+                padding: 20px 12px;
+            }
+
+            textarea.output-area {
+                height: 180px;
+            }
+
+            button {
+                padding: 11px;
+                font-size: 0.95rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>🎬 Prompt for ChatGPT Video Editing</h1>
+        <p class="subtitle">ChatGPT နဲ့ Video Edit လုပ်ဖို့ အသုံးဝင်တဲ့ Prompt (10) မျိုး</p>
+        <div class="global-options">
+            <label class="radio-btn">
+                <input type="radio" name="language" value="mm" checked> Myanmar Prompt
+            </label>
+            <label class="radio-btn">
+                <input type="radio" name="language" value="en"> English Prompt
+            </label>
+        </div>
+    </div>
+
+    <!-- Scrollable Remark Area -->
+    <div class="remark-container">
+        <div class="remark">
+        <h2>💡 အသုံးပြုနည်း (How to Use)</h2>
+        <ul>
+            <li><b>၁။</b> ChatGPT မှာ ကိုယ်လုပ်ချင်တဲ့ Video ကို Upload တင်ပါ။</li>
+            <li><b>၂။</b> အောက်က Prompt ၁၀ ခုထဲက ကိုယ်လိုချင်တဲ့ Prompt ကို Copy လုပ်ပါ။</li>
+            <li><b>၃။</b> ChatGPT ထဲမှာ Paste လုပ်ပြီး ပေးထားတဲ့ညွှန်ကြားချက်အတိုင်း လုပ်ဆောင်ခိုင်းပါ။</li>
+            <li><b>၄။</b> အသုံးပြုနိုင်တဲ့ Video Editing Tool နဲ့ File Export Feature တွေ ရှိပါက ရလဒ်ကို စစ်ဆေးပြီး သိမ်းဆည်းနိုင်ပါတယ်။</li>
+        </ul>
+        <p>⚠️ မှတ်ချက်: ChatGPT ရဲ့ Video ကို တိုက်ရိုက် Edit လုပ်ခြင်း၊ Render လုပ်ခြင်းနဲ့ MP4 Export လုပ်ခြင်း စွမ်းဆောင်ရည်တွေဟာ အသုံးပြုနေတဲ့ Feature နဲ့ Tool တွေအပေါ် မူတည်ပါတယ်။ Prompt တစ်ခုတည်းနဲ့ အကောင့်တိုင်းမှာ Video File ကို တိုက်ရိုက်ပြင်ဆင်ပြီး Export လုပ်နိုင်မယ်လို့တော့ အာမမခံနိုင်ပါဘူး။ လိုအပ်ပါက ChatGPT ကို Editing Instructions, Timestamps နဲ့ Editing Workflow တွေ ဖန်တီးခိုင်းပြီး အခြား Video Editing Software တွေနဲ့ တွဲဖက်အသုံးပြုနိုင်ပါတယ်။</p>
+        <p>Video Editing လုပ်တဲ့အခါ အချိန်ကုန်သက်သာစေပြီး ကိုယ့်ရဲ့ Content တွေကို ပိုမို Professional ဆန်လာအောင် AI ကို မှန်ကန်စွာ အသုံးချကြည့်လိုက်ပါ။</p>
+        </div>
+    </div>
+
+    <div class="accordion-container" id="accordion-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            const promptData = [
+                {
+                    id: 1,
+                    title: "၁။ Automatically Remove Pauses & Unnecessary Talk (Video ထဲက မလိုအပ်တဲ့စကားတွေ၊ အသံတိတ်နေတဲ့အချိန်တွေကို အလိုအလျောက် ဖယ်ရှားရန်)",
+                    desc: "Video ထဲက မလိုအပ်တဲ့စကားတွေ၊ အသံတိတ်နေတဲ့အချိန်တွေကို အလိုအလျောက် ဖယ်ရှားရန်။",
+                    en: "Edit the video I uploaded, and remove long silences, stutters, repeated words, and unnecessary sentences. Preserve the natural flow of the conversation, keep the important information, and make the video smoother and more engaging.",
+                    mm: "ကျွန်တော် Upload လုပ်ထားတဲ့ Video ကို Edit လုပ်ပေးပါ။ Video ထဲမှာ ကြာရှည်စွာ အသံတိတ်နေတဲ့အပိုင်းတွေ၊ စကားထစ်နေတဲ့အပိုင်းတွေ၊ ထပ်ခါတလဲလဲ ပြောထားတဲ့စကားလုံးတွေ၊ မလိုအပ်တဲ့ဝါကျတွေကို ဖယ်ရှားပေးပါ။ စကားပြောဆိုမှုရဲ့ သဘာဝကျတဲ့စီးဆင်းမှုကို မပျက်စေဘဲ အရေးကြီးတဲ့အချက်အလက်တွေကိုသာ ထိန်းသိမ်းထားပြီး Video ကို ပိုမိုချောမွေ့ပြီး ကြည့်ရှုသူစိတ်ဝင်စားစရာကောင်းအောင် ပြုပြင်ပေးပါ။",
+                    inputs: []
+                },
+                {
+                    id: 2,
+                    title: "၂။ Turn Long Videos into Short, Shareable Clips (Video အရှည်ကြီးတွေကို Social Media အတွက် Short Video တွေအဖြစ် ပြောင်းလဲရန်)",
+                    desc: "Video အရှည်ကြီးတွေကို Social Media အတွက် Short Video တွေအဖြစ် ပြောင်းလဲရန်။",
+                    en: "Analyze the video I uploaded and extract the best 5 clips that are most attention-grabbing. Turn each clip into a vertical video lasting 30 to 60 seconds, with a strong opening that hooks the viewer, smooth transitions, and a 9:16 aspect ratio to suit social media platforms.",
+                    mm: "ကျွန်တော် Upload လုပ်ထားတဲ့ Video ကို သေချာလေ့လာဆန်းစစ်ပြီး ကြည့်ရှုသူတွေရဲ့ အာရုံစိုက်မှုကို အများဆုံးရရှိနိုင်မယ့် အကောင်းဆုံးအပိုင်း ၅ ပိုင်းကို ရွေးထုတ်ပေးပါ။ အပိုင်းတစ်ခုစီကို 30 မှ 60 စက္ကန့်ကြာတဲ့ Vertical Video အဖြစ် ပြောင်းလဲပေးပါ။ အစပိုင်းမှာ ကြည့်ရှုသူကို ဆက်လက်ကြည့်ရှုချင်လာအောင် ဆွဲဆောင်နိုင်တဲ့ Hook ထည့်ပေးပြီး Smooth Transitions တွေနဲ့ သဘာဝကျကျ ဆက်စပ်ပေးပါ။ Social Media Platform တွေမှာ အသုံးပြုနိုင်ဖို့ 9:16 Aspect Ratio နဲ့ ပြင်ဆင်ပေးပါ။",
+                    inputs: []
+                },
+                {
+                    id: 3,
+                    title: "၃။ Add Professional Translation & Subtitles (Video ထဲမှာ ဘာသာပြန် Subtitle တွေကို Professional ဆန်ဆန် ထည့်သွင်းရန်)",
+                    desc: "Video ထဲမှာ ဘာသာပြန် Subtitle တွေကို Professional ဆန်ဆန် ထည့်သွင်းရန်။",
+                    en: "Create an accurate translation of the video and sync it with the speaker’s words. Use a clear, easy-to-read font, highlight the key words, and place the subtitles where they don’t block the video content. Make them suitable for Instagram Reels, TikTok, and YouTube Shorts.",
+                    mm: "Video ထဲမှာ ပြောဆိုထားတဲ့စကားတွေကို အဓိပ္ပာယ်မှန်ကန်စွာ ဘာသာပြန်ပြီး Speaker ရဲ့ စကားပြောချိန်နဲ့ တစ်ထပ်တည်းကျအောင် Subtitle တွေကို Sync လုပ်ပေးပါ။ ဖတ်ရလွယ်ကူတဲ့ Font ကို အသုံးပြုပြီး အရေးကြီးတဲ့စကားလုံးတွေကို Highlight လုပ်ပေးပါ။ Subtitle တွေကိုလည်း Video ထဲက အဓိကမြင်ကွင်းတွေကို မဖုံးကွယ်စေတဲ့နေရာမှာ သေသပ်စွာ ထားပေးပါ။ Instagram Reels, TikTok နဲ့ YouTube Shorts တွေအတွက် သင့်တော်တဲ့ပုံစံဖြစ်အောင် ပြင်ဆင်ပေးပါ။",
+                    inputs: []
+                },
+                {
+                    id: 4,
+                    title: "၄။ Create a Compelling Introduction (Video အစပိုင်းကို ကြည့်ရှုသူစိတ်ဝင်စားစေမယ့် Hook အဖြစ် ပြောင်းလဲရန်)",
+                    desc: "Video အစပိုင်းကို ကြည့်ရှုသူစိတ်ဝင်စားစေမယ့် Hook အဖြစ် ပြောင်းလဲရန်။",
+                    en: "Analyze the first 30 seconds of the video and identify the strongest line or most interesting moment. Move it to the beginning of the video, remove lengthy, unnecessary introductions, and create a powerful 3-second opening that grabs the viewer’s attention.",
+                    mm: "Video ရဲ့ ပထမဆုံး 30 စက္ကန့်ကို သေချာလေ့လာပြီး စိတ်ဝင်စားစရာအကောင်းဆုံး စကားတစ်ခွန်း ဒါမှမဟုတ် အထူးခြားဆုံးမြင်ကွင်းကို ရွေးချယ်ပေးပါ။ အဲဒီအပိုင်းကို Video ရဲ့ အစဆုံးနေရာကို ရွှေ့ပေးပြီး ရှည်လျားတဲ့ မလိုအပ်တဲ့ Introduction တွေကို ဖယ်ရှားပေးပါ။ ကြည့်ရှုသူရဲ့ အာရုံကို ချက်ချင်းဖမ်းစားနိုင်မယ့် အားကောင်းတဲ့ 3-Second Opening တစ်ခု ဖန်တီးပေးပါ။",
+                    inputs: []
+                },
+                {
+                    id: 5,
+                    title: "၅။ Add Supporting Footage (B-roll) (အဓိကအကြောင်းအရာကို ပိုမိုနားလည်လွယ်စေဖို့ B-roll Video တွေ ထည့်သွင်းရန်)",
+                    desc: "အဓိကအကြောင်းအရာကို ပိုမိုနားလည်လွယ်စေဖို့ B-roll Video တွေ ထည့်သွင်းရန်။",
+                    en: "Review the video and identify where additional footage could help clarify the idea. Add suitable B-roll from the materials I have available, keeping the transitions natural and avoiding distractions from the main message.",
+                    mm: "Video ကို သေချာပြန်လည်စစ်ဆေးပြီး အကြောင်းအရာကို ပိုမိုရှင်းလင်းနားလည်စေဖို့ အခြားမြင်ကွင်းတွေ ထပ်မံထည့်သွင်းသင့်တဲ့နေရာတွေကို ရှာဖွေပေးပါ။ ကျွန်တော်မှာ ရှိပြီးသား Video နဲ့ Image တွေထဲက သင့်တော်တဲ့ B-roll Footage တွေကို ရွေးချယ်ထည့်သွင်းပေးပါ။ အဓိကအကြောင်းအရာကို အာရုံမပျက်စေဘဲ Video အပိုင်းတွေကြားမှာ သဘာဝကျတဲ့ Transitions တွေ ဖြစ်အောင် ပြုလုပ်ပေးပါ။",
+                    inputs: []
+                },
+                {
+                    id: 6,
+                    title: "၆။ Improve Video Quality & Give It a Cinematic Look (Video Quality မြှင့်တင်ပြီး Cinematic Look ရရှိအောင် ပြုပြင်ရန်)",
+                    desc: "Video Quality မြှင့်တင်ပြီး Cinematic Look ရရှိအောင် ပြုပြင်ရန်။",
+                    en: "Improve the video quality by adjusting color balance, contrast, and lighting, evening out exposure, and rendering skin tones naturally. Keep the result clean and professional, and avoid overdone filters, unrealistic effects, and excessive transitions.",
+                    mm: "Video ရဲ့ Quality ကို ပိုမိုကောင်းမွန်လာစေဖို့ Color Balance, Contrast နဲ့ Lighting တွေကို သင့်တော်သလို ချိန်ညှိပေးပါ။ အလင်းအမှောင် မညီမျှတဲ့နေရာတွေကို ညီညာအောင် ပြုပြင်ပြီး အသားအရောင်တွေကိုလည်း သဘာဝကျကျ မြင်ရအောင် ထိန်းညှိပေးပါ။ နောက်ဆုံးရလဒ်ကို သန့်ရှင်းသပ်ရပ်ပြီး Professional ဆန်တဲ့ Cinematic Look ရရှိအောင် ပြုလုပ်ပေးပါ။ အလွန်အကျွံ Filter တွေ၊ သဘာဝမကျတဲ့ Effect တွေနဲ့ မလိုအပ်တဲ့ Transitions တွေကို ရှောင်ရှားပေးပါ။",
+                    inputs: []
+                },
+                {
+                    id: 7,
+                    title: "၇။ Improve Audio Quality (Video ထဲက အသံအရည်အသွေးကို ပိုမိုကောင်းမွန်အောင် ပြုပြင်ရန်)",
+                    desc: "Video ထဲက အသံအရည်အသွေးကို ပိုမိုကောင်းမွန်အောင် ပြုပြင်ရန်။",
+                    en: "Analyze the audio in the video, reduce background noise, address volume inconsistencies, and minimize distracting sounds to improve the speaker’s clarity. Preserve the original character of the audio and keep the volume balanced throughout the video.",
+                    mm: "Video ထဲက Audio ကို သေချာလေ့လာစစ်ဆေးပြီး နောက်ခံဆူညံသံတွေကို လျှော့ချပေးပါ။ အသံအတိုးအကျယ် မညီမျှတဲ့နေရာတွေကို ပြုပြင်ပြီး စကားပြောသူရဲ့အသံကို ပိုမိုကြည်လင်ပြတ်သားအောင် ပြုလုပ်ပေးပါ။ နားထောင်သူကို အနှောင့်အယှက်ဖြစ်စေတဲ့ မလိုအပ်တဲ့အသံတွေကိုလည်း လျှော့ချပေးပါ။ မူရင်းအသံရဲ့ သဘာဝလက္ခဏာကို မပျက်စေဘဲ Video တစ်ခုလုံးမှာ အသံအတိုးအကျယ် ညီမျှနေအောင် ထိန်းညှိပေးပါ။",
+                    inputs: []
+                },
+                {
+                    id: 8,
+                    title: "၈။ Add Professional Camera Zoom Effects (အရေးကြီးတဲ့ စကားလုံးတွေမှာ Camera Zoom Effect ထည့်သွင်းရန်)",
+                    desc: "အရေးကြီးတဲ့ စကားလုံးတွေမှာ Camera Zoom Effect ထည့်သွင်းရန်။",
+                    en: "Edit the talking-head video and use a subtle zoom effect when emphasizing important words, with smooth camera movement. Keep the visual composition natural and avoid exaggerated movements that distract the viewer.",
+                    mm: "စကားပြောသူကို အဓိကထားရိုက်ကူးထားတဲ့ Talking-Head Video ကို Edit လုပ်ပေးပါ။ အရေးကြီးတဲ့ စကားလုံးတွေ၊ အဓိကအချက်တွေကို ပြောဆိုတဲ့အချိန်မှာ ကြည့်ရှုသူရဲ့ အာရုံစိုက်မှု ပိုမိုရရှိစေဖို့ သိမ်မွေ့ပြီး သဘာဝကျတဲ့ Camera Zoom Effect တွေ ထည့်သွင်းပေးပါ။ Camera Movement တွေကိုလည်း ချောမွေ့အောင် ပြုလုပ်ပေးပြီး ပုံရိပ်ရဲ့ သဘာဝကျတဲ့ ဖွဲ့စည်းပုံကို ထိန်းသိမ်းထားပါ။ ကြည့်ရှုသူကို အာရုံပျက်စေနိုင်တဲ့ အလွန်အကျွံ Zoom လုပ်ခြင်းတွေကို ရှောင်ရှားပေးပါ။",
+                    inputs: []
+                },
+                {
+                    id: 9,
+                    title: "၉။ Create Engaging On-Screen Text (Video ပေါ်မှာ စိတ်ဝင်စားစရာကောင်းတဲ့ Text Overlay တွေ ထည့်သွင်းရန်)",
+                    desc: "Video ပေါ်မှာ စိတ်ဝင်စားစရာကောင်းတဲ့ Text Overlay တွေ ထည့်သွင်းရန်။",
+                    en: "Analyze the video and identify the most important points. Add engaging on-screen text and animated captions to highlight key messages. Use clean typography, appropriate timing, and smooth animations while keeping the text readable and visually balanced.",
+                    mm: "Video ကို လေ့လာဆန်းစစ်ပြီး အရေးကြီးဆုံးအချက်အလက်တွေကို ရွေးချယ်ပေးပါ။ ကြည့်ရှုသူတွေရဲ့ အာရုံစိုက်မှု ပိုမိုရရှိစေဖို့ အဓိကအကြောင်းအရာတွေကို Highlight လုပ်ပေးနိုင်မယ့် On-Screen Text နဲ့ Animated Captions တွေ ထည့်သွင်းပေးပါ။ သေသပ်တဲ့ Typography၊ သင့်တော်တဲ့ Timing နဲ့ ချောမွေ့တဲ့ Animation တွေကို အသုံးပြုပြီး စာသားတွေကို ဖတ်ရလွယ်ကူကာ Video နဲ့လည်း လိုက်ဖက်ညီမျှနေအောင် ပြုလုပ်ပေးပါ။",
+                    inputs: []
+                },
+                {
+                    id: 10,
+                    title: "🔟 Produce a Complete Video Ready to Publish (Social Media မှာ တိုက်ရိုက်တင်နိုင်တဲ့ Professional Video တစ်ခု ဖန်တီးရန်)",
+                    desc: "Social Media မှာ တိုက်ရိုက်တင်နိုင်တဲ့ Professional Video တစ်ခု ဖန်တီးရန်။",
+                    en: "Act as a professional video editor and turn the raw footage I upload for you into a professional video suitable for social media platforms. Remove mistakes, improve the pacing, add accurate subtitles and appropriate supporting shots, adjust the audio, colors, and visual composition, then export the final video in MP4 format, ready to publish.",
+                    mm: "သင်ဟာ Professional Video Editor တစ်ယောက်အဖြစ် တာဝန်ယူဆောင်ရွက်ပေးပါ။ ကျွန်တော် Upload လုပ်ပေးထားတဲ့ Raw Footage တွေကို Social Media Platform တွေမှာ တိုက်ရိုက်အသုံးပြုနိုင်မယ့် Professional Video တစ်ခုအဖြစ် ပြောင်းလဲပေးပါ။ Video ထဲက အမှားအယွင်းတွေကို ဖယ်ရှားပေးပါ။ Video ရဲ့ Pacing ကို ပိုမိုကောင်းမွန်အောင် ပြုပြင်ပြီး မှန်ကန်တိကျတဲ့ Subtitle တွေ၊ သင့်တော်တဲ့ Supporting Footage တွေကို ထည့်သွင်းပေးပါ။ Audio, Color နဲ့ Visual Composition တွေကိုလည်း Professional ဆန်ဆန် ချိန်ညှိပေးပါ။ နောက်ဆုံးမှာ Publish လုပ်ဖို့ အသင့်ဖြစ်တဲ့ MP4 Format နဲ့ Final Video ကို Export လုပ်ပေးပါ။",
+                    inputs: []
+                }
+            ];
+
+            const container = document.getElementById('accordion-container');
+            const langRadios = document.getElementsByName('language');
+
+            function renderAccordion() {
+                container.innerHTML = '';
+
+                promptData.forEach((data) => {
+                    const item = document.createElement('div');
+                    item.className = 'accordion-item';
+                    item.id = `acc-item-${data.id}`;
+
+                    let html = `
+                        <div class="accordion-header" onclick="toggleAccordion(${data.id})">
+                            <div class="header-content">
+                                <div class="acc-title">${data.title}</div>
+                                <div class="acc-desc">💡 ${data.desc}</div>
+                            </div>
+                            <div class="acc-icon">▼</div>
+                        </div>
+                    `;
+
+                    html += `<div class="accordion-body" id="acc-body-${data.id}">
+                                <div class="body-inner">`;
+
+                    if(data.inputs.length > 0) {
+                        data.inputs.forEach(input => {
+                            if(input.type === 'textarea') {
+                                html += `
+                                    <div class="form-group">
+                                        <label>${input.label}</label>
+                                        <textarea id="input-${data.id}-${input.id}" class="input-textarea" data-item-id="${data.id}" placeholder="${input.hint}"></textarea>
+                                    </div>
+                                `;
+                            } else {
+                                html += `
+                                    <div class="form-group">
+                                        <label>${input.label}</label>
+                                        <input type="text" id="input-${data.id}-${input.id}" data-item-id="${data.id}" placeholder="${input.hint}">
+                                    </div>
+                                `;
+                            }
+                        });
+                    }
+
+                    html += `
+                            <textarea id="output-${data.id}" class="output-area" readonly></textarea>
+                            <button id="copy-${data.id}" data-item-id="${data.id}">Copy Prompt</button>
+                        </div>
+                    </div>`;
+
+                    item.innerHTML = html;
+                    container.appendChild(item);
+                });
+
+                attachEventListeners();
+                updateAllPrompts();
+            }
+
+            window.toggleAccordion = function(id) {
+                const item = document.getElementById(`acc-item-${id}`);
+                const body = document.getElementById(`acc-body-${id}`);
+
+                // Auto-collapse logic
+                document.querySelectorAll('.accordion-item').forEach(el => {
+                    if(el.id !== `acc-item-${id}`) {
+                        el.classList.remove('active');
+                        el.querySelector('.accordion-body').style.maxHeight = null;
+                    }
+                });
+
+                if (item.classList.contains('active')) {
+                    item.classList.remove('active');
+                    body.style.maxHeight = null;
+                } else {
+                    item.classList.add('active');
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updatePromptForCard(itemId) {
+                const data = promptData.find(p => p.id == itemId);
+                const isMyanmar = document.querySelector('input[name="language"]:checked').value === 'mm';
+                let finalPrompt = isMyanmar ? data.mm : data.en;
+
+                data.inputs.forEach(input => {
+                    const el = document.getElementById(`input-${data.id}-${input.id}`);
+                    const val = el && el.value.trim() !== "" ? el.value.trim() : `[${input.id}]`;
+                    finalPrompt = finalPrompt.split(`[${input.id}]`).join(val);
+                });
+
+                document.getElementById(`output-${data.id}`).value = finalPrompt;
+
+                const body = document.getElementById(`acc-body-${data.id}`);
+                const item = document.getElementById(`acc-item-${data.id}`);
+                if(item.classList.contains('active')) {
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updateAllPrompts() {
+                promptData.forEach(data => updatePromptForCard(data.id));
+            }
+
+            function attachEventListeners() {
+                container.addEventListener('input', (e) => {
+                    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        if (itemId) updatePromptForCard(itemId);
+                    }
+                });
+
+                container.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'BUTTON') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        const outputEl = document.getElementById(`output-${itemId}`);
+                        outputEl.select();
+                        document.execCommand('copy');
+
+                        const btn = e.target;
+                        const originalText = btn.innerText;
+                        btn.innerText = "COPIED! ✨";
+                        setTimeout(() => btn.innerText = originalText, 2000);
+                    }
+                });
+            }
+
+            langRadios.forEach(radio => radio.addEventListener('change', updateAllPrompts));
+
+            renderAccordion();
+            setTimeout(() => { toggleAccordion(1); }, 100);
+        });
+    </script>
+</body>
+</html>
