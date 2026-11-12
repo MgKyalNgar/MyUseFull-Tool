@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="My Useful Tools">
+    <link rel="apple-touch-icon" href="../icon-192x192.png">
+    <title>Google AI Studio Prompts</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: #0f172a;
+            color: #e4e4e7;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .header-container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            margin-bottom: 25px;
+            position: sticky;
+            top: 0;
+            background: rgba(15, 23, 42, 0.95);
+            padding: 20px;
+            z-index: 100;
+            border-bottom: 1px solid #4285F4; /* Google Blue */
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #4285F4;
+            font-size: clamp(1.4rem, 5vw, 2.2rem);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(66, 133, 244, 0.3);
+        }
+
+        .subtitle {
+            color: #a1a1aa;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .global-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .radio-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #d4d4d8;
+            font-weight: 600;
+        }
+
+        input[type="radio"] {
+            accent-color: #4285F4;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ----- Remark (Sticky Header အပြင်ဘက်၊ Scroll လုပ်လို့ရသော အပိုင်း) ----- */
+        .remark-container {
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 25px;
+        }
+
+        .remark {
+            color: #8ab4f8;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 15px;
+            background: rgba(66, 133, 244, 0.1);
+            border-radius: 8px;
+            border: 1px dashed #4285F4;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        .remark h2 {
+            color: #8ab4f8;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .remark ul {
+            padding-left: 20px;
+            margin: 10px 0;
+        }
+
+        .remark li {
+            margin-bottom: 6px;
+        }
+
+        .remark li b {
+            color: #8ab4f8;
+        }
+
+        .remark-source {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin-top: 12px;
+        }
+
+        /* ----- Accordion List Container ----- */
+        .accordion-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        /* ----- Accordion Item ----- */
+        .accordion-item {
+            background: #27272a;
+            border: 1px solid #3f3f46;
+            border-left: 4px solid #4285F4;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            border-color: #4285F4;
+            box-shadow: 0 0 15px rgba(66, 133, 244, 0.1);
+        }
+
+        /* ----- Accordion Header (Clickable) ----- */
+        .accordion-header {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            background: rgba(39, 39, 42, 0.8);
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding-right: 15px;
+        }
+
+        .acc-title {
+            color: #fafafa;
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        .acc-desc {
+            color: #a1a1aa;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .acc-icon {
+            color: #4285F4;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-item.active .acc-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-item.active {
+            border-color: #4285F4;
+            box-shadow: 0 0 20px rgba(66, 133, 244, 0.15);
+        }
+
+        /* ----- Accordion Body ----- */
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            background: #0f172a;
+        }
+
+        .body-inner {
+            padding: 25px 20px;
+            border-top: 1px dashed #3f3f46;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #8ab4f8;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"], textarea.input-textarea {
+            width: 100%;
+            background: #27272a;
+            border: 1px solid #3f3f46;
+            color: #4285F4;
+            padding: 12px;
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        textarea.input-textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        input[type="text"]:focus, textarea.input-textarea:focus {
+            border-color: #4285F4;
+            box-shadow: 0 0 10px rgba(66, 133, 244, 0.2);
+        }
+
+        textarea.output-area {
+            width: 100%;
+            height: 220px;
+            background: #09090b;
+            border: 1px solid #3f3f46;
+            color: #fafafa;
+            padding: 15px;
+            border-radius: 6px;
+            resize: vertical;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            outline: none;
+            margin-top: 10px;
+        }
+
+        textarea.output-area:focus {
+            border-color: #4285F4;
+        }
+
+        button {
+            width: 100%;
+            background: transparent;
+            color: #4285F4;
+            border: 1px solid #4285F4;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #4285F4;
+            color: #0f172a;
+            box-shadow: 0 0 15px rgba(66, 133, 244, 0.4);
+        }
+
+        /* ----- Responsive (ဖုန်းစခရင်) ----- */
+        @media (max-width: 600px) {
+            body {
+                padding: 20px 12px;
+            }
+
+            .header-container {
+                padding: 15px 12px;
+                margin-bottom: 20px;
+            }
+
+            h1 {
+                letter-spacing: 1px;
+            }
+
+            .subtitle {
+                font-size: 0.9rem;
+            }
+
+            .remark {
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+
+            .accordion-header {
+                padding: 15px;
+            }
+
+            .acc-title {
+                font-size: 1rem;
+            }
+
+            .acc-desc {
+                font-size: 0.85rem;
+            }
+
+            .body-inner {
+                padding: 20px 12px;
+            }
+
+            textarea.output-area {
+                height: 180px;
+            }
+
+            button {
+                padding: 11px;
+                font-size: 0.95rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>✨ Prompt for Google AI Studio</h1>
+        <p class="subtitle">Coding မရေးတတ်လည်း Google AI Studio နဲ့ ကိုယ်ပိုင် AI App တွေ ဖန်တီးနိုင်ဖို့ အသုံးဝင်တဲ့ Prompt (7) မျိုး</p>
+        <div class="global-options">
+            <label class="radio-btn">
+                <input type="radio" name="language" value="mm" checked> Myanmar Prompt
+            </label>
+            <label class="radio-btn">
+                <input type="radio" name="language" value="en"> English Prompt
+            </label>
+        </div>
+    </div>
+
+    <!-- Scrollable Remark Area -->
+    <div class="remark-container">
+        <div class="remark">
+        <h2>💡 Google AI Studio ဆိုတာ Prompt စမ်းရုံသက်သက် မဟုတ်ဘူး</h2>
+        <p>Google AI Studio ဆိုတာ AI Prompt တွေ စမ်းသပ်ကြည့်ရုံသက်သက် မဟုတ်ပါဘူး။ Coding Skill မရှိသူတွေတောင် ကိုယ်ပိုင် Website တွေ၊ AI Chatbot တွေ၊ PDF ဖတ်ပေးနိုင်တဲ့ Tool တွေ၊ AI Image Generator တွေ၊ Voice Assistant တွေနဲ့ Data Dashboard တွေကို ကိုယ်တိုင် ဖန်တီးတည်ဆောက်နိုင်ပါတယ်။</p>
+        <p>⚠️ Prompt တစ်ခုတည်းနဲ့ Feature အားလုံး အလိုအလျောက် ပြည့်စုံသွားမှာ မဟုတ်ပါဘူး။ အသုံးပြုမယ့် AI Model၊ API၊ Database၊ Authentication နဲ့ Deployment စတဲ့အရာတွေအပေါ် မူတည်ပြီး ထပ်မံ Setup လုပ်ဖို့ လိုအပ်နိုင်ပါတယ်။ အချို့ Feature တွေအတွက်လည်း သီးခြား API သို့မဟုတ် ဝန်ဆောင်မှုတွေ လိုအပ်နိုင်ပါတယ်။</p>
+        <p class="remark-source">ရင်းမြစ် — Cross-X Facebook Post, 08 Nov 2026</p>
+        </div>
+    </div>
+
+    <div class="accordion-container" id="accordion-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            const promptData = [
+                {
+                    id: 1,
+                    title: "၁။ ကိုယ်ပိုင် Website သို့မဟုတ် App တစ်ခု ဖန်တီးမယ်",
+                    desc: "ကိုယ်စိတ်ကူးထားတဲ့ Website သို့မဟုတ် App ကို Professional ဆန်ဆန် ဖန်တီးနိုင်ဖို့ ဒီ Prompt ကို အသုံးပြုပါ။",
+                    en: "Act as an expert web developer and designer. Using Google AI Studio's Build mode, turn my idea, [DESCRIBE YOUR IDEA], into a functional, professional website or app for [TARGET AUDIENCE]. Create an attractive, mobile-friendly interface with easy navigation and essential features. Build a working prototype, test its functionality, and suggest improvements. Clearly identify anything requiring additional setup.",
+                    mm: "သင်ဟာ Professional Web Developer နဲ့ UI/UX Designer တစ်ယောက်ဖြစ်တယ်လို့ သတ်မှတ်ပါ။ Google AI Studio ရဲ့ Build mode ကို အသုံးပြုပြီး ကျွန်တော်/ကျွန်မရဲ့ စိတ်ကူးဖြစ်တဲ့ [DESCRIBE YOUR IDEA] ကို [TARGET AUDIENCE] အတွက် အမှန်တကယ် အသုံးပြုနိုင်တဲ့ Professional Website သို့မဟုတ် App တစ်ခုအဖြစ် တည်ဆောက်ပေးပါ။\nဆွဲဆောင်မှုရှိပြီး Mobile-friendly ဖြစ်တဲ့ UI Design၊ အသုံးပြုရလွယ်ကူတဲ့ Navigation နဲ့ လိုအပ်တဲ့ Features တွေ ထည့်သွင်းပေးပါ။ အမှန်တကယ် အလုပ်လုပ်နိုင်တဲ့ Prototype တစ်ခု ဖန်တီးပြီး လုပ်ဆောင်ချက်တွေကို စမ်းသပ်ပေးပါ။ ပိုမိုကောင်းမွန်လာစေဖို့ လိုအပ်တဲ့ ပြုပြင်မှုတွေကိုလည်း အကြံပြုပေးပါ။ ထပ်မံ Setup လုပ်ဖို့ လိုအပ်တဲ့အရာတွေရှိရင်လည်း ရှင်းလင်းစွာ ဖော်ပြပေးပါ။",
+                    inputs: [
+                        { id: "DESCRIBE YOUR IDEA", label: "ဖန်တီးလိုသော Website / App အကြောင်း", type: "textarea", hint: "ဥပမာ - a food delivery app for Yangon" },
+                        { id: "TARGET AUDIENCE", label: "အသုံးပြုမည့် ပစ်မှတ်ပရိသတ်", type: "text", hint: "ဥပမာ - small restaurant owners" }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "၂။ ကိုယ်ပိုင် AI Chatbot တစ်ခု ဖန်တီးမယ်",
+                    desc: "ကိုယ်လိုချင်တဲ့ ရည်ရွယ်ချက်အတိုင်း မေးခွန်းတွေကို ဖြေကြားပေးနိုင်တဲ့ AI Chatbot တစ်ခု တည်ဆောက်နိုင်ပါတယ်။",
+                    en: "Act as an AI developer and chatbot designer. Using Google AI Studio's Build mode, create a functional AI chatbot for [DESCRIBE YOUR PURPOSE] aimed at [TARGET AUDIENCE]. Design a clean, user-friendly chat interface that answers questions clearly, provides helpful responses, and follows customizable instructions. Include conversation history, test its functionality, and suggest improvements. Clearly identify any features requiring additional setup.",
+                    mm: "သင်ဟာ AI Developer နဲ့ Chatbot Designer တစ်ယောက်ဖြစ်တယ်လို့ သတ်မှတ်ပါ။ Google AI Studio ရဲ့ Build mode ကို အသုံးပြုပြီး [DESCRIBE YOUR PURPOSE] အတွက် [TARGET AUDIENCE] ကို ရည်ရွယ်ထားတဲ့ အမှန်တကယ် အသုံးပြုနိုင်တဲ့ AI Chatbot တစ်ခု ဖန်တီးပေးပါ။\nသန့်ရှင်းသပ်ရပ်ပြီး အသုံးပြုရလွယ်ကူတဲ့ Chat Interface တစ်ခု ဒီဇိုင်းဆွဲပေးပါ။ မေးခွန်းတွေကို ရှင်းလင်းတိကျစွာ ဖြေကြားနိုင်ပြီး အသုံးဝင်တဲ့ အဖြေတွေ ပေးနိုင်ရပါမယ်။ ကိုယ်တိုင် ပြင်ဆင်သတ်မှတ်နိုင်တဲ့ Instructions တွေလည်း ထည့်သွင်းပေးပါ။ Conversation History ပါဝင်စေပြီး လုပ်ဆောင်ချက်အားလုံးကို စမ်းသပ်ပေးပါ။ ပိုမိုကောင်းမွန်လာစေဖို့ အကြံပြုချက်တွေနဲ့ ထပ်မံ Setup လုပ်ဖို့ လိုအပ်တဲ့ Features တွေကိုလည်း ဖော်ပြပေးပါ။",
+                    inputs: [
+                        { id: "DESCRIBE YOUR PURPOSE", label: "Chatbot ရဲ့ ရည်ရွယ်ချက်", type: "textarea", hint: "ဥပမာ - answering customer questions about our shop" },
+                        { id: "TARGET AUDIENCE", label: "အသုံးပြုမည့် ပစ်မှတ်ပရိသတ်", type: "text", hint: "ဥပမာ - online shoppers" }
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "၃။ PDF နဲ့ Document တွေကို ဖတ်ပေးနိုင်တဲ့ Smart Reader တစ်ခု ဖန်တီးမယ်",
+                    desc: "PDF စာအုပ်တွေ၊ Document တွေ Upload တင်ပြီး အကျဉ်းချုပ်ဖတ်ရှုခြင်း၊ အရေးကြီးတဲ့ အချက်အလက်တွေ ထုတ်ယူခြင်းနဲ့ မေးခွန်းတွေ မေးမြန်းခြင်းတို့ကို လုပ်ဆောင်နိုင်တဲ့ Tool တစ်ခု ဖန်တီးနိုင်ပါတယ်။",
+                    en: "Act as an AI developer. Using Google AI Studio's Build mode, create a smart document reader that allows users to upload PDFs and other supported documents, summarize their contents, extract key information, and ask questions about them. Design a simple, user-friendly interface with clear, accurate answers based on the uploaded files. Include page references when possible, test its functionality, and identify any additional setup needed.",
+                    mm: "သင်ဟာ AI Developer တစ်ယောက်ဖြစ်တယ်လို့ သတ်မှတ်ပါ။ Google AI Studio ရဲ့ Build mode ကို အသုံးပြုပြီး အသုံးပြုသူတွေ PDF နဲ့ အခြား Supported Documents တွေကို Upload တင်နိုင်မယ့် Smart Document Reader တစ်ခု ဖန်တီးပေးပါ။\nUpload တင်ထားတဲ့ Document တွေရဲ့ အကြောင်းအရာတွေကို အကျဉ်းချုပ်ပေးခြင်း၊ အရေးကြီးတဲ့ အချက်အလက်တွေကို ထုတ်ယူပေးခြင်းနဲ့ Document ထဲက အကြောင်းအရာတွေအပေါ် မေးခွန်းတွေ မေးမြန်းနိုင်ခြင်းတို့ ပါဝင်စေပါ။\nရိုးရှင်းပြီး အသုံးပြုရလွယ်ကူတဲ့ Interface တစ်ခု ဖန်တီးပေးပါ။ အဖြေတွေကိုလည်း Upload တင်ထားတဲ့ File တွေအပေါ် အခြေခံပြီး ရှင်းလင်းတိကျစွာ ဖြေကြားပေးရပါမယ်။ ဖြစ်နိုင်ပါက သက်ဆိုင်ရာ Page Number တွေကိုပါ ဖော်ပြပေးပါ။ လုပ်ဆောင်ချက်အားလုံးကို စမ်းသပ်ပြီး ထပ်မံ Setup လုပ်ဖို့ လိုအပ်တာတွေကိုလည်း ရှင်းပြပေးပါ။",
+                    inputs: []
+                },
+                {
+                    id: 4,
+                    title: "၄။ ကိုယ်ပိုင် AI Image Generator တစ်ခု ဖန်တီးမယ်",
+                    desc: "စာသားနဲ့ ပုံဖော်ပြောဆိုရုံနဲ့ ပုံတွေ ဖန်တီးနိုင်သလို ရှိပြီးသားပုံတွေကိုလည်း Text Prompt အသုံးပြုပြီး ပြင်ဆင်နိုင်တဲ့ Image Generator တစ်ခု တည်ဆောက်နိုင်ပါတယ်။",
+                    en: "Act as an AI developer and creative designer. Using Google AI Studio's Build mode, create an AI image generator that turns written descriptions into high-quality images. Allow users to upload pictures, edit them using simple text instructions, and choose different image styles and sizes. Design an attractive, easy-to-use interface, test its features, and identify any additional setup needed.",
+                    mm: "သင်ဟာ AI Developer နဲ့ Creative Designer တစ်ယောက်ဖြစ်တယ်လို့ သတ်မှတ်ပါ။ Google AI Studio ရဲ့ Build mode ကို အသုံးပြုပြီး စာသားနဲ့ ဖော်ပြထားတဲ့ Description တွေကို အရည်အသွေးမြင့် AI Images တွေအဖြစ် ပြောင်းလဲဖန်တီးပေးနိုင်တဲ့ AI Image Generator တစ်ခု တည်ဆောက်ပေးပါ။\nအသုံးပြုသူတွေက ကိုယ်ပိုင်ပုံတွေ Upload တင်နိုင်ရမယ်။ ရိုးရှင်းတဲ့ Text Instructions တွေ အသုံးပြုပြီး ပုံတွေကို ပြင်ဆင်နိုင်ရမယ်။ မတူညီတဲ့ Image Styles နဲ့ Image Sizes တွေကိုလည်း ရွေးချယ်နိုင်အောင် ပြုလုပ်ပေးပါ။ ဆွဲဆောင်မှုရှိပြီး အသုံးပြုရလွယ်ကူတဲ့ Interface တစ်ခု ဖန်တီးပေးပါ။ Features တွေအားလုံးကို စမ်းသပ်ပြီး ထပ်မံ Setup လုပ်ဖို့ လိုအပ်တာတွေကိုလည်း ဖော်ပြပေးပါ။",
+                    inputs: []
+                },
+                {
+                    id: 5,
+                    title: "၅။ အသံနဲ့ ခိုင်းစေနိုင်တဲ့ AI Voice Assistant တစ်ခု ဖန်တီးမယ်",
+                    desc: "Keyboard နဲ့ စာရိုက်စရာမလိုဘဲ Microphone ကနေ အသံနဲ့ မေးမြန်းပြီး AI ရဲ့ အသံနဲ့ ပြန်လည်ဖြေကြားမှုကို ရရှိနိုင်တဲ့ Assistant တစ်ခု ဖန်တီးနိုင်ပါတယ်။",
+                    en: "Act as an AI developer. Using Google AI Studio's Build mode, create a voice-powered AI assistant for [DESCRIBE YOUR PURPOSE]. Allow users to ask questions by speaking and receive natural, helpful voice responses in real time. Design a simple, user-friendly interface with microphone controls, test its functionality, and identify any additional setup needed.",
+                    mm: "သင်ဟာ AI Developer တစ်ယောက်ဖြစ်တယ်လို့ သတ်မှတ်ပါ။ Google AI Studio ရဲ့ Build mode ကို အသုံးပြုပြီး [DESCRIBE YOUR PURPOSE] အတွက် Voice-powered AI Assistant တစ်ခု တည်ဆောက်ပေးပါ။\nအသုံးပြုသူတွေ Microphone ကနေတစ်ဆင့် အသံနဲ့ မေးခွန်းတွေ မေးမြန်းနိုင်ရမယ်။ AI ကလည်း အချိန်နှင့်တစ်ပြေးညီ သဘာဝကျပြီး အသုံးဝင်တဲ့ အသံနဲ့ ပြန်လည်ဖြေကြားပေးနိုင်ရပါမယ်။ Microphone Controls တွေပါဝင်တဲ့ ရိုးရှင်းပြီး အသုံးပြုရလွယ်ကူတဲ့ Interface တစ်ခု ဖန်တီးပေးပါ။ လုပ်ဆောင်ချက်အားလုံးကို စမ်းသပ်ပြီး ထပ်မံ Setup လုပ်ဖို့ လိုအပ်တာတွေကိုလည်း ဖော်ပြပေးပါ။",
+                    inputs: [
+                        { id: "DESCRIBE YOUR PURPOSE", label: "Voice Assistant ရဲ့ ရည်ရွယ်ချက်", type: "textarea", hint: "ဥပမာ - helping students practice English speaking" }
+                    ]
+                },
+                {
+                    id: 6,
+                    title: "၆။ Interactive Data Dashboard တစ်ခု ဖန်တီးမယ်",
+                    desc: "Excel နဲ့ Spreadsheet File တွေထဲက Data တွေကို Chart နဲ့ Graph တွေအဖြစ် ပြသပေးပြီး AI ကနေတစ်ဆင့် အချက်အလက်တွေကို ခွဲခြမ်းစိတ်ဖြာပေးနိုင်တဲ့ Dashboard တစ်ခု ဖန်တီးနိုင်ပါတယ်။",
+                    en: "Act as a data analyst and web developer. Using Google AI Studio's Build mode, create an interactive dashboard that allows users to upload spreadsheets, visualize data through charts and graphs, and generate clear, AI-powered insights. Include useful filters, key statistics, and downloadable reports. Design a professional, easy-to-use interface, test its features, and identify any additional setup needed.",
+                    mm: "သင်ဟာ Data Analyst နဲ့ Web Developer တစ်ယောက်ဖြစ်တယ်လို့ သတ်မှတ်ပါ။ Google AI Studio ရဲ့ Build mode ကို အသုံးပြုပြီး အသုံးပြုသူတွေ Spreadsheet Files တွေ Upload တင်နိုင်မယ့် Interactive Dashboard တစ်ခု ဖန်တီးပေးပါ။\nUpload တင်ထားတဲ့ Data တွေကို Chart နဲ့ Graph တွေ အသုံးပြုပြီး အမြင်ရှင်းလင်းစွာ ပြသပေးနိုင်ရပါမယ်။ AI ကို အသုံးပြုပြီး Data တွေကို ခွဲခြမ်းစိတ်ဖြာကာ နားလည်ရလွယ်ကူတဲ့ Insights တွေ ထုတ်ပေးနိုင်ရပါမယ်။\nအသုံးဝင်တဲ့ Filters တွေ၊ အရေးကြီးတဲ့ Statistics တွေနဲ့ Download လုပ်နိုင်တဲ့ Reports တွေကိုလည်း ထည့်သွင်းပေးပါ။ Professional ဆန်ပြီး အသုံးပြုရလွယ်ကူတဲ့ Interface တစ်ခု ဖန်တီးပေးပါ။ Features တွေအားလုံးကို စမ်းသပ်ပြီး ထပ်မံ Setup လုပ်ဖို့ လိုအပ်တာတွေကို ဖော်ပြပေးပါ။",
+                    inputs: []
+                },
+                {
+                    id: 7,
+                    title: "၇။ ကိုယ်ဖန်တီးထားတဲ့ App ကို အမှန်တကယ် အသုံးပြုနိုင်တဲ့ Product အဖြစ် ထုတ်ဝေမယ်",
+                    desc: "App တစ်ခု ဖန်တီးပြီးသွားရုံနဲ့ မပြီးသေးပါဘူး။ Design ပိုင်း၊ လုပ်ဆောင်ချက်ပိုင်းတွေကို ပြန်လည်စစ်ဆေးပြီး အင်တာနက်ပေါ်မှာ အများပြည်သူ အသုံးပြုနိုင်အောင် Publish လုပ်နိုင်ဖို့ ဒီ Prompt ကို အသုံးပြုပါ။",
+                    en: "Act as an expert app developer and product tester. Using Google AI Studio's Build mode, help me turn my existing app, [DESCRIBE YOUR APP], into a polished, ready-to-launch product. Improve its design, test its features, fix errors, and make it mobile-friendly. Guide me through deploying it online so others can use it, and clearly explain any additional setup, security checks, or costs involved.",
+                    mm: "သင်ဟာ ကျွမ်းကျင်တဲ့ App Developer နဲ့ Product Tester တစ်ယောက်ဖြစ်တယ်လို့ သတ်မှတ်ပါ။ Google AI Studio ရဲ့ Build mode ကို အသုံးပြုပြီး ကျွန်တော်/ကျွန်မ ဖန်တီးထားတဲ့ [DESCRIBE YOUR APP] ကို အရည်အသွေးပြည့်မီပြီး စတင်အသုံးပြုနိုင်တဲ့ Product တစ်ခုအဖြစ် ပြောင်းလဲပေးပါ။\nApp ရဲ့ Design ကို ပိုမိုကောင်းမွန်အောင် ပြုပြင်ပေးပါ။ Features တွေအားလုံးကို စမ်းသပ်ပေးပြီး Error တွေကို ပြင်ဆင်ပေးပါ။ Mobile-friendly ဖြစ်အောင်လည်း ပြုလုပ်ပေးပါ။\nအခြားသူတွေပါ အသုံးပြုနိုင်ဖို့ Internet ပေါ်မှာ Deploy လုပ်ပြီး Publish လုပ်နိုင်တဲ့အထိ အဆင့်ဆင့် လမ်းညွှန်ပေးပါ။ ထပ်မံ Setup လုပ်ဖို့ လိုအပ်တာတွေ၊ Security Checks တွေနဲ့ ကုန်ကျစရိတ်တွေရှိပါကလည်း ရှင်းလင်းစွာ ဖော်ပြပေးပါ။",
+                    inputs: [
+                        { id: "DESCRIBE YOUR APP", label: "ဖန်တီးထားသော App အကြောင်း", type: "textarea", hint: "ဥပမာ - a simple to-do list web app" }
+                    ]
+                }
+            ];
+
+            const container = document.getElementById('accordion-container');
+            const langRadios = document.getElementsByName('language');
+
+            function renderAccordion() {
+                container.innerHTML = '';
+
+                promptData.forEach((data) => {
+                    const item = document.createElement('div');
+                    item.className = 'accordion-item';
+                    item.id = `acc-item-${data.id}`;
+
+                    let html = `
+                        <div class="accordion-header" onclick="toggleAccordion(${data.id})">
+                            <div class="header-content">
+                                <div class="acc-title">${data.title}</div>
+                                <div class="acc-desc">💡 ${data.desc}</div>
+                            </div>
+                            <div class="acc-icon">▼</div>
+                        </div>
+                    `;
+
+                    html += `<div class="accordion-body" id="acc-body-${data.id}">
+                                <div class="body-inner">`;
+
+                    if(data.inputs.length > 0) {
+                        data.inputs.forEach(input => {
+                            if(input.type === 'textarea') {
+                                html += `
+                                    <div class="form-group">
+                                        <label>${input.label}</label>
+                                        <textarea id="input-${data.id}-${input.id}" class="input-textarea" data-item-id="${data.id}" placeholder="${input.hint}"></textarea>
+                                    </div>
+                                `;
+                            } else {
+                                html += `
+                                    <div class="form-group">
+                                        <label>${input.label}</label>
+                                        <input type="text" id="input-${data.id}-${input.id}" data-item-id="${data.id}" placeholder="${input.hint}">
+                                    </div>
+                                `;
+                            }
+                        });
+                    }
+
+                    html += `
+                            <textarea id="output-${data.id}" class="output-area" readonly></textarea>
+                            <button id="copy-${data.id}" data-item-id="${data.id}">Copy Prompt</button>
+                        </div>
+                    </div>`;
+
+                    item.innerHTML = html;
+                    container.appendChild(item);
+                });
+
+                attachEventListeners();
+                updateAllPrompts();
+            }
+
+            window.toggleAccordion = function(id) {
+                const item = document.getElementById(`acc-item-${id}`);
+                const body = document.getElementById(`acc-body-${id}`);
+
+                // Auto-collapse logic
+                document.querySelectorAll('.accordion-item').forEach(el => {
+                    if(el.id !== `acc-item-${id}`) {
+                        el.classList.remove('active');
+                        el.querySelector('.accordion-body').style.maxHeight = null;
+                    }
+                });
+
+                if (item.classList.contains('active')) {
+                    item.classList.remove('active');
+                    body.style.maxHeight = null;
+                } else {
+                    item.classList.add('active');
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updatePromptForCard(itemId) {
+                const data = promptData.find(p => p.id == itemId);
+                const isMyanmar = document.querySelector('input[name="language"]:checked').value === 'mm';
+                let finalPrompt = isMyanmar ? data.mm : data.en;
+
+                data.inputs.forEach(input => {
+                    const el = document.getElementById(`input-${data.id}-${input.id}`);
+                    const val = el && el.value.trim() !== "" ? el.value.trim() : `[${input.id}]`;
+                    finalPrompt = finalPrompt.split(`[${input.id}]`).join(val);
+                });
+
+                document.getElementById(`output-${data.id}`).value = finalPrompt;
+
+                const body = document.getElementById(`acc-body-${data.id}`);
+                const item = document.getElementById(`acc-item-${data.id}`);
+                if(item.classList.contains('active')) {
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updateAllPrompts() {
+                promptData.forEach(data => updatePromptForCard(data.id));
+            }
+
+            function attachEventListeners() {
+                container.addEventListener('input', (e) => {
+                    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        if (itemId) updatePromptForCard(itemId);
+                    }
+                });
+
+                container.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'BUTTON') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        const outputEl = document.getElementById(`output-${itemId}`);
+                        outputEl.select();
+                        document.execCommand('copy');
+
+                        const btn = e.target;
+                        const originalText = btn.innerText;
+                        btn.innerText = "COPIED! ✨";
+                        setTimeout(() => btn.innerText = originalText, 2000);
+                    }
+                });
+            }
+
+            langRadios.forEach(radio => radio.addEventListener('change', updateAllPrompts));
+
+            renderAccordion();
+            setTimeout(() => { toggleAccordion(1); }, 100);
+        });
+    </script>
+</body>
+</html>
