@@ -82,36 +82,40 @@
         }
 
         /* ----- Remark (Sticky Header အပြင်ဘက်၊ Scroll လုပ်လို့ရသော အပိုင်း) ----- */
-        .remark-box {
+        .remark-container {
             width: 100%;
             max-width: 800px;
-            background: #1e293b;
-            border: 1px solid #334155;
-            border-left: 4px solid #d97757;
-            border-radius: 8px;
-            padding: 20px;
             margin-bottom: 25px;
-            color: #e2e8f0;
+        }
+
+        .remark {
+            color: #f4a286;
+            font-weight: 500;
             font-size: 0.95rem;
-            line-height: 1.7;
+            padding: 15px;
+            background: rgba(217, 119, 87, 0.1);
+            border-radius: 8px;
+            border: 1px dashed #d97757;
+            line-height: 1.6;
+            text-align: left;
         }
 
-        .remark-box h2 {
-            color: #d97757;
-            font-size: 1.05rem;
-            margin-bottom: 10px;
+        .remark h2 {
+            color: #f4a286;
+            font-size: 1rem;
+            margin-bottom: 8px;
         }
 
-        .remark-box ul {
+        .remark ul {
             padding-left: 20px;
             margin: 10px 0;
         }
 
-        .remark-box li {
+        .remark li {
             margin-bottom: 6px;
         }
 
-        .remark-box li b {
+        .remark li b {
             color: #f4a286;
         }
 
@@ -299,8 +303,8 @@
                 font-size: 0.9rem;
             }
 
-            .remark-box {
-                padding: 15px;
+            .remark {
+                padding: 12px;
                 font-size: 0.9rem;
             }
 
@@ -347,7 +351,9 @@
         </div>
     </div>
 
-    <div class="remark-box">
+    <!-- Scrollable Remark Area -->
+    <div class="remark-container">
+        <div class="remark">
         <h2>💡 ဘာကြောင့် ဒီ Prompt တွေ အလုပ်ဖြစ်သလဲ</h2>
         <p>Claude ကို AI Assistant တစ်ယောက်လိုပဲ ခိုင်းစေနေတာ ရပ်လိုက်ပါ။ ပိုမိုထက်မြက်တဲ့ Senior AI Developer တစ်ယောက်လို အသုံးချကြည့်ပါ။ "ဒါလုပ်ပေးပါ။" "Code ရေးပေးပါ။" "ဒီ Error ကို ဖြေရှင်းပေးပါ။" လို့ ရိုးရိုးရှင်းရှင်း ခိုင်းစေနေရုံနဲ့ မလုံလောက်ပါဘူး။</p>
         <p>AI ကို အသုံးပြုတဲ့အခါ ကိုယ်လိုချင်တဲ့အရာကိုပဲ တိုက်ရိုက်ခိုင်းစေတာထက် အောက်ပါအချက်တွေကိုပါ ထည့်သွင်းညွှန်ကြားနိုင်ရင် ပိုကောင်းတဲ့ ရလဒ်တွေ ရရှိနိုင်ပါတယ်။</p>
@@ -359,6 +365,7 @@
             <li><b>Verification</b> – အလုပ်ပြီးသွားရုံမဟုတ်ဘဲ မှန်ကန်မှုရှိ၊ မရှိ ပြန်လည်စစ်ဆေးခိုင်းပါ။</li>
         </ul>
         <p class="remark-source">ရင်းမြစ် — Cross-X Facebook Post, 10 Nov 2026</p>
+        </div>
     </div>
 
     <div class="accordion-container" id="accordion-container"></div>
