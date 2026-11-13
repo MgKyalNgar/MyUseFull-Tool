@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="My Useful Tools">
+    <link rel="apple-touch-icon" href="../icon-192x192.png">
+    <title>Claude Excel Prompts</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: #0f172a;
+            color: #e4e4e7;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .header-container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            margin-bottom: 25px;
+            position: sticky;
+            top: 0;
+            background: rgba(15, 23, 42, 0.95);
+            padding: 20px;
+            z-index: 100;
+            border-bottom: 1px solid #217346; /* Excel Green */
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #217346;
+            font-size: clamp(1.4rem, 5vw, 2.2rem);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(33, 115, 70, 0.3);
+        }
+
+        .subtitle {
+            color: #a1a1aa;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .global-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .radio-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #d4d4d8;
+            font-weight: 600;
+        }
+
+        input[type="radio"] {
+            accent-color: #217346;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ----- Remark (Sticky Header အပြင်ဘက်၊ Scroll လုပ်လို့ရသော အပိုင်း) ----- */
+        .remark-container {
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 25px;
+        }
+
+        .remark {
+            color: #a7f3d0;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 15px;
+            background: rgba(33, 115, 70, 0.1);
+            border-radius: 8px;
+            border: 1px dashed #217346;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        .remark h2 {
+            color: #a7f3d0;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .remark ul {
+            padding-left: 20px;
+            margin: 10px 0;
+        }
+
+        .remark li {
+            margin-bottom: 6px;
+        }
+
+        .remark li b {
+            color: #a7f3d0;
+        }
+
+        /* ----- Accordion List Container ----- */
+        .accordion-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        /* ----- Accordion Item ----- */
+        .accordion-item {
+            background: #27272a;
+            border: 1px solid #3f3f46;
+            border-left: 4px solid #217346;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            border-color: #217346;
+            box-shadow: 0 0 15px rgba(33, 115, 70, 0.1);
+        }
+
+        /* ----- Accordion Header (Clickable) ----- */
+        .accordion-header {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            background: rgba(39, 39, 42, 0.8);
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding-right: 15px;
+        }
+
+        .acc-title {
+            color: #fafafa;
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        .acc-desc {
+            color: #a1a1aa;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .acc-icon {
+            color: #217346;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-item.active .acc-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-item.active {
+            border-color: #217346;
+            box-shadow: 0 0 20px rgba(33, 115, 70, 0.15);
+        }
+
+        /* ----- Accordion Body ----- */
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            background: #0f172a;
+        }
+
+        .body-inner {
+            padding: 25px 20px;
+            border-top: 1px dashed #3f3f46;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #a7f3d0;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"], textarea.input-textarea {
+            width: 100%;
+            background: #27272a;
+            border: 1px solid #3f3f46;
+            color: #217346;
+            padding: 12px;
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        textarea.input-textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        input[type="text"]:focus, textarea.input-textarea:focus {
+            border-color: #217346;
+            box-shadow: 0 0 10px rgba(33, 115, 70, 0.2);
+        }
+
+        textarea.output-area {
+            width: 100%;
+            height: 220px;
+            background: #09090b;
+            border: 1px solid #3f3f46;
+            color: #fafafa;
+            padding: 15px;
+            border-radius: 6px;
+            resize: vertical;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            outline: none;
+            margin-top: 10px;
+        }
+
+        textarea.output-area:focus {
+            border-color: #217346;
+        }
+
+        button {
+            width: 100%;
+            background: transparent;
+            color: #217346;
+            border: 1px solid #217346;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #217346;
+            color: #0f172a;
+            box-shadow: 0 0 15px rgba(33, 115, 70, 0.4);
+        }
+
+        /* ----- Responsive (ဖုန်းစခရင်) ----- */
+        @media (max-width: 600px) {
+            body {
+                padding: 20px 12px;
+            }
+
+            .header-container {
+                padding: 15px 12px;
+                margin-bottom: 20px;
+            }
+
+            h1 {
+                letter-spacing: 1px;
+            }
+
+            .subtitle {
+                font-size: 0.9rem;
+            }
+
+            .remark {
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+
+            .accordion-header {
+                padding: 15px;
+            }
+
+            .acc-title {
+                font-size: 1rem;
+            }
+
+            .acc-desc {
+                font-size: 0.85rem;
+            }
+
+            .body-inner {
+                padding: 20px 12px;
+            }
+
+            textarea.output-area {
+                height: 180px;
+            }
+
+            button {
+                padding: 11px;
+                font-size: 0.95rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>📊 Prompt for Claude Excel</h1>
+        <p class="subtitle">Claude AI ကို Excel သီးသန့်ဆရာတစ်ယောက်လို အသုံးချဖို့ Prompt (7) မျိုး</p>
+        <div class="global-options">
+            <label class="radio-btn">
+                <input type="radio" name="language" value="mm" checked> Myanmar Prompt
+            </label>
+            <label class="radio-btn">
+                <input type="radio" name="language" value="en"> English Prompt
+            </label>
+        </div>
+    </div>
+
+    <!-- Scrollable Remark Area -->
+    <div class="remark-container">
+        <div class="remark">
+        <h2>🔥 အရေးကြီးဆုံးအချက်က ဘာလဲ?</h2>
+        <p>Excel ကို စာအုပ်ထဲက သီအိုရီတွေချည်း ဖတ်ပြီး လေ့လာစရာမလိုတော့ပါဘူး။ Claude AI ကို ကိုယ့်ရဲ့ Excel ဆရာတစ်ယောက်အဖြစ် အသုံးပြုပြီး —</p>
+        <ul>
+            <li>✅ ကိုယ့်ရဲ့ လက်ရှိအရည်အချင်းကို စမ်းသပ်နိုင်တယ်။</li>
+            <li>✅ ရက် ၃၀ စာ Learning Plan ရေးဆွဲနိုင်တယ်။</li>
+            <li>✅ ကိုယ်တိုင်လေ့ကျင့်ဖို့ Excel File တွေ ဖန်တီးနိုင်တယ်။</li>
+            <li>✅ နားမလည်တဲ့ Formula တွေကို အဆင့်လိုက် သင်ယူနိုင်တယ်။</li>
+            <li>✅ လုပ်ငန်းခွင်သုံး Data တွေနဲ့ လက်တွေ့လေ့ကျင့်နိုင်တယ်။</li>
+            <li>✅ ကိုယ့်ရဲ့ အဖြေတွေကို ပြန်လည်စစ်ဆေးပြီး အားနည်းချက်တွေကို ပြုပြင်နိုင်တယ်။</li>
+        </ul>
+        <p>သင်ယူချင်စိတ်ရှိပြီး နေ့စဉ် မိနစ် ၂၀ လောက် အချိန်ပေးနိုင်ရင် Excel Skill ကို တစ်ဆင့်ချင်း တိုးတက်အောင် လေ့ကျင့်နိုင်ပါတယ်။</p>
+        <h2>စတင်အသုံးပြုနည်း</h2>
+        <ul>
+            <li><b>၁။</b> Claude AI မှာ Chat အသစ်တစ်ခုဖွင့်ပါ။</li>
+            <li><b>၂။</b> Settings &gt; Capabilities ထဲဝင်ပါ။</li>
+            <li><b>၃။</b> Create and edit files ကို ဖွင့်ထားပါ။</li>
+            <li><b>၄။</b> အောက်မှာဖော်ပြထားတဲ့ Prompts (၇) ခုကို တစ်ခုချင်းစီ အသုံးပြုကြည့်ပါ။</li>
+        </ul>
+        <p>⚠️ မှတ်ချက်: လုပ်ငန်းခွင်သုံး File တွေ Upload မလုပ်ခင် ကိုယ်ရေးကိုယ်တာအချက်အလက်နဲ့ လျှို့ဝှက်အချက်အလက်တွေကို ဖယ်ရှားထားဖို့ မမေ့ပါနဲ့။</p>
+        </div>
+    </div>
+
+    <div class="accordion-container" id="accordion-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            const promptData = [
+                {
+                    id: 1,
+                    title: "၁။ The Level Test – ကိုယ့်ရဲ့ Excel အရည်အချင်းကို စမ်းသပ်ခြင်း",
+                    desc: "ကိုယ်က Excel ဘယ်လောက်အထိ တတ်ကျွမ်းနေပြီလဲဆိုတာ အရင်ဆုံး စမ်းသပ်ကြည့်ပါ။",
+                    en: "Build me an Excel file that tests my level. 15 tasks that go from typing a SUM to building a pivot table, one per row, with a blank cell for my answer. I will fill it in and upload it back. Then tell me my level and the 5 things I should learn first for my job as [your job].",
+                    mm: "ကျွန်တော့်ရဲ့ Excel အရည်အချင်းကို စမ်းသပ်နိုင်မယ့် Excel File တစ်ခု ဖန်တီးပေးပါ။ SUM Formula ရေးသားခြင်းကနေ Pivot Table တည်ဆောက်ခြင်းအထိ အဆင့်လိုက်ခက်ခဲလာမယ့် လေ့ကျင့်ခန်း ၁၅ ခု ထည့်ပေးပါ။ လေ့ကျင့်ခန်းတစ်ခုစီကို Row တစ်ခုစီမှာ ထားပြီး ကျွန်တော်အဖြေရေးထည့်နိုင်ဖို့ Blank Cell တစ်ခုစီ ထည့်ပေးပါ။ ကျွန်တော် အဖြေတွေဖြည့်ပြီး File ကို ပြန် Upload လုပ်ပေးမယ်။ အဲဒီအခါ ကျွန်တော့်ရဲ့ Excel အရည်အချင်းအဆင့်ကို သတ်မှတ်ပေးပြီး ကျွန်တော်လုပ်ကိုင်နေတဲ့ [your job] အတွက် ပထမဆုံးလေ့လာသင့်တဲ့ အရေးကြီးဆုံး Skill (၅) ခုကိုလည်း အကြံပြုပေးပါ။",
+                    inputs: [
+                        { id: "your job", label: "လုပ်ကိုင်နေတဲ့ အလုပ်အကိုင်", type: "text", hint: "ဥပမာ - accountant" }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "၂။ The 30 Day Plan – ရက် ၃၀ အတွင်း Excel လေ့လာရေးအစီအစဉ်",
+                    desc: "နေ့စဉ် မိနစ် ၂၀ လောက် အချိန်ပေးရုံနဲ့ စနစ်တကျ လေ့လာနိုင်မယ့် Plan တစ်ခု ဖန်တီးခိုင်းပါ။",
+                    en: "Build me a 30 day Excel learning plan as a spreadsheet. One skill a day, 20 minutes each, in the order someone in [your job] would need them. Add a tick box per day and a progress bar at the top that fills as I tick.",
+                    mm: "ကျွန်တော့်အတွက် ရက် ၃၀ ကြာ Excel လေ့လာရေးအစီအစဉ်တစ်ခုကို Spreadsheet File အနေနဲ့ ဖန်တီးပေးပါ။ တစ်ရက်ကို Skill တစ်ခုစီ၊ လေ့လာချိန် မိနစ် ၂၀ စီ သတ်မှတ်ပေးပါ။ ကျွန်တော်လုပ်ကိုင်နေတဲ့ [your job] အတွက် လိုအပ်မယ့် Skill တွေကို အရေးကြီးမှုအလိုက် အစီအစဉ်တကျ စီစဉ်ပေးပါ။ နေ့စဉ်ပြီးဆုံးတဲ့အခါ အမှန်ခြစ်နိုင်မယ့် Checkbox တစ်ခုစီ ထည့်ပေးပြီး အပေါ်ဆုံးမှာ ကျွန်တော်ပြီးမြောက်ခဲ့တဲ့ သင်ခန်းစာအရေအတွက်အလိုက် အလိုအလျောက် တိုးလာမယ့် Progress Bar တစ်ခုလည်း ထည့်ပေးပါ။",
+                    inputs: [
+                        { id: "your job", label: "လုပ်ကိုင်နေတဲ့ အလုပ်အကိုင်", type: "text", hint: "ဥပမာ - accountant" }
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "၃။ The Practice File – လက်တွေ့လေ့ကျင့်ဖို့ Excel File ဖန်တီးခြင်း",
+                    desc: "သင်ယူချင်တဲ့ Excel Skill ကို ရွေးချယ်ပြီး လက်တွေ့ဒေတာတွေနဲ့ လေ့ကျင့်နိုင်ပါတယ်။",
+                    en: "Today I am learning [Skill]. Build me an Excel file with 200 rows of realistic data from [your industry] and 10 tasks that get harder. Put the answers on a second sheet. Explain the skill in 5 lines before I start.",
+                    mm: "ဒီနေ့ ကျွန်တော် [Skill] ကို လေ့လာနေပါတယ်။ ကျွန်တော့်အတွက် Excel File တစ်ခု ဖန်တီးပေးပါ။ ကျွန်တော်လုပ်ကိုင်နေတဲ့ [your industry] နဲ့ ကိုက်ညီတဲ့ လက်တွေ့အသုံးပြုနိုင်မယ့် Data Row ၂၀၀ ပါဝင်စေပြီး အလွယ်ကနေ အခက်အထိ တဖြည်းဖြည်းခက်ခဲလာမယ့် လေ့ကျင့်ခန်း ၁၀ ခု ထည့်ပေးပါ။ အဖြေတွေကို ဒုတိယ Sheet တစ်ခုမှာ သီးခြားထည့်ပေးပါ။ လေ့ကျင့်ခန်းမစတင်ခင် သင်ယူမယ့် Skill အကြောင်းကို နားလည်လွယ်အောင် စာကြောင်း ၅ ကြောင်းနဲ့ အရင်ရှင်းပြပေးပါ။",
+                    inputs: [
+                        { id: "Skill", label: "လေ့လာမယ့် Skill", type: "text", hint: "ဥပမာ - XLOOKUP, IF, Pivot Tables, Charts" },
+                        { id: "your industry", label: "လုပ်ကိုင်နေတဲ့ လုပ်ငန်းနယ်ပယ်", type: "text", hint: "ဥပမာ - retail" }
+                    ]
+                },
+                {
+                    id: 4,
+                    title: "၄။ The Formula Breakdown – နားမလည်တဲ့ Formula တွေကို အဆင့်လိုက်လေ့လာခြင်း",
+                    desc: "Formula တစ်ခုကို အလွတ်ကျက်စရာမလိုဘဲ ဘယ်လိုအလုပ်လုပ်တယ်ဆိုတာ နားလည်အောင် သင်ယူနိုင်ပါတယ်။",
+                    en: "Here is a formula I don't understand: [paste it]. Explain what each part does in plain English. Then build me an Excel file where I rebuild it myself in 4 steps, starting with the simplest piece, with example data already in place.",
+                    mm: "ဒီမှာ ကျွန်တော်နားမလည်တဲ့ Excel Formula တစ်ခု ရှိပါတယ် - [paste it]။ ဒီ Formula ထဲမှာ ပါဝင်တဲ့ အစိတ်အပိုင်းတစ်ခုချင်းစီက ဘာလုပ်ဆောင်တယ်ဆိုတာကို ရိုးရှင်းတဲ့ အင်္ဂလိပ်ဘာသာစကားနဲ့ နားလည်လွယ်အောင် ရှင်းပြပေးပါ။ ပြီးရင် ကျွန်တော်ကိုယ်တိုင် ပြန်လည်တည်ဆောက်လေ့ကျင့်နိုင်ဖို့ Excel File တစ်ခု ဖန်တီးပေးပါ။ အလွယ်ဆုံးအပိုင်းကနေ စတင်ပြီး အဆင့် ၄ ဆင့်ခွဲကာ Formula တစ်ခုလုံးကို ကိုယ်တိုင်တည်ဆောက်နိုင်အောင် လေ့ကျင့်ပေးပါ။ လေ့ကျင့်ဖို့ Example Data တွေကိုလည်း ကြိုတင်ထည့်ပေးပါ။",
+                    inputs: [
+                        { id: "paste it", label: "နားမလည်တဲ့ Formula", type: "textarea", hint: "Formula ကို ဒီနေရာမှာ ကူးထည့်ပါ" }
+                    ]
+                },
+                {
+                    id: 5,
+                    title: "၅။ The Boss Questions – မန်နေဂျာတစ်ယောက်လို စဉ်းစားပြီး လေ့ကျင့်ခြင်း",
+                    desc: "လုပ်ငန်းခွင်မှာ တကယ်ကြုံတွေ့ရနိုင်တဲ့ မေးခွန်းတွေကို ဖြေရှင်းရင်း Excel Skill တိုးတက်အောင် လေ့ကျင့်နိုင်ပါတယ်။",
+                    en: "Build me an Excel file with 500 rows of sales data: date, region, product, rep, units, revenue. On a second sheet, write 8 questions a manager would ask on a Monday morning. I will answer each one with a pivot table and upload it back for you to mark.",
+                    mm: "Sales Data Row ၅၀၀ ပါဝင်တဲ့ Excel File တစ်ခု ဖန်တီးပေးပါ။ Data တွေမှာ Date, Region, Product, Sales Representative, Units နဲ့ Revenue ဆိုတဲ့ Column တွေ ပါဝင်စေပါ။ ဒုတိယ Sheet မှာတော့ မန်နေဂျာတစ်ယောက်က တနင်္လာနေ့ မနက်ခင်းမှာ လုပ်ငန်းအခြေအနေကို သိရှိဖို့ မေးလေ့ရှိတဲ့ မေးခွန်း ၈ ခုကို ထည့်ပေးပါ။ မေးခွန်းတစ်ခုချင်းစီကို Pivot Table အသုံးပြုပြီး ကျွန်တော်ကိုယ်တိုင် ဖြေရှင်းပါမယ်။ ပြီးရင် File ကို ပြန် Upload လုပ်ပေးမယ်။ ကျွန်တော့်ရဲ့ အဖြေတွေကို စစ်ဆေးအမှတ်ပေးပြီး မှားယွင်းနေတဲ့အချက်တွေကို ရှင်းပြပေးပါ။",
+                    inputs: []
+                },
+                {
+                    id: 6,
+                    title: "၆။ The Real Spreadsheet – ကိုယ့်လုပ်ငန်းခွင်က Excel File နဲ့ လေ့ကျင့်ခြင်း",
+                    desc: "ဒါကတော့ အလွန်အသုံးဝင်တဲ့ နည်းလမ်းတစ်ခုပါ။ ကိုယ်တကယ်အသုံးပြုနေတဲ့ Excel File ကို Claude ဆီ Upload လုပ်ပြီး အလုပ်တွေကို ပိုမိုမြန်ဆန်အောင် ဘယ်လိုလုပ်နိုင်မလဲဆိုတာ လေ့လာနိုင်ပါတယ်။",
+                    en: "Look at this file. Find 5 things I am doing by hand that Excel can do for me. Rank them by time saved, then teach me the first one using my own data, and send back the file with it done so I can compare.",
+                    mm: "ဒီ Excel File ကို သေချာလေ့လာဆန်းစစ်ပေးပါ။ ကျွန်တော်ကိုယ်တိုင် လက်နဲ့လုပ်ဆောင်နေရတဲ့အလုပ်တွေထဲက Excel ကို အသုံးပြုပြီး အလိုအလျောက် လုပ်ဆောင်နိုင်တဲ့ အလုပ် ၅ ခုကို ရှာဖွေပေးပါ။ အချိန်ကုန်သက်သာမှု အများဆုံးရနိုင်မယ့် အလုပ်ကနေ အနည်းဆုံးအထိ အစီအစဉ်တကျ စီစဉ်ပေးပါ။ ပြီးရင် ပထမဆုံးအလုပ်တစ်ခုကို ကျွန်တော့်ရဲ့ မူရင်း Data ကို အသုံးပြုပြီး ဘယ်လိုလုပ်ဆောင်ရမလဲ သင်ကြားပေးပါ။ အဲဒီအလုပ်ကို ကိုယ်တိုင်ပြီးစီးအောင် လုပ်ဆောင်ထားတဲ့ Excel File ကိုလည်း ပြန်ပေးပါ။ ဒါမှ မူရင်း File နဲ့ နှိုင်းယှဉ်လေ့လာနိုင်မှာပါ။",
+                    inputs: []
+                },
+                {
+                    id: 7,
+                    title: "၇။ The Final Exam – Excel နောက်ဆုံးအဆင့် စာမေးပွဲ",
+                    desc: "အလုပ်အင်တာဗျူးမှာ Excel Skill စစ်ဆေးခံရမယ့်သူတွေအတွက် အထူးအသုံးဝင်ပါတယ်။",
+                    en: "Build me a 45 minute Excel exam in the style of a job interview test for [the role you want]. 12 tasks on one dataset, points for each. I will upload my answers. Mark it out of 100, show me what I got wrong, and build one more practice file on my weakest skill.",
+                    mm: "ကျွန်တော်လျှောက်ထားလိုတဲ့ [the role you want] နဲ့ ကိုက်ညီတဲ့ Job Interview Excel Test ပုံစံအတိုင်း မိနစ် ၄၅ ကြာ ဖြေဆိုရမယ့် Excel စာမေးပွဲတစ်ခု ဖန်တီးပေးပါ။ Dataset တစ်ခုတည်းကို အသုံးပြုပြီး လေ့ကျင့်ခန်း ၁၂ ခု ထည့်ပေးပါ။ မေးခွန်းတစ်ခုချင်းစီအတွက် ရမှတ်တွေ သတ်မှတ်ပေးပါ။ ကျွန်တော်ဖြေဆိုပြီးတဲ့ အဖြေတွေကို Upload လုပ်ပေးပါမယ်။ စုစုပေါင်း ၁၀၀ မှတ်ဖိုးနဲ့ အမှတ်ပေးစစ်ဆေးပြီး မှားယွင်းခဲ့တဲ့အချက်တွေကို တစ်ခုချင်းစီ ရှင်းပြပေးပါ။ နောက်ဆုံးမှာ ကျွန်တော်အညံ့ဆုံးဖြစ်နေတဲ့ Skill ကို ရွေးထုတ်ပြီး အဲဒီ Skill ကို ပိုမိုကျွမ်းကျင်လာစေဖို့ နောက်ထပ် Practice Excel File တစ်ခု ဖန်တီးပေးပါ။",
+                    inputs: [
+                        { id: "the role you want", label: "လျှောက်ထားလိုတဲ့ အလုပ်ရာထူး", type: "text", hint: "ဥပမာ - accountant" }
+                    ]
+                }
+            ];
+
+            const container = document.getElementById('accordion-container');
+            const langRadios = document.getElementsByName('language');
+
+            function renderAccordion() {
+                container.innerHTML = '';
+
+                promptData.forEach((data) => {
+                    const item = document.createElement('div');
+                    item.className = 'accordion-item';
+                    item.id = `acc-item-${data.id}`;
+
+                    let html = `
+                        <div class="accordion-header" onclick="toggleAccordion(${data.id})">
+                            <div class="header-content">
+                                <div class="acc-title">${data.title}</div>
+                                <div class="acc-desc">💡 ${data.desc}</div>
+                            </div>
+                            <div class="acc-icon">▼</div>
+                        </div>
+                    `;
+
+                    html += `<div class="accordion-body" id="acc-body-${data.id}">
+                                <div class="body-inner">`;
+
+                    if(data.inputs.length > 0) {
+                        data.inputs.forEach(input => {
+                            if(input.type === 'textarea') {
+                                html += `
+                                    <div class="form-group">
+                                        <label>${input.label}</label>
+                                        <textarea id="input-${data.id}-${input.id}" class="input-textarea" data-item-id="${data.id}" placeholder="${input.hint}"></textarea>
+                                    </div>
+                                `;
+                            } else {
+                                html += `
+                                    <div class="form-group">
+                                        <label>${input.label}</label>
+                                        <input type="text" id="input-${data.id}-${input.id}" data-item-id="${data.id}" placeholder="${input.hint}">
+                                    </div>
+                                `;
+                            }
+                        });
+                    }
+
+                    html += `
+                            <textarea id="output-${data.id}" class="output-area" readonly></textarea>
+                            <button id="copy-${data.id}" data-item-id="${data.id}">Copy Prompt</button>
+                        </div>
+                    </div>`;
+
+                    item.innerHTML = html;
+                    container.appendChild(item);
+                });
+
+                attachEventListeners();
+                updateAllPrompts();
+            }
+
+            window.toggleAccordion = function(id) {
+                const item = document.getElementById(`acc-item-${id}`);
+                const body = document.getElementById(`acc-body-${id}`);
+
+                // Auto-collapse logic
+                document.querySelectorAll('.accordion-item').forEach(el => {
+                    if(el.id !== `acc-item-${id}`) {
+                        el.classList.remove('active');
+                        el.querySelector('.accordion-body').style.maxHeight = null;
+                    }
+                });
+
+                if (item.classList.contains('active')) {
+                    item.classList.remove('active');
+                    body.style.maxHeight = null;
+                } else {
+                    item.classList.add('active');
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updatePromptForCard(itemId) {
+                const data = promptData.find(p => p.id == itemId);
+                const isMyanmar = document.querySelector('input[name="language"]:checked').value === 'mm';
+                let finalPrompt = isMyanmar ? data.mm : data.en;
+
+                data.inputs.forEach(input => {
+                    const el = document.getElementById(`input-${data.id}-${input.id}`);
+                    const val = el && el.value.trim() !== "" ? el.value.trim() : `[${input.id}]`;
+                    finalPrompt = finalPrompt.split(`[${input.id}]`).join(val);
+                });
+
+                document.getElementById(`output-${data.id}`).value = finalPrompt;
+
+                const body = document.getElementById(`acc-body-${data.id}`);
+                const item = document.getElementById(`acc-item-${data.id}`);
+                if(item.classList.contains('active')) {
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updateAllPrompts() {
+                promptData.forEach(data => updatePromptForCard(data.id));
+            }
+
+            function attachEventListeners() {
+                container.addEventListener('input', (e) => {
+                    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        if (itemId) updatePromptForCard(itemId);
+                    }
+                });
+
+                container.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'BUTTON') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        const outputEl = document.getElementById(`output-${itemId}`);
+                        outputEl.select();
+                        document.execCommand('copy');
+
+                        const btn = e.target;
+                        const originalText = btn.innerText;
+                        btn.innerText = "COPIED! ✨";
+                        setTimeout(() => btn.innerText = originalText, 2000);
+                    }
+                });
+            }
+
+            langRadios.forEach(radio => radio.addEventListener('change', updateAllPrompts));
+
+            renderAccordion();
+            setTimeout(() => { toggleAccordion(1); }, 100);
+        });
+    </script>
+</body>
+</html>
