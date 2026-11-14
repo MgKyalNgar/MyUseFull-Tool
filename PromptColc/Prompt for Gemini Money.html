@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="My Useful Tools">
+    <link rel="apple-touch-icon" href="../icon-192x192.png">
+    <title>Gemini Money Prompts</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: #0f172a;
+            color: #e4e4e7;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .header-container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            margin-bottom: 25px;
+            position: sticky;
+            top: 0;
+            background: rgba(15, 23, 42, 0.95);
+            padding: 20px;
+            z-index: 100;
+            border-bottom: 1px solid #4285F4; /* Gemini Blue */
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #4285F4;
+            font-size: clamp(1.4rem, 5vw, 2.2rem);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(66, 133, 244, 0.3);
+        }
+
+        .subtitle {
+            color: #a1a1aa;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .global-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .radio-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #d4d4d8;
+            font-weight: 600;
+        }
+
+        input[type="radio"] {
+            accent-color: #4285F4;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ----- Remark (Sticky Header အပြင်ဘက်၊ Scroll လုပ်လို့ရသော အပိုင်း) ----- */
+        .remark-container {
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 25px;
+        }
+
+        .remark {
+            color: #93c5fd;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 15px;
+            background: rgba(66, 133, 244, 0.1);
+            border-radius: 8px;
+            border: 1px dashed #4285F4;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        .remark h2 {
+            color: #93c5fd;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .remark ul {
+            padding-left: 20px;
+            margin: 10px 0;
+        }
+
+        .remark li {
+            margin-bottom: 6px;
+        }
+
+        .remark li b {
+            color: #93c5fd;
+        }
+
+        /* ----- Accordion List Container ----- */
+        .accordion-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        /* ----- Accordion Item ----- */
+        .accordion-item {
+            background: #27272a;
+            border: 1px solid #3f3f46;
+            border-left: 4px solid #4285F4;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            border-color: #4285F4;
+            box-shadow: 0 0 15px rgba(66, 133, 244, 0.1);
+        }
+
+        /* ----- Accordion Header (Clickable) ----- */
+        .accordion-header {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            background: rgba(39, 39, 42, 0.8);
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding-right: 15px;
+        }
+
+        .acc-title {
+            color: #fafafa;
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        .acc-desc {
+            color: #a1a1aa;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .acc-icon {
+            color: #4285F4;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-item.active .acc-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-item.active {
+            border-color: #4285F4;
+            box-shadow: 0 0 20px rgba(66, 133, 244, 0.15);
+        }
+
+        /* ----- Accordion Body ----- */
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            background: #0f172a;
+        }
+
+        .body-inner {
+            padding: 25px 20px;
+            border-top: 1px dashed #3f3f46;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #93c5fd;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"], textarea.input-textarea {
+            width: 100%;
+            background: #27272a;
+            border: 1px solid #3f3f46;
+            color: #4285F4;
+            padding: 12px;
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        textarea.input-textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        input[type="text"]:focus, textarea.input-textarea:focus {
+            border-color: #4285F4;
+            box-shadow: 0 0 10px rgba(66, 133, 244, 0.2);
+        }
+
+        textarea.output-area {
+            width: 100%;
+            height: 220px;
+            background: #09090b;
+            border: 1px solid #3f3f46;
+            color: #fafafa;
+            padding: 15px;
+            border-radius: 6px;
+            resize: vertical;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            outline: none;
+            margin-top: 10px;
+        }
+
+        textarea.output-area:focus {
+            border-color: #4285F4;
+        }
+
+        button {
+            width: 100%;
+            background: transparent;
+            color: #4285F4;
+            border: 1px solid #4285F4;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #4285F4;
+            color: #0f172a;
+            box-shadow: 0 0 15px rgba(66, 133, 244, 0.4);
+        }
+
+        /* ----- Responsive (ဖုန်းစခရင်) ----- */
+        @media (max-width: 600px) {
+            body {
+                padding: 20px 12px;
+            }
+
+            .header-container {
+                padding: 15px 12px;
+                margin-bottom: 20px;
+            }
+
+            h1 {
+                letter-spacing: 1px;
+            }
+
+            .subtitle {
+                font-size: 0.9rem;
+            }
+
+            .remark {
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+
+            .accordion-header {
+                padding: 15px;
+            }
+
+            .acc-title {
+                font-size: 1rem;
+            }
+
+            .acc-desc {
+                font-size: 0.85rem;
+            }
+
+            .body-inner {
+                padding: 20px 12px;
+            }
+
+            textarea.output-area {
+                height: 180px;
+            }
+
+            button {
+                padding: 11px;
+                font-size: 0.95rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>💰 Prompt for Gemini Money</h1>
+        <p class="subtitle">Gemini AI နဲ့ Laptop တစ်လုံးတည်းနဲ့ Online မှာ ဝင်ငွေရှာနိုင်ဖို့ အသုံးဝင်တဲ့ Prompt (7) မျိုး</p>
+        <div class="global-options">
+            <label class="radio-btn">
+                <input type="radio" name="language" value="mm" checked> Myanmar Prompt
+            </label>
+            <label class="radio-btn">
+                <input type="radio" name="language" value="en"> English Prompt
+            </label>
+        </div>
+    </div>
+
+    <!-- Scrollable Remark Area -->
+    <div class="remark-container">
+        <div class="remark">
+        <h2>🚀 AI ကို ဝင်ငွေရှာနိုင်တဲ့ လက်နက်တစ်ခုအဖြစ် အသုံးချပါ</h2>
+        <p>AI ကို အပျော်သုံးရုံနဲ့ မရပ်လိုက်ပါနဲ့။ Gemini AI ကို အသုံးပြုလိုက်ရုံနဲ့ တစ်နေ့ $500 အလိုအလျောက် ဝင်လာမှာ မဟုတ်ပါဘူး။ အရေးကြီးတာက ကိုယ်တတ်ကျွမ်းတဲ့အရာတွေကို Gemini AI ရဲ့အကူအညီနဲ့ ဝန်ဆောင်မှုအဖြစ် ပြောင်းလဲရောင်းချတတ်ဖို့ပါပဲ။ Laptop တစ်လုံးနဲ့ Wi-Fi ရှိရုံနဲ့ လူတွေတကယ်ငွေပေးဝယ်ယူနေကြတဲ့ Online Services တွေကို ဖန်တီးပေးနိုင်ပြီး ကိုယ်တိုင် Online Business တစ်ခု စတင်နိုင်ပါတယ်။</p>
+        <h2>💡 အရေးကြီးဆုံး မှတ်ထားရမယ့်အချက်</h2>
+        <p>Prompt တွေကို Copy ယူပြီး Gemini မှာ Paste လုပ်လိုက်ရုံနဲ့ ဝင်ငွေတွေ အလိုအလျောက် ရရှိလာမှာ မဟုတ်ပါဘူး။ Prompt တစ်ခုတည်းက သင့်ကို ငွေရှာပေးမှာ မဟုတ်ပါဘူး။ AI က သင့်အလုပ်ကို ပိုမိုမြန်ဆန်လွယ်ကူစေမယ့် ကိရိယာတစ်ခုသာ ဖြစ်ပါတယ်။ တကယ်ဝင်ငွေရရှိဖို့ကတော့ ကိုယ်တိုင် လက်တွေ့လုပ်ဆောင်ဖို့ လိုအပ်ပါတယ်။ တကယ်ငွေရှာနိုင်ဖို့ အဓိကလိုအပ်တာက အချက် ၃ ချက်ပါ။</p>
+        <ul>
+            <li>✅ <b>၁။ Niche ရွေးချယ်ပါ။</b> ကိုယ်ကျွမ်းကျင်တဲ့ နယ်ပယ်တစ်ခုကို ရွေးချယ်ပြီး အဲဒီနယ်ပယ်မှာ အာရုံစိုက်လုပ်ဆောင်ပါ။</li>
+            <li>✅ <b>၂။ တကယ့် Customer တွေကို ရှာဖွေပါ။</b> ကိုယ့်ဝန်ဆောင်မှုကို လိုအပ်နေတဲ့ လူတွေနဲ့ လုပ်ငန်းတွေကို ဆက်သွယ်ပြီး ဝန်ဆောင်မှုကို ကမ်းလှမ်းပါ။</li>
+            <li>✅ <b>၃။ အရည်အသွေးကောင်းတဲ့ အလုပ်တွေ ပေးအပ်ပါ။</b> Customer တွေရဲ့ ပြဿနာကို တကယ်ဖြေရှင်းပေးနိုင်တဲ့ ဝန်ဆောင်မှုမျိုး ပေးပါ။ ယုံကြည်မှုရလာတာနဲ့အမျှ Customer အသစ်တွေလည်း ရရှိလာနိုင်ပါတယ်။</li>
+        </ul>
+        </div>
+    </div>
+
+    <div class="accordion-container" id="accordion-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            const promptData = [
+                {
+                                "id": 1,
+                                "title": "၁။ ကိုယ်ရောင်းချနိုင်မယ့် Service ကို ရှာဖွေပါ",
+                                "desc": "ကိုယ်ဘာလုပ်တတ်လဲဆိုတာ မသိသေးရင်တောင် Gemini ကို အကူအညီတောင်းပြီး ရောင်းချနိုင်မယ့် Service တွေကို ရှာဖွေနိုင်ပါတယ်။",
+                                "en": "Act as a digital business strategist. My skills: [skills]. Give me 5 services I can sell online with a laptop. For each one: ideal client, problem it solves, suggested price, and how to get 3 clients in 7 days.",
+                                "mm": "သင်ဟာ Digital Business Strategist တစ်ယောက်အဖြစ် လုပ်ဆောင်ပေးပါ။ ကျွန်တော်/ကျွန်မရဲ့ ကျွမ်းကျင်မှုတွေက [skills] ဖြစ်ပါတယ်။ Laptop တစ်လုံးအသုံးပြုပြီး Online မှာ ရောင်းချနိုင်မယ့် Services (၅) မျိုးကို အကြံပြုပေးပါ။ Service တစ်ခုချင်းစီအတွက် — ဘယ်လို Customer မျိုးကို ရည်ရွယ်သင့်သလဲ။ Customer တွေရဲ့ ဘယ်လိုပြဿနာကို ဖြေရှင်းပေးနိုင်သလဲ။ ဘယ်လောက်ဈေးနှုန်းနဲ့ ရောင်းချသင့်သလဲ။ ၇ ရက်အတွင်း Customer ၃ ယောက် ရရှိနိုင်ဖို့ ဘယ်လိုလုပ်ဆောင်ရမလဲ။ လက်တွေ့အကောင်အထည်ဖော်နိုင်မယ့် နည်းလမ်းတွေနဲ့ အသေးစိတ်ရှင်းပြပေးပါ။",
+                                "inputs": [
+                                                {
+                                                                "id": "skills",
+                                                                "label": "ကိုယ့်ရဲ့ ကျွမ်းကျင်မှုများ",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - graphic design, writing"
+                                                }
+                                ]
+                },
+                {
+                                "id": 2,
+                                "title": "၂။ Local Business တွေအတွက် Copywriting ရေးသားပါ",
+                                "desc": "အနီးအနားက စီးပွားရေးလုပ်ငန်းတွေ၊ ဆိုင်တွေ၊ စားသောက်ဆိုင်တွေအတွက် ကြော်ငြာစာသားနဲ့ အရောင်းမြှင့်တင်ရေး Content တွေ ရေးသားပေးပြီး ဝင်ငွေရှာနိုင်ပါတယ်။",
+                                "en": "You are a senior copywriter. Write a sales proposal for [local business]: headline, problem, solution, social proof, and call to action. Tone: [tone]. End with a 100-word email to the owner.",
+                                "mm": "သင်ဟာ အတွေ့အကြုံရှိတဲ့ Senior Copywriter တစ်ယောက်ဖြစ်ပါတယ်။ [local business] အတွက် ထိရောက်တဲ့ Sales Proposal တစ်ခု ရေးသားပေးပါ။ အောက်ပါအချက်တွေ ပါဝင်ရပါမယ်။ ဆွဲဆောင်မှုရှိတဲ့ Headline၊ Customer တွေ ကြုံတွေ့နေရတဲ့ ပြဿနာ၊ အဲဒီပြဿနာကို ဖြေရှင်းပေးနိုင်မယ့် နည်းလမ်း၊ ယုံကြည်မှုရရှိစေမယ့် Social Proof၊ ဝယ်ယူချင်စိတ်ဖြစ်စေမယ့် Call to Action။ ရေးသားပုံကို ရင်းနှီးဖော်ရွေတဲ့ပုံစံ သို့မဟုတ် Professional ဆန်တဲ့ပုံစံ အသုံးပြုပေးပါ။ နောက်ဆုံးမှာ လုပ်ငန်းပိုင်ရှင်ဆီ ပေးပို့နိုင်မယ့် စကားလုံး ၁၀၀ ဝန်းကျင်ရှိတဲ့ Sales Email တစ်စောင်ပါ ရေးပေးပါ။",
+                                "inputs": [
+                                                {
+                                                                "id": "local business",
+                                                                "label": "လုပ်ငန်းအမည်",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - a coffee shop"
+                                                },
+                                                {
+                                                                "id": "tone",
+                                                                "label": "ရေးသားပုံ (English Prompt အတွက်သာ)",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - friendly / professional"
+                                                }
+                                ]
+                },
+                {
+                                "id": 3,
+                                "title": "၃။ Social Media Management ဝန်ဆောင်မှု ပေးပါ",
+                                "desc": "လုပ်ငန်းရှင်တွေအတွက် Instagram နဲ့ X မှာ တင်ဖို့ Content တွေကို တစ်လစာ စီစဉ်ရေးသားပေးနိုင်ပါတယ်။ လစဉ်ကြေးနဲ့ ဝန်ဆောင်မှုပေးနိုင်တဲ့ လုပ်ငန်းတစ်ခုပါ။",
+                                "en": "Create a 30-day content calendar for [niche] on Instagram and X. For each day: format, hook, idea, and CTA. Prioritize posts that generate inquiries or sales. Deliver it in a table.",
+                                "mm": "[niche] အတွက် Instagram နဲ့ X မှာ အသုံးပြုနိုင်မယ့် ရက်ပေါင်း ၃၀ စာ Content Calendar တစ်ခု ဖန်တီးပေးပါ။ နေ့စဉ် Content တစ်ခုစီအတွက် — Content Format၊ စိတ်ဝင်စားမှုဖြစ်စေမယ့် Hook၊ Content Idea၊ Customer တွေ စုံစမ်းမေးမြန်းလာစေမယ့် သို့မဟုတ် ဝယ်ယူလာစေမယ့် CTA တို့ကို ထည့်သွင်းပေးပါ။ Engagement တိုးတက်စေဖို့သာမက Customer ရရှိပြီး အရောင်းတက်လာစေမယ့် Content တွေကို ဦးစားပေးပါ။ ဇယားပုံစံနဲ့ စနစ်တကျ ဖော်ပြပေးပါ။",
+                                "inputs": [
+                                                {
+                                                                "id": "niche",
+                                                                "label": "လုပ်ငန်းအမျိုးအစား",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - skincare"
+                                                }
+                                ]
+                },
+                {
+                                "id": 4,
+                                "title": "၄။ Market Research Report ဖန်တီးပါ",
+                                "desc": "လုပ်ငန်းတစ်ခု စတင်ချင်သူတွေအတွက် Market Research လုပ်ပေးပြီး Report ရောင်းချနိုင်ပါတယ်။",
+                                "en": "Research the [niche] market: 5 competitors, their prices, weaknesses, and 3 untapped opportunities. Summarize in a 1-page report with actionable recommendations.",
+                                "mm": "[niche] ရဲ့ Market ကို အသေးစိတ်လေ့လာဆန်းစစ်ပေးပါ။ အောက်ပါအချက်တွေ ပါဝင်ရပါမယ်။ ပြိုင်ဘက်လုပ်ငန်း ၅ ခု၊ သူတို့ရဲ့ ဝန်ဆောင်မှုဈေးနှုန်းများ၊ အားနည်းချက်များ၊ လက်ရှိဈေးကွက်မှာ အခွင့်အလမ်းရှိနေသေးတဲ့ လုပ်ငန်းအမျိုးအစား ၃ ခု။ ရရှိလာတဲ့အချက်အလက်တွေကို တစ်မျက်နှာစာ Market Research Report အဖြစ် အကျဉ်းချုပ်ပေးပြီး လက်တွေ့အသုံးချနိုင်မယ့် အကြံပြုချက်တွေပါ ထည့်သွင်းပေးပါ။",
+                                "inputs": [
+                                                {
+                                                                "id": "niche",
+                                                                "label": "လုပ်ငန်းအမျိုးအစား",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - coffee shops"
+                                                }
+                                ]
+                },
+                {
+                                "id": 5,
+                                "title": "၅။ Customer Service System တည်ဆောက်ပါ",
+                                "desc": "လုပ်ငန်းတွေမှာ Customer တွေရဲ့ မေးခွန်းတွေကို ဖြေကြားပေးနိုင်မယ့် Support System တွေ ဖန်တီးပေးပြီး Chatbot ဝန်ဆောင်မှုအဖြစ် ရောင်းချနိုင်ပါတယ်။",
+                                "en": "Design a support system for [type of business]: 10 frequently asked questions with answers, brand tone, and clear rules for when to escalate the case to a human.",
+                                "mm": "[type of business] အတွက် Customer Support System တစ်ခု တည်ဆောက်ပေးပါ။ အောက်ပါအချက်တွေ ပါဝင်ရပါမယ်။ Customer တွေ မေးလေ့ရှိတဲ့ FAQ မေးခွန်း ၁၀ ခုနဲ့ အဖြေများ၊ လုပ်ငန်းရဲ့ Brand Tone နဲ့ကိုက်ညီတဲ့ ပြောဆိုရေးသားပုံ၊ ဘယ်လိုအခြေအနေမျိုးမှာ လူကိုယ်တိုင် ဝင်ရောက်ဖြေရှင်းပေးရမလဲဆိုတဲ့ စည်းမျဉ်းများ။ Customer တွေကို မြန်ဆန်တိကျစွာ ဝန်ဆောင်မှုပေးနိုင်မယ့် စနစ်တစ်ခုအဖြစ် ဖန်တီးပေးပါ။",
+                                "inputs": [
+                                                {
+                                                                "id": "type of business",
+                                                                "label": "လုပ်ငန်းအမျိုးအစား",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - online clothing store"
+                                                }
+                                ]
+                },
+                {
+                                "id": 6,
+                                "title": "၆။ Digital Product ဖန်တီးပြီး ရောင်းချပါ",
+                                "desc": "E-book, Online Guide, Digital Course စတာတွေကို တစ်ကြိမ်ဖန်တီးထားပြီး အကြိမ်ကြိမ် ရောင်းချနိုင်ပါတယ်။",
+                                "en": "Structure a guide on [topic] for [audience]: title, promise, 7 chapters, exercises, and 3 bonuses. Then write the sales page with benefits, objections, and a guarantee.",
+                                "mm": "[topic] နဲ့ပတ်သက်ပြီး [audience] အတွက် ရောင်းချနိုင်မယ့် Digital Guide တစ်ခု ဖန်တီးပေးပါ။ အောက်ပါအချက်တွေ ပါဝင်ရပါမယ်။ ဆွဲဆောင်မှုရှိတဲ့ ခေါင်းစဉ်၊ ဖတ်ရှုသူတွေရရှိမယ့် အကျိုးကျေးဇူး၊ အခန်း ၇ ခန်းပါဝင်တဲ့ ဖွဲ့စည်းပုံ၊ လက်တွေ့လေ့ကျင့်ခန်းများ၊ အပိုဆုအဖြစ် ပေးနိုင်မယ့် Bonus ၃ ခု။ ထို့နောက် Customer တွေ ဝယ်ယူချင်စိတ်ဖြစ်လာစေမယ့် Sales Page တစ်ခုကိုလည်း ရေးသားပေးပါ။ Product ရဲ့ အကျိုးကျေးဇူးများ၊ Customer တွေရဲ့ သံသယနဲ့ ကန့်ကွက်ချက်တွေကို ဖြေရှင်းပေးမယ့် အချက်များ၊ သင့်တော်တဲ့ Guarantee တစ်ခုတို့ ပါဝင်စေပါ။",
+                                "inputs": [
+                                                {
+                                                                "id": "topic",
+                                                                "label": "အကြောင်းအရာ",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - freelance design"
+                                                },
+                                                {
+                                                                "id": "audience",
+                                                                "label": "ရည်ရွယ်ထားတဲ့ ပရိသတ်",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - beginners"
+                                                }
+                                ]
+                },
+                {
+                                "id": 7,
+                                "title": "၇။ Customer အသစ်တွေ ရှာဖွေဖို့ Cold Outreach လုပ်ပါ",
+                                "desc": "ဝန်ဆောင်မှုတစ်ခု ရှိနေပေမဲ့ Customer မရှိသေးဘူးဆိုရင် ကိုယ့်ဝန်ဆောင်မှုကို စိတ်ဝင်စားလာစေမယ့် စာတိုတွေ ရေးသားခိုင်းနိုင်ပါတယ်။",
+                                "en": "Write 5 messages offering [service] to [type of client]. Each under 80 words, personalized, and ending with a question. Add 2 follow-ups for each message.",
+                                "mm": "[service] ကို [type of client] တွေဆီ ကမ်းလှမ်းနိုင်ဖို့ Cold Outreach Message ၅ ခု ရေးသားပေးပါ။ Message တစ်ခုစီမှာ — စကားလုံး ၈၀ ထက် မပိုစေရပါ။ Customer တစ်ဦးချင်းစီနဲ့ ကိုက်ညီအောင် ရေးသားပေးပါ။ စိတ်ဝင်စားမှုဖြစ်စေမယ့် မေးခွန်းတစ်ခုနဲ့ အဆုံးသတ်ပေးပါ။ Message တစ်ခုချင်းစီအတွက် နောက်ဆက်တွဲ ပေးပို့နိုင်မယ့် Follow-up Message ၂ ခုစီ ထည့်ပေးပါ။ အရောင်းအဝယ်ဖြစ်နိုင်ခြေ တိုးတက်စေမယ့် သဘာဝကျပြီး Professional ဆန်တဲ့ စာသားတွေကို ရေးပေးပါ။",
+                                "inputs": [
+                                                {
+                                                                "id": "service",
+                                                                "label": "ဝန်ဆောင်မှုအမျိုးအစား",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - logo design"
+                                                },
+                                                {
+                                                                "id": "type of client",
+                                                                "label": "ရည်ရွယ်ထားတဲ့ Customer အမျိုးအစား",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - small cafes"
+                                                }
+                                ]
+                }
+];
+
+            const container = document.getElementById('accordion-container');
+            const langRadios = document.getElementsByName('language');
+
+            function renderAccordion() {
+                container.innerHTML = '';
+
+                promptData.forEach((data) => {
+                    const item = document.createElement('div');
+                    item.className = 'accordion-item';
+                    item.id = `acc-item-${data.id}`;
+
+                    let html = `
+                        <div class="accordion-header" onclick="toggleAccordion(${data.id})">
+                            <div class="header-content">
+                                <div class="acc-title">${data.title}</div>
+                                <div class="acc-desc">💡 ${data.desc}</div>
+                            </div>
+                            <div class="acc-icon">▼</div>
+                        </div>
+                    `;
+
+                    html += `<div class="accordion-body" id="acc-body-${data.id}">
+                                <div class="body-inner">`;
+
+                    if(data.inputs.length > 0) {
+                        data.inputs.forEach(input => {
+                            if(input.type === 'textarea') {
+                                html += `
+                                    <div class="form-group">
+                                        <label>${input.label}</label>
+                                        <textarea id="input-${data.id}-${input.id}" class="input-textarea" data-item-id="${data.id}" placeholder="${input.hint}"></textarea>
+                                    </div>
+                                `;
+                            } else {
+                                html += `
+                                    <div class="form-group">
+                                        <label>${input.label}</label>
+                                        <input type="text" id="input-${data.id}-${input.id}" data-item-id="${data.id}" placeholder="${input.hint}">
+                                    </div>
+                                `;
+                            }
+                        });
+                    }
+
+                    html += `
+                            <textarea id="output-${data.id}" class="output-area" readonly></textarea>
+                            <button id="copy-${data.id}" data-item-id="${data.id}">Copy Prompt</button>
+                        </div>
+                    </div>`;
+
+                    item.innerHTML = html;
+                    container.appendChild(item);
+                });
+
+                attachEventListeners();
+                updateAllPrompts();
+            }
+
+            window.toggleAccordion = function(id) {
+                const item = document.getElementById(`acc-item-${id}`);
+                const body = document.getElementById(`acc-body-${id}`);
+
+                // Auto-collapse logic
+                document.querySelectorAll('.accordion-item').forEach(el => {
+                    if(el.id !== `acc-item-${id}`) {
+                        el.classList.remove('active');
+                        el.querySelector('.accordion-body').style.maxHeight = null;
+                    }
+                });
+
+                if (item.classList.contains('active')) {
+                    item.classList.remove('active');
+                    body.style.maxHeight = null;
+                } else {
+                    item.classList.add('active');
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updatePromptForCard(itemId) {
+                const data = promptData.find(p => p.id == itemId);
+                const isMyanmar = document.querySelector('input[name="language"]:checked').value === 'mm';
+                let finalPrompt = isMyanmar ? data.mm : data.en;
+
+                data.inputs.forEach(input => {
+                    const el = document.getElementById(`input-${data.id}-${input.id}`);
+                    const val = el && el.value.trim() !== "" ? el.value.trim() : `[${input.id}]`;
+                    finalPrompt = finalPrompt.split(`[${input.id}]`).join(val);
+                });
+
+                document.getElementById(`output-${data.id}`).value = finalPrompt;
+
+                const body = document.getElementById(`acc-body-${data.id}`);
+                const item = document.getElementById(`acc-item-${data.id}`);
+                if(item.classList.contains('active')) {
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updateAllPrompts() {
+                promptData.forEach(data => updatePromptForCard(data.id));
+            }
+
+            function attachEventListeners() {
+                container.addEventListener('input', (e) => {
+                    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        if (itemId) updatePromptForCard(itemId);
+                    }
+                });
+
+                container.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'BUTTON') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        const outputEl = document.getElementById(`output-${itemId}`);
+                        outputEl.select();
+                        document.execCommand('copy');
+
+                        const btn = e.target;
+                        const originalText = btn.innerText;
+                        btn.innerText = "COPIED! ✨";
+                        setTimeout(() => btn.innerText = originalText, 2000);
+                    }
+                });
+            }
+
+            langRadios.forEach(radio => radio.addEventListener('change', updateAllPrompts));
+
+            renderAccordion();
+            setTimeout(() => { toggleAccordion(1); }, 100);
+        });
+    </script>
+</body>
+</html>
