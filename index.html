@@ -168,98 +168,7 @@
             text-shadow: 0 0 10px var(--theme-color);
         }
 
-                /* ----- Filter Bar ----- */
-        .filter-bar {
-            width: 100%;
-            max-width: 900px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-bottom: 10px;
-        }
-
-        .filter-row {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .filter-label {
-            color: #64748b;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-right: 4px;
-        }
-
-        .filter-chip {
-            background: rgba(10, 15, 25, 0.85);
-            border: 1px solid #1e293b;
-            color: #8b9bb4;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-family: 'Space Grotesk', sans-serif;
-        }
-
-        .filter-chip:hover {
-            border-color: #00f3ff;
-            color: #e2e8f0;
-        }
-
-        .filter-chip.active {
-            background: #00f3ff;
-            border-color: #00f3ff;
-            color: #040812;
-        }
-
-        /* ----- Filter Banner ----- */
-        .filter-banner {
-            width: 100%;
-            max-width: 900px;
-            display: none;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-            background: rgba(0, 243, 255, 0.08);
-            border: 1px dashed #00f3ff;
-            border-radius: 8px;
-            padding: 10px 15px;
-            margin-bottom: 10px;
-            color: #e2e8f0;
-            font-size: 0.9rem;
-        }
-
-        .banner-btn {
-            background: transparent;
-            border: 1px solid #00f3ff;
-            color: #00f3ff;
-            padding: 5px 12px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            font-family: 'Space Grotesk', sans-serif;
-        }
-
-        .banner-btn:hover {
-            background: #00f3ff;
-            color: #040812;
-        }
-
-        @media (max-width: 600px) {
-            .filter-chip {
-                padding: 5px 11px;
-                font-size: 0.8rem;
-            }
-        }
-
-        /* ----- Footer ----- */
+                /* ----- Footer ----- */
         .footer {
             margin-top: 50px;
             padding: 20px;
@@ -329,9 +238,6 @@
         <h1>Kyal_Ngar's_Prompt_Hub</h1>
         <p class="subtitle">// System.SelectModule()</p>
     </div>
-
-    <div class="filter-bar" id="filter-bar"></div>
-    <div class="filter-banner" id="filter-banner"></div>
 
     <div class="main-container" id="main-container"></div>
 	
@@ -680,97 +586,11 @@
             return toolOk && topicOk;
         }
 
-        function buildLink(sel) {
-            const params = new URLSearchParams();
-            if (sel.tools.length) params.set('tool', sel.tools.join(','));
-            if (sel.topics.length) params.set('topic', sel.topics.join(','));
-            const q = params.toString();
-            return location.origin + location.pathname + (q ? '?' + q : '');
-        }
-
-        function copyText(text, btn) {
-            const done = () => {
-                const original = btn.innerText;
-                btn.innerText = 'COPIED! ✨';
-                setTimeout(() => btn.innerText = original, 2000);
-            };
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
-            } else {
-                fallbackCopy(text, done);
-            }
-        }
-
-        function fallbackCopy(text, done) {
-            const ta = document.createElement('textarea');
-            ta.value = text;
-            document.body.appendChild(ta);
-            ta.select();
-            try { document.execCommand('copy'); done(); } catch (e) {}
-            document.body.removeChild(ta);
-        }
-
-        function toggleFilter(key, value) {
-            const sel = getSelected();
-            const arr = sel[key];
-            const i = arr.indexOf(value);
-            if (i >= 0) arr.splice(i, 1); else arr.push(value);
-            history.replaceState(null, '', buildLink(sel));
-            renderHub();
-        }
-
-        function renderFilters(sel) {
-            const bar = document.getElementById('filter-bar');
-            bar.innerHTML = '';
-            const mkRow = (label, values, key) => {
-                const row = document.createElement('div');
-                row.className = 'filter-row';
-                const lab = document.createElement('span');
-                lab.className = 'filter-label';
-                lab.innerText = label;
-                row.appendChild(lab);
-                values.forEach(v => {
-                    const chip = document.createElement('button');
-                    chip.className = 'filter-chip' + (sel[key].includes(v) ? ' active' : '');
-                    chip.innerText = v;
-                    chip.onclick = () => toggleFilter(key, v);
-                    row.appendChild(chip);
-                });
-                bar.appendChild(row);
-            };
-            mkRow('Tool', TOOLS, 'tools');
-            mkRow('Topic', TOPICS, 'topics');
-        }
-
         function renderHub() {
             const sel = getSelected();
-            renderFilters(sel);
             const mainContainer = document.getElementById('main-container');
             mainContainer.innerHTML = '';
             const filtered = promptApps.filter(app => matches(app, sel));
-
-            const banner = document.getElementById('filter-banner');
-            if (sel.tools.length || sel.topics.length) {
-                const parts = [...sel.tools, ...sel.topics];
-                banner.style.display = 'flex';
-                banner.innerHTML = '';
-                const txt = document.createElement('span');
-                txt.innerText = 'Showing ' + parts.join(' + ') + ' (' + filtered.length + ')';
-                const copyBtn = document.createElement('button');
-                copyBtn.className = 'banner-btn';
-                copyBtn.innerText = '🔗 Copy link';
-                copyBtn.onclick = () => { copyText(buildLink(sel), copyBtn); };
-                const allBtn = document.createElement('button');
-                allBtn.className = 'banner-btn';
-                allBtn.innerText = 'Show all';
-                allBtn.onclick = () => { history.replaceState(null, '', location.pathname); renderHub(); };
-                banner.appendChild(txt);
-                banner.appendChild(copyBtn);
-                banner.appendChild(allBtn);
-            } else {
-                banner.style.display = 'none';
-                banner.innerHTML = '';
-            }
 
             const groupedApps = filtered.reduce((acc, app) => {
                 if (!acc[app.category]) {
