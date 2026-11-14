@@ -168,6 +168,97 @@
             text-shadow: 0 0 10px var(--theme-color);
         }
 
+                /* ----- Filter Bar ----- */
+        .filter-bar {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-label {
+            color: #64748b;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-right: 4px;
+        }
+
+        .filter-chip {
+            background: rgba(10, 15, 25, 0.85);
+            border: 1px solid #1e293b;
+            color: #8b9bb4;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .filter-chip:hover {
+            border-color: #00f3ff;
+            color: #e2e8f0;
+        }
+
+        .filter-chip.active {
+            background: #00f3ff;
+            border-color: #00f3ff;
+            color: #040812;
+        }
+
+        /* ----- Filter Banner ----- */
+        .filter-banner {
+            width: 100%;
+            max-width: 900px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            background: rgba(0, 243, 255, 0.08);
+            border: 1px dashed #00f3ff;
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            color: #e2e8f0;
+            font-size: 0.9rem;
+        }
+
+        .banner-btn {
+            background: transparent;
+            border: 1px solid #00f3ff;
+            color: #00f3ff;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .banner-btn:hover {
+            background: #00f3ff;
+            color: #040812;
+        }
+
+        @media (max-width: 600px) {
+            .filter-chip {
+                padding: 5px 11px;
+                font-size: 0.8rem;
+            }
+        }
+
         /* ----- Footer ----- */
         .footer {
             margin-top: 50px;
@@ -239,6 +330,9 @@
         <p class="subtitle">// System.SelectModule()</p>
     </div>
 
+    <div class="filter-bar" id="filter-bar"></div>
+    <div class="filter-banner" id="filter-banner"></div>
+
     <div class="main-container" id="main-container"></div>
 	
     <div class="footer">
@@ -254,7 +348,9 @@
                 desc: "Image Editing & Generative AI",
                 icon: "🎨",
                 url: "PromptColc/Prompt for Use as Photoshop.html",
-                theme: "#b100ff" 
+                theme: "#b100ff", 
+                tool: "Photoshop",
+                topics: ["Design"],
             },
             {
                 category: "🎨 Creative Design",
@@ -262,7 +358,9 @@
                 desc: "Creative Image Generation",
                 icon: "🍌",
                 url: "PromptColc/Prompt for Nano Banana.html",
-                theme: "#facc15" 
+                theme: "#facc15", 
+                tool: "Gemini",
+                topics: ["Design"],
             },
             {
                 category: "🌐 Facebook Strategy",
@@ -270,7 +368,9 @@
                 desc: "Viral Hooks & Content Strategy",
                 icon: "🚀",
                 url: "PromptColc/Prompt for Facebook Page.html",
-                theme: "#00a8ff" 
+                theme: "#00a8ff", 
+                tool: "",
+                topics: ["Facebook"],
             },
             {
                 category: "🌐 Facebook Strategy",
@@ -278,7 +378,9 @@
                 desc: "Engagement & Community Building",
                 icon: "💬",
                 url: "PromptColc/Prompt for Facebook Engage.html",
-                theme: "#3b82f6" 
+                theme: "#3b82f6", 
+                tool: "",
+                topics: ["Facebook"],
             },
             {
                 category: "▶️ YouTube Mastery",
@@ -286,7 +388,9 @@
                 desc: "Monetization in 30-90 Days",
                 icon: "▶️",
                 url: "PromptColc/Prompt for Youtube 30 Day.html",
-                theme: "#ff0000" 
+                theme: "#ff0000", 
+                tool: "",
+                topics: ["YouTube"],
             },
             {
                 category: "▶️ YouTube Mastery",
@@ -294,7 +398,9 @@
                 desc: "Growth & Monetization Strategy",
                 icon: "💰",
                 url: "PromptColc/Prompt for Youtube Monetization.html",
-                theme: "#fbbf24" 
+                theme: "#fbbf24", 
+                tool: "",
+                topics: ["YouTube"],
             },
 			{
                 category: "💡 Life & E-Commerce",
@@ -302,7 +408,9 @@
                 desc: "Productivity & Life Hacking Prompts",
                 icon: "🌱",
                 url: "PromptColc/Prompt for Boost Your Life.html",
-                theme: "#00ffaa" 
+                theme: "#00ffaa", 
+                tool: "",
+                topics: ["Productivity"],
             },
             {
                 category: "💡 Life & E-Commerce",
@@ -310,7 +418,9 @@
                 desc: "Fashion & Product Photography",
                 icon: "👗",
                 url: "PromptColc/Prompt for Dress Shop.html",
-                theme: "#ff00aa" 
+                theme: "#ff00aa", 
+                tool: "",
+                topics: ["Design", "E-Commerce"],
             },
 			{
                 category: "🎨 Creative Design",
@@ -318,7 +428,9 @@
                 desc: "Studio, Outdoor & Food Photography",
                 icon: "📸",
                 url: "PromptColc/Prompt for Professional Product Photography.html",
-                theme: "#ffffff" // Classic White
+                theme: "#ffffff", // Classic White
+                tool: "",
+                topics: ["Design"],
             },
 			{
                 category: "⚙️ Productivity & Automation", 
@@ -326,7 +438,9 @@
                 desc: "Agentic Automation Prompts",
                 icon: "⚙️",
                 url: "PromptColc/Prompt for Claude Workflow.html",
-                theme: "#d97757" // Claude Amber
+                theme: "#d97757", // Claude Amber
+                tool: "Claude",
+                topics: ["Productivity"],
             },
 			{
                 category: "💡 Life & E-Commerce",
@@ -334,7 +448,9 @@
                 desc: "30 Content Ideas for Biz",
                 icon: "🛒",
                 url: "PromptColc/Prompt for Product Idea 30.html",
-                theme: "#14b8a6" // Teal/Cyan
+                theme: "#14b8a6", // Teal/Cyan
+                tool: "",
+                topics: ["E-Commerce"],
             },
 			{
                 category: "▶️ YouTube Mastery",
@@ -342,7 +458,9 @@
                 desc: "Analyze YT Channel Transcripts",
                 icon: "📓",
                 url: "PromptColc/Prompt for NotebookLM Youtube.html",
-                theme: "#6366f1" // Indigo
+                theme: "#6366f1", // Indigo
+                tool: "Gemini",
+                topics: ["YouTube"],
             },
 			{
                 category: "⚙️ Productivity & Automation",
@@ -350,7 +468,9 @@
                 desc: "5 Prompts to 10x your output",
                 icon: "⚡",
                 url: "PromptColc/Prompt for 5 Powerful Productivity.html",
-                theme: "#3b82f6" // Electric Blue
+                theme: "#3b82f6", // Electric Blue
+                tool: "",
+                topics: ["Productivity"],
             },
 			{
                 category: "▶️ YouTube Mastery",
@@ -358,7 +478,9 @@
                 desc: "10 Prompts for Viral AI Videos",
                 icon: "📱",
                 url: "PromptColc/Prompt for Short-form Video.html",
-                theme: "#e879f9" // Neon Magenta
+                theme: "#e879f9", // Neon Magenta
+                tool: "",
+                topics: ["YouTube", "Video"],
             },
 			{
                 category: "🌐 Facebook Strategy",
@@ -366,7 +488,9 @@
                 desc: "High-quality Content Strategy",
                 icon: "⏱️",
                 url: "PromptColc/Prompt for 30 Day Content.html",
-                theme: "#f59e0b" // Amber / Orange
+                theme: "#f59e0b", // Amber / Orange
+                tool: "",
+                topics: ["Facebook"],
             },
 			{
                 category: "🌐 Facebook Strategy",
@@ -374,7 +498,9 @@
                 desc: "5 Prompts for Real Reach",
                 icon: "🚀",
                 url: "PromptColc/Prompt for Facebook Page Growth.html",
-                theme: "#1877F2" // Facebook Blue
+                theme: "#1877F2", // Facebook Blue
+                tool: "",
+                topics: ["Facebook"],
             },
 			{
                 category: "🎨 Creative Design",
@@ -382,7 +508,9 @@
                 desc: "8 AI Image Editing Prompts",
                 icon: "🖌️",
                 url: "PromptColc/Prompt for Graphic Design.html",
-                theme: "#2dd4bf" // Neon Cyan
+                theme: "#2dd4bf", // Neon Cyan
+                tool: "",
+                topics: ["Design"],
             },
 			{
                 category: "🌐 Facebook Strategy",
@@ -390,7 +518,9 @@
                 desc: "8 ChatGPT Prompts for Brand",
                 icon: "🌟",
                 url: "PromptColc/Prompt for Personal Branding.html",
-                theme: "#a855f7" // Purple
+                theme: "#a855f7", // Purple
+                tool: "ChatGPT",
+                topics: ["Branding"],
             },
 			{
                 category: "🎨 Creative Design",
@@ -398,7 +528,9 @@
                 desc: "Ultimate Guide for Banana 2",
                 icon: "🍌",
                 url: "PromptColc/Prompt for Nano Banana 2 Guide.html",
-                theme: "#facc15" // Banana Yellow
+                theme: "#facc15", // Banana Yellow
+                tool: "Gemini",
+                topics: ["Design"],
             },
 			{
                 category: "🎨 Creative Design",
@@ -406,7 +538,9 @@
                 desc: "Ultimate Guide for Banana 2 Other Style",
                 icon: "🍌",
                 url: "PromptColc/Prompt for Nano Banana 2 Guide 02.html",
-                theme: "#facc15" // Banana Yellow
+                theme: "#facc15", // Banana Yellow
+                tool: "Gemini",
+                topics: ["Design"],
             },
 			{
                 category: "💡 Life & E-Commerce",
@@ -414,7 +548,9 @@
                 desc: "12 Prompts for Passive Income",
                 icon: "💸",
                 url: "PromptColc/Prompt for Claude Income.html",
-                theme: "#f97316" // Warm Amber
+                theme: "#f97316", // Warm Amber
+                tool: "Claude",
+                topics: ["E-Commerce"],
             },
 			{
                 category: "📝 Content Writing",
@@ -422,7 +558,9 @@
                 desc: "12 Prompts to Write a Book",
                 icon: "📖",
                 url: "PromptColc/Prompt for Book Writing.html",
-                theme: "#e11d48" // Crimson Rose
+                theme: "#e11d48", // Crimson Rose
+                tool: "",
+                topics: ["Writing"],
 			},
 			{
                 category: "🤖 AI Mastery",
@@ -430,7 +568,9 @@
                 desc: "11 Powerful Prompts for Grok",
                 icon: "🌌",
                 url: "PromptColc/Prompt for Grok 4.3.html",
-                theme: "#0ea5e9" // Cyber Blue
+                theme: "#0ea5e9", // Cyber Blue
+                tool: "Grok",
+                topics: [],
 			},
 			{
                 category: "⚙️ Productivity & Automation",
@@ -438,7 +578,9 @@
                 desc: "10 Prompts for Gemini Web Dev",
                 icon: "🌐",
                 url: "PromptColc/Prompt for Web Builder.html",
-                theme: "#10b981" // Emerald Green
+                theme: "#10b981", // Emerald Green
+                tool: "Gemini",
+                topics: ["Web"],
 		    },
 			{
                 category: "⚙️ Productivity & Automation",
@@ -446,7 +588,9 @@
                 desc: "8 Prompts for Website Creation",
                 icon: "🕸️",
                 url: "PromptColc/Prompt for Web Strategy.html",
-                theme: "#8b5cf6" // Electric Violet
+                theme: "#8b5cf6", // Electric Violet
+                tool: "",
+                topics: ["Web"],
             },
 			{
                 category: "🤖 AI Mastery",
@@ -454,7 +598,9 @@
                 desc: "10 Prompts to Build Your AI Operator",
                 icon: "🤖",
                 url: "PromptColc/Prompt for AI Operator.html",
-                theme: "#06b6d4" // Cyber Cyan
+                theme: "#06b6d4", // Cyber Cyan
+                tool: "",
+                topics: ["Productivity"],
             },
 			{
                 category: "🎨 Creative Design",
@@ -462,7 +608,9 @@
                 desc: "Interactive Prompts for Google Lyria",
                 icon: "🎵",
                 url: "PromptColc/Prompt for Lyria Audio.html",
-                theme: "#d946ef" // Neon Fuchsia
+                theme: "#d946ef", // Neon Fuchsia
+                tool: "Gemini",
+                topics: ["Audio"],
             },
 			{
                 category: "🤖 AI Mastery",
@@ -470,7 +618,9 @@
                 desc: "9 Prompts to Use Claude as a Senior Developer",
                 icon: "💻",
                 url: "PromptColc/Prompt for Claude Coding.html",
-                theme: "#d97757" // Claude Amber
+                theme: "#d97757", // Claude Amber
+                tool: "Claude",
+                topics: ["Coding"],
             },
 			{
                 category: "🤖 AI Mastery",
@@ -478,7 +628,9 @@
                 desc: "7 Prompts to Build AI Apps Without Coding",
                 icon: "✨",
                 url: "PromptColc/Prompt for Google AI Studio.html",
-                theme: "#9ca3af" // Gray
+                theme: "#9ca3af", // Gray
+                tool: "Gemini",
+                topics: ["Web"],
             },
 			{
                 category: "💡 Life & E-Commerce",
@@ -486,7 +638,9 @@
                 desc: "7 Prompts to Start Freelancing with ChatGPT",
                 icon: "💼",
                 url: "PromptColc/Prompt for ChatGPT Freelance.html",
-                theme: "#10a37f" // ChatGPT Green
+                theme: "#10a37f", // ChatGPT Green
+                tool: "ChatGPT",
+                topics: ["E-Commerce"],
             },
 			{
                 category: "🤖 AI Mastery",
@@ -494,7 +648,9 @@
                 desc: "10 Prompts to Edit Videos with ChatGPT",
                 icon: "🎬",
                 url: "PromptColc/Prompt for ChatGPT Video Editing.html",
-                theme: "#ec4899" // Pink
+                theme: "#ec4899", // Pink
+                tool: "ChatGPT",
+                topics: ["Video"],
             },
 			{
                 category: "⚙️ Productivity & Automation",
@@ -502,65 +658,171 @@
                 desc: "7 Prompts to Learn Excel with Claude",
                 icon: "📊",
                 url: "PromptColc/Prompt for Claude Excel.html",
-                theme: "#217346" // Excel Green
+                theme: "#217346", // Excel Green
+                tool: "Claude",
+                topics: ["Excel"],
             }
         ];
 
-        const mainContainer = document.getElementById('main-container');
+        const TOOLS = ["Gemini", "ChatGPT", "Claude", "Grok", "Photoshop"];
+        const TOPICS = ["Facebook", "YouTube", "Design", "Video", "Excel", "Web", "E-Commerce", "Writing", "Productivity", "Audio", "Coding", "Branding"];
 
-        // Category အလိုက် Data များကို အုပ်စုခွဲခြင်း
-        const groupedApps = promptApps.reduce((acc, app) => {
-            if (!acc[app.category]) {
-                acc[app.category] = [];
-            }
-            acc[app.category].push(app);
-            return acc;
-        }, {});
-
-        // HTML ပေါ်တွင် Group အလိုက် Render လုပ်ခြင်း
-        for (const [category, apps] of Object.entries(groupedApps)) {
-            // Category Header ဖန်တီးခြင်း
-            const header = document.createElement('div');
-            header.className = 'category-header';
-            header.innerText = category;
-            mainContainer.appendChild(header);
-
-            // Grid Container ဖန်တီးခြင်း
-            const grid = document.createElement('div');
-            grid.className = 'grid-container';
-
-            // သက်ဆိုင်ရာ ကတ်များကို ထည့်သွင်းခြင်း
-            apps.forEach(app => {
-                const card = document.createElement('a');
-                card.href = app.url;
-                card.className = 'app-card';
-                card.style.setProperty('--theme-color', app.theme);
-
-                card.innerHTML = `
-                    <div class="card-icon">${app.icon}</div>
-                    <div class="card-content">
-                        <div class="card-title">${app.title}</div>
-                        <div class="card-desc">${app.desc}</div>
-                    </div>
-                    <div class="go-icon">›</div>
-                `;
-                grid.appendChild(card);
-            });
-
-            mainContainer.appendChild(grid);
+        function getSelected() {
+            const params = new URLSearchParams(location.search);
+            const tools = (params.get('tool') || '').split(',').filter(Boolean);
+            const topics = (params.get('topic') || '').split(',').filter(Boolean);
+            return { tools, topics };
         }
-		
-		const oldToolsLinkContainer = document.createElement('div');
-        oldToolsLinkContainer.className = 'my-camera-tool';
-        
-        const linkAnchor = document.createElement('a');
-        linkAnchor.href = "Old Tools index.html";
-        linkAnchor.innerText = "My Camera Tools";
-        
-        oldToolsLinkContainer.appendChild(linkAnchor);
-        mainContainer.appendChild(oldToolsLinkContainer);
-		
-		// Service Worker ကို မှတ်ပုံတင်ခြင်း (PWA အလုပ်လုပ်စေရန်)
+
+        function matches(app, sel) {
+            const toolOk = sel.tools.length === 0 || (app.tool && sel.tools.includes(app.tool));
+            const topicOk = sel.topics.length === 0 || (app.topics || []).some(t => sel.topics.includes(t));
+            return toolOk && topicOk;
+        }
+
+        function buildLink(sel) {
+            const params = new URLSearchParams();
+            if (sel.tools.length) params.set('tool', sel.tools.join(','));
+            if (sel.topics.length) params.set('topic', sel.topics.join(','));
+            const q = params.toString();
+            return location.origin + location.pathname + (q ? '?' + q : '');
+        }
+
+        function copyText(text, btn) {
+            const done = () => {
+                const original = btn.innerText;
+                btn.innerText = 'COPIED! ✨';
+                setTimeout(() => btn.innerText = original, 2000);
+            };
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+            } else {
+                fallbackCopy(text, done);
+            }
+        }
+
+        function fallbackCopy(text, done) {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy'); done(); } catch (e) {}
+            document.body.removeChild(ta);
+        }
+
+        function toggleFilter(key, value) {
+            const sel = getSelected();
+            const arr = sel[key];
+            const i = arr.indexOf(value);
+            if (i >= 0) arr.splice(i, 1); else arr.push(value);
+            history.replaceState(null, '', buildLink(sel));
+            renderHub();
+        }
+
+        function renderFilters(sel) {
+            const bar = document.getElementById('filter-bar');
+            bar.innerHTML = '';
+            const mkRow = (label, values, key) => {
+                const row = document.createElement('div');
+                row.className = 'filter-row';
+                const lab = document.createElement('span');
+                lab.className = 'filter-label';
+                lab.innerText = label;
+                row.appendChild(lab);
+                values.forEach(v => {
+                    const chip = document.createElement('button');
+                    chip.className = 'filter-chip' + (sel[key].includes(v) ? ' active' : '');
+                    chip.innerText = v;
+                    chip.onclick = () => toggleFilter(key, v);
+                    row.appendChild(chip);
+                });
+                bar.appendChild(row);
+            };
+            mkRow('Tool', TOOLS, 'tools');
+            mkRow('Topic', TOPICS, 'topics');
+        }
+
+        function renderHub() {
+            const sel = getSelected();
+            renderFilters(sel);
+            const mainContainer = document.getElementById('main-container');
+            mainContainer.innerHTML = '';
+            const filtered = promptApps.filter(app => matches(app, sel));
+
+            const banner = document.getElementById('filter-banner');
+            if (sel.tools.length || sel.topics.length) {
+                const parts = [...sel.tools, ...sel.topics];
+                banner.style.display = 'flex';
+                banner.innerHTML = '';
+                const txt = document.createElement('span');
+                txt.innerText = 'Showing ' + parts.join(' + ') + ' (' + filtered.length + ')';
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'banner-btn';
+                copyBtn.innerText = '🔗 Copy link';
+                copyBtn.onclick = () => { copyText(buildLink(sel), copyBtn); };
+                const allBtn = document.createElement('button');
+                allBtn.className = 'banner-btn';
+                allBtn.innerText = 'Show all';
+                allBtn.onclick = () => { history.replaceState(null, '', location.pathname); renderHub(); };
+                banner.appendChild(txt);
+                banner.appendChild(copyBtn);
+                banner.appendChild(allBtn);
+            } else {
+                banner.style.display = 'none';
+                banner.innerHTML = '';
+            }
+
+            const groupedApps = filtered.reduce((acc, app) => {
+                if (!acc[app.category]) {
+                    acc[app.category] = [];
+                }
+                acc[app.category].push(app);
+                return acc;
+            }, {});
+
+            for (const [category, apps] of Object.entries(groupedApps)) {
+                const header = document.createElement('div');
+                header.className = 'category-header';
+                header.innerText = category;
+                mainContainer.appendChild(header);
+
+                const grid = document.createElement('div');
+                grid.className = 'grid-container';
+
+                apps.forEach(app => {
+                    const card = document.createElement('a');
+                    card.href = app.url;
+                    card.className = 'app-card';
+                    card.style.setProperty('--theme-color', app.theme);
+
+                    card.innerHTML = `
+                        <div class="card-icon">${app.icon}</div>
+                        <div class="card-content">
+                            <div class="card-title">${app.title}</div>
+                            <div class="card-desc">${app.desc}</div>
+                        </div>
+                        <div class="go-icon">›</div>
+                    `;
+                    grid.appendChild(card);
+                });
+
+                mainContainer.appendChild(grid);
+            }
+
+            const oldToolsLinkContainer = document.createElement('div');
+            oldToolsLinkContainer.className = 'my-camera-tool';
+
+            const linkAnchor = document.createElement('a');
+            linkAnchor.href = "Old Tools index.html";
+            linkAnchor.innerText = "My Camera Tools";
+
+            oldToolsLinkContainer.appendChild(linkAnchor);
+            mainContainer.appendChild(oldToolsLinkContainer);
+        }
+
+        renderHub();
+
+        // Service Worker ကို မှတ်ပုံတင်ခြင်း (PWA အလုပ်လုပ်စေရန်)
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js')

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#040812">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="My Useful Tools">
+    <link rel="apple-touch-icon" href="/icon-192x192.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link Builder — Kyal Ngar's Prompt Hub</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: #040812;
+            background-image:
+                linear-gradient(to right, rgba(0, 243, 255, 0.08) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 243, 255, 0.08) 1px, transparent 1px),
+                radial-gradient(circle at 50% 0%, rgba(0, 243, 255, 0.15) 0%, transparent 60%);
+            background-size: 30px 30px, 30px 30px, 100% 100%;
+            background-attachment: fixed;
+            color: #e2e8f0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 15px 0 15px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        h1 {
+            font-size: clamp(1.4rem, 6vw, 2.2rem);
+            letter-spacing: clamp(1px, 1.5vw, 3px);
+            margin-bottom: 8px;
+            color: #00f3ff;
+            text-shadow: 0 0 15px rgba(0, 243, 255, 0.5), 0 0 30px rgba(0, 243, 255, 0.2);
+            text-align: center;
+        }
+
+        .subtitle {
+            color: #64748b;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .section-label {
+            color: #8b9bb4;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 1px dashed #1e293b;
+            padding-bottom: 8px;
+            margin: 25px 0 12px 0;
+        }
+
+        .chip-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .chip {
+            background: rgba(10, 15, 25, 0.85);
+            border: 1px solid #1e293b;
+            color: #8b9bb4;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .chip:hover {
+            border-color: #00f3ff;
+            color: #e2e8f0;
+        }
+
+        .chip.active {
+            background: #00f3ff;
+            border-color: #00f3ff;
+            color: #040812;
+        }
+
+        .result-box {
+            background: rgba(10, 15, 25, 0.85);
+            border: 1px solid #1e293b;
+            border-left: 4px solid #00f3ff;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        .result-count {
+            color: #f8fafc;
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .result-list {
+            color: #8b9bb4;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            padding-left: 20px;
+        }
+
+        .link-box {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .link-input {
+            width: 100%;
+            background: #09090b;
+            border: 1px solid #1e293b;
+            color: #00f3ff;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            outline: none;
+            word-break: break-all;
+        }
+
+        .link-input:focus {
+            border-color: #00f3ff;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        button.action-btn {
+            flex: 1;
+            min-width: 120px;
+            background: transparent;
+            color: #00f3ff;
+            border: 1px solid #00f3ff;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        button.action-btn:hover {
+            background: #00f3ff;
+            color: #040812;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
+        }
+
+        button.action-btn.secondary {
+            color: #8b9bb4;
+            border-color: #1e293b;
+        }
+
+        button.action-btn.secondary:hover {
+            background: #1e293b;
+            color: #e2e8f0;
+            box-shadow: none;
+        }
+
+        .note {
+            color: #475569;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .footer {
+            margin-top: 50px;
+            padding: 20px;
+            width: 100%;
+            text-align: center;
+            color: #475569;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            border-top: 1px solid rgba(30, 41, 59, 0.5);
+            background: rgba(4, 8, 18, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .footer span {
+            color: #00f3ff;
+            font-weight: 600;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 20px 12px 0 12px;
+            }
+
+            .chip {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+            }
+
+            button.action-btn {
+                padding: 11px;
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>🔗 Link Builder</h1>
+        <p class="subtitle">// Private — Kyal Ngar Only</p>
+    </div>
+
+    <div class="main-container">
+        <div class="section-label">Tool — ဘယ် AI နဲ့သုံးတာလဲ</div>
+        <div class="chip-row" id="tool-chips"></div>
+
+        <div class="section-label">Topic — ဘာအကြောင်းလဲ</div>
+        <div class="chip-row" id="topic-chips"></div>
+
+        <div class="section-label">ရွေးထားတဲ့ Link</div>
+        <div class="result-box">
+            <div class="result-count" id="result-count"></div>
+            <ul class="result-list" id="result-list"></ul>
+            <div class="link-box">
+                <input type="text" class="link-input" id="link-input" readonly>
+                <div class="btn-row">
+                    <button class="action-btn" id="copy-btn">Copy Link</button>
+                    <button class="action-btn secondary" id="open-btn">Open Link</button>
+                    <button class="action-btn secondary" id="clear-btn">Clear</button>
+                </div>
+            </div>
+        </div>
+
+        <p class="note">ဒီ Page က Hub မှာ လင့်ခ်မချိတ်ထားဘူး — ကိုကြယ်ငါး တစ်ယောက်တည်း သုံးဖို့ပါ။ Bookmark လုပ်ထားပါ။<br>Collection အသစ်ထည့်တိုင်း ဒီ Page ရဲ့ စာရင်းထဲမှာပါ Tag ထည့်ပေးရမယ်။</p>
+    </div>
+
+    <div class="footer">
+        Create by <span>Mg Kyal Ngar</span>
+    </div>
+
+    <script>
+        // Hub index.html ထဲက promptApps နဲ့ Tag အတူတူပဲ ဖြစ်ရမယ်။
+        // Collection အသစ်ထည့်တိုင်း ဒီစာရင်းထဲမှာပါ ထည့်ပေးရမယ်။
+        const DATA = [
+            { t: "Photoshop Prompts", tool: "Photoshop", topics: ["Design"] },
+            { t: "Nano Banana Prompts", tool: "Gemini", topics: ["Design"] },
+            { t: "FB Page Growth", tool: "", topics: ["Facebook"] },
+            { t: "FB Engage Master", tool: "", topics: ["Facebook"] },
+            { t: "YT 30-Day Prompts", tool: "", topics: ["YouTube"] },
+            { t: "YT Channel Mastery", tool: "", topics: ["YouTube"] },
+            { t: "Boost Your Life", tool: "", topics: ["Productivity"] },
+            { t: "Dress Shop Prompts", tool: "", topics: ["Design", "E-Commerce"] },
+            { t: "Pro Product Photography", tool: "", topics: ["Design"] },
+            { t: "Claude Workflow", tool: "Claude", topics: ["Productivity"] },
+            { t: "Product Idea Prompts", tool: "", topics: ["E-Commerce"] },
+            { t: "NotebookLM Prompts", tool: "Gemini", topics: ["YouTube"] },
+            { t: "Power Productivity", tool: "", topics: ["Productivity"] },
+            { t: "Viral Short-Form Prompts", tool: "", topics: ["YouTube", "Video"] },
+            { t: "30-Day Content in 60 Min", tool: "", topics: ["Facebook"] },
+            { t: "FB Page Growth Hacks", tool: "", topics: ["Facebook"] },
+            { t: "Graphic Design AI", tool: "", topics: ["Design"] },
+            { t: "Personal Branding Prompts", tool: "ChatGPT", topics: ["Branding"] },
+            { t: "Nano Banana 2 Guide", tool: "Gemini", topics: ["Design"] },
+            { t: "Nano Banana 2 Guide 02", tool: "Gemini", topics: ["Design"] },
+            { t: "Claude Income Prompts", tool: "Claude", topics: ["E-Commerce"] },
+            { t: "Book Writing Prompts", tool: "", topics: ["Writing"] },
+            { t: "Grok 4.3 Prompts", tool: "Grok", topics: [] },
+            { t: "Web Builder Prompts", tool: "Gemini", topics: ["Web"] },
+            { t: "Web Strategy Prompts", tool: "", topics: ["Web"] },
+            { t: "AI Operator Prompts", tool: "", topics: ["Productivity"] },
+            { t: "Lyria Audio Prompts", tool: "Gemini", topics: ["Audio"] },
+            { t: "Claude Coding Prompts", tool: "Claude", topics: ["Coding"] },
+            { t: "Google AI Studio Prompts", tool: "Gemini", topics: ["Web"] },
+            { t: "ChatGPT Freelance Prompts", tool: "ChatGPT", topics: ["E-Commerce"] },
+            { t: "ChatGPT Video Editing Prompts", tool: "ChatGPT", topics: ["Video"] },
+            { t: "Claude Excel Prompts", tool: "Claude", topics: ["Excel"] }
+        ];
+
+        const TOOLS = ["Gemini", "ChatGPT", "Claude", "Grok", "Photoshop"];
+        const TOPICS = ["Facebook", "YouTube", "Design", "Video", "Excel", "Web", "E-Commerce", "Writing", "Productivity", "Audio", "Coding", "Branding"];
+        const BASE = "https://myuseful-tool.vercel.app/";
+
+        let selTools = [];
+        let selTopics = [];
+
+        function matches(item) {
+            const toolOk = selTools.length === 0 || (item.tool && selTools.includes(item.tool));
+            const topicOk = selTopics.length === 0 || (item.topics || []).some(t => selTopics.includes(t));
+            return toolOk && topicOk;
+        }
+
+        function buildLink() {
+            const params = new URLSearchParams();
+            if (selTools.length) params.set('tool', selTools.join(','));
+            if (selTopics.length) params.set('topic', selTopics.join(','));
+            const q = params.toString();
+            return BASE + (q ? '?' + q : '');
+        }
+
+        function renderChips() {
+            const mkChips = (containerId, values, selected, key) => {
+                const box = document.getElementById(containerId);
+                box.innerHTML = '';
+                values.forEach(v => {
+                    const chip = document.createElement('button');
+                    chip.className = 'chip' + (selected.includes(v) ? ' active' : '');
+                    chip.innerText = v;
+                    chip.onclick = () => {
+                        const arr = key === 'tool' ? selTools : selTopics;
+                        const i = arr.indexOf(v);
+                        if (i >= 0) arr.splice(i, 1); else arr.push(v);
+                        render();
+                    };
+                    box.appendChild(chip);
+                });
+            };
+            mkChips('tool-chips', TOOLS, selTools, 'tool');
+            mkChips('topic-chips', TOPICS, selTopics, 'topic');
+        }
+
+        function render() {
+            renderChips();
+            const matched = DATA.filter(matches);
+            const picked = [...selTools, ...selTopics];
+            const countEl = document.getElementById('result-count');
+            countEl.innerText = picked.length
+                ? picked.join(' + ') + ' — ' + matched.length + ' collections'
+                : 'All collections — ' + matched.length + ' collections';
+            const listEl = document.getElementById('result-list');
+            listEl.innerHTML = '';
+            matched.forEach(item => {
+                const li = document.createElement('li');
+                li.innerText = item.t;
+                listEl.appendChild(li);
+            });
+            document.getElementById('link-input').value = buildLink();
+        }
+
+        document.getElementById('copy-btn').onclick = function() {
+            const input = document.getElementById('link-input');
+            input.select();
+            document.execCommand('copy');
+            const btn = this;
+            const original = btn.innerText;
+            btn.innerText = 'COPIED! ✨';
+            setTimeout(() => btn.innerText = original, 2000);
+        };
+
+        document.getElementById('open-btn').onclick = function() {
+            window.open(buildLink(), '_blank');
+        };
+
+        document.getElementById('clear-btn').onclick = function() {
+            selTools = [];
+            selTopics = [];
+            render();
+        };
+
+        render();
+    </script>
+</body>
+</html>
