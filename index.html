@@ -629,15 +629,19 @@
                 mainContainer.appendChild(grid);
             }
 
-            const oldToolsLinkContainer = document.createElement('div');
-            oldToolsLinkContainer.className = 'my-camera-tool';
+            // My Camera Tools link ကို Filter မရှိတဲ့ အချိန်မှာပဲ ပြမယ် —
+            // Filter ဖွင့်ထားတဲ့ Page မှာ ဖျောက်ထားမယ်
+            if (sel.tools.length === 0 && sel.topics.length === 0) {
+                const oldToolsLinkContainer = document.createElement('div');
+                oldToolsLinkContainer.className = 'my-camera-tool';
 
-            const linkAnchor = document.createElement('a');
-            linkAnchor.href = "Old Tools index.html";
-            linkAnchor.innerText = "My Camera Tools";
+                const linkAnchor = document.createElement('a');
+                linkAnchor.href = "Old Tools index.html";
+                linkAnchor.innerText = "My Camera Tools";
 
-            oldToolsLinkContainer.appendChild(linkAnchor);
-            mainContainer.appendChild(oldToolsLinkContainer);
+                oldToolsLinkContainer.appendChild(linkAnchor);
+                mainContainer.appendChild(oldToolsLinkContainer);
+            }
         }
 
         renderHub();
