@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="My Useful Tools">
+    <link rel="apple-touch-icon" href="../icon-192x192.png">
+    <title>ChatGPT Graphic Design Prompts</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: #0f172a;
+            color: #e4e4e7;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .header-container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            margin-bottom: 25px;
+            position: sticky;
+            top: 0;
+            background: rgba(15, 23, 42, 0.95);
+            padding: 20px;
+            z-index: 100;
+            border-bottom: 1px solid #7c3aed; /* Violet */
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #7c3aed;
+            font-size: clamp(1.4rem, 5vw, 2.2rem);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(124, 58, 237, 0.3);
+        }
+
+        .subtitle {
+            color: #a1a1aa;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .global-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .radio-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #d4d4d8;
+            font-weight: 600;
+        }
+
+        input[type="radio"] {
+            accent-color: #7c3aed;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ----- Remark (Sticky Header အပြင်ဘက်၊ Scroll လုပ်လို့ရသော အပိုင်း) ----- */
+        .remark-container {
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 25px;
+        }
+
+        .remark {
+            color: #c4b5fd;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 15px;
+            background: rgba(124, 58, 237, 0.1);
+            border-radius: 8px;
+            border: 1px dashed #7c3aed;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        .remark h2 {
+            color: #c4b5fd;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .remark ul {
+            padding-left: 20px;
+            margin: 10px 0;
+        }
+
+        .remark li {
+            margin-bottom: 6px;
+        }
+
+        .remark li b {
+            color: #c4b5fd;
+        }
+
+        /* ----- Accordion List Container ----- */
+        .accordion-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        /* ----- Accordion Item ----- */
+        .accordion-item {
+            background: #27272a;
+            border: 1px solid #3f3f46;
+            border-left: 4px solid #7c3aed;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            border-color: #7c3aed;
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.1);
+        }
+
+        /* ----- Accordion Header (Clickable) ----- */
+        .accordion-header {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            background: rgba(39, 39, 42, 0.8);
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding-right: 15px;
+        }
+
+        .acc-title {
+            color: #fafafa;
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        .acc-desc {
+            color: #a1a1aa;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .acc-icon {
+            color: #7c3aed;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-item.active .acc-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-item.active {
+            border-color: #7c3aed;
+            box-shadow: 0 0 20px rgba(124, 58, 237, 0.15);
+        }
+
+        /* ----- Accordion Body ----- */
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            background: #0f172a;
+        }
+
+        .body-inner {
+            padding: 25px 20px;
+            border-top: 1px dashed #3f3f46;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #c4b5fd;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"], textarea.input-textarea {
+            width: 100%;
+            background: #27272a;
+            border: 1px solid #3f3f46;
+            color: #7c3aed;
+            padding: 12px;
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        textarea.input-textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        input[type="text"]:focus, textarea.input-textarea:focus {
+            border-color: #7c3aed;
+            box-shadow: 0 0 10px rgba(124, 58, 237, 0.2);
+        }
+
+        textarea.output-area {
+            width: 100%;
+            height: 220px;
+            background: #09090b;
+            border: 1px solid #3f3f46;
+            color: #fafafa;
+            padding: 15px;
+            border-radius: 6px;
+            resize: vertical;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            outline: none;
+            margin-top: 10px;
+        }
+
+        textarea.output-area:focus {
+            border-color: #7c3aed;
+        }
+
+        button {
+            width: 100%;
+            background: transparent;
+            color: #7c3aed;
+            border: 1px solid #7c3aed;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #7c3aed;
+            color: #0f172a;
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+        }
+
+        /* ----- Responsive (ဖုန်းစခရင်) ----- */
+        @media (max-width: 600px) {
+            body {
+                padding: 20px 12px;
+            }
+
+            .header-container {
+                padding: 15px 12px;
+                margin-bottom: 20px;
+            }
+
+            h1 {
+                letter-spacing: 1px;
+            }
+
+            .subtitle {
+                font-size: 0.9rem;
+            }
+
+            .remark {
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+
+            .accordion-header {
+                padding: 15px;
+            }
+
+            .acc-title {
+                font-size: 1rem;
+            }
+
+            .acc-desc {
+                font-size: 0.85rem;
+            }
+
+            .body-inner {
+                padding: 20px 12px;
+            }
+
+            textarea.output-area {
+                height: 180px;
+            }
+
+            button {
+                padding: 11px;
+                font-size: 0.95rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>🎨 Prompt for ChatGPT Graphic Design</h1>
+        <p class="subtitle">ChatGPT နဲ့ Poster, Logo, Thumbnail, Ad Design တွေ ကိုယ်တိုင်ဖန်တီးနိုင်ဖို့ အသုံးဝင်တဲ့ Prompt (10) မျိုး</p>
+        <div class="global-options">
+            <label class="radio-btn">
+                <input type="radio" name="language" value="mm" checked> Myanmar Prompt
+            </label>
+            <label class="radio-btn">
+                <input type="radio" name="language" value="en"> English Prompt
+            </label>
+        </div>
+    </div>
+
+    <!-- Scrollable Remark Area -->
+    <div class="remark-container">
+        <div class="remark">
+        <h2>🔥 အရေးကြီးတဲ့အချက်တစ်ခု!</h2>
+        <p>ChatGPT ရဲ့ Image Generation စွမ်းရည်တွေဟာ အခုဆိုရင် ပိုမိုတိုးတက်လာပြီး Professional Designer တစ်ယောက်ကို ရေးဆွဲခိုင်းထားသလိုမျိုး အရည်အသွေးမြင့် Design Draft တွေကို တိုက်ရိုက်ဖန်တီးနိုင်တဲ့အဆင့်အထိ ရောက်ရှိလာနေပါပြီ။ Social Media Poster တွေ၊ YouTube Thumbnail တွေ၊ Business Logo တွေကနေ Luxury Product Mockup တွေအထိ နေ့စဉ်လိုအပ်လေ့ရှိတဲ့ Design အမျိုးအစားအများစုကို ChatGPT နဲ့ ဖန်တီးနိုင်နေပါပြီ။ အခုဖော်ပြပေးမယ့် Prompt (၁၀) ခုကတော့ Graphic Design အလုပ်တွေကို ပိုမိုမြန်ဆန်လွယ်ကူစေမယ့် အသုံးဝင်တဲ့ Prompt တွေဖြစ်ပါတယ်။</p>
+        <p>⚠️ ဒီ Prompt (၁၀) ခုကို အသုံးပြုပြီး Design အလုပ်တွေကို အချိန်ကုန်သက်သာစွာ ဖန်တီးနိုင်ပါတယ်။ ဒါပေမဲ့ AI က ဖန်တီးပေးတဲ့ Design တွေကို အမြဲတမ်း အပြည့်အဝမှန်ကန်တယ်လို့ မယူဆသင့်ပါဘူး။ စာလုံးပေါင်း၊ Brand Logo၊ အချက်အလက်နဲ့ Layout တွေကို ပြန်လည်စစ်ဆေးပြီး လိုအပ်သလို ပြင်ဆင်ပေးဖို့ အရေးကြီးပါတယ်။</p>
+        <p>Graphic Designer ဖြစ်ချင်သူတွေအတွက်ရော၊ ကိုယ်ပိုင်လုပ်ငန်းအတွက် Poster၊ Logo၊ ကြော်ငြာပုံတွေ ကိုယ်တိုင်ဖန်တီးချင်သူတွေအတွက်ပါ ဒီ Prompt တွေက အလွန်အသုံးဝင်ပါတယ်။</p>
+        </div>
+    </div>
+
+    <div class="accordion-container" id="accordion-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            const promptData = [
+                {
+                                "id": 1,
+                                "title": "၁။ Professional Social Media Poster",
+                                "desc": "Instagram နဲ့ Facebook မှာ အသုံးပြုနိုင်မယ့် အရည်အသွေးမြင့် 4:5 Poster တစ်ခု ဖန်တီးခိုင်းပါ။",
+                                "en": "You are a senior graphic designer. Create a premium-looking 4:5 Instagram and Facebook poster around [topic]. Use bold typography, a clean layout, clear visual hierarchy, and a modern color palette. The overall result should look like a $500 agency-designed graphic.",
+                                "mm": "သင်ဟာ အတွေ့အကြုံရင့်ကျက်တဲ့ Senior Graphic Designer တစ်ယောက်ဖြစ်ပါတယ်။ [topic] ကို အခြေခံပြီး Instagram နဲ့ Facebook မှာ အသုံးပြုနိုင်မယ့် အရည်အသွေးမြင့် 4:5 Poster တစ်ခု ဖန်တီးပေးပါ။ Bold Typography၊ သပ်ရပ်တဲ့ Layout၊ မြင်သာထင်ရှားတဲ့ Visual Hierarchy နဲ့ ခေတ်မီတဲ့ Color Palette တွေကို အသုံးပြုပါ။ ရလဒ်အနေနဲ့ Professional Design Agency တစ်ခုက ဒေါ်လာ ၅၀၀ တန်ဖိုးရှိတဲ့ Design ဖန်တီးပေးထားသလို အဆင့်မြင့်ပြီး ဆွဲဆောင်မှုရှိရပါမယ်။",
+                                "inputs": [
+                                                {
+                                                                "id": "topic",
+                                                                "label": "အကြောင်းအရာ",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - coffee shop opening"
+                                                }
+                                ]
+                },
+                {
+                                "id": 2,
+                                "title": "၂။ Cinematic Ad Design",
+                                "desc": "ရုပ်ရှင်ဆန်တဲ့ ကြော်ငြာ Design ဖန်တီးရန် — Dramatic Lighting နဲ့ Luxury Brand ပုံစံ။",
+                                "en": "Design a cinematic ad image for [product], with dramatic lighting, realistic shadows, and a high-end product photography feel. The background should be elegant, the headline eye-catching, and the overall look should follow luxury brand aesthetics. It should look like a global advertising campaign.",
+                                "mm": "[product] အတွက် ရုပ်ရှင်ဆန်ပြီး အဆင့်မြင့်တဲ့ ကြော်ငြာပုံတစ်ပုံ ဖန်တီးပေးပါ။ Dramatic Lighting၊ လက်တွေ့ဆန်တဲ့ Shadow Effect တွေနဲ့ Premium Product Photography ပုံစံကို အသုံးပြုပါ။ Background ကို ကြည့်ကောင်းပြီး ခမ်းနားတဲ့ပုံစံ ဖန်တီးပေးပါ။ Headline စာသားကိုလည်း လူအာရုံစိုက်မိစေဖို့ ထင်ရှားစွာဖော်ပြပါ။ Luxury Brand တစ်ခုရဲ့ ကြော်ငြာပုံစံမျိုးဖြစ်ပြီး ကမ္ဘာ့အဆင့်မီ Advertising Campaign တစ်ခုအတွက် အသုံးပြုနိုင်လောက်တဲ့ အရည်အသွေးရှိရပါမယ်။",
+                                "inputs": [
+                                                {
+                                                                "id": "product",
+                                                                "label": "ထုတ်ကုန်",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - perfume bottle"
+                                                }
+                                ]
+                },
+                {
+                                "id": 3,
+                                "title": "၃။ Professional YouTube Thumbnail",
+                                "desc": "Click-Through Rate (CTR) မြင့်မားစေနိုင်မယ့် 16:9 YouTube Thumbnail ဖန်တီးရန်။",
+                                "en": "Create a high-click-through-rate 16:9 YouTube thumbnail on the topic of [topic]. Use only one strong focal point, with large, bold, easy-to-read text, high contrast, and an eye-catching composition. Keep the overall design clean and professional, so it remains instantly clear even when scaled down to a small screen.",
+                                "mm": "[topic] နဲ့ပတ်သက်ပြီး YouTube မှာ Click-Through Rate (CTR) မြင့်မားစေနိုင်မယ့် 16:9 Thumbnail တစ်ခု ဖန်တီးပေးပါ။ အဓိကအာရုံစိုက်စရာ Visual တစ်ခုတည်းကို ထင်ရှားစွာအသုံးပြုပါ။ စာသားတွေကို ကြီးမားပြီး ဖတ်ရလွယ်ကူစေဖို့ Bold Typography နဲ့ High Contrast ကို အသုံးပြုပါ။ Composition ကိုလည်း စိတ်ဝင်စားစရာကောင်းအောင် ဖန်တီးပေးပါ။ ဖုန်း Screen အသေးလေးမှာ ကြည့်တဲ့အခါမှာတောင် အကြောင်းအရာကို ချက်ချင်းနားလည်နိုင်လောက်အောင် သပ်ရပ်ပြီး Professional ဖြစ်ရပါမယ်။",
+                                "inputs": [
+                                                {
+                                                                "id": "topic",
+                                                                "label": "အကြောင်းအရာ",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - how to make lemonade"
+                                                }
+                                ]
+                },
+                {
+                                "id": 4,
+                                "title": "၄။ Premium Business Logo",
+                                "desc": "လုပ်ငန်းအတွက် အဆင့်မြင့် Logo ဖန်တီးရန် — ထူးခြားပြီး ရိုးရှင်းသပ်ရပ်ကာ မှတ်မိလွယ်တဲ့ Logo။",
+                                "en": "You are a senior brand identity designer. Design a unique, minimalist, memorable logo for [brand name] in the [industry] industry. Use clever visual symbolism, balanced proportions, and professional typography. Present it on a clean background.",
+                                "mm": "သင်ဟာ Brand Identity Design ပိုင်းမှာ ကျွမ်းကျင်တဲ့ Senior Designer တစ်ယောက်ဖြစ်ပါတယ်။ [brand name] ဆိုတဲ့ Brand အတွက် [industry] နဲ့ လိုက်ဖက်တဲ့ ထူးခြားပြီး ရိုးရှင်းသပ်ရပ်ကာ မှတ်မိလွယ်တဲ့ Logo တစ်ခု ဖန်တီးပေးပါ။ အဓိပ္ပာယ်ရှိတဲ့ Visual Symbolism၊ အချိုးအစားညီမျှမှုနဲ့ Professional Typography တွေကို အသုံးပြုပါ။ Logo ကိုလည်း သန့်ရှင်းရိုးရှင်းတဲ့ Background ပေါ်မှာ အဆင့်မြင့်စွာ ပြသပေးပါ။",
+                                "inputs": [
+                                                {
+                                                                "id": "brand name",
+                                                                "label": "Brand အမည်",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - StarFish Tarot"
+                                                },
+                                                {
+                                                                "id": "industry",
+                                                                "label": "လုပ်ငန်းအမျိုးအစား",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - coffee shop"
+                                                }
+                                ]
+                },
+                {
+                                "id": 5,
+                                "title": "၅။ Viral Infographic",
+                                "desc": "လူစိတ်ဝင်စားစေမယ့် Infographic ဖန်တီးရန် — အကြောင်းအရာကို 4:5 Infographic အဖြစ် ပြောင်းလဲပေးပါ။",
+                                "en": "Turn this content [paste content] into a visually appealing 4:5 infographic. Break it into easy-to-read sections, with bold headings, simple icons, and visually cohesive steps. Use a modern editorial style, with plenty of white space and a clear information hierarchy.",
+                                "mm": "[paste content] ဆိုတဲ့ အကြောင်းအရာကို ကြည့်ရှုသူတွေ စိတ်ဝင်စားစေမယ့် 4:5 Infographic တစ်ခုအဖြစ် ပြောင်းလဲဖန်တီးပေးပါ။ အကြောင်းအရာတွေကို ဖတ်ရှုရလွယ်ကူတဲ့ အပိုင်းငယ်လေးတွေအဖြစ် ခွဲခြားပေးပါ။ ခေါင်းစဉ်တွေကို Bold ဖြစ်စေပြီး ရိုးရှင်းတဲ့ Icon တွေနဲ့ အစီအစဉ်တကျ ဖော်ပြပေးပါ။ Modern Editorial Style ကို အသုံးပြုပြီး White Space လုံလောက်စွာထားကာ အချက်အလက်တွေရဲ့ အရေးပါမှုအလိုက် ရှင်းလင်းစွာ စီစဉ်ပေးပါ။",
+                                "inputs": [
+                                                {
+                                                                "id": "paste content",
+                                                                "label": "ဖော်ပြချင်တဲ့ Content",
+                                                                "type": "textarea",
+                                                                "hint": "Content ကို ဒီနေရာမှာ ကူးထည့်ပါ"
+                                                }
+                                ]
+                },
+                {
+                                "id": 6,
+                                "title": "၆။ Professional Event Poster",
+                                "desc": "ပွဲအခမ်းအနားအတွက် ကြော်ငြာ Poster ဖန်တီးရန် — ပွဲအမည်၊ ရက်စွဲ၊ နေရာ နဲ့ အရေးကြီးတဲ့ အချက်အလက်တွေ ပါဝင်စေပါ။",
+                                "en": "Design an eye-catching promotional poster for [event name]. Include the event title, date, location, and key information, using sophisticated typography and a balanced composition. Make the visuals impactful without overcrowding the design, creating excitement without looking cluttered.",
+                                "mm": "[event name] အတွက် လူအာရုံစိုက်မှုရရှိစေမယ့် Promotional Poster တစ်ခု ဖန်တီးပေးပါ။ ပွဲအမည်၊ ကျင်းပမယ့်ရက်စွဲ၊ နေရာနဲ့ အရေးကြီးတဲ့ အချက်အလက်တွေကို ထည့်သွင်းဖော်ပြပေးပါ။ Sophisticated Typography နဲ့ အချိုးအစားညီမျှတဲ့ Composition ကို အသုံးပြုပါ။ Design ကို အချက်အလက်တွေနဲ့ ပြည့်ကျပ်မနေစေဘဲ Visual Impact ရှိပြီး ပွဲတက်ရောက်ချင်စိတ်ဖြစ်ပေါ်လာစေမယ့် ပုံစံမျိုး ဖန်တီးပေးပါ။",
+                                "inputs": [
+                                                {
+                                                                "id": "event name",
+                                                                "label": "ပွဲအမည်",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - New Year Sale"
+                                                }
+                                ]
+                },
+                {
+                                "id": 7,
+                                "title": "၇။ Luxury Product Mockup",
+                                "desc": "အဆင့်မြင့် Product Mockup ဖန်တီးရန် — လက်တွေ့ဓာတ်ပုံရိုက်ထားသလို သဘာဝကျတဲ့ Commercial Mockup။",
+                                "en": "Create a photorealistic commercial product mockup of [product]. Place it in a high-end studio setting with soft reflections, realistic materials, elegant lighting, and carefully arranged shadows. It should be ready to use directly in a luxury e-commerce campaign.",
+                                "mm": "[product] အတွက် လက်တွေ့ဓာတ်ပုံရိုက်ထားသလို အလွန်သဘာဝကျတဲ့ Commercial Product Mockup တစ်ခု ဖန်တီးပေးပါ။ အဆင့်မြင့် Studio Setting တစ်ခုအတွင်း ထားရှိပြီး Soft Reflection၊ လက်တွေ့ဆန်တဲ့ Material Texture၊ လှပတဲ့ Lighting နဲ့ သေသပ်စွာဖန်တီးထားတဲ့ Shadow တွေကို အသုံးပြုပါ။ Luxury E-commerce Campaign တွေမှာ တိုက်ရိုက်အသုံးပြုနိုင်လောက်တဲ့ အရည်အသွေးရှိရပါမယ်။",
+                                "inputs": [
+                                                {
+                                                                "id": "product",
+                                                                "label": "ထုတ်ကုန်",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - skincare serum bottle"
+                                                }
+                                ]
+                },
+                {
+                                "id": 8,
+                                "title": "၈။ Professional Presentation Slide",
+                                "desc": "လုပ်ငန်းသုံး Presentation Slide ဖန်တီးရန် — စာသားကို 16:9 Business Slide အဖြစ် ပြောင်းလဲပေးပါ။",
+                                "en": "Turn this content [paste text] into a visually stunning 16:9 business presentation slide. Use clean typography, meaningful visuals, simple charts, and a sophisticated corporate color palette. Make the information instantly clear at a glance.",
+                                "mm": "[paste text] ဆိုတဲ့ အကြောင်းအရာကို အမြင်အာရုံဆွဲဆောင်မှုရှိတဲ့ 16:9 Business Presentation Slide တစ်ခုအဖြစ် ပြောင်းလဲဖန်တီးပေးပါ။ သပ်ရပ်တဲ့ Typography၊ အဓိပ္ပာယ်ရှိတဲ့ Visual တွေ၊ ရိုးရှင်းတဲ့ Chart တွေနဲ့ Professional Corporate Color Palette ကို အသုံးပြုပါ။ ကြည့်ရှုသူတွေက Slide ကို တစ်ချက်ကြည့်ရုံနဲ့ အဓိကအချက်အလက်တွေကို ချက်ချင်းနားလည်နိုင်အောင် ဖန်တီးပေးပါ။",
+                                "inputs": [
+                                                {
+                                                                "id": "paste text",
+                                                                "label": "ထည့်သွင်းလိုတဲ့ စာသား",
+                                                                "type": "textarea",
+                                                                "hint": "စာသားကို ဒီနေရာမှာ ကူးထည့်ပါ"
+                                                }
+                                ]
+                },
+                {
+                                "id": 9,
+                                "title": "၉။ High-Converting Ad Creative",
+                                "desc": "Customer တွေကို ဆွဲဆောင်နိုင်တဲ့ ကြော်ငြာ Design ဖန်တီးရန် — Facebook Ad အတွက်။",
+                                "en": "You are a senior advertising designer. Create a professional Facebook ad for [product/service] targeting [audience]. Use a compelling headline to highlight the biggest benefit for customers, along with an eye-catching product visual and a clear CTA.",
+                                "mm": "သင်ဟာ အတွေ့အကြုံရှိတဲ့ Senior Advertising Designer တစ်ယောက်ဖြစ်ပါတယ်။ [product/service] အတွက် [audience] ကို ဦးတည်ပြီး Professional Facebook Ad တစ်ခု ဖန်တီးပေးပါ။ Customer တွေအတွက် အကြီးမားဆုံး အကျိုးကျေးဇူးကို ထင်ရှားစွာဖော်ပြနိုင်မယ့် စိတ်ဝင်စားစရာ Headline တစ်ခု အသုံးပြုပါ။ ထုတ်ကုန်ပုံကိုလည်း အာရုံစိုက်မိစေဖို့ ဖန်တီးပေးပြီး ဝယ်ယူရန်၊ ဆက်သွယ်ရန် စတဲ့ လုပ်ဆောင်ချက်တွေကို ညွှန်ပြတဲ့ ရှင်းလင်းတဲ့ CTA (Call To Action) ကို ထည့်သွင်းပေးပါ။",
+                                "inputs": [
+                                                {
+                                                                "id": "product/service",
+                                                                "label": "ထုတ်ကုန်/ဝန်ဆောင်မှု",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - handmade soap"
+                                                },
+                                                {
+                                                                "id": "audience",
+                                                                "label": "ရည်ရွယ်ထားတဲ့ Customer အုပ်စု",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - young mothers"
+                                                }
+                                ]
+                },
+                {
+                                "id": 10,
+                                "title": "၁၀။ Complete Brand Visual System",
+                                "desc": "လုပ်ငန်းတစ်ခုလုံးအတွက် Brand Identity တည်ဆောက်ရန် — Logo ကနေ Social Media Template အထိ။",
+                                "en": "Build a unified visual identity for [brand name], targeting [audience]. Create a presentation board that includes the primary logo design, color palette, typography direction, business cards, and social media templates.",
+                                "mm": "[brand name] အတွက် [audience] ကို ဦးတည်ထားတဲ့ တစ်သမတ်တည်းရှိပြီး လိုက်ဖက်ညီတဲ့ Visual Identity တစ်ခု တည်ဆောက်ပေးပါ။ အဓိက Logo Design၊ Color Palette၊ Typography Direction၊ Business Card Design နဲ့ Social Media Template တွေပါဝင်တဲ့ Brand Presentation Board တစ်ခု ဖန်တီးပေးပါ။ Brand တစ်ခုလုံးရဲ့ ပုံရိပ်နဲ့ အရောင်အသွေးတွေ တစ်ခုနဲ့တစ်ခု လိုက်ဖက်ညီပြီး Professional ဆန်နေစေရပါမယ်။",
+                                "inputs": [
+                                                {
+                                                                "id": "brand name",
+                                                                "label": "Brand အမည်",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - StarFish Tarot"
+                                                },
+                                                {
+                                                                "id": "audience",
+                                                                "label": "ရည်ရွယ်ထားတဲ့ Customer အုပ်စု",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - tarot lovers"
+                                                }
+                                ]
+                }
+];
+
+            const container = document.getElementById('accordion-container');
+            const langRadios = document.getElementsByName('language');
+
+            function renderAccordion() {
+                container.innerHTML = '';
+
+                promptData.forEach((data) => {
+                    const item = document.createElement('div');
+                    item.className = 'accordion-item';
+                    item.id = `acc-item-${data.id}`;
+
+                    let html = `
+                        <div class="accordion-header" onclick="toggleAccordion(${data.id})">
+                            <div class="header-content">
+                                <div class="acc-title">${data.title}</div>
+                                <div class="acc-desc">💡 ${data.desc}</div>
+                            </div>
+                            <div class="acc-icon">▼</div>
+                        </div>
+                    `;
+
+                    html += `<div class="accordion-body" id="acc-body-${data.id}">
+                                <div class="body-inner">`;
+
+                    if(data.inputs.length > 0) {
+                        data.inputs.forEach(input => {
+                            if(input.type === 'textarea') {
+                                html += `
+                                    <div class="form-group">
+                                        <label>${input.label}</label>
+                                        <textarea id="input-${data.id}-${input.id}" class="input-textarea" data-item-id="${data.id}" placeholder="${input.hint}"></textarea>
+                                    </div>
+                                `;
+                            } else {
+                                html += `
+                                    <div class="form-group">
+                                        <label>${input.label}</label>
+                                        <input type="text" id="input-${data.id}-${input.id}" data-item-id="${data.id}" placeholder="${input.hint}">
+                                    </div>
+                                `;
+                            }
+                        });
+                    }
+
+                    html += `
+                            <textarea id="output-${data.id}" class="output-area" readonly></textarea>
+                            <button id="copy-${data.id}" data-item-id="${data.id}">Copy Prompt</button>
+                        </div>
+                    </div>`;
+
+                    item.innerHTML = html;
+                    container.appendChild(item);
+                });
+
+                attachEventListeners();
+                updateAllPrompts();
+            }
+
+            window.toggleAccordion = function(id) {
+                const item = document.getElementById(`acc-item-${id}`);
+                const body = document.getElementById(`acc-body-${id}`);
+
+                // Auto-collapse logic
+                document.querySelectorAll('.accordion-item').forEach(el => {
+                    if(el.id !== `acc-item-${id}`) {
+                        el.classList.remove('active');
+                        el.querySelector('.accordion-body').style.maxHeight = null;
+                    }
+                });
+
+                if (item.classList.contains('active')) {
+                    item.classList.remove('active');
+                    body.style.maxHeight = null;
+                } else {
+                    item.classList.add('active');
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updatePromptForCard(itemId) {
+                const data = promptData.find(p => p.id == itemId);
+                const isMyanmar = document.querySelector('input[name="language"]:checked').value === 'mm';
+                let finalPrompt = isMyanmar ? data.mm : data.en;
+
+                data.inputs.forEach(input => {
+                    const el = document.getElementById(`input-${data.id}-${input.id}`);
+                    const val = el && el.value.trim() !== "" ? el.value.trim() : `[${input.id}]`;
+                    finalPrompt = finalPrompt.split(`[${input.id}]`).join(val);
+                });
+
+                document.getElementById(`output-${data.id}`).value = finalPrompt;
+
+                const body = document.getElementById(`acc-body-${data.id}`);
+                const item = document.getElementById(`acc-item-${data.id}`);
+                if(item.classList.contains('active')) {
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updateAllPrompts() {
+                promptData.forEach(data => updatePromptForCard(data.id));
+            }
+
+            function attachEventListeners() {
+                container.addEventListener('input', (e) => {
+                    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        if (itemId) updatePromptForCard(itemId);
+                    }
+                });
+
+                container.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'BUTTON') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        const outputEl = document.getElementById(`output-${itemId}`);
+                        outputEl.select();
+                        document.execCommand('copy');
+
+                        const btn = e.target;
+                        const originalText = btn.innerText;
+                        btn.innerText = "COPIED! ✨";
+                        setTimeout(() => btn.innerText = originalText, 2000);
+                    }
+                });
+            }
+
+            langRadios.forEach(radio => radio.addEventListener('change', updateAllPrompts));
+
+            renderAccordion();
+            setTimeout(() => { toggleAccordion(1); }, 100);
+        });
+    </script>
+</body>
+</html>
