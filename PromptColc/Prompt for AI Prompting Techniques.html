@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="My Useful Tools">
+    <link rel="apple-touch-icon" href="../icon-192x192.png">
+    <title>AI Prompting Techniques</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: #0f172a;
+            color: #e4e4e7;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .header-container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            margin-bottom: 25px;
+            position: sticky;
+            top: 0;
+            background: rgba(15, 23, 42, 0.95);
+            padding: 20px;
+            z-index: 100;
+            border-bottom: 1px solid #f59e0b; /* Amber */
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #f59e0b;
+            font-size: clamp(1.4rem, 5vw, 2.2rem);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+        }
+
+        .subtitle {
+            color: #a1a1aa;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .global-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .radio-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #d4d4d8;
+            font-weight: 600;
+        }
+
+        input[type="radio"] {
+            accent-color: #f59e0b;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ----- Remark (Sticky Header အပြင်ဘက်၊ Scroll လုပ်လို့ရသော အပိုင်း) ----- */
+        .remark-container {
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 25px;
+        }
+
+        .remark {
+            color: #fde68a;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 15px;
+            background: rgba(245, 158, 11, 0.1);
+            border-radius: 8px;
+            border: 1px dashed #f59e0b;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        .remark h2 {
+            color: #fde68a;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .remark ul {
+            padding-left: 20px;
+            margin: 10px 0;
+        }
+
+        .remark li {
+            margin-bottom: 6px;
+        }
+
+        .remark li b {
+            color: #fde68a;
+        }
+
+        /* ----- Accordion List Container ----- */
+        .accordion-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        /* ----- Accordion Item ----- */
+        .accordion-item {
+            background: #27272a;
+            border: 1px solid #3f3f46;
+            border-left: 4px solid #f59e0b;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            border-color: #f59e0b;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);
+        }
+
+        /* ----- Accordion Header (Clickable) ----- */
+        .accordion-header {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            background: rgba(39, 39, 42, 0.8);
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding-right: 15px;
+        }
+
+        .acc-title {
+            color: #fafafa;
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        .acc-desc {
+            color: #a1a1aa;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .acc-icon {
+            color: #f59e0b;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-item.active .acc-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-item.active {
+            border-color: #f59e0b;
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.15);
+        }
+
+        /* ----- Accordion Body ----- */
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            background: #0f172a;
+        }
+
+        .body-inner {
+            padding: 25px 20px;
+            border-top: 1px dashed #3f3f46;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #fde68a;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"], textarea.input-textarea {
+            width: 100%;
+            background: #27272a;
+            border: 1px solid #3f3f46;
+            color: #f59e0b;
+            padding: 12px;
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        textarea.input-textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        input[type="text"]:focus, textarea.input-textarea:focus {
+            border-color: #f59e0b;
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.2);
+        }
+
+        textarea.output-area {
+            width: 100%;
+            height: 220px;
+            background: #09090b;
+            border: 1px solid #3f3f46;
+            color: #fafafa;
+            padding: 15px;
+            border-radius: 6px;
+            resize: vertical;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            outline: none;
+            margin-top: 10px;
+        }
+
+        textarea.output-area:focus {
+            border-color: #f59e0b;
+        }
+
+        button {
+            width: 100%;
+            background: transparent;
+            color: #f59e0b;
+            border: 1px solid #f59e0b;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #f59e0b;
+            color: #0f172a;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
+        }
+
+        /* ----- Responsive (ဖုန်းစခရင်) ----- */
+        @media (max-width: 600px) {
+            body {
+                padding: 20px 12px;
+            }
+
+            .header-container {
+                padding: 15px 12px;
+                margin-bottom: 20px;
+            }
+
+            h1 {
+                letter-spacing: 1px;
+            }
+
+            .subtitle {
+                font-size: 0.9rem;
+            }
+
+            .remark {
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+
+            .accordion-header {
+                padding: 15px;
+            }
+
+            .acc-title {
+                font-size: 1rem;
+            }
+
+            .acc-desc {
+                font-size: 0.85rem;
+            }
+
+            .body-inner {
+                padding: 20px 12px;
+            }
+
+            textarea.output-area {
+                height: 180px;
+            }
+
+            button {
+                padding: 11px;
+                font-size: 0.95rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>🧠 Prompt for AI Prompting Techniques</h1>
+        <p class="subtitle">AI ကို ပိုကောင်းအောင် ခိုင်းစေနိုင်ဖို့ အစွမ်းထက်တဲ့ Prompting Technique (7) မျိုး</p>
+        <div class="global-options">
+            <label class="radio-btn">
+                <input type="radio" name="language" value="mm" checked> Myanmar Prompt
+            </label>
+            <label class="radio-btn">
+                <input type="radio" name="language" value="en"> English Prompt
+            </label>
+        </div>
+    </div>
+
+    <!-- Scrollable Remark Area -->
+    <div class="remark-container">
+        <div class="remark">
+        <h2>🚨 AI ကိုအသုံးပြုနေသူအများစုက ဘာကြောင့် ရလဒ်ကောင်းတွေ မရကြတာလဲ?</h2>
+        <p>လူအများစုက AI ကို အသုံးပြုနေကြပေမဲ့ မျှော်လင့်ထားသလောက် ရလဒ်ကောင်းတွေ မရကြပါဘူး။ ဒါပေမဲ့ AI ရဲ့ စွမ်းဆောင်ရည်အပြည့်အဝကို အသုံးချနိုင်တဲ့ လူ ၁၀% လောက်ကတော့ လျှို့ဝှက်ချက်တစ်ခုကို သိထားကြပါတယ်။ အဲဒီလျှို့ဝှက်ချက်ကတော့ ပိုကောင်းတဲ့ AI တစ်ခုကို ရှာဖွေတာမျိုးမဟုတ်ပါဘူး။ ပိုကောင်းတဲ့ Prompt ရေးတတ်ဖို့ပါပဲ။ AI ကို ဘယ်လိုခိုင်းစေသလဲဆိုတာက ရရှိလာမယ့် ရလဒ်အပေါ် အများကြီး သက်ရောက်မှုရှိပါတယ်။</p>
+        <h2>🔥 နောက်ဆုံးအနေနဲ့ မှတ်ထားရမယ့်အချက်</h2>
+        <p>AI ကို အသုံးပြုတတ်ရုံနဲ့ မလုံလောက်ပါဘူး။ AI ကို ဘယ်လိုမေးမလဲ၊ ဘယ်လိုညွှန်ကြားမလဲ၊ ဘယ်လိုပြန်လည်ပြင်ဆင်ခိုင်းမလဲဆိုတာကိုပါ သိထားဖို့ လိုအပ်ပါတယ်။ AI ကောင်းကောင်းအသုံးချနိုင်ဖို့ဆိုတာ Tool ကောင်းတစ်ခုရှိရုံနဲ့ မပြီးပါဘူး။ Prompt ရေးတတ်တဲ့ Skill ကလည်း အရေးကြီးပါတယ်။ ဒီနည်းလမ်း (၇) မျိုးကို နောက်တစ်ကြိမ် AI အသုံးပြုတဲ့အခါ လက်တွေ့စမ်းသပ်ကြည့်လိုက်ပါ။ သင့်ရဲ့ AI အသုံးပြုပုံနဲ့ ရလဒ်တွေ သိသိသာသာ တိုးတက်လာနိုင်ပါတယ်။ 🚀</p>
+        </div>
+    </div>
+
+    <div class="accordion-container" id="accordion-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            const promptData = [
+                {
+                                "id": 1,
+                                "title": "၁။ Clear Instructions (ရှင်းလင်းတိကျတဲ့ ညွှန်ကြားချက်များ)",
+                                "desc": "မရှင်းလင်းတဲ့ ညွှန်ကြားချက်တွေ ပေးရင် မရှင်းလင်းတဲ့ ရလဒ်တွေပဲ ပြန်ရတတ်ပါတယ်။ ❌ \"Write a post for me.\" လို့ မခိုင်းပါနဲ့ — အသေးစိတ်ခိုင်းပါ။ ညွှန်ကြားချက် ပိုမိုရှင်းလင်းလေလေ ကိုယ်လိုချင်တဲ့ရလဒ်နဲ့ ပိုနီးစပ်လေလေပါပဲ။",
+                                "en": "Write a Facebook post about [topic]. Use a [tone] tone, target [audience], keep it under [word limit] words, and include practical examples.",
+                                "mm": "[topic] တွေအကြောင်း Facebook Post တစ်ပုဒ်ရေးပေးပါ။ [tone] ရေးဟန်ကို အသုံးပြုပါ။ [audience] တွေကို ဦးတည်ရေးသားပြီး စာလုံးရေ [word limit] ထက်မပိုစေဘဲ လက်တွေ့အသုံးချနိုင်မယ့် ဥပမာတွေပါ ထည့်သွင်းပေးပါ။",
+                                "inputs": [
+                                                {
+                                                                "id": "topic",
+                                                                "label": "အကြောင်းအရာ",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - AI productivity tools"
+                                                },
+                                                {
+                                                                "id": "tone",
+                                                                "label": "ရေးဟန်",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - friendly and engaging"
+                                                },
+                                                {
+                                                                "id": "audience",
+                                                                "label": "ရည်ရွယ်ထားတဲ့ ပရိသတ်",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - beginner users"
+                                                },
+                                                {
+                                                                "id": "word limit",
+                                                                "label": "စာလုံးရေ ကန့်သတ်ချက်",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - 300"
+                                                }
+                                ]
+                },
+                {
+                                "id": 2,
+                                "title": "၂။ Role Prompting (ကျွမ်းကျင်သူအခန်းကဏ္ဍ သတ်မှတ်ပေးခြင်း)",
+                                "desc": "AI ကို အလုပ်တစ်ခုခိုင်းတဲ့အခါ သက်ဆိုင်ရာနယ်ပယ်က ကျွမ်းကျင်သူတစ်ယောက်အဖြစ် သတ်မှတ်ပေးပါ — အဖြေတွေကို ကိုယ်လိုချင်တဲ့ ပညာရပ်နယ်ပယ်နဲ့ ရည်မှန်းချက်အပေါ် ပိုမိုအာရုံစိုက်စေနိုင်ပါတယ်။",
+                                "en": "You are an experienced [role]. Help me create a marketing strategy for my [business].",
+                                "mm": "သင်ဟာ အတွေ့အကြုံရှိတဲ့ [role] တစ်ယောက်ဖြစ်ပါတယ်။ ကျွန်တော့်ရဲ့ [business] အတွက် ထိရောက်တဲ့ Marketing Strategy တစ်ခု ရေးဆွဲပေးပါ။",
+                                "inputs": [
+                                                {
+                                                                "id": "role",
+                                                                "label": "ကျွမ်းကျင်သူအခန်းကဏ္ဍ",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - Digital Marketing Strategist"
+                                                },
+                                                {
+                                                                "id": "business",
+                                                                "label": "လုပ်ငန်း",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - small business"
+                                                }
+                                ]
+                },
+                {
+                                "id": 3,
+                                "title": "၃။ Context Prompting (နောက်ခံအကြောင်းအရာများ ထည့်သွင်းပေးခြင်း)",
+                                "desc": "အလုပ်နဲ့သက်ဆိုင်တဲ့ နောက်ခံအချက်အလက်တွေ — ကိုယ့်ရဲ့ Business အကြောင်း၊ ရည်မှန်းချက်၊ Target Audience၊ အသုံးပြုမယ့် Platform — တွေကို ပေးပါ။ နောက်ခံအချက်အလက်တွေ ပြည့်စုံလေလေ ကိုယ့်အခြေအနေနဲ့ ကိုက်ညီတဲ့ အဖြေတွေ ရရှိနိုင်လေလေပါပဲ။",
+                                "en": "I run a [business] targeting [audience]. My goal is to [goal]. Create a [output] that fits my business.",
+                                "mm": "ကျွန်တော်ဟာ [audience] ကို အဓိကရောင်းချတဲ့ [business] တစ်ခုကို လုပ်ကိုင်နေပါတယ်။ ကျွန်တော့်ရဲ့ ရည်မှန်းချက်က [goal] ပါ။ ကျွန်တော့်လုပ်ငန်းနဲ့ ကိုက်ညီမယ့် [output] တစ်ခု ရေးဆွဲပေးပါ။",
+                                "inputs": [
+                                                {
+                                                                "id": "business",
+                                                                "label": "လုပ်ငန်း",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - small online clothing store"
+                                                },
+                                                {
+                                                                "id": "audience",
+                                                                "label": "ရည်ရွယ်ထားတဲ့ ပရိသတ်",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - young adults aged 18–30"
+                                                },
+                                                {
+                                                                "id": "goal",
+                                                                "label": "ရည်မှန်းချက်",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - increase Facebook engagement and product sales"
+                                                },
+                                                {
+                                                                "id": "output",
+                                                                "label": "လိုချင်တဲ့ အထွက်",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - content strategy"
+                                                }
+                                ]
+                },
+                {
+                                "id": 4,
+                                "title": "၄။ Step-by-Step Prompting (အဆင့်ဆင့် ခွဲခြားခိုင်းစေခြင်း)",
+                                "desc": "ရှုပ်ထွေးတဲ့ အလုပ်တစ်ခုကို တစ်ခါတည်း အားလုံးခိုင်းမယ့်အစား အဆင့်ငယ်လေးတွေ ခွဲပြီး ခိုင်းစေပါ — အဆင့်တိုင်းကို ပြန်လည်စစ်ဆေးပြီး လိုအပ်သလို ပြင်ဆင်နိုင်တာကြောင့် ပိုမိုကောင်းမွန်တဲ့ ရလဒ်ရရှိစေပါတယ်။",
+                                "en": "First, generate [number] content ideas. Then, select the best idea. Next, write an attention-grabbing hook. Finally, create a complete [post type] based on that idea.",
+                                "mm": "ပထမဆုံး Content Idea [number] ခု ဖန်တီးပေးပါ။ ပြီးရင် အကောင်းဆုံး Idea တစ်ခုကို ရွေးချယ်ပေးပါ။ နောက်တစ်ဆင့်အနေနဲ့ စာဖတ်သူတွေရဲ့ အာရုံကို ဖမ်းစားနိုင်မယ့် Hook တစ်ခု ရေးပေးပါ။ နောက်ဆုံးမှာ ရွေးချယ်ထားတဲ့ Idea ကို အခြေခံပြီး ပြည့်စုံတဲ့ [post type] တစ်ပုဒ် ဖန်တီးပေးပါ။",
+                                "inputs": [
+                                                {
+                                                                "id": "number",
+                                                                "label": "Idea အရေအတွက်",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - 10"
+                                                },
+                                                {
+                                                                "id": "post type",
+                                                                "label": "ဖန်တီးလိုတဲ့ Post အမျိုးအစား",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - Facebook post"
+                                                }
+                                ]
+                },
+                {
+                                "id": 5,
+                                "title": "၅။ Example-Based Prompting (ဥပမာပြသပြီး ခိုင်းစေခြင်း)",
+                                "desc": "ကိုယ်လိုချင်တဲ့ ရေးဟန်၊ ပုံစံနဲ့ ဖွဲ့စည်းပုံကို AI နားလည်စေချင်ရင် နမူနာတစ်ခု ပြသပေးပါ — ကိုယ်ကြိုက်နှစ်သက်တဲ့ Facebook Post တစ်ပုဒ်၊ စာရေးဟန်တစ်ခု ဒါမှမဟုတ် Content Format တစ်ခုကို ပေးနိုင်ပါတယ်။ နမူနာပြသပေးခြင်းက AI ကို ကိုယ်မျှော်လင့်ထားတဲ့ ပုံစံကို ပိုမိုနားလည်စေပြီး လိုချင်တဲ့ရလဒ်နဲ့ ပိုမိုနီးစပ်စေပါတယ်။",
+                                "en": "Use the following example as a reference: [example] Follow the same writing style, tone, and structure to create a new post about [topic].",
+                                "mm": "အောက်မှာပေးထားတဲ့ နမူနာ [example] ကို ကိုးကားပြီး အဲဒီထဲက ရေးဟန်၊ အသုံးအနှုန်းနဲ့ စာဖွဲ့စည်းပုံအတိုင်း [topic] အကြောင်း Post အသစ်တစ်ပုဒ် ဖန်တီးပေးပါ။",
+                                "inputs": [
+                                                {
+                                                                "id": "example",
+                                                                "label": "နမူနာ",
+                                                                "type": "textarea",
+                                                                "hint": "နမူနာ Post သို့မဟုတ် စာသားကို ဒီနေရာမှာ ကူးထည့်ပါ"
+                                                },
+                                                {
+                                                                "id": "topic",
+                                                                "label": "အကြောင်းအရာ",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - AI tools"
+                                                }
+                                ]
+                },
+                {
+                                "id": 6,
+                                "title": "၆။ Follow-Up Prompting (အဆက်မပြတ် ပြန်လည်ပြင်ဆင်ခိုင်းခြင်း)",
+                                "desc": "AI က ပထမဆုံးပြန်ပေးတဲ့ အဖြေကို နောက်ဆုံးအဖြေလို့ သတ်မှတ်မထားပါနဲ့။ လိုအပ်သလို ထပ်မံညွှန်ကြားပြီး ပိုကောင်းတဲ့ရလဒ်ရအောင် ပြင်ဆင်ခိုင်းပါ — Prompt ကောင်းတစ်ခုဆိုတာ တစ်ကြိမ်တည်းနဲ့ ပြီးဆုံးသွားတာမဟုတ်ပါဘူး။ အဆင့်ဆင့် ပြန်လည်ပြင်ဆင်ခြင်းကလည်း အရေးကြီးပါတယ်။",
+                                "en": "Make it more professional.\nImprove the hook.\nRemove unnecessary sentences.\nAdd practical examples.\nMake the language simpler and clearer.",
+                                "mm": "ပိုမိုကျွမ်းကျင်ဆန်ပြီး Professional ဖြစ်အောင် ပြင်ပေးပါ။\nစာဖတ်သူစိတ်ဝင်စားစေမယ့် Hook ကို ပိုကောင်းအောင် ပြင်ပေးပါ။\nမလိုအပ်တဲ့ စာကြောင်းတွေကို ဖယ်ရှားပေးပါ။\nလက်တွေ့အသုံးချနိုင်မယ့် ဥပမာတွေ ထပ်ထည့်ပေးပါ။\nစာဖတ်ရလွယ်ကူပြီး ရှင်းလင်းတဲ့ အသုံးအနှုန်းတွေနဲ့ ပြန်ရေးပေးပါ။",
+                                "inputs": []
+                },
+                {
+                                "id": 7,
+                                "title": "၇။ Output Format Prompting (အဖြေထုတ်ပေးမယ့် ပုံစံကို သတ်မှတ်ခြင်း)",
+                                "desc": "AI ကို ဘယ်လိုအကြောင်းအရာမျိုး လိုချင်တယ်ဆိုတာသာမက ဘယ်လိုပုံစံနဲ့ အဖြေထုတ်ပေးရမယ်ဆိုတာကိုပါ ကြိုတင်သတ်မှတ်ပေးပါ — Bullet Points၊ Tables၊ Step-by-Step Guides၊ Social Media Threads၊ Professional Emails၊ Scripts၊ Checklists စတာတွေ။ Format ကို ကြိုတင်သတ်မှတ်ထားခြင်းက ရရှိလာတဲ့အချက်အလက်တွေကို ဖတ်ရှုရလွယ်ကူစေပြီး ပြန်လည်အသုံးပြုရတာလည်း ပိုမိုအဆင်ပြေစေပါတယ်။",
+                                "en": "Explain the top [number] [topic] in a [format]. Include each one's name, main features, advantages, disadvantages, and best use case.",
+                                "mm": "[topic] [number] ခုကို [format] ပုံစံနဲ့ ရှင်းပြပေးပါ။ တစ်ခုချင်းစီရဲ့ အမည်၊ အဓိကလုပ်ဆောင်ချက်များ၊ အားသာချက်များ၊ အားနည်းချက်များနဲ့ အသင့်တော်ဆုံး အသုံးပြုနိုင်မယ့် နေရာတွေကို ထည့်သွင်းဖော်ပြပေးပါ။",
+                                "inputs": [
+                                                {
+                                                                "id": "topic",
+                                                                "label": "အကြောင်းအရာ",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - AI tools for content creators"
+                                                },
+                                                {
+                                                                "id": "number",
+                                                                "label": "အရေအတွက်",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - 5"
+                                                },
+                                                {
+                                                                "id": "format",
+                                                                "label": "အဖြေထုတ်ပေးမယ့် ပုံစံ",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - table, bullet points, step-by-step guide"
+                                                }
+                                ]
+                }
+];
+
+            const container = document.getElementById('accordion-container');
+            const langRadios = document.getElementsByName('language');
+
+            function renderAccordion() {
+                container.innerHTML = '';
+
+                promptData.forEach((data) => {
+                    const item = document.createElement('div');
+                    item.className = 'accordion-item';
+                    item.id = `acc-item-${data.id}`;
+
+                    let html = `
+                        <div class="accordion-header" onclick="toggleAccordion(${data.id})">
+                            <div class="header-content">
+                                <div class="acc-title">${data.title}</div>
+                                <div class="acc-desc">💡 ${data.desc}</div>
+                            </div>
+                            <div class="acc-icon">▼</div>
+                        </div>
+                    `;
+
+                    html += `<div class="accordion-body" id="acc-body-${data.id}">
+                                <div class="body-inner">`;
+
+                    if(data.inputs.length > 0) {
+                        data.inputs.forEach(input => {
+                            if(input.type === 'textarea') {
+                                html += `
+                                    <div class="form-group">
+                                        <label>${input.label}</label>
+                                        <textarea id="input-${data.id}-${input.id}" class="input-textarea" data-item-id="${data.id}" placeholder="${input.hint}"></textarea>
+                                    </div>
+                                `;
+                            } else {
+                                html += `
+                                    <div class="form-group">
+                                        <label>${input.label}</label>
+                                        <input type="text" id="input-${data.id}-${input.id}" data-item-id="${data.id}" placeholder="${input.hint}">
+                                    </div>
+                                `;
+                            }
+                        });
+                    }
+
+                    html += `
+                            <textarea id="output-${data.id}" class="output-area" readonly></textarea>
+                            <button id="copy-${data.id}" data-item-id="${data.id}">Copy Prompt</button>
+                        </div>
+                    </div>`;
+
+                    item.innerHTML = html;
+                    container.appendChild(item);
+                });
+
+                attachEventListeners();
+                updateAllPrompts();
+            }
+
+            window.toggleAccordion = function(id) {
+                const item = document.getElementById(`acc-item-${id}`);
+                const body = document.getElementById(`acc-body-${id}`);
+
+                // Auto-collapse logic
+                document.querySelectorAll('.accordion-item').forEach(el => {
+                    if(el.id !== `acc-item-${id}`) {
+                        el.classList.remove('active');
+                        el.querySelector('.accordion-body').style.maxHeight = null;
+                    }
+                });
+
+                if (item.classList.contains('active')) {
+                    item.classList.remove('active');
+                    body.style.maxHeight = null;
+                } else {
+                    item.classList.add('active');
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updatePromptForCard(itemId) {
+                const data = promptData.find(p => p.id == itemId);
+                const isMyanmar = document.querySelector('input[name="language"]:checked').value === 'mm';
+                let finalPrompt = isMyanmar ? data.mm : data.en;
+
+                data.inputs.forEach(input => {
+                    const el = document.getElementById(`input-${data.id}-${input.id}`);
+                    const val = el && el.value.trim() !== "" ? el.value.trim() : `[${input.id}]`;
+                    finalPrompt = finalPrompt.split(`[${input.id}]`).join(val);
+                });
+
+                document.getElementById(`output-${data.id}`).value = finalPrompt;
+
+                const body = document.getElementById(`acc-body-${data.id}`);
+                const item = document.getElementById(`acc-item-${data.id}`);
+                if(item.classList.contains('active')) {
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updateAllPrompts() {
+                promptData.forEach(data => updatePromptForCard(data.id));
+            }
+
+            function attachEventListeners() {
+                container.addEventListener('input', (e) => {
+                    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        if (itemId) updatePromptForCard(itemId);
+                    }
+                });
+
+                container.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'BUTTON') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        const outputEl = document.getElementById(`output-${itemId}`);
+                        outputEl.select();
+                        document.execCommand('copy');
+
+                        const btn = e.target;
+                        const originalText = btn.innerText;
+                        btn.innerText = "COPIED! ✨";
+                        setTimeout(() => btn.innerText = originalText, 2000);
+                    }
+                });
+            }
+
+            langRadios.forEach(radio => radio.addEventListener('change', updateAllPrompts));
+
+            renderAccordion();
+            setTimeout(() => { toggleAccordion(1); }, 100);
+        });
+    </script>
+</body>
+</html>
