@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="My Useful Tools">
+    <link rel="apple-touch-icon" href="../icon-192x192.png">
+    <title>Business Management Prompts</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: #0f172a;
+            color: #e4e4e7;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .header-container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            margin-bottom: 25px;
+            position: sticky;
+            top: 0;
+            background: rgba(15, 23, 42, 0.95);
+            padding: 20px;
+            z-index: 100;
+            border-bottom: 1px solid #1d4ed8; /* Blue */
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #1d4ed8;
+            font-size: clamp(1.4rem, 5vw, 2.2rem);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(29, 78, 216, 0.3);
+        }
+
+        .subtitle {
+            color: #a1a1aa;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .global-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .radio-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #d4d4d8;
+            font-weight: 600;
+        }
+
+        input[type="radio"] {
+            accent-color: #1d4ed8;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ----- Remark (Sticky Header အပြင်ဘက်၊ Scroll လုပ်လို့ရသော အပိုင်း) ----- */
+        .remark-container {
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 25px;
+        }
+
+        .remark {
+            color: #bfdbfe;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 15px;
+            background: rgba(29, 78, 216, 0.1);
+            border-radius: 8px;
+            border: 1px dashed #1d4ed8;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        .remark h2 {
+            color: #bfdbfe;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .remark ul {
+            padding-left: 20px;
+            margin: 10px 0;
+        }
+
+        .remark li {
+            margin-bottom: 6px;
+        }
+
+        .remark li b {
+            color: #bfdbfe;
+        }
+
+        /* ----- Accordion List Container ----- */
+        .accordion-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        /* ----- Accordion Item ----- */
+        .accordion-item {
+            background: #27272a;
+            border: 1px solid #3f3f46;
+            border-left: 4px solid #1d4ed8;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            border-color: #1d4ed8;
+            box-shadow: 0 0 15px rgba(29, 78, 216, 0.1);
+        }
+
+        /* ----- Accordion Header (Clickable) ----- */
+        .accordion-header {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            background: rgba(39, 39, 42, 0.8);
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding-right: 15px;
+        }
+
+        .acc-title {
+            color: #fafafa;
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        .acc-desc {
+            color: #a1a1aa;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .acc-icon {
+            color: #1d4ed8;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-item.active .acc-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-item.active {
+            border-color: #1d4ed8;
+            box-shadow: 0 0 20px rgba(29, 78, 216, 0.15);
+        }
+
+        /* ----- Accordion Body ----- */
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            background: #0f172a;
+        }
+
+        .body-inner {
+            padding: 25px 20px;
+            border-top: 1px dashed #3f3f46;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #bfdbfe;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"], textarea.input-textarea {
+            width: 100%;
+            background: #27272a;
+            border: 1px solid #3f3f46;
+            color: #1d4ed8;
+            padding: 12px;
+            border-radius: 6px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        textarea.input-textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        input[type="text"]:focus, textarea.input-textarea:focus {
+            border-color: #1d4ed8;
+            box-shadow: 0 0 10px rgba(29, 78, 216, 0.2);
+        }
+
+        textarea.output-area {
+            width: 100%;
+            height: 220px;
+            background: #09090b;
+            border: 1px solid #3f3f46;
+            color: #fafafa;
+            padding: 15px;
+            border-radius: 6px;
+            resize: vertical;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            outline: none;
+            margin-top: 10px;
+        }
+
+        textarea.output-area:focus {
+            border-color: #1d4ed8;
+        }
+
+        button {
+            width: 100%;
+            background: transparent;
+            color: #1d4ed8;
+            border: 1px solid #1d4ed8;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+            color: #0f172a;
+            box-shadow: 0 0 15px rgba(29, 78, 216, 0.4);
+        }
+
+        /* ----- Responsive (ဖုန်းစခရင်) ----- */
+        @media (max-width: 600px) {
+            body {
+                padding: 20px 12px;
+            }
+
+            .header-container {
+                padding: 15px 12px;
+                margin-bottom: 20px;
+            }
+
+            h1 {
+                letter-spacing: 1px;
+            }
+
+            .subtitle {
+                font-size: 0.9rem;
+            }
+
+            .remark {
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+
+            .accordion-header {
+                padding: 15px;
+            }
+
+            .acc-title {
+                font-size: 1rem;
+            }
+
+            .acc-desc {
+                font-size: 0.85rem;
+            }
+
+            .body-inner {
+                padding: 20px 12px;
+            }
+
+            textarea.output-area {
+                height: 180px;
+            }
+
+            button {
+                padding: 11px;
+                font-size: 0.95rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>💼 Prompt for Business Management</h1>
+        <p class="subtitle">AI ကို ကိုယ့်လုပ်ငန်းရဲ့ Business Manager တစ်ယောက်လို အသုံးချနိုင်ဖို့ Prompt (10) မျိုး</p>
+        <div class="global-options">
+            <label class="radio-btn">
+                <input type="radio" name="language" value="mm" checked> Myanmar Prompt
+            </label>
+            <label class="radio-btn">
+                <input type="radio" name="language" value="en"> English Prompt
+            </label>
+        </div>
+    </div>
+
+    <!-- Scrollable Remark Area -->
+    <div class="remark-container">
+        <div class="remark">
+        <h2>📌 အသုံးပြုနည်း</h2>
+        <p>Prompt တစ်ခုချင်းစီမှာ ကိုယ့်လုပ်ငန်းရဲ့ အချက်အလက်တွေကို အကွက်တွေထဲမှာ ဖြည့်သွင်းပါ။ ပြီးရင် Copy လုပ်ပြီး AI မှာ အသုံးပြုနိုင်ပါတယ်။ Prompt တွေကို တစ်ခုချင်းစီ သီးခြားအသုံးပြုနိုင်သလို Master Prompt ကို အရင်ထည့်ပြီးနောက် လိုအပ်တဲ့ Management Prompt ကို ဆက်လက်အသုံးပြုနိုင်ပါတယ်။</p>
+        <h2>💡 Professional Business Manager Tip</h2>
+        <p>အကောင်းဆုံးရလဒ်ရဖို့ AI ကို အောက်ပါအချက်တွေ ထပ်မံပြောပေးပါ — အကြံပြုချက်များ မပေးမီ အရေးကြီးသော လုပ်ငန်းအချက်အလက်များ မပြည့်စုံပါက မေးမြန်းပေးဖို့၊ ငွေကြေးအချက်အလက်၊ ဈေးကွက်အချက်အလက်နှင့် လုပ်ငန်းရလဒ်များကို မခန့်မှန်းဖို့၊ Assumptions များကို ရှင်းလင်းစွာဖော်ပြပြီး လက်တွေ့အကောင်အထည်ဖော်နိုင်သော လုပ်ဆောင်ချက်များကို ဦးစားပေးဖို့၊ အောင်မြင်မှုကို ဘယ်လိုတိုင်းတာရမည်ဆိုတာလည်း ရှင်းပြပေးဖို့။</p>
+        <h2>🚨 AI ကို မေးခွန်းဖြေတဲ့ Chatbot တစ်ခုအဖြစ်သာ မသုံးပါနဲ့</h2>
+        <p>သင့်လုပ်ငန်းရဲ့ Strategy, Marketing, Finance, Operations နဲ့ Growth ကို စနစ်တကျ စီမံခန့်ခွဲနိုင်မယ့် Business Management Partner တစ်ယောက်အဖြစ် အသုံးချလိုက်ပါ။</p>
+        </div>
+    </div>
+
+    <div class="accordion-container" id="accordion-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            const promptData = [
+                {
+                                "id": 1,
+                                "title": "၁။ Business Manager Master Prompt",
+                                "desc": "လုပ်ငန်းတစ်ခုလုံးကို စီမံခန့်ခွဲဖို့ AI ကို ကိုယ့်ရဲ့ Professional Business Manager အဖြစ် သတ်မှတ်ခြင်း။",
+                                "en": "You are my professional Business Manager, Strategic Advisor, and Management Consultant.\nYour responsibility is to help me manage, improve, and grow my business across all relevant areas, including:\nBusiness Strategy\nMarketing and Sales\nFinancial Management\nOperations Management\nHuman Resources\nCustomer Relationship Management\nBusiness Development\nRisk Management\nPerformance Analysis\nMy Business Information:\nBusiness Name: [business name]\nIndustry: [industry]\nProducts or Services: [products or services]\nTarget Customers: [target customers]\nBusiness Location: [location]\nBusiness Size: [business size]\nMonthly Revenue: [monthly revenue]\nMonthly Expenses: [monthly expenses]\nBusiness Goals: [business goals]\nCurrent Challenges: [current problems]\nAvailable Resources: [resources]\nBased on this information, analyze my business and provide practical, realistic, and actionable management recommendations.\nAlways consider my budget, business size, available resources, and current market conditions.\nDo not give generic advice. Explain what I should do, why I should do it, how I should implement it, and how I can measure the results.\nRespond in a professional, clear, and structured format.",
+                                "mm": "သင်သည် ကျွန်ုပ်၏ Professional Business Manager, Strategic Advisor နှင့် Management Consultant တစ်ယောက်ဖြစ်သည်။\nကျွန်ုပ်၏လုပ်ငန်းကို စနစ်တကျ စီမံခန့်ခွဲနိုင်ရန်၊ တိုးတက်အောင်လုပ်ဆောင်နိုင်ရန်နှင့် ရေရှည်အောင်မြင်မှုရရှိနိုင်ရန် ကူညီပေးပါ။\nBusiness Strategy, Marketing, Sales, Finance, Operations, Human Resources, Customer Management, Business Development နှင့် Risk Management စတဲ့ လုပ်ငန်းနယ်ပယ်အားလုံးကို လိုအပ်သလို သုံးသပ်ပေးပါ။\nကျွန်ုပ်၏လုပ်ငန်းအချက်အလက်များမှာ -\nလုပ်ငန်းအမည် - [business name]\nလုပ်ငန်းအမျိုးအစား - [industry]\nထုတ်ကုန် / ဝန်ဆောင်မှု - [products or services]\nTarget Customers - [target customers]\nလုပ်ငန်းတည်နေရာ - [location]\nလုပ်ငန်းအရွယ်အစား - [business size]\nလစဉ်ဝင်ငွေ - [monthly revenue]\nလစဉ်ကုန်ကျစရိတ် - [monthly expenses]\nလုပ်ငန်းရည်မှန်းချက် - [business goals]\nလက်ရှိကြုံတွေ့နေရသော အခက်အခဲများ - [current problems]\nရရှိနိုင်သော အရင်းအမြစ်များ - [resources]\nအထက်ပါအချက်အလက်များကို အခြေခံပြီး ကျွန်ုပ်၏လုပ်ငန်းကို သုံးသပ်ကာ လက်တွေ့အသုံးချနိုင်သော Management Recommendations များ ပေးပါ။\nယေဘုယျအကြံဉာဏ်များသာ မပေးဘဲ ဘာလုပ်ရမည်၊ ဘာကြောင့်လုပ်ရမည်၊ ဘယ်လိုအကောင်အထည်ဖော်ရမည်၊ ရလဒ်ကို ဘယ်လိုတိုင်းတာရမည်ဆိုတာပါ ရှင်းပြပေးပါ။\nကျွန်ုပ်၏ Budget, Business Size နှင့် Available Resources များကို ထည့်သွင်းစဉ်းစားပြီး Professional ဖြစ်သော အဖြေများ ပေးပါ။",
+                                "inputs": [
+                                                {
+                                                                "id": "business name",
+                                                                "label": "လုပ်ငန်းအမည်",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - My Online Shop"
+                                                },
+                                                {
+                                                                "id": "industry",
+                                                                "label": "လုပ်ငန်းအမျိုးအစား",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - retail / food"
+                                                },
+                                                {
+                                                                "id": "products or services",
+                                                                "label": "ထုတ်ကုန် / ဝန်ဆောင်မှု",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - handmade snacks"
+                                                },
+                                                {
+                                                                "id": "target customers",
+                                                                "label": "အဓိကဖောက်သည်များ",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - young adults in Yangon"
+                                                },
+                                                {
+                                                                "id": "location",
+                                                                "label": "လုပ်ငန်းတည်နေရာ",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - Yangon"
+                                                },
+                                                {
+                                                                "id": "business size",
+                                                                "label": "လုပ်ငန်းအရွယ်အစား",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - Small"
+                                                },
+                                                {
+                                                                "id": "monthly revenue",
+                                                                "label": "လစဉ်ဝင်ငွေ",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - 5,000,000 Ks"
+                                                },
+                                                {
+                                                                "id": "monthly expenses",
+                                                                "label": "လစဉ်ကုန်ကျစရိတ်",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - 3,000,000 Ks"
+                                                },
+                                                {
+                                                                "id": "business goals",
+                                                                "label": "လုပ်ငန်းရည်မှန်းချက်",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - double sales in 6 months"
+                                                },
+                                                {
+                                                                "id": "current problems",
+                                                                "label": "လက်ရှိအခက်အခဲများ",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - low repeat customers"
+                                                },
+                                                {
+                                                                "id": "resources",
+                                                                "label": "ရရှိနိုင်သော အရင်းအမြစ်များ",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - 3 staff, Facebook Page"
+                                                }
+                                ]
+                },
+                {
+                                "id": 2,
+                                "title": "၂။ Business Strategy & Growth Plan",
+                                "desc": "လုပ်ငန်းအတွက် ရေရှည်တိုးတက်မှု မဟာဗျူဟာ ရေးဆွဲခြင်း။",
+                                "en": "Act as an experienced Business Strategy Consultant.\nAnalyze my business and create a comprehensive growth strategy.\nBusiness Information: [business information]\nMy Main Goal: [main goal]\nCurrent Market Situation: [market situation]\nCompetitors: [competitors]\nAvailable Budget: [available budget]\nCreate a strategic plan that includes:\nSWOT Analysis\nCompetitive Advantage\nMarket Positioning\nGrowth Opportunities\nCustomer Acquisition Strategy\nRevenue Growth Strategy\nRisk Assessment\n90-Day Action Plan\nPrioritize strategies based on impact, cost, and feasibility.",
+                                "mm": "သင်သည် အတွေ့အကြုံရှိသော Business Strategy Consultant တစ်ယောက်ဖြစ်သည်။\nကျွန်ုပ်၏လုပ်ငန်းအချက်အလက်များကို သုံးသပ်ပြီး လုပ်ငန်းတိုးတက်မှုအတွက် ပြည့်စုံသော Business Growth Strategy တစ်ခု ရေးဆွဲပေးပါ။\nလုပ်ငန်းအချက်အလက် - [business information]\nအဓိကရည်မှန်းချက် - [main goal]\nလက်ရှိဈေးကွက်အခြေအနေ - [market situation]\nပြိုင်ဘက်လုပ်ငန်းများ - [competitors]\nရရှိနိုင်သော Budget - [available budget]\nအောက်ပါအချက်များပါဝင်သော Strategy တစ်ခု ဖန်တီးပေးပါ။\nSWOT Analysis\nပြိုင်ဘက်များထက် ထူးခြားသာလွန်နိုင်မည့် အချက်များ\nMarket Positioning\nလုပ်ငန်းတိုးချဲ့နိုင်မည့် အခွင့်အလမ်းများ\nCustomer Acquisition Strategy\nRevenue Growth Strategy\nလုပ်ငန်းအန္တရာယ်များနှင့် Risk Assessment\n90-Day Action Plan\nအကျိုးသက်ရောက်မှု၊ ကုန်ကျစရိတ်နှင့် လက်တွေ့အကောင်အထည်ဖော်နိုင်မှုတို့ကို အခြေခံပြီး ဦးစားပေးအစီအစဉ်များ သတ်မှတ်ပေးပါ။",
+                                "inputs": [
+                                                {
+                                                                "id": "business information",
+                                                                "label": "လုပ်ငန်းအချက်အလက်",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - small online clothing store in Yangon"
+                                                },
+                                                {
+                                                                "id": "main goal",
+                                                                "label": "အဓိကရည်မှန်းချက်",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - grow monthly sales by 50%"
+                                                },
+                                                {
+                                                                "id": "market situation",
+                                                                "label": "လက်ရှိဈေးကွက်အခြေအနေ",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - growing demand for online shopping"
+                                                },
+                                                {
+                                                                "id": "competitors",
+                                                                "label": "ပြိုင်ဘက်လုပ်ငန်းများ",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - 3 similar online shops"
+                                                },
+                                                {
+                                                                "id": "available budget",
+                                                                "label": "ရရှိနိုင်သော Budget",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - 1,000,000 Ks per month"
+                                                }
+                                ]
+                },
+                {
+                                "id": 3,
+                                "title": "၃။ Marketing & Sales Management",
+                                "desc": "Marketing နဲ့ Sales ကို စနစ်တကျ တိုးတက်အောင်လုပ်ဆောင်ခြင်း။",
+                                "en": "Act as my Marketing Director and Sales Manager.\nAnalyze my business, products, target customers, and competitors.\nBusiness Information: [business information]\nProduct or Service: [product or service]\nTarget Audience: [target audience]\nMarketing Budget: [marketing budget]\nSales Goal: [sales target]\nCreate a complete marketing and sales plan covering:\nBrand Positioning\nCustomer Persona\nMarketing Channels\nContent Marketing Strategy\nSocial Media Marketing\nLead Generation\nSales Funnel\nConversion Optimization\nCustomer Retention\nMonthly Marketing Calendar\nSales Performance KPIs\nProvide practical strategies suitable for my budget and business size.",
+                                "mm": "သင်သည် ကျွန်ုပ်၏ Marketing Director နှင့် Sales Manager တစ်ယောက်ဖြစ်သည်။\nကျွန်ုပ်၏လုပ်ငန်း၊ ထုတ်ကုန်၊ Target Customers နှင့် ပြိုင်ဘက်များကို သုံးသပ်ပေးပါ။\nလုပ်ငန်းအချက်အလက် - [business information]\nထုတ်ကုန် / ဝန်ဆောင်မှု - [product or service]\nTarget Audience - [target audience]\nMarketing Budget - [marketing budget]\nSales Goal - [sales target]\nအောက်ပါအချက်များပါဝင်သော Marketing & Sales Plan တစ်ခု ဖန်တီးပေးပါ။\nBrand Positioning\nCustomer Persona\nMarketing Channels\nContent Marketing Strategy\nSocial Media Marketing\nLead Generation\nSales Funnel\nConversion Optimization\nCustomer Retention\nMonthly Marketing Calendar\nSales Performance KPIs\nကျွန်ုပ်၏ Budget နှင့် လုပ်ငန်းအရွယ်အစားအလိုက် လက်တွေ့အသုံးချနိုင်သော Marketing နည်းလမ်းများကို ပေးပါ။",
+                                "inputs": [
+                                                {
+                                                                "id": "business information",
+                                                                "label": "လုပ်ငန်းအချက်အလက်",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - small online clothing store in Yangon"
+                                                },
+                                                {
+                                                                "id": "product or service",
+                                                                "label": "ထုတ်ကုန် / ဝန်ဆောင်မှု",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - handmade dresses"
+                                                },
+                                                {
+                                                                "id": "target audience",
+                                                                "label": "Target Audience",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - women aged 20–35"
+                                                },
+                                                {
+                                                                "id": "marketing budget",
+                                                                "label": "Marketing Budget",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - 500,000 Ks per month"
+                                                },
+                                                {
+                                                                "id": "sales target",
+                                                                "label": "အရောင်းရည်မှန်းချက်",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - 100 orders per month"
+                                                }
+                                ]
+                },
+                {
+                                "id": 4,
+                                "title": "၄။ Financial Management & Profit Analysis",
+                                "desc": "လုပ်ငန်းရဲ့ ငွေကြေးစီမံခန့်ခွဲမှုနဲ့ အမြတ်အစွန်းကို သုံးသပ်ခြင်း။",
+                                "en": "Act as my Business Financial Analyst.\nAnalyze the financial performance of my business.\nMonthly Revenue: [revenue]\nFixed Costs: [fixed costs]\nVariable Costs: [variable costs]\nMarketing Expenses: [marketing expenses]\nEmployee Salaries: [salaries]\nOther Expenses: [other expenses]\nCreate a financial analysis including:\nTotal Monthly Expenses\nNet Profit\nProfit Margin\nBreak-Even Point\nCash Flow Analysis\nCost Reduction Opportunities\nPricing Recommendations\nFinancial Risks\nMonthly Financial Dashboard\nShow all calculations clearly and explain the assumptions.",
+                                "mm": "သင်သည် ကျွန်ုပ်၏ Business Financial Analyst တစ်ယောက်ဖြစ်သည်။\nကျွန်ုပ်၏လုပ်ငန်းငွေကြေးအခြေအနေကို သုံးသပ်ပြီး အမြတ်အစွန်းတိုးတက်စေရန် ကူညီပေးပါ။\nလစဉ်ဝင်ငွေ - [revenue]\nFixed Costs - [fixed costs]\nVariable Costs - [variable costs]\nMarketing Expenses - [marketing expenses]\nEmployee Salaries - [salaries]\nOther Expenses - [other expenses]\nအောက်ပါအချက်များကို တွက်ချက်သုံးသပ်ပေးပါ။\nစုစုပေါင်းလစဉ်ကုန်ကျစရိတ်\nNet Profit\nProfit Margin\nBreak-Even Point\nCash Flow Analysis\nကုန်ကျစရိတ်လျှော့ချနိုင်မည့် နည်းလမ်းများ\nPricing Recommendations\nFinancial Risks\nMonthly Financial Dashboard\nတွက်ချက်မှုများကို ရှင်းလင်းစွာ ဖော်ပြပြီး အသုံးပြုထားသော Assumptions များကိုလည်း ရှင်းပြပေးပါ။",
+                                "inputs": [
+                                                {
+                                                                "id": "revenue",
+                                                                "label": "လစဉ်ဝင်ငွေ",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - 5,000,000 Ks"
+                                                },
+                                                {
+                                                                "id": "fixed costs",
+                                                                "label": "Fixed Costs",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - 1,000,000 Ks (rent, utilities)"
+                                                },
+                                                {
+                                                                "id": "variable costs",
+                                                                "label": "Variable Costs",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - 1,500,000 Ks (materials)"
+                                                },
+                                                {
+                                                                "id": "marketing expenses",
+                                                                "label": "Marketing Expenses",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - 500,000 Ks"
+                                                },
+                                                {
+                                                                "id": "salaries",
+                                                                "label": "ဝန်ထမ်းလစာ",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - 900,000 Ks"
+                                                },
+                                                {
+                                                                "id": "other expenses",
+                                                                "label": "အခြားကုန်ကျစရိတ်",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - 100,000 Ks"
+                                                }
+                                ]
+                },
+                {
+                                "id": 5,
+                                "title": "၅။ Operations & Workflow Management",
+                                "desc": "လုပ်ငန်းနေ့စဉ်လည်ပတ်မှုကို ပိုမိုထိရောက်အောင် စီမံခြင်း။",
+                                "en": "Act as my Operations Manager.\nAnalyze my current business workflow.\nBusiness Process: [workflow]\nTeam Size: [team size]\nCurrent Problems: [operational problems]\nCreate an operational improvement plan that includes:\nWorkflow Mapping\nProcess Optimization\nStandard Operating Procedures (SOPs)\nTask Delegation\nTime Management\nAutomation Opportunities\nQuality Control\nProductivity KPIs\nDaily and Weekly Operations Checklist\nIdentify bottlenecks and recommend solutions that reduce wasted time, cost, and effort.",
+                                "mm": "သင်သည် ကျွန်ုပ်၏ Operations Manager တစ်ယောက်ဖြစ်သည်။\nကျွန်ုပ်၏လုပ်ငန်းနေ့စဉ်လည်ပတ်မှုနှင့် လက်ရှိလုပ်ငန်းစဉ်များကို သုံးသပ်ပေးပါ။\nလက်ရှိလုပ်ငန်းစဉ် - [workflow]\nဝန်ထမ်းအရေအတွက် - [team size]\nလက်ရှိပြဿနာများ - [operational problems]\nအောက်ပါအချက်များပါဝင်သော Operations Improvement Plan တစ်ခု ဖန်တီးပေးပါ။\nWorkflow Mapping\nProcess Optimization\nStandard Operating Procedures (SOPs)\nTask Delegation\nTime Management\nAutomation Opportunities\nQuality Control\nProductivity KPIs\nDaily / Weekly Operations Checklist\nလုပ်ငန်းအတွင်း အချိန်၊ ငွေကြေးနှင့် အလုပ်အားများ အလဟဿဖြစ်စေသော Bottlenecks များကို ရှာဖွေပြီး ဖြေရှင်းနည်းများ ပေးပါ။",
+                                "inputs": [
+                                                {
+                                                                "id": "workflow",
+                                                                "label": "လက်ရှိလုပ်ငန်းစဉ်",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - order → packing → delivery"
+                                                },
+                                                {
+                                                                "id": "team size",
+                                                                "label": "ဝန်ထမ်းအရေအတွက်",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - 3 staff"
+                                                },
+                                                {
+                                                                "id": "operational problems",
+                                                                "label": "လက်ရှိပြဿနာများ",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - late deliveries, messy stock"
+                                                }
+                                ]
+                },
+                {
+                                "id": 6,
+                                "title": "၆။ Human Resource & Team Management",
+                                "desc": "ဝန်ထမ်းများနှင့် Team ကို ထိရောက်စွာ စီမံခန့်ခွဲခြင်း။",
+                                "en": "Act as my Human Resources Manager and Team Development Consultant.\nBusiness Information: [business information]\nTeam Size: [number of employees]\nDepartments: [departments]\nCurrent HR Challenges: [hr problems]\nCreate a complete HR management plan covering:\nOrganizational Structure\nJob Descriptions\nRecruitment Strategy\nEmployee Training\nPerformance Evaluation\nKPI-Based Management\nEmployee Motivation\nConflict Resolution\nTeam Communication\nEmployee Retention\nProvide practical systems that improve employee performance and team collaboration.",
+                                "mm": "သင်သည် ကျွန်ုပ်၏ Human Resources Manager နှင့် Team Development Consultant တစ်ယောက်ဖြစ်သည်။\nလုပ်ငန်းအချက်အလက် - [business information]\nဝန်ထမ်းအရေအတွက် - [number of employees]\nDepartment များ - [departments]\nလက်ရှိ HR ပြဿနာများ - [hr problems]\nအောက်ပါအချက်များပါဝင်သော HR Management Plan တစ်ခု ဖန်တီးပေးပါ။\nOrganizational Structure\nJob Descriptions\nRecruitment Strategy\nEmployee Training\nPerformance Evaluation\nKPI-Based Management\nEmployee Motivation\nConflict Resolution\nTeam Communication\nEmployee Retention\nဝန်ထမ်းများ၏ Performance တိုးတက်စေရန်နှင့် Team Collaboration ပိုမိုကောင်းမွန်စေရန် လက်တွေ့အသုံးချနိုင်သော စနစ်များ ဖန်တီးပေးပါ။",
+                                "inputs": [
+                                                {
+                                                                "id": "business information",
+                                                                "label": "လုပ်ငန်းအချက်အလက်",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - small online clothing store in Yangon"
+                                                },
+                                                {
+                                                                "id": "number of employees",
+                                                                "label": "ဝန်ထမ်းအရေအတွက်",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - 5 employees"
+                                                },
+                                                {
+                                                                "id": "departments",
+                                                                "label": "Department များ",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - sales, packing, delivery"
+                                                },
+                                                {
+                                                                "id": "hr problems",
+                                                                "label": "လက်ရှိ HR ပြဿနာများ",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - high staff turnover"
+                                                }
+                                ]
+                },
+                {
+                                "id": 7,
+                                "title": "၇။ Customer Service & Customer Retention",
+                                "desc": "ဖောက်သည်များကို ထိန်းသိမ်းပြီး ရေရှည်ဝယ်ယူသူများ ဖြစ်လာစေရန်။",
+                                "en": "Act as my Customer Experience Manager.\nBusiness: [business]\nProducts or Services: [products or services]\nTarget Customers: [target customers]\nCurrent Customer Problems: [customer issues]\nCreate a customer management strategy including:\nCustomer Journey Mapping\nCustomer Experience Improvement\nCustomer Service SOPs\nComplaint Handling\nCustomer Feedback System\nCustomer Loyalty Program\nRepeat Purchase Strategy\nCustomer Retention KPIs\nProvide ready-to-use customer service scripts for common situations.",
+                                "mm": "သင်သည် ကျွန်ုပ်၏ Customer Experience Manager တစ်ယောက်ဖြစ်သည်။\nလုပ်ငန်း - [business]\nထုတ်ကုန် / ဝန်ဆောင်မှု - [products or services]\nTarget Customers - [target customers]\nလက်ရှိဖောက်သည်ပြဿနာများ - [customer issues]\nအောက်ပါအချက်များပါဝင်သော Customer Management Strategy တစ်ခု ဖန်တီးပေးပါ။\nCustomer Journey Mapping\nCustomer Experience Improvement\nCustomer Service SOPs\nComplaint Handling\nCustomer Feedback System\nCustomer Loyalty Program\nRepeat Purchase Strategy\nCustomer Retention KPIs\nဖောက်သည်များနှင့် ဆက်သွယ်ရာတွင် အသုံးပြုနိုင်သော Customer Service Scripts များကိုပါ အဆင်သင့်ရေးပေးပါ။",
+                                "inputs": [
+                                                {
+                                                                "id": "business",
+                                                                "label": "လုပ်ငန်း",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - My Online Shop"
+                                                },
+                                                {
+                                                                "id": "products or services",
+                                                                "label": "ထုတ်ကုန် / ဝန်ဆောင်မှု",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - handmade snacks"
+                                                },
+                                                {
+                                                                "id": "target customers",
+                                                                "label": "အဓိကဖောက်သည်များ",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - young adults in Yangon"
+                                                },
+                                                {
+                                                                "id": "customer issues",
+                                                                "label": "လက်ရှိဖောက်သည်ပြဿနာများ",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - slow replies, delivery complaints"
+                                                }
+                                ]
+                },
+                {
+                                "id": 8,
+                                "title": "၈။ Business Problem Solving Prompt",
+                                "desc": "လုပ်ငန်းအတွင်း ကြုံတွေ့နေရသော ပြဿနာများကို အကြောင်းရင်းအလိုက် ဖြေရှင်းခြင်း။",
+                                "en": "Act as a senior Business Problem-Solving Consultant.\nMy Business: [business information]\nProblem: [problem]\nWhen It Started: [when started]\nPrevious Solutions: [previous solutions]\nAvailable Resources: [resources]\nAnalyze the problem using:\nRoot Cause Analysis\n5 Whys Method\nSWOT Analysis\nCost-Benefit Analysis\nRisk Assessment\nThen provide:\nThe Most Likely Root Causes\nThree Possible Solutions\nRecommended Solution\nStep-by-Step Implementation Plan\nExpected Results\nPotential Risks\nSuccess Measurement KPIs\nDo not assume missing information. Clearly identify what is known, what is uncertain, and what additional information is needed.",
+                                "mm": "သင်သည် Senior Business Problem-Solving Consultant တစ်ယောက်ဖြစ်သည်။\nကျွန်ုပ်၏လုပ်ငန်း - [business information]\nလက်ရှိပြဿနာ - [problem]\nပြဿနာစတင်ဖြစ်ပွားသည့်အချိန် - [when started]\nယခင်ကြိုးစားခဲ့သော ဖြေရှင်းနည်းများ - [previous solutions]\nရရှိနိုင်သော အရင်းအမြစ်များ - [resources]\nအောက်ပါနည်းလမ်းများကို အသုံးပြုပြီး ပြဿနာကို သုံးသပ်ပေးပါ။\nRoot Cause Analysis\n5 Whys Method\nSWOT Analysis\nCost-Benefit Analysis\nRisk Assessment\nထို့နောက် -\nဖြစ်နိုင်ခြေအရှိဆုံး ပြဿနာ၏အရင်းခံအကြောင်းရင်းများ\nဖြစ်နိုင်သော ဖြေရှင်းနည်း ၃ မျိုး\nအကောင်းဆုံးအကြံပြုထားသော ဖြေရှင်းနည်း\nStep-by-Step Implementation Plan\nမျှော်မှန်းထားသော ရလဒ်များ\nဖြစ်နိုင်သော Risk များ\nအောင်မြင်မှုတိုင်းတာမည့် KPIs\nအချက်အလက်မရှိသောအရာများကို မခန့်မှန်းဘဲ သိရှိထားသောအချက်များ၊ မသေချာသေးသောအချက်များနှင့် ထပ်မံလိုအပ်သော အချက်အလက်များကို ခွဲခြားဖော်ပြပေးပါ။",
+                                "inputs": [
+                                                {
+                                                                "id": "business information",
+                                                                "label": "လုပ်ငန်းအချက်အလက်",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - small online clothing store in Yangon"
+                                                },
+                                                {
+                                                                "id": "problem",
+                                                                "label": "လက်ရှိပြဿနာ",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - sales dropped 30% this month"
+                                                },
+                                                {
+                                                                "id": "when started",
+                                                                "label": "ပြဿနာစတင်ဖြစ်ပွားသည့်အချိန်",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - early November 2026"
+                                                },
+                                                {
+                                                                "id": "previous solutions",
+                                                                "label": "ယခင်ကြိုးစားခဲ့သော ဖြေရှင်းနည်းများ",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - Facebook ads, price discount"
+                                                },
+                                                {
+                                                                "id": "resources",
+                                                                "label": "ရရှိနိုင်သော အရင်းအမြစ်များ",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - 500,000 Ks budget, 3 staff"
+                                                }
+                                ]
+                },
+                {
+                                "id": 9,
+                                "title": "၉။ 30-Day Business Action Plan",
+                                "desc": "လုပ်ငန်းတိုးတက်မှုအတွက် တစ်လစာ လက်တွေ့လုပ်ဆောင်ရမည့်အစီအစဉ်။",
+                                "en": "Act as my Business Execution Coach.\nBusiness Information: [business information]\nMain Goal for the Next 30 Days: [30-day goal]\nAvailable Time: [available time]\nAvailable Budget: [available budget]\nCreate a detailed 30-day business action plan.\nFor each day or week, specify:\nMain Task\nPriority Level\nExpected Outcome\nRequired Resources\nEstimated Cost\nKPI\nCompletion Criteria\nFocus on high-impact activities that can realistically be completed within my available time and budget.",
+                                "mm": "သင်သည် ကျွန်ုပ်၏ Business Execution Coach တစ်ယောက်ဖြစ်သည်။\nလုပ်ငန်းအချက်အလက် - [business information]\nနောက် ၃၀ ရက်အတွင်း ရရှိလိုသောရည်မှန်းချက် - [30-day goal]\nရရှိနိုင်သောအချိန် - [available time]\nရရှိနိုင်သော Budget - [available budget]\nကျွန်ုပ်၏လုပ်ငန်းအတွက် အသေးစိတ် 30-Day Business Action Plan တစ်ခု ဖန်တီးပေးပါ။\nနေ့စဉ် သို့မဟုတ် အပတ်စဉ်အလိုက် -\nMain Task\nPriority Level\nExpected Outcome\nRequired Resources\nEstimated Cost\nKPI\nCompletion Criteria\nတို့ကို ဖော်ပြပေးပါ။\nကျွန်ုပ်၏ အချိန်နှင့် Budget အတွင်း လက်တွေ့ပြီးမြောက်နိုင်ပြီး အကျိုးသက်ရောက်မှုအများဆုံးရှိမည့် လုပ်ငန်းများကို ဦးစားပေးပါ။",
+                                "inputs": [
+                                                {
+                                                                "id": "business information",
+                                                                "label": "လုပ်ငန်းအချက်အလက်",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - small online clothing store in Yangon"
+                                                },
+                                                {
+                                                                "id": "30-day goal",
+                                                                "label": "နောက် ၃၀ ရက်အတွင်း ရရှိလိုသောရည်မှန်းချက်",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - launch 5 new products"
+                                                },
+                                                {
+                                                                "id": "available time",
+                                                                "label": "ရရှိနိုင်သောအချိန်",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - 3 hours per day"
+                                                },
+                                                {
+                                                                "id": "available budget",
+                                                                "label": "ရရှိနိုင်သော Budget",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - 1,000,000 Ks"
+                                                }
+                                ]
+                },
+                {
+                                "id": 10,
+                                "title": "၁၀။ Weekly Business Performance Review",
+                                "desc": "လုပ်ငန်းတစ်ပတ်တာ ရလဒ်များကို စစ်ဆေးသုံးသပ်ခြင်း။",
+                                "en": "Act as my Business Performance Analyst.\nHere is my weekly business report:\nRevenue: [weekly revenue]\nExpenses: [weekly expenses]\nSales: [number of sales]\nNew Customers: [new customers]\nReturning Customers: [returning customers]\nMarketing Results: [marketing results]\nCompleted Tasks: [completed tasks]\nUnfinished Tasks: [unfinished tasks]\nAnalyze my weekly performance and provide:\nPerformance Summary\nGoal Achievement\nKey Successes\nMajor Problems\nPerformance Gaps\nImprovement Opportunities\nNext Week's Priorities\nRecommended Actions\nBe objective and focus on measurable business results.",
+                                "mm": "သင်သည် ကျွန်ုပ်၏ Business Performance Analyst တစ်ယောက်ဖြစ်သည်။\nဤသည်မှာ ကျွန်ုပ်၏ တစ်ပတ်တာ Business Report ဖြစ်သည်။\nRevenue - [weekly revenue]\nExpenses - [weekly expenses]\nSales - [number of sales]\nNew Customers - [new customers]\nReturning Customers - [returning customers]\nMarketing Results - [marketing results]\nပြီးမြောက်ခဲ့သော အလုပ်များ - [completed tasks]\nမပြီးမြောက်ခဲ့သော အလုပ်များ - [unfinished tasks]\nတစ်ပတ်တာလုပ်ငန်းစွမ်းဆောင်ရည်ကို သုံးသပ်ပြီး အောက်ပါအချက်များကို ဖော်ပြပေးပါ။\nPerformance Summary\nGoal Achievement\nအောင်မြင်ခဲ့သောအချက်များ\nအဓိကပြဿနာများ\nPerformance Gaps\nတိုးတက်အောင်လုပ်နိုင်မည့် အခွင့်အလမ်းများ\nနောက်တစ်ပတ်အတွက် ဦးစားပေးလုပ်ငန်းများ\nRecommended Actions\nလုပ်ငန်းရလဒ်များကို အခြေခံပြီး Objective ဖြစ်သော သုံးသပ်ချက်များ ပေးပါ။",
+                                "inputs": [
+                                                {
+                                                                "id": "weekly revenue",
+                                                                "label": "တစ်ပတ်တာဝင်ငွေ",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - 1,200,000 Ks"
+                                                },
+                                                {
+                                                                "id": "weekly expenses",
+                                                                "label": "တစ်ပတ်တာကုန်ကျစရိတ်",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - 700,000 Ks"
+                                                },
+                                                {
+                                                                "id": "number of sales",
+                                                                "label": "အရောင်းအရေအတွက်",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - 45 orders"
+                                                },
+                                                {
+                                                                "id": "new customers",
+                                                                "label": "ဖောက်သည်အသစ်များ",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - 20"
+                                                },
+                                                {
+                                                                "id": "returning customers",
+                                                                "label": "ပြန်လည်ဝယ်ယူသူများ",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - 15"
+                                                },
+                                                {
+                                                                "id": "marketing results",
+                                                                "label": "Marketing ရလဒ်များ",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - Facebook ads reached 10,000 people"
+                                                },
+                                                {
+                                                                "id": "completed tasks",
+                                                                "label": "ပြီးမြောက်ခဲ့သော အလုပ်များ",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - launched 2 new products"
+                                                },
+                                                {
+                                                                "id": "unfinished tasks",
+                                                                "label": "မပြီးမြောက်ခဲ့သော အလုပ်များ",
+                                                                "type": "text",
+                                                                "hint": "ဥပမာ - website update still pending"
+                                                }
+                                ]
+                }
+];
+
+            const container = document.getElementById('accordion-container');
+            const langRadios = document.getElementsByName('language');
+
+            function renderAccordion() {
+                container.innerHTML = '';
+
+                promptData.forEach((data) => {
+                    const item = document.createElement('div');
+                    item.className = 'accordion-item';
+                    item.id = `acc-item-${data.id}`;
+
+                    let html = `
+                        <div class="accordion-header" onclick="toggleAccordion(${data.id})">
+                            <div class="header-content">
+                                <div class="acc-title">${data.title}</div>
+                                <div class="acc-desc">💡 ${data.desc}</div>
+                            </div>
+                            <div class="acc-icon">▼</div>
+                        </div>
+                    `;
+
+                    html += `<div class="accordion-body" id="acc-body-${data.id}">
+                                <div class="body-inner">`;
+
+                    if(data.inputs.length > 0) {
+                        data.inputs.forEach(input => {
+                            if(input.type === 'textarea') {
+                                html += `
+                                    <div class="form-group">
+                                        <label>${input.label}</label>
+                                        <textarea id="input-${data.id}-${input.id}" class="input-textarea" data-item-id="${data.id}" placeholder="${input.hint}"></textarea>
+                                    </div>
+                                `;
+                            } else {
+                                html += `
+                                    <div class="form-group">
+                                        <label>${input.label}</label>
+                                        <input type="text" id="input-${data.id}-${input.id}" data-item-id="${data.id}" placeholder="${input.hint}">
+                                    </div>
+                                `;
+                            }
+                        });
+                    }
+
+                    html += `
+                            <textarea id="output-${data.id}" class="output-area" readonly></textarea>
+                            <button id="copy-${data.id}" data-item-id="${data.id}">Copy Prompt</button>
+                        </div>
+                    </div>`;
+
+                    item.innerHTML = html;
+                    container.appendChild(item);
+                });
+
+                attachEventListeners();
+                updateAllPrompts();
+            }
+
+            window.toggleAccordion = function(id) {
+                const item = document.getElementById(`acc-item-${id}`);
+                const body = document.getElementById(`acc-body-${id}`);
+
+                // Auto-collapse logic
+                document.querySelectorAll('.accordion-item').forEach(el => {
+                    if(el.id !== `acc-item-${id}`) {
+                        el.classList.remove('active');
+                        el.querySelector('.accordion-body').style.maxHeight = null;
+                    }
+                });
+
+                if (item.classList.contains('active')) {
+                    item.classList.remove('active');
+                    body.style.maxHeight = null;
+                } else {
+                    item.classList.add('active');
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updatePromptForCard(itemId) {
+                const data = promptData.find(p => p.id == itemId);
+                const isMyanmar = document.querySelector('input[name="language"]:checked').value === 'mm';
+                let finalPrompt = isMyanmar ? data.mm : data.en;
+
+                data.inputs.forEach(input => {
+                    const el = document.getElementById(`input-${data.id}-${input.id}`);
+                    const val = el && el.value.trim() !== "" ? el.value.trim() : `[${input.id}]`;
+                    finalPrompt = finalPrompt.split(`[${input.id}]`).join(val);
+                });
+
+                document.getElementById(`output-${data.id}`).value = finalPrompt;
+
+                const body = document.getElementById(`acc-body-${data.id}`);
+                const item = document.getElementById(`acc-item-${data.id}`);
+                if(item.classList.contains('active')) {
+                    body.style.maxHeight = body.scrollHeight + "px";
+                }
+            }
+
+            function updateAllPrompts() {
+                promptData.forEach(data => updatePromptForCard(data.id));
+            }
+
+            function attachEventListeners() {
+                container.addEventListener('input', (e) => {
+                    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        if (itemId) updatePromptForCard(itemId);
+                    }
+                });
+
+                container.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'BUTTON') {
+                        const itemId = e.target.getAttribute('data-item-id');
+                        const outputEl = document.getElementById(`output-${itemId}`);
+                        outputEl.select();
+                        document.execCommand('copy');
+
+                        const btn = e.target;
+                        const originalText = btn.innerText;
+                        btn.innerText = "COPIED! ✨";
+                        setTimeout(() => btn.innerText = originalText, 2000);
+                    }
+                });
+            }
+
+            langRadios.forEach(radio => radio.addEventListener('change', updateAllPrompts));
+
+            renderAccordion();
+            setTimeout(() => { toggleAccordion(1); }, 100);
+        });
+    </script>
+</body>
+</html>
